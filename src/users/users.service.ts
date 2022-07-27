@@ -17,15 +17,18 @@ export class UsersService {
         const newUser = await this.userRepository.create(createUserDto);
         await this.userRepository.save(newUser);
         return newUser;
-        //this.users.push(createUserDto);
     }
 
-    getAll() : Promise<User[]>{
+    async getAll() : Promise<User[]>{
         return this.userRepository.find();
     }
 
     async getById(id : number) : Promise<User>{
         return this.userRepository.findOneBy( {id} );
+    }
+
+    async delete(id: number) : Promise<void>{
+        await this.userRepository.delete(id);
     }
 
 }
