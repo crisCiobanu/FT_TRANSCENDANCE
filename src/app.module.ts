@@ -7,6 +7,8 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { ProductsModule } from './products/products.module';
+import { ChatGateway } from './chat/chat.gateway';
+import { AuthModule } from './auth/auth.module';
 import * as Joi from '@hapi/joi';
 
 @Module({
@@ -20,8 +22,8 @@ import * as Joi from '@hapi/joi';
       PORT: Joi.number(),
     })
   }
-  ), DatabaseModule, ProductsModule],
+  ), DatabaseModule, ProductsModule, AuthModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ChatGateway],
 })
 export class AppModule {}
