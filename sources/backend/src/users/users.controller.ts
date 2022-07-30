@@ -52,17 +52,7 @@ export class UsersController {
         //return database profile;
         const tmpUser = await this.userService.getByEmail(profile.email);
         if (tmpUser)
-        return (res.status(HttpStatus.OK).send(JSON.stringify({
-        id: tmpUser.id,
-        username: tmpUser.userName,
-        firstname: tmpUser.firstName,
-        lastname: tmpUser.lastName,
-        image_url: tmpUser.imageURL, 
-        logged: 'true',
-        wins: tmpUser.wins,
-        losses: tmpUser.losses,
-        level: tmpUser.level,  
-      })));
+          return (res.status(HttpStatus.OK).send(JSON.stringify(tmpUser)));
         else
         {
           const newUser: CreateUserDto = { email: profile.email, 
@@ -70,26 +60,10 @@ export class UsersController {
                                           firstName: profile.first_name,
                                           lastName: profile.last_name,
                                           password: '',
-                                          age: 0,
-                                          //wins: 0,
-                                          //losses: 0,
-                                          //level: 1,
                                           imageURL: profile.image_url,
                                         };
-          this.userService.create(newUser);
-          const tmpUser = await this.userService.getByEmail(profile.email);
-          if (tmpUser)
-          return (res.status(HttpStatus.OK).send(JSON.stringify({
-          id: tmpUser.id,
-          username: tmpUser.userName,
-          firstname: tmpUser.firstName,
-          lastname: tmpUser.lastName,
-          image_url: tmpUser.imageURL, 
-          logged: 'true',
-          wins: tmpUser.wins,
-          losses: tmpUser.losses,
-          level: tmpUser.level,  
-        })));
+          return this.userService.create(newUser);
+
         }
         
         // return (res.status(HttpStatus.OK).send(JSON.stringify({

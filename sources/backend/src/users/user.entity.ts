@@ -50,8 +50,10 @@ export class User {
     @Column()
     public password: string;
 
-    @Column()
-    public age: number;
+    @Column({
+        default: true
+    })
+    public logged: boolean;
 }
 
 export default User;

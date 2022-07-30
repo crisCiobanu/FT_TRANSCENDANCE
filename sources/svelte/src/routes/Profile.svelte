@@ -1,6 +1,6 @@
 <script lang='ts'>
     import { onMount } from 'svelte';
-    import { level, logged, losses, username, wins, image_url, firstname, lastname } from '../stores.js';
+    import { level, logged, losses, username, wins, image_url, firstname, lastname, id } from '../stores.js';
   //  import HomeForm from "../components/HomeForm.svelte"
     
     
@@ -51,6 +51,7 @@
         <h1><span class="sp1">WINS   </span> <span class="sp2">     {$wins}</span></h1>
         <h1><span class="sp1">LOSSES   </span> <span class="sp2">       {$losses}</span></h1>
         <h1><span class="sp1">LEVEL   </span><span class="sp2">  {$level}</span></h1>
+        <h1><span class="sp1">ID   </span><span class="sp2">  {$id}</span></h1>
     </div>
     {:else}
     <h1 style="text-align: center">ACCESS DENIED</h1>

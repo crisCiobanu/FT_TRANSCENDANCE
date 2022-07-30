@@ -1778,14 +1778,14 @@ var app = (function () {
     			t = text("Connect with");
     			br = element("br");
     			img = element("img");
-    			add_location(br, file$5, 78, 218, 3920);
+    			add_location(br, file$5, 78, 218, 3917);
     			if (!src_url_equal(img.src, img_src_value = "img/42_logo.png")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "width", "40px");
     			attr_dev(img, "alt", "42 logo");
-    			add_location(img, file$5, 78, 222, 3924);
+    			add_location(img, file$5, 78, 222, 3921);
     			attr_dev(a, "href", "https://api.intra.42.fr/oauth/authorize?client_id=3e6e67d52700f32ea72111aee9b04403f78ba98745a76856cf11003de9399fa2&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&response_type=code");
     			attr_dev(a, "class", "api svelte-1ooggka");
-    			add_location(a, file$5, 78, 4, 3706);
+    			add_location(a, file$5, 78, 4, 3703);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -1809,7 +1809,7 @@ var app = (function () {
     	return block;
     }
 
-    // (63:2) {#if $logged === 'true'}
+    // (63:2) {#if $logged === true}
     function create_if_block$2(ctx) {
     	let h1;
     	let t1;
@@ -1832,17 +1832,17 @@ var app = (function () {
     			set_style(h1, "text-align", "center");
     			set_style(h1, "font-weight", "700");
     			set_style(h1, "margin-top", "50px");
-    			add_location(h1, file$5, 63, 2, 2680);
-    			add_location(p, file$5, 65, 6, 2808);
+    			add_location(h1, file$5, 63, 2, 2677);
+    			add_location(p, file$5, 65, 6, 2805);
     			if (!src_url_equal(img.src, img_src_value = "img/console.png")) attr_dev(img, "src", img_src_value);
     			set_style(img, "margin", "0px auto");
     			set_style(img, "display", "block");
     			set_style(img, "width", "250px");
     			set_style(img, "padding-top", "20px");
     			attr_dev(img, "alt", "First Pong Game console");
-    			add_location(img, file$5, 75, 8, 3545);
+    			add_location(img, file$5, 75, 8, 3542);
     			attr_dev(div, "class", "about svelte-1ooggka");
-    			add_location(div, file$5, 64, 4, 2782);
+    			add_location(div, file$5, 64, 4, 2779);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -1863,7 +1863,7 @@ var app = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(63:2) {#if $logged === 'true'}",
+    		source: "(63:2) {#if $logged === true}",
     		ctx
     	});
 
@@ -1874,7 +1874,7 @@ var app = (function () {
     	let main;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*$logged*/ ctx[0] === 'true') return create_if_block$2;
+    		if (/*$logged*/ ctx[0] === true) return create_if_block$2;
     		return create_else_block$2;
     	}
 
@@ -1886,7 +1886,7 @@ var app = (function () {
     			main = element("main");
     			if_block.c();
     			attr_dev(main, "class", "svelte-1ooggka");
-    			add_location(main, file$5, 61, 0, 2644);
+    			add_location(main, file$5, 61, 0, 2643);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1985,13 +1985,13 @@ var app = (function () {
     	function updateAll(isAuth) {
     		id.update(n => isAuth.id);
     		logged.update(n => isAuth.logged);
-    		username.update(n => isAuth.username);
-    		firstname.update(n => isAuth.firstname);
-    		lastname.update(n => isAuth.lastname);
+    		username.update(n => isAuth.userName);
+    		firstname.update(n => isAuth.firstName);
+    		lastname.update(n => isAuth.lastName);
     		wins.update(n => isAuth.wins);
     		losses.update(n => isAuth.losses);
     		level.update(n => isAuth.level);
-    		image_url.update(n => isAuth.image_url);
+    		image_url.update(n => isAuth.imageURL);
     		console.log(isAuth);
     	} //TODO: modify values in database;
 
@@ -2450,7 +2450,7 @@ var app = (function () {
 
     const file$2 = "src/routes/Profile.svelte";
 
-    // (58:4) {:else}
+    // (59:4) {:else}
     function create_else_block$1(ctx) {
     	let h1;
 
@@ -2459,7 +2459,7 @@ var app = (function () {
     			h1 = element("h1");
     			h1.textContent = "ACCESS DENIED";
     			set_style(h1, "text-align", "center");
-    			add_location(h1, file$2, 58, 4, 2362);
+    			add_location(h1, file$2, 59, 4, 2446);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -2474,7 +2474,7 @@ var app = (function () {
     		block,
     		id: create_else_block$1.name,
     		type: "else",
-    		source: "(58:4) {:else}",
+    		source: "(59:4) {:else}",
     		ctx
     	});
 
@@ -2521,6 +2521,11 @@ var app = (function () {
     	let span4;
     	let span5;
     	let t21;
+    	let t22;
+    	let h14;
+    	let span6;
+    	let span7;
+    	let t24;
     	let mounted;
     	let dispose;
 
@@ -2568,49 +2573,60 @@ var app = (function () {
     			span4.textContent = "LEVEL   ";
     			span5 = element("span");
     			t21 = text(/*$level*/ ctx[8]);
+    			t22 = space();
+    			h14 = element("h1");
+    			span6 = element("span");
+    			span6.textContent = "ID   ";
+    			span7 = element("span");
+    			t24 = text(/*$id*/ ctx[9]);
     			attr_dev(img, "class", "profile svelte-dv22zd");
     			if (!src_url_equal(img.src, img_src_value = /*$image_url*/ ctx[1])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "width", "200px");
     			attr_dev(img, "alt", "Default Profile");
-    			add_location(img, file$2, 39, 8, 1430);
-    			add_location(div0, file$2, 38, 4, 1416);
+    			add_location(img, file$2, 39, 8, 1434);
+    			add_location(div0, file$2, 38, 4, 1420);
     			set_style(p, "text-align", "center");
     			set_style(p, "color", "grey");
     			set_style(p, "font-weight", "500");
-    			add_location(p, file$2, 42, 8, 1537);
+    			add_location(p, file$2, 42, 8, 1541);
     			attr_dev(h10, "class", "name svelte-dv22zd");
-    			add_location(h10, file$2, 43, 8, 1632);
-    			add_location(div1, file$2, 41, 4, 1523);
+    			add_location(h10, file$2, 43, 8, 1636);
+    			add_location(div1, file$2, 41, 4, 1527);
     			attr_dev(button, "class", "bt1 svelte-dv22zd");
-    			add_location(button, file$2, 46, 8, 1695);
+    			add_location(button, file$2, 46, 8, 1699);
     			set_style(input_1, "display", "none");
     			attr_dev(input_1, "type", "file");
     			attr_dev(input_1, "accept", ".jpg, .jpeg, .png");
-    			add_location(input_1, file$2, 47, 8, 1791);
-    			add_location(div2, file$2, 45, 4, 1681);
+    			add_location(input_1, file$2, 47, 8, 1795);
+    			add_location(div2, file$2, 45, 4, 1685);
     			attr_dev(a, "class", "bt2 svelte-dv22zd");
     			attr_dev(a, "href", "#/user");
-    			add_location(a, file$2, 50, 8, 1984);
+    			add_location(a, file$2, 50, 8, 1988);
     			set_style(div3, "margin", "0 auto");
     			set_style(div3, "width", "200px");
-    			add_location(div3, file$2, 49, 4, 1932);
+    			add_location(div3, file$2, 49, 4, 1936);
     			attr_dev(span0, "class", "sp1 svelte-dv22zd");
-    			add_location(span0, file$2, 53, 12, 2079);
+    			add_location(span0, file$2, 53, 12, 2083);
     			attr_dev(span1, "class", "sp2 svelte-dv22zd");
-    			add_location(span1, file$2, 53, 45, 2112);
-    			add_location(h11, file$2, 53, 8, 2075);
+    			add_location(span1, file$2, 53, 45, 2116);
+    			add_location(h11, file$2, 53, 8, 2079);
     			attr_dev(span2, "class", "sp1 svelte-dv22zd");
-    			add_location(span2, file$2, 54, 12, 2167);
+    			add_location(span2, file$2, 54, 12, 2171);
     			attr_dev(span3, "class", "sp2 svelte-dv22zd");
-    			add_location(span3, file$2, 54, 47, 2202);
-    			add_location(h12, file$2, 54, 8, 2163);
+    			add_location(span3, file$2, 54, 47, 2206);
+    			add_location(h12, file$2, 54, 8, 2167);
     			attr_dev(span4, "class", "sp1 svelte-dv22zd");
-    			add_location(span4, file$2, 55, 12, 2261);
+    			add_location(span4, file$2, 55, 12, 2265);
     			attr_dev(span5, "class", "sp2 svelte-dv22zd");
-    			add_location(span5, file$2, 55, 45, 2294);
-    			add_location(h13, file$2, 55, 8, 2257);
+    			add_location(span5, file$2, 55, 45, 2298);
+    			add_location(h13, file$2, 55, 8, 2261);
+    			attr_dev(span6, "class", "sp1 svelte-dv22zd");
+    			add_location(span6, file$2, 56, 12, 2351);
+    			attr_dev(span7, "class", "sp2 svelte-dv22zd");
+    			add_location(span7, file$2, 56, 42, 2381);
+    			add_location(h14, file$2, 56, 8, 2347);
     			attr_dev(div4, "class", "tb1 svelte-dv22zd");
-    			add_location(div4, file$2, 52, 4, 2049);
+    			add_location(div4, file$2, 52, 4, 2053);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -2629,7 +2645,7 @@ var app = (function () {
     			append_dev(div2, button);
     			append_dev(div2, t8);
     			append_dev(div2, input_1);
-    			/*input_1_binding*/ ctx[12](input_1);
+    			/*input_1_binding*/ ctx[13](input_1);
     			insert_dev(target, t9, anchor);
     			insert_dev(target, div3, anchor);
     			append_dev(div3, a);
@@ -2651,11 +2667,16 @@ var app = (function () {
     			append_dev(h13, span4);
     			append_dev(h13, span5);
     			append_dev(span5, t21);
+    			append_dev(div4, t22);
+    			append_dev(div4, h14);
+    			append_dev(h14, span6);
+    			append_dev(h14, span7);
+    			append_dev(span7, t24);
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button, "click", /*click_handler*/ ctx[10], false, false, false),
-    					listen_dev(input_1, "change", /*change_handler*/ ctx[11], false, false, false)
+    					listen_dev(button, "click", /*click_handler*/ ctx[11], false, false, false),
+    					listen_dev(input_1, "change", /*change_handler*/ ctx[12], false, false, false)
     				];
 
     				mounted = true;
@@ -2672,6 +2693,7 @@ var app = (function () {
     			if (dirty & /*$wins*/ 64) set_data_dev(t14, /*$wins*/ ctx[6]);
     			if (dirty & /*$losses*/ 128) set_data_dev(t18, /*$losses*/ ctx[7]);
     			if (dirty & /*$level*/ 256) set_data_dev(t21, /*$level*/ ctx[8]);
+    			if (dirty & /*$id*/ 512) set_data_dev(t24, /*$id*/ ctx[9]);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div0);
@@ -2679,7 +2701,7 @@ var app = (function () {
     			if (detaching) detach_dev(div1);
     			if (detaching) detach_dev(t6);
     			if (detaching) detach_dev(div2);
-    			/*input_1_binding*/ ctx[12](null);
+    			/*input_1_binding*/ ctx[13](null);
     			if (detaching) detach_dev(t9);
     			if (detaching) detach_dev(div3);
     			if (detaching) detach_dev(t11);
@@ -2716,7 +2738,7 @@ var app = (function () {
     			main = element("main");
     			if_block.c();
     			attr_dev(main, "class", "svelte-dv22zd");
-    			add_location(main, file$2, 36, 0, 1387);
+    			add_location(main, file$2, 36, 0, 1391);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2766,6 +2788,7 @@ var app = (function () {
     	let $wins;
     	let $losses;
     	let $level;
+    	let $id;
     	validate_store(image_url, 'image_url');
     	component_subscribe($$self, image_url, $$value => $$invalidate(1, $image_url = $$value));
     	validate_store(logged, 'logged');
@@ -2782,6 +2805,8 @@ var app = (function () {
     	component_subscribe($$self, losses, $$value => $$invalidate(7, $losses = $$value));
     	validate_store(level, 'level');
     	component_subscribe($$self, level, $$value => $$invalidate(8, $level = $$value));
+    	validate_store(id, 'id');
+    	component_subscribe($$self, id, $$value => $$invalidate(9, $id = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Profile', slots, []);
 
@@ -2879,6 +2904,7 @@ var app = (function () {
     		image_url,
     		firstname,
     		lastname,
+    		id,
     		fileinput,
     		avatar,
     		onFileSelected,
@@ -2895,7 +2921,8 @@ var app = (function () {
     		$username,
     		$wins,
     		$losses,
-    		$level
+    		$level,
+    		$id
     	});
 
     	$$self.$inject_state = $$props => {
@@ -2924,6 +2951,7 @@ var app = (function () {
     		$wins,
     		$losses,
     		$level,
+    		$id,
     		onFileSelected,
     		click_handler,
     		change_handler,
