@@ -6,6 +6,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import User from './user.entity';
 import { UsersService } from './users.service';
 import * as FormData from 'form-data';
+import { UpdateUserNameDto } from './dto/update-user-name.dto';
 
 @Controller('users')
 export class UsersController {
@@ -82,6 +83,11 @@ export class UsersController {
     @Post(':id')
     create(@Body() createUserDto : CreateUserDto, @Param('id') par : number) : Promise<User>{
         return this.userService.create(createUserDto);
+    }
+
+    @Post('updatensername')
+    updateUser(@Body() updateUser : UpdateUserNameDto){
+        return this.userService.changeUserName(updateUser.id, updateUser.userName);
     }
 
     @UseGuards(JwtGuard)
