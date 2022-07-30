@@ -619,6 +619,9 @@ var app = (function () {
 
     //const on = localStorage.content;
 
+    const id = writable(localStorage.getItem("id") || 0);
+    id.subscribe((val) => localStorage.setItem("id", val));
+
     const logged = writable(localStorage.getItem("logged") || false);
     logged.subscribe((val) => localStorage.setItem("logged", val));
 
@@ -1761,7 +1764,7 @@ var app = (function () {
 
     const file$5 = "src/routes/Home.svelte";
 
-    // (77:4) {:else}
+    // (78:4) {:else}
     function create_else_block$2(ctx) {
     	let a;
     	let t;
@@ -1775,14 +1778,14 @@ var app = (function () {
     			t = text("Connect with");
     			br = element("br");
     			img = element("img");
-    			add_location(br, file$5, 77, 218, 3885);
+    			add_location(br, file$5, 78, 218, 3920);
     			if (!src_url_equal(img.src, img_src_value = "img/42_logo.png")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "width", "40px");
     			attr_dev(img, "alt", "42 logo");
-    			add_location(img, file$5, 77, 222, 3889);
+    			add_location(img, file$5, 78, 222, 3924);
     			attr_dev(a, "href", "https://api.intra.42.fr/oauth/authorize?client_id=3e6e67d52700f32ea72111aee9b04403f78ba98745a76856cf11003de9399fa2&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&response_type=code");
     			attr_dev(a, "class", "api svelte-1ooggka");
-    			add_location(a, file$5, 77, 4, 3671);
+    			add_location(a, file$5, 78, 4, 3706);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -1799,14 +1802,14 @@ var app = (function () {
     		block,
     		id: create_else_block$2.name,
     		type: "else",
-    		source: "(77:4) {:else}",
+    		source: "(78:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (62:2) {#if $logged === 'true'}
+    // (63:2) {#if $logged === 'true'}
     function create_if_block$2(ctx) {
     	let h1;
     	let t1;
@@ -1829,17 +1832,17 @@ var app = (function () {
     			set_style(h1, "text-align", "center");
     			set_style(h1, "font-weight", "700");
     			set_style(h1, "margin-top", "50px");
-    			add_location(h1, file$5, 62, 2, 2645);
-    			add_location(p, file$5, 64, 6, 2773);
+    			add_location(h1, file$5, 63, 2, 2680);
+    			add_location(p, file$5, 65, 6, 2808);
     			if (!src_url_equal(img.src, img_src_value = "img/console.png")) attr_dev(img, "src", img_src_value);
     			set_style(img, "margin", "0px auto");
     			set_style(img, "display", "block");
     			set_style(img, "width", "250px");
     			set_style(img, "padding-top", "20px");
     			attr_dev(img, "alt", "First Pong Game console");
-    			add_location(img, file$5, 74, 8, 3510);
+    			add_location(img, file$5, 75, 8, 3545);
     			attr_dev(div, "class", "about svelte-1ooggka");
-    			add_location(div, file$5, 63, 4, 2747);
+    			add_location(div, file$5, 64, 4, 2782);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -1860,7 +1863,7 @@ var app = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(62:2) {#if $logged === 'true'}",
+    		source: "(63:2) {#if $logged === 'true'}",
     		ctx
     	});
 
@@ -1883,7 +1886,7 @@ var app = (function () {
     			main = element("main");
     			if_block.c();
     			attr_dev(main, "class", "svelte-1ooggka");
-    			add_location(main, file$5, 60, 0, 2609);
+    			add_location(main, file$5, 61, 0, 2644);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1980,6 +1983,7 @@ var app = (function () {
     	//       //TODO: modify values in database;
     	// }
     	function updateAll(isAuth) {
+    		id.update(n => isAuth.id);
     		logged.update(n => isAuth.logged);
     		username.update(n => isAuth.username);
     		firstname.update(n => isAuth.firstname);
@@ -2034,6 +2038,7 @@ var app = (function () {
     		image_url,
     		firstname,
     		lastname,
+    		id,
     		isAuth,
     		updateAll,
     		$logged

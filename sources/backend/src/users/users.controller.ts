@@ -22,7 +22,6 @@ export class UsersController {
         console.log(code);
       }
 
-
       const formData= new FormData();
       console.log("B");
       formData.append('grant_type', 'authorization_code');
@@ -54,6 +53,7 @@ export class UsersController {
         const tmpUser = await this.userService.getByEmail(profile.email);
         if (tmpUser)
         return (res.status(HttpStatus.OK).send(JSON.stringify({
+        id: tmpUser.id,
         username: tmpUser.userName,
         firstname: tmpUser.firstName,
         lastname: tmpUser.lastName,
@@ -77,19 +77,32 @@ export class UsersController {
                                           imageURL: profile.image_url,
                                         };
           this.userService.create(newUser);
+          const tmpUser = await this.userService.getByEmail(profile.email);
+          if (tmpUser)
+          return (res.status(HttpStatus.OK).send(JSON.stringify({
+          id: tmpUser.id,
+          username: tmpUser.userName,
+          firstname: tmpUser.firstName,
+          lastname: tmpUser.lastName,
+          image_url: tmpUser.imageURL, 
+          logged: 'true',
+          wins: tmpUser.wins,
+          losses: tmpUser.losses,
+          level: tmpUser.level,  
+        })));
         }
         
-        return (res.status(HttpStatus.OK).send(JSON.stringify({
-          username: profile.login,
-          firstname: profile.first_name,
-          lastname: profile.last_name,
-          image_url: profile.image_url, 
-          logged: 'true',
-          wins: 4,
-          losses: 2,
-          level: 1.5,
+        // return (res.status(HttpStatus.OK).send(JSON.stringify({
+        //   username: profile.login,
+        //   firstname: profile.first_name,
+        //   lastname: profile.last_name,
+        //   image_url: profile.image_url, 
+        //   logged: 'true',
+        //   wins: 4,
+        //   losses: 2,
+        //   level: 1.5,
   
-        })))
+        // })))
     }
 
     @Post(':id')

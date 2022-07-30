@@ -3,6 +3,9 @@ import { browser } from '$app/env';
 
 //const on = localStorage.content;
 
+export const id = writable(localStorage.getItem("id") || 0);
+id.subscribe((val) => localStorage.setItem("id", val));
+
 export const logged = writable(localStorage.getItem("logged") || false);
 logged.subscribe((val) => localStorage.setItem("logged", val));
 

@@ -1,7 +1,7 @@
 <script lang='ts'>
 import { onMount } from 'svelte';
 // import * as cookie from "cookie";
-import { level, logged, losses, username, wins, image_url, firstname, lastname } from '../stores.js';
+import { level, logged, losses, username, wins, image_url, firstname, lastname, id } from '../stores.js';
 let isAuth;
 
 // function updateAll (isAuth: any) {
@@ -19,6 +19,7 @@ let isAuth;
 // }
 
 function updateAll (isAuth: any) {
+      id.update(n => isAuth.id);
       logged.update(n => isAuth.logged);
       username.update(n => isAuth.username);
       firstname.update(n => isAuth.firstname);
