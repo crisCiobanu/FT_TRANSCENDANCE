@@ -5,15 +5,14 @@
     username.update(n => user);
 
     //TODO: transfer to database;
-    // await fetch("http://localhost:3000/", {
-    //   method: 'POST',
-    //     headers: 
-    //     {
-    //      "Content-type": "application/json; charset=UTF-8",
-    //      //TOKEN psersonnel
-    //     },
-    //     body: JSON.stringify({"username": user,})
-    // }; 
+    await fetch("http://localhost:3000/updateusername", {
+      method: 'POST',
+        headers: 
+        {
+         "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify({"username": user, "id": id})
+    }); 
 
     alert("Your username has beem changed to " + user)
     redirect("#/profile");
@@ -30,9 +29,9 @@
   </div>
   <div class="link">
   </div>
-  <!-- <div class="link">
+  <div class="link">
     <a href="#/profile" >🔙</a>
-  </div> -->
+  </div>
 </main>
 
 
@@ -59,7 +58,8 @@
         padding:5px;
       }
       a {
-        background-color: grey;
+        /* background-color: grey; */
+        text-decoration-skip: true;
       }
     
 

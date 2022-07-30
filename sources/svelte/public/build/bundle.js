@@ -619,8 +619,8 @@ var app = (function () {
 
     //const on = localStorage.content;
 
-    const id = writable(localStorage.getItem("id") || 0);
-    id.subscribe((val) => localStorage.setItem("id", val));
+    const id$1 = writable(localStorage.getItem("id") || 0);
+    id$1.subscribe((val) => localStorage.setItem("id", val));
 
     const logged = writable(localStorage.getItem("logged") || false);
     logged.subscribe((val) => localStorage.setItem("logged", val));
@@ -1983,7 +1983,7 @@ var app = (function () {
     	//       //TODO: modify values in database;
     	// }
     	function updateAll(isAuth) {
-    		id.update(n => isAuth.id);
+    		id$1.update(n => isAuth.id);
     		logged.update(n => isAuth.logged);
     		username.update(n => isAuth.userName);
     		firstname.update(n => isAuth.firstName);
@@ -2038,7 +2038,7 @@ var app = (function () {
     		image_url,
     		firstname,
     		lastname,
-    		id,
+    		id: id$1,
     		isAuth,
     		updateAll,
     		$logged
@@ -2805,8 +2805,8 @@ var app = (function () {
     	component_subscribe($$self, losses, $$value => $$invalidate(7, $losses = $$value));
     	validate_store(level, 'level');
     	component_subscribe($$self, level, $$value => $$invalidate(8, $level = $$value));
-    	validate_store(id, 'id');
-    	component_subscribe($$self, id, $$value => $$invalidate(9, $id = $$value));
+    	validate_store(id$1, 'id');
+    	component_subscribe($$self, id$1, $$value => $$invalidate(9, $id = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Profile', slots, []);
 
@@ -2904,7 +2904,7 @@ var app = (function () {
     		image_url,
     		firstname,
     		lastname,
-    		id,
+    		id: id$1,
     		fileinput,
     		avatar,
     		onFileSelected,
@@ -2983,13 +2983,16 @@ var app = (function () {
     	let main;
     	let h2;
     	let t1;
-    	let div2;
+    	let div3;
     	let input;
     	let t2;
     	let div0;
-    	let a;
+    	let a0;
     	let t4;
     	let div1;
+    	let t5;
+    	let div2;
+    	let a1;
     	let mounted;
     	let dispose;
 
@@ -2999,29 +3002,38 @@ var app = (function () {
     			h2 = element("h2");
     			h2.textContent = "Enter new username";
     			t1 = space();
-    			div2 = element("div");
+    			div3 = element("div");
     			input = element("input");
     			t2 = space();
     			div0 = element("div");
-    			a = element("a");
-    			a.textContent = "Submit";
+    			a0 = element("a");
+    			a0.textContent = "Submit";
     			t4 = space();
     			div1 = element("div");
-    			add_location(h2, file$1, 24, 2, 634);
+    			t5 = space();
+    			div2 = element("div");
+    			a1 = element("a");
+    			a1.textContent = "🔙";
+    			add_location(h2, file$1, 23, 2, 603);
     			set_style(input, "width", "150px");
     			attr_dev(input, "aria-label", "Enter new username");
-    			add_location(input, file$1, 26, 4, 674);
-    			attr_dev(a, "href", "#/profile");
-    			attr_dev(a, "type", "submit");
-    			attr_dev(a, "value", "Submit");
-    			attr_dev(a, "class", "svelte-nivlyd");
-    			add_location(a, file$1, 28, 4, 770);
-    			add_location(div0, file$1, 27, 4, 760);
-    			attr_dev(div1, "class", "link svelte-nivlyd");
-    			add_location(div1, file$1, 30, 2, 867);
-    			add_location(div2, file$1, 25, 2, 664);
-    			attr_dev(main, "class", "svelte-nivlyd");
-    			add_location(main, file$1, 23, 0, 625);
+    			add_location(input, file$1, 25, 4, 643);
+    			attr_dev(a0, "href", "#/profile");
+    			attr_dev(a0, "type", "submit");
+    			attr_dev(a0, "value", "Submit");
+    			attr_dev(a0, "class", "svelte-1nt2cii");
+    			add_location(a0, file$1, 27, 4, 739);
+    			add_location(div0, file$1, 26, 4, 729);
+    			attr_dev(div1, "class", "link svelte-1nt2cii");
+    			add_location(div1, file$1, 29, 2, 836);
+    			attr_dev(a1, "href", "#/profile");
+    			attr_dev(a1, "class", "svelte-1nt2cii");
+    			add_location(a1, file$1, 32, 4, 889);
+    			attr_dev(div2, "class", "link svelte-1nt2cii");
+    			add_location(div2, file$1, 31, 2, 866);
+    			add_location(div3, file$1, 24, 2, 633);
+    			attr_dev(main, "class", "svelte-1nt2cii");
+    			add_location(main, file$1, 22, 0, 594);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3030,19 +3042,22 @@ var app = (function () {
     			insert_dev(target, main, anchor);
     			append_dev(main, h2);
     			append_dev(main, t1);
-    			append_dev(main, div2);
-    			append_dev(div2, input);
+    			append_dev(main, div3);
+    			append_dev(div3, input);
     			set_input_value(input, /*user*/ ctx[0]);
-    			append_dev(div2, t2);
-    			append_dev(div2, div0);
-    			append_dev(div0, a);
-    			append_dev(div2, t4);
-    			append_dev(div2, div1);
+    			append_dev(div3, t2);
+    			append_dev(div3, div0);
+    			append_dev(div0, a0);
+    			append_dev(div3, t4);
+    			append_dev(div3, div1);
+    			append_dev(div3, t5);
+    			append_dev(div3, div2);
+    			append_dev(div2, a1);
 
     			if (!mounted) {
     				dispose = [
     					listen_dev(input, "input", /*input_input_handler*/ ctx[2]),
-    					listen_dev(a, "click", /*changeUserName*/ ctx[1], false, false, false)
+    					listen_dev(a0, "click", /*changeUserName*/ ctx[1], false, false, false)
     				];
 
     				mounted = true;
@@ -3082,17 +3097,15 @@ var app = (function () {
     		username.update(n => user);
 
     		//TODO: transfer to database;
-    		// await fetch("http://localhost:3000/", {
-    		//   method: 'POST',
-    		//     headers: 
-    		//     {
-    		//      "Content-type": "application/json; charset=UTF-8",
-    		//      //TOKEN psersonnel
-    		//     },
-    		//     body: JSON.stringify({"username": user,})
-    		// }; 
-    		alert("Your username has beem changed to " + user);
+    		await fetch("http://localhost:3000/updateusername", {
+    			method: 'POST',
+    			headers: {
+    				"Content-type": "application/json; charset=UTF-8"
+    			},
+    			body: JSON.stringify({ "username": user, id })
+    		});
 
+    		alert("Your username has beem changed to " + user);
     		redirect("#/profile");
     		console.log({ user });
     	}
