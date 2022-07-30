@@ -21,13 +21,13 @@ let isAuth;
 function updateAll (isAuth: any) {
       id.update(n => isAuth.id);
       logged.update(n => isAuth.logged);
-      username.update(n => isAuth.username);
-      firstname.update(n => isAuth.firstname);
-      lastname.update(n => isAuth.lastname);
+      username.update(n => isAuth.userName);
+      firstname.update(n => isAuth.firstName);
+      lastname.update(n => isAuth.lastName);
       wins.update(n => isAuth.wins);
       losses.update(n => isAuth.losses);
       level.update(n => isAuth.level);
-      image_url.update(n => isAuth.image_url);
+      image_url.update(n => isAuth.imageURL);
 
       console.log(isAuth);
       //TODO: modify values in database;
@@ -65,7 +65,7 @@ onMount(async () => {
 
 </script>
 <main>
-  {#if $logged === 'true'}
+  {#if $logged === true}
   <h1 style="text-align: center; font-weight: 700; margin-top: 50px;">Just a bit of history...</h1>
     <div class="about">
       <p>Pong is a table tennis–themed twitch arcade sports video game,
