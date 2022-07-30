@@ -3014,26 +3014,26 @@ var app = (function () {
     			div2 = element("div");
     			a1 = element("a");
     			a1.textContent = "🔙";
-    			add_location(h2, file$1, 23, 2, 603);
+    			add_location(h2, file$1, 23, 2, 609);
     			set_style(input, "width", "150px");
     			attr_dev(input, "aria-label", "Enter new username");
-    			add_location(input, file$1, 25, 4, 643);
+    			add_location(input, file$1, 25, 4, 649);
     			attr_dev(a0, "href", "#/profile");
     			attr_dev(a0, "type", "submit");
     			attr_dev(a0, "value", "Submit");
     			attr_dev(a0, "class", "svelte-1nt2cii");
-    			add_location(a0, file$1, 27, 4, 739);
-    			add_location(div0, file$1, 26, 4, 729);
+    			add_location(a0, file$1, 27, 4, 745);
+    			add_location(div0, file$1, 26, 4, 735);
     			attr_dev(div1, "class", "link svelte-1nt2cii");
-    			add_location(div1, file$1, 29, 2, 836);
+    			add_location(div1, file$1, 29, 2, 842);
     			attr_dev(a1, "href", "#/profile");
     			attr_dev(a1, "class", "svelte-1nt2cii");
-    			add_location(a1, file$1, 32, 4, 889);
+    			add_location(a1, file$1, 32, 4, 895);
     			attr_dev(div2, "class", "link svelte-1nt2cii");
-    			add_location(div2, file$1, 31, 2, 866);
-    			add_location(div3, file$1, 24, 2, 633);
+    			add_location(div2, file$1, 31, 2, 872);
+    			add_location(div3, file$1, 24, 2, 639);
     			attr_dev(main, "class", "svelte-1nt2cii");
-    			add_location(main, file$1, 22, 0, 594);
+    			add_location(main, file$1, 22, 0, 600);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3097,7 +3097,7 @@ var app = (function () {
     		username.update(n => user);
 
     		//TODO: transfer to database;
-    		await fetch("http://localhost:3000/updateusername", {
+    		await fetch("http://localhost:3000/users/updateusername", {
     			method: 'POST',
     			headers: {
     				"Content-type": "application/json; charset=UTF-8"

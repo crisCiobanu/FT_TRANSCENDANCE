@@ -5,7 +5,7 @@
     username.update(n => user);
 
     //TODO: transfer to database;
-    await fetch("http://localhost:3000/updateusername", {
+    await fetch("http://localhost:3000/users/updateusername", {
       method: 'POST',
         headers: 
         {
