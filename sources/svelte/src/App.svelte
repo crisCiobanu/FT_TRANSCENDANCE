@@ -34,13 +34,13 @@ let routes = {
 	<nav class="menu">
 		{#if $logged}
 		<a class="item" href="#/">HOME</a>
-		<!-- <a class="item" href="#/pong">PONG</a> -->
+		<a class="item" href="#/pong">PONG</a>
 		<a class="item" href="#/profile">PROFILE</a>
 		<a class="item" href="#/chat">CHAT</a>
 		<a class="item" on:click={logOut} href="http://localhost:8080/">LOGOUT</a>
 		{:else}
 		<a class="item" href="#/">HOME</a>
-		<!-- <a class="item" href="#/">PONG</a> -->
+		<a class="item" href="#/">PONG</a>
 		<a class="item" href="#/">PROFILE</a>
 		<a class="item" href="#/">CHAT</a>
 		<a class="item" on:click={logOut} href="#/">LOGOUT</a>

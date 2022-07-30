@@ -1761,7 +1761,7 @@ var app = (function () {
 
     const file$5 = "src/routes/Home.svelte";
 
-    // (65:4) {:else}
+    // (77:4) {:else}
     function create_else_block$2(ctx) {
     	let a;
     	let t;
@@ -1775,14 +1775,14 @@ var app = (function () {
     			t = text("Connect with");
     			br = element("br");
     			img = element("img");
-    			add_location(br, file$5, 65, 218, 3402);
+    			add_location(br, file$5, 77, 218, 3885);
     			if (!src_url_equal(img.src, img_src_value = "img/42_logo.png")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "width", "40px");
     			attr_dev(img, "alt", "42 logo");
-    			add_location(img, file$5, 65, 222, 3406);
+    			add_location(img, file$5, 77, 222, 3889);
     			attr_dev(a, "href", "https://api.intra.42.fr/oauth/authorize?client_id=3e6e67d52700f32ea72111aee9b04403f78ba98745a76856cf11003de9399fa2&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&response_type=code");
     			attr_dev(a, "class", "api svelte-1ooggka");
-    			add_location(a, file$5, 65, 4, 3188);
+    			add_location(a, file$5, 77, 4, 3671);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -1799,14 +1799,14 @@ var app = (function () {
     		block,
     		id: create_else_block$2.name,
     		type: "else",
-    		source: "(65:4) {:else}",
+    		source: "(77:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (50:2) {#if $logged === 'true'}
+    // (62:2) {#if $logged === 'true'}
     function create_if_block$2(ctx) {
     	let h1;
     	let t1;
@@ -1829,17 +1829,17 @@ var app = (function () {
     			set_style(h1, "text-align", "center");
     			set_style(h1, "font-weight", "700");
     			set_style(h1, "margin-top", "50px");
-    			add_location(h1, file$5, 50, 2, 2162);
-    			add_location(p, file$5, 52, 6, 2290);
+    			add_location(h1, file$5, 62, 2, 2645);
+    			add_location(p, file$5, 64, 6, 2773);
     			if (!src_url_equal(img.src, img_src_value = "img/console.png")) attr_dev(img, "src", img_src_value);
     			set_style(img, "margin", "0px auto");
     			set_style(img, "display", "block");
     			set_style(img, "width", "250px");
     			set_style(img, "padding-top", "20px");
     			attr_dev(img, "alt", "First Pong Game console");
-    			add_location(img, file$5, 62, 8, 3027);
+    			add_location(img, file$5, 74, 8, 3510);
     			attr_dev(div, "class", "about svelte-1ooggka");
-    			add_location(div, file$5, 51, 4, 2264);
+    			add_location(div, file$5, 63, 4, 2747);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -1860,7 +1860,7 @@ var app = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(50:2) {#if $logged === 'true'}",
+    		source: "(62:2) {#if $logged === 'true'}",
     		ctx
     	});
 
@@ -1883,7 +1883,7 @@ var app = (function () {
     			main = element("main");
     			if_block.c();
     			attr_dev(main, "class", "svelte-1ooggka");
-    			add_location(main, file$5, 48, 0, 2126);
+    			add_location(main, file$5, 60, 0, 2609);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1967,15 +1967,27 @@ var app = (function () {
 
     	let isAuth;
 
+    	// function updateAll (isAuth: any) {
+    	//       logged.update(n => isAuth.logged);
+    	//       username.update(n => isAuth.username);
+    	//       wins.update(n => isAuth.wins);
+    	//       losses.update(n => isAuth.losses);
+    	//       level.update(n => isAuth.level);
+    	//       image_url.update(n => isAuth.image_url);
+    	//       firstname.update(n => isAuth.firstname);
+    	//       lastname.update(n => isAuth.lastname);
+    	//       console.log(isAuth);
+    	//       //TODO: modify values in database;
+    	// }
     	function updateAll(isAuth) {
     		logged.update(n => isAuth.logged);
     		username.update(n => isAuth.username);
+    		firstname.update(n => isAuth.firstname);
+    		lastname.update(n => isAuth.lastname);
     		wins.update(n => isAuth.wins);
     		losses.update(n => isAuth.losses);
     		level.update(n => isAuth.level);
     		image_url.update(n => isAuth.image_url);
-    		firstname.update(n => isAuth.firstname);
-    		lastname.update(n => isAuth.lastname);
     		console.log(isAuth);
     	} //TODO: modify values in database;
 
@@ -2962,21 +2974,21 @@ var app = (function () {
     			a.textContent = "Submit";
     			t4 = space();
     			div1 = element("div");
-    			add_location(h2, file$1, 15, 2, 350);
+    			add_location(h2, file$1, 24, 2, 634);
     			set_style(input, "width", "150px");
     			attr_dev(input, "aria-label", "Enter new username");
-    			add_location(input, file$1, 17, 4, 390);
+    			add_location(input, file$1, 26, 4, 674);
     			attr_dev(a, "href", "#/profile");
     			attr_dev(a, "type", "submit");
     			attr_dev(a, "value", "Submit");
     			attr_dev(a, "class", "svelte-nivlyd");
-    			add_location(a, file$1, 19, 4, 486);
-    			add_location(div0, file$1, 18, 4, 476);
+    			add_location(a, file$1, 28, 4, 770);
+    			add_location(div0, file$1, 27, 4, 760);
     			attr_dev(div1, "class", "link svelte-nivlyd");
-    			add_location(div1, file$1, 21, 2, 583);
-    			add_location(div2, file$1, 16, 2, 380);
+    			add_location(div1, file$1, 30, 2, 867);
+    			add_location(div2, file$1, 25, 2, 664);
     			attr_dev(main, "class", "svelte-nivlyd");
-    			add_location(main, file$1, 14, 0, 341);
+    			add_location(main, file$1, 23, 0, 625);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3033,10 +3045,19 @@ var app = (function () {
     	validate_slots('User', slots, []);
     	let user;
 
-    	function changeUserName() {
+    	async function changeUserName() {
     		username.update(n => user);
 
     		//TODO: transfer to database;
+    		// await fetch("http://localhost:3000/", {
+    		//   method: 'POST',
+    		//     headers: 
+    		//     {
+    		//      "Content-type": "application/json; charset=UTF-8",
+    		//      //TOKEN psersonnel
+    		//     },
+    		//     body: JSON.stringify({"username": user,})
+    		// }; 
     		alert("Your username has beem changed to " + user);
 
     		redirect("#/profile");
@@ -3104,6 +3125,8 @@ var app = (function () {
     	let a2;
     	let t5;
     	let a3;
+    	let t7;
+    	let a4;
     	let mounted;
     	let dispose;
 
@@ -3113,25 +3136,31 @@ var app = (function () {
     			a0.textContent = "HOME";
     			t1 = space();
     			a1 = element("a");
-    			a1.textContent = "PROFILE";
+    			a1.textContent = "PONG";
     			t3 = space();
     			a2 = element("a");
-    			a2.textContent = "CHAT";
+    			a2.textContent = "PROFILE";
     			t5 = space();
     			a3 = element("a");
-    			a3.textContent = "LOGOUT";
+    			a3.textContent = "CHAT";
+    			t7 = space();
+    			a4 = element("a");
+    			a4.textContent = "LOGOUT";
     			attr_dev(a0, "class", "item svelte-s2ct73");
     			attr_dev(a0, "href", "#/");
-    			add_location(a0, file, 36, 2, 1021);
+    			add_location(a0, file, 36, 2, 1012);
     			attr_dev(a1, "class", "item svelte-s2ct73");
     			attr_dev(a1, "href", "#/");
-    			add_location(a1, file, 38, 2, 1104);
+    			add_location(a1, file, 37, 2, 1049);
     			attr_dev(a2, "class", "item svelte-s2ct73");
     			attr_dev(a2, "href", "#/");
-    			add_location(a2, file, 39, 2, 1144);
+    			add_location(a2, file, 38, 2, 1086);
     			attr_dev(a3, "class", "item svelte-s2ct73");
     			attr_dev(a3, "href", "#/");
-    			add_location(a3, file, 40, 2, 1181);
+    			add_location(a3, file, 39, 2, 1126);
+    			attr_dev(a4, "class", "item svelte-s2ct73");
+    			attr_dev(a4, "href", "#/");
+    			add_location(a4, file, 40, 2, 1163);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a0, anchor);
@@ -3141,9 +3170,11 @@ var app = (function () {
     			insert_dev(target, a2, anchor);
     			insert_dev(target, t5, anchor);
     			insert_dev(target, a3, anchor);
+    			insert_dev(target, t7, anchor);
+    			insert_dev(target, a4, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(a3, "click", /*logOut*/ ctx[2], false, false, false);
+    				dispose = listen_dev(a4, "click", /*logOut*/ ctx[2], false, false, false);
     				mounted = true;
     			}
     		},
@@ -3156,6 +3187,8 @@ var app = (function () {
     			if (detaching) detach_dev(a2);
     			if (detaching) detach_dev(t5);
     			if (detaching) detach_dev(a3);
+    			if (detaching) detach_dev(t7);
+    			if (detaching) detach_dev(a4);
     			mounted = false;
     			dispose();
     		}
@@ -3181,6 +3214,8 @@ var app = (function () {
     	let a2;
     	let t5;
     	let a3;
+    	let t7;
+    	let a4;
     	let mounted;
     	let dispose;
 
@@ -3190,25 +3225,31 @@ var app = (function () {
     			a0.textContent = "HOME";
     			t1 = space();
     			a1 = element("a");
-    			a1.textContent = "PROFILE";
+    			a1.textContent = "PONG";
     			t3 = space();
     			a2 = element("a");
-    			a2.textContent = "CHAT";
+    			a2.textContent = "PROFILE";
     			t5 = space();
     			a3 = element("a");
-    			a3.textContent = "LOGOUT";
+    			a3.textContent = "CHAT";
+    			t7 = space();
+    			a4 = element("a");
+    			a4.textContent = "LOGOUT";
     			attr_dev(a0, "class", "item svelte-s2ct73");
     			attr_dev(a0, "href", "#/");
     			add_location(a0, file, 30, 2, 759);
     			attr_dev(a1, "class", "item svelte-s2ct73");
-    			attr_dev(a1, "href", "#/profile");
-    			add_location(a1, file, 32, 2, 846);
+    			attr_dev(a1, "href", "#/pong");
+    			add_location(a1, file, 31, 2, 796);
     			attr_dev(a2, "class", "item svelte-s2ct73");
-    			attr_dev(a2, "href", "#/chat");
-    			add_location(a2, file, 33, 2, 893);
+    			attr_dev(a2, "href", "#/profile");
+    			add_location(a2, file, 32, 2, 837);
     			attr_dev(a3, "class", "item svelte-s2ct73");
-    			attr_dev(a3, "href", "http://localhost:8080/");
-    			add_location(a3, file, 34, 2, 934);
+    			attr_dev(a3, "href", "#/chat");
+    			add_location(a3, file, 33, 2, 884);
+    			attr_dev(a4, "class", "item svelte-s2ct73");
+    			attr_dev(a4, "href", "http://localhost:8080/");
+    			add_location(a4, file, 34, 2, 925);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a0, anchor);
@@ -3218,9 +3259,11 @@ var app = (function () {
     			insert_dev(target, a2, anchor);
     			insert_dev(target, t5, anchor);
     			insert_dev(target, a3, anchor);
+    			insert_dev(target, t7, anchor);
+    			insert_dev(target, a4, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(a3, "click", /*logOut*/ ctx[2], false, false, false);
+    				dispose = listen_dev(a4, "click", /*logOut*/ ctx[2], false, false, false);
     				mounted = true;
     			}
     		},
@@ -3233,6 +3276,8 @@ var app = (function () {
     			if (detaching) detach_dev(a2);
     			if (detaching) detach_dev(t5);
     			if (detaching) detach_dev(a3);
+    			if (detaching) detach_dev(t7);
+    			if (detaching) detach_dev(a4);
     			mounted = false;
     			dispose();
     		}

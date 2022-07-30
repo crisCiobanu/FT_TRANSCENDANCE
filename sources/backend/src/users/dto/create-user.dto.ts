@@ -1,7 +1,13 @@
 export class CreateUserDto{
     email : string;
-    name : string;
-    forname : string;
-    password: string;
+    userName : string;
+    firstName : string;
+    lastName : string;
+    password : string;
     age : number;
+    //wins: number;
+    //losses: number;
+    //level: number;
+    imageURL: string;
+
 }

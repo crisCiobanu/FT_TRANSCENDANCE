@@ -17,9 +17,12 @@ export class UsersController {
     async login(@Res() res, @Req() req) {
         console.log("A");
       const code = req.body.access_token;
+
       if (code) {
         console.log(code);
       }
+
+
       const formData= new FormData();
       console.log("B");
       formData.append('grant_type', 'authorization_code');
@@ -45,9 +48,36 @@ export class UsersController {
                 'Authorization': `Bearer ${token}`,
             },
         }).then(response => response.json());
-        console.log(profile.first_name);
+        //console.log(profile);
         //if (profile,first_name && profile.last_name);
         //return database profile;
+        const tmpUser = await this.userService.getByEmail(profile.email);
+        if (tmpUser)
+        return (res.status(HttpStatus.OK).send(JSON.stringify({
+        username: tmpUser.userName,
+        firstname: tmpUser.firstName,
+        lastname: tmpUser.lastName,
+        image_url: tmpUser.imageURL, 
+        logged: 'true',
+        wins: tmpUser.wins,
+        losses: tmpUser.losses,
+        level: tmpUser.level,  
+      })));
+        else
+        {
+          const newUser: CreateUserDto = { email: profile.email, 
+                                          userName: profile.login,
+                                          firstName: profile.first_name,
+                                          lastName: profile.last_name,
+                                          password: '',
+                                          age: 0,
+                                          //wins: 0,
+                                          //losses: 0,
+                                          //level: 1,
+                                          imageURL: profile.image_url,
+                                        };
+          this.userService.create(newUser);
+        }
         
         return (res.status(HttpStatus.OK).send(JSON.stringify({
           username: profile.login,

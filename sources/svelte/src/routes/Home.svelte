@@ -4,15 +4,30 @@ import { onMount } from 'svelte';
 import { level, logged, losses, username, wins, image_url, firstname, lastname } from '../stores.js';
 let isAuth;
 
+// function updateAll (isAuth: any) {
+//       logged.update(n => isAuth.logged);
+//       username.update(n => isAuth.username);
+//       wins.update(n => isAuth.wins);
+//       losses.update(n => isAuth.losses);
+//       level.update(n => isAuth.level);
+//       image_url.update(n => isAuth.image_url);
+//       firstname.update(n => isAuth.firstname);
+//       lastname.update(n => isAuth.lastname);
+//       console.log(isAuth);
+//       //TODO: modify values in database;
+
+// }
+
 function updateAll (isAuth: any) {
       logged.update(n => isAuth.logged);
       username.update(n => isAuth.username);
+      firstname.update(n => isAuth.firstname);
+      lastname.update(n => isAuth.lastname);
       wins.update(n => isAuth.wins);
       losses.update(n => isAuth.losses);
       level.update(n => isAuth.level);
       image_url.update(n => isAuth.image_url);
-      firstname.update(n => isAuth.firstname);
-      lastname.update(n => isAuth.lastname);
+
       console.log(isAuth);
       //TODO: modify values in database;
 
