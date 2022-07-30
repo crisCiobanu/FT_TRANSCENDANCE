@@ -35,6 +35,7 @@ export class UsersService {
         return this.userRepository.findOneBy( {email} );
     }
 
+
     // async findUserinDb(email : string) : Promise<User>{
     //     const tmpUser = this.getByEmail(email);
     //     if (tmpUser)

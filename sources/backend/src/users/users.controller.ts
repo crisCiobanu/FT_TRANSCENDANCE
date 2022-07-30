@@ -109,7 +109,7 @@ export class UsersController {
     create(@Body() createUserDto : CreateUserDto, @Param('id') par : number) : Promise<User>{
         return this.userService.create(createUserDto);
     }
-    
+
     @UseGuards(JwtGuard)
     @Get()
     findAll() : Promise<User[]>{
