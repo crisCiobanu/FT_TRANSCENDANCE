@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UploadImageDto } from './dto/image-upload.dto';
 import User from './user.entity';
 
 @Injectable()
@@ -49,6 +50,9 @@ export class UsersService {
         return newUser;
     }
 
+    async uploadFile(id : number, uploadImageDto: UploadImageDto) {
+
+    }
     // async findUserinDb(email : string) : Promise<User>{
     //     const tmpUser = this.getByEmail(email);
     //     if (tmpUser)

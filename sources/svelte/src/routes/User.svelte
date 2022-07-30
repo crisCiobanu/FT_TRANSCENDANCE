@@ -1,5 +1,5 @@
 <script>
-  import { level, logged, losses, id, username, wins, image_url, firstname, lastname } from '../stores.js';
+  import { level, logged, losses, username, wins, image_url, firstname, lastname, id } from '../stores.js';
   let user;
  async	function changeUserName() {
     username.update(n => user);
@@ -11,9 +11,9 @@
         {
          "Content-type": "application/json; charset=UTF-8",
         },
-        body: JSON.stringify({"id": $id, "username": user})
+        body: JSON.stringify({"username": user, "id": {$id}})
     }); 
-
+    console.log({$user});
     alert("Your username has beem changed to " + user)
     redirect("#/profile");
 		console.log({user});

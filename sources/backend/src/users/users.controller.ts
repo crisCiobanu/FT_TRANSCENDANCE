@@ -9,6 +9,7 @@ import * as FormData from 'form-data';
 import { UpdateUserNameDto } from './dto/update-user-name.dto';
 import { UpdateUserImageDto } from './dto/update-image.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import {diskStorage} from 'multer';
 
 @Controller('users')
 export class UsersController {
@@ -77,24 +78,52 @@ export class UsersController {
 
     @Post('updateusername')
     updateUser(@Body() updateUser : UpdateUserNameDto){
-        console.log("TEST TEST");
         return this.userService.changeUserName(updateUser.id, updateUser.username);
     }
+
+    // @Post('updateimage')
+    // updateUserImage(@Body() updateUser : UpdateUserImageDto){
+    //     return this.userService.changeUserImage(updateUser.id, updateUser.imageURL);
+    // }
+
+    // @Post('updateimage')
+    // @UseInterceptors(FileInterceptor('file', {
+    //   storage: diskStorage({
+    //     destination: './avatars',
+    //     filename: function(req, file, cb){
+    //       cb(null, file.originalname)
+    //     }
+    //   })
+    // }))
+    // async uploadFile(@UploadedFile() file: Express.Multer.File) {
+    // console.log(file);
+    // return "FILE UPLOAD SUCCEDED";
+    // }
     
     @Post('updateimage')
-    updateUserImage(@Body() updateUser : UpdateUserImageDto){
-        console.log("TEST TEST");
-        return this.userService.changeUserImage(updateUser.id, updateUser.imageURL);
-    }
-
-    @Post('file-upload')
-    @UseInterceptors(FileInterceptor('file'))
-    uploadFile(@UploadedFile() file: Express.Multer.File) {
+    @UseInterceptors(FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './avatars'
+      })
+    }))
+    uploadFile(@Req() request: UpdateUserImageDto, @UploadedFile() file: Express.Multer.File, @Res() res ){
     console.log(file);
-    return "FILE UPLOAD SUCCEDED";
+    // this.userService.changeUserImage(request.id, `/avatars/${file.filename}`);
+    this.userService.changeUserImage(request.id, "/img/pong.svg");
+    //return `/avatars/${file.filename}`;
+    return (res.status(HttpStatus.OK).send(JSON.stringify({url: "/img/pong.svg"})));
+   
+    
+
+
+    // return this.userService.uploadFile(request.id, {
+    //   path: file.path,
+    //   filename: file.originalname,
+    //   mimetype: file.mimetype
+    // });
     }
 
-    @UseGuards(JwtGuard)
+    //@UseGuards(JwtGuard)
     @Get()
     findAll() : Promise<User[]>{
         return this.userService.getAll();

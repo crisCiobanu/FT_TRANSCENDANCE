@@ -2450,7 +2450,7 @@ var app = (function () {
 
     const file$2 = "src/routes/Profile.svelte";
 
-    // (59:4) {:else}
+    // (71:4) {:else}
     function create_else_block$1(ctx) {
     	let h1;
 
@@ -2459,7 +2459,7 @@ var app = (function () {
     			h1 = element("h1");
     			h1.textContent = "ACCESS DENIED";
     			set_style(h1, "text-align", "center");
-    			add_location(h1, file$2, 59, 4, 2446);
+    			add_location(h1, file$2, 71, 4, 3097);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -2474,14 +2474,14 @@ var app = (function () {
     		block,
     		id: create_else_block$1.name,
     		type: "else",
-    		source: "(59:4) {:else}",
+    		source: "(71:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (38:4) {#if $logged}
+    // (50:4) {#if $logged}
     function create_if_block$1(ctx) {
     	let div0;
     	let img;
@@ -2499,7 +2499,7 @@ var app = (function () {
     	let div2;
     	let button;
     	let t8;
-    	let input_1;
+    	let input;
     	let t9;
     	let div3;
     	let a;
@@ -2536,18 +2536,18 @@ var app = (function () {
     			t0 = space();
     			div1 = element("div");
     			p = element("p");
-    			t1 = text(/*$firstname*/ ctx[3]);
+    			t1 = text(/*$firstname*/ ctx[4]);
     			t2 = space();
-    			t3 = text(/*$lastname*/ ctx[4]);
+    			t3 = text(/*$lastname*/ ctx[5]);
     			t4 = space();
     			h10 = element("h1");
-    			t5 = text(/*$username*/ ctx[5]);
+    			t5 = text(/*$username*/ ctx[6]);
     			t6 = space();
     			div2 = element("div");
     			button = element("button");
     			button.textContent = "Change profile picture";
     			t8 = space();
-    			input_1 = element("input");
+    			input = element("input");
     			t9 = space();
     			div3 = element("div");
     			a = element("a");
@@ -2559,74 +2559,74 @@ var app = (function () {
     			span0.textContent = "WINS";
     			t13 = space();
     			span1 = element("span");
-    			t14 = text(/*$wins*/ ctx[6]);
+    			t14 = text(/*$wins*/ ctx[7]);
     			t15 = space();
     			h12 = element("h1");
     			span2 = element("span");
     			span2.textContent = "LOSSES";
     			t17 = space();
     			span3 = element("span");
-    			t18 = text(/*$losses*/ ctx[7]);
+    			t18 = text(/*$losses*/ ctx[8]);
     			t19 = space();
     			h13 = element("h1");
     			span4 = element("span");
     			span4.textContent = "LEVEL   ";
     			span5 = element("span");
-    			t21 = text(/*$level*/ ctx[8]);
+    			t21 = text(/*$level*/ ctx[9]);
     			t22 = space();
     			h14 = element("h1");
     			span6 = element("span");
     			span6.textContent = "ID   ";
     			span7 = element("span");
-    			t24 = text(/*$id*/ ctx[9]);
+    			t24 = text(/*$id*/ ctx[2]);
     			attr_dev(img, "class", "profile svelte-dv22zd");
     			if (!src_url_equal(img.src, img_src_value = /*$image_url*/ ctx[1])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "width", "200px");
     			attr_dev(img, "alt", "Default Profile");
-    			add_location(img, file$2, 39, 8, 1434);
-    			add_location(div0, file$2, 38, 4, 1420);
+    			add_location(img, file$2, 51, 8, 2085);
+    			add_location(div0, file$2, 50, 4, 2071);
     			set_style(p, "text-align", "center");
     			set_style(p, "color", "grey");
     			set_style(p, "font-weight", "500");
-    			add_location(p, file$2, 42, 8, 1541);
+    			add_location(p, file$2, 54, 8, 2192);
     			attr_dev(h10, "class", "name svelte-dv22zd");
-    			add_location(h10, file$2, 43, 8, 1636);
-    			add_location(div1, file$2, 41, 4, 1527);
+    			add_location(h10, file$2, 55, 8, 2287);
+    			add_location(div1, file$2, 53, 4, 2178);
     			attr_dev(button, "class", "bt1 svelte-dv22zd");
-    			add_location(button, file$2, 46, 8, 1699);
-    			set_style(input_1, "display", "none");
-    			attr_dev(input_1, "type", "file");
-    			attr_dev(input_1, "accept", ".jpg, .jpeg, .png");
-    			add_location(input_1, file$2, 47, 8, 1795);
-    			add_location(div2, file$2, 45, 4, 1685);
+    			add_location(button, file$2, 58, 8, 2350);
+    			set_style(input, "display", "none");
+    			attr_dev(input, "type", "file");
+    			attr_dev(input, "accept", ".jpg, .jpeg, .png");
+    			add_location(input, file$2, 59, 8, 2446);
+    			add_location(div2, file$2, 57, 4, 2336);
     			attr_dev(a, "class", "bt2 svelte-dv22zd");
     			attr_dev(a, "href", "#/user");
-    			add_location(a, file$2, 50, 8, 1988);
+    			add_location(a, file$2, 62, 8, 2639);
     			set_style(div3, "margin", "0 auto");
     			set_style(div3, "width", "200px");
-    			add_location(div3, file$2, 49, 4, 1936);
+    			add_location(div3, file$2, 61, 4, 2587);
     			attr_dev(span0, "class", "sp1 svelte-dv22zd");
-    			add_location(span0, file$2, 53, 12, 2083);
+    			add_location(span0, file$2, 65, 12, 2734);
     			attr_dev(span1, "class", "sp2 svelte-dv22zd");
-    			add_location(span1, file$2, 53, 45, 2116);
-    			add_location(h11, file$2, 53, 8, 2079);
+    			add_location(span1, file$2, 65, 45, 2767);
+    			add_location(h11, file$2, 65, 8, 2730);
     			attr_dev(span2, "class", "sp1 svelte-dv22zd");
-    			add_location(span2, file$2, 54, 12, 2171);
+    			add_location(span2, file$2, 66, 12, 2822);
     			attr_dev(span3, "class", "sp2 svelte-dv22zd");
-    			add_location(span3, file$2, 54, 47, 2206);
-    			add_location(h12, file$2, 54, 8, 2167);
+    			add_location(span3, file$2, 66, 47, 2857);
+    			add_location(h12, file$2, 66, 8, 2818);
     			attr_dev(span4, "class", "sp1 svelte-dv22zd");
-    			add_location(span4, file$2, 55, 12, 2265);
+    			add_location(span4, file$2, 67, 12, 2916);
     			attr_dev(span5, "class", "sp2 svelte-dv22zd");
-    			add_location(span5, file$2, 55, 45, 2298);
-    			add_location(h13, file$2, 55, 8, 2261);
+    			add_location(span5, file$2, 67, 45, 2949);
+    			add_location(h13, file$2, 67, 8, 2912);
     			attr_dev(span6, "class", "sp1 svelte-dv22zd");
-    			add_location(span6, file$2, 56, 12, 2351);
+    			add_location(span6, file$2, 68, 12, 3002);
     			attr_dev(span7, "class", "sp2 svelte-dv22zd");
-    			add_location(span7, file$2, 56, 42, 2381);
-    			add_location(h14, file$2, 56, 8, 2347);
+    			add_location(span7, file$2, 68, 42, 3032);
+    			add_location(h14, file$2, 68, 8, 2998);
     			attr_dev(div4, "class", "tb1 svelte-dv22zd");
-    			add_location(div4, file$2, 52, 4, 2053);
+    			add_location(div4, file$2, 64, 4, 2704);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -2644,8 +2644,8 @@ var app = (function () {
     			insert_dev(target, div2, anchor);
     			append_dev(div2, button);
     			append_dev(div2, t8);
-    			append_dev(div2, input_1);
-    			/*input_1_binding*/ ctx[13](input_1);
+    			append_dev(div2, input);
+    			/*input_binding*/ ctx[13](input);
     			insert_dev(target, t9, anchor);
     			insert_dev(target, div3, anchor);
     			append_dev(div3, a);
@@ -2676,7 +2676,7 @@ var app = (function () {
     			if (!mounted) {
     				dispose = [
     					listen_dev(button, "click", /*click_handler*/ ctx[11], false, false, false),
-    					listen_dev(input_1, "change", /*change_handler*/ ctx[12], false, false, false)
+    					listen_dev(input, "change", /*change_handler*/ ctx[12], false, false, false)
     				];
 
     				mounted = true;
@@ -2687,13 +2687,13 @@ var app = (function () {
     				attr_dev(img, "src", img_src_value);
     			}
 
-    			if (dirty & /*$firstname*/ 8) set_data_dev(t1, /*$firstname*/ ctx[3]);
-    			if (dirty & /*$lastname*/ 16) set_data_dev(t3, /*$lastname*/ ctx[4]);
-    			if (dirty & /*$username*/ 32) set_data_dev(t5, /*$username*/ ctx[5]);
-    			if (dirty & /*$wins*/ 64) set_data_dev(t14, /*$wins*/ ctx[6]);
-    			if (dirty & /*$losses*/ 128) set_data_dev(t18, /*$losses*/ ctx[7]);
-    			if (dirty & /*$level*/ 256) set_data_dev(t21, /*$level*/ ctx[8]);
-    			if (dirty & /*$id*/ 512) set_data_dev(t24, /*$id*/ ctx[9]);
+    			if (dirty & /*$firstname*/ 16) set_data_dev(t1, /*$firstname*/ ctx[4]);
+    			if (dirty & /*$lastname*/ 32) set_data_dev(t3, /*$lastname*/ ctx[5]);
+    			if (dirty & /*$username*/ 64) set_data_dev(t5, /*$username*/ ctx[6]);
+    			if (dirty & /*$wins*/ 128) set_data_dev(t14, /*$wins*/ ctx[7]);
+    			if (dirty & /*$losses*/ 256) set_data_dev(t18, /*$losses*/ ctx[8]);
+    			if (dirty & /*$level*/ 512) set_data_dev(t21, /*$level*/ ctx[9]);
+    			if (dirty & /*$id*/ 4) set_data_dev(t24, /*$id*/ ctx[2]);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div0);
@@ -2701,7 +2701,7 @@ var app = (function () {
     			if (detaching) detach_dev(div1);
     			if (detaching) detach_dev(t6);
     			if (detaching) detach_dev(div2);
-    			/*input_1_binding*/ ctx[13](null);
+    			/*input_binding*/ ctx[13](null);
     			if (detaching) detach_dev(t9);
     			if (detaching) detach_dev(div3);
     			if (detaching) detach_dev(t11);
@@ -2715,7 +2715,7 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(38:4) {#if $logged}",
+    		source: "(50:4) {#if $logged}",
     		ctx
     	});
 
@@ -2726,7 +2726,7 @@ var app = (function () {
     	let main;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*$logged*/ ctx[2]) return create_if_block$1;
+    		if (/*$logged*/ ctx[3]) return create_if_block$1;
     		return create_else_block$1;
     	}
 
@@ -2738,7 +2738,7 @@ var app = (function () {
     			main = element("main");
     			if_block.c();
     			attr_dev(main, "class", "svelte-dv22zd");
-    			add_location(main, file$2, 36, 0, 1391);
+    			add_location(main, file$2, 48, 0, 2042);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2781,6 +2781,7 @@ var app = (function () {
 
     function instance$2($$self, $$props, $$invalidate) {
     	let $image_url;
+    	let $id;
     	let $logged;
     	let $firstname;
     	let $lastname;
@@ -2788,25 +2789,24 @@ var app = (function () {
     	let $wins;
     	let $losses;
     	let $level;
-    	let $id;
     	validate_store(image_url, 'image_url');
     	component_subscribe($$self, image_url, $$value => $$invalidate(1, $image_url = $$value));
-    	validate_store(logged, 'logged');
-    	component_subscribe($$self, logged, $$value => $$invalidate(2, $logged = $$value));
-    	validate_store(firstname, 'firstname');
-    	component_subscribe($$self, firstname, $$value => $$invalidate(3, $firstname = $$value));
-    	validate_store(lastname, 'lastname');
-    	component_subscribe($$self, lastname, $$value => $$invalidate(4, $lastname = $$value));
-    	validate_store(username, 'username');
-    	component_subscribe($$self, username, $$value => $$invalidate(5, $username = $$value));
-    	validate_store(wins, 'wins');
-    	component_subscribe($$self, wins, $$value => $$invalidate(6, $wins = $$value));
-    	validate_store(losses, 'losses');
-    	component_subscribe($$self, losses, $$value => $$invalidate(7, $losses = $$value));
-    	validate_store(level, 'level');
-    	component_subscribe($$self, level, $$value => $$invalidate(8, $level = $$value));
     	validate_store(id, 'id');
-    	component_subscribe($$self, id, $$value => $$invalidate(9, $id = $$value));
+    	component_subscribe($$self, id, $$value => $$invalidate(2, $id = $$value));
+    	validate_store(logged, 'logged');
+    	component_subscribe($$self, logged, $$value => $$invalidate(3, $logged = $$value));
+    	validate_store(firstname, 'firstname');
+    	component_subscribe($$self, firstname, $$value => $$invalidate(4, $firstname = $$value));
+    	validate_store(lastname, 'lastname');
+    	component_subscribe($$self, lastname, $$value => $$invalidate(5, $lastname = $$value));
+    	validate_store(username, 'username');
+    	component_subscribe($$self, username, $$value => $$invalidate(6, $username = $$value));
+    	validate_store(wins, 'wins');
+    	component_subscribe($$self, wins, $$value => $$invalidate(7, $wins = $$value));
+    	validate_store(losses, 'losses');
+    	component_subscribe($$self, losses, $$value => $$invalidate(8, $losses = $$value));
+    	validate_store(level, 'level');
+    	component_subscribe($$self, level, $$value => $$invalidate(9, $level = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Profile', slots, []);
 
@@ -2850,25 +2850,35 @@ var app = (function () {
     	let fileinput;
 
     	let avatar;
+    	let newImage;
 
-    	const onFileSelected = e => {
-    		let image = e.target.files[0];
-    		let reader = new FileReader();
-    		reader.readAsDataURL(image);
+    	function onFileSelected(e) {
+    		return __awaiter(this, void 0, void 0, function* () {
+    			let image = e.target.files[0];
 
-    		reader.onload = e => {
-    			avatar = e.target.result;
-    			image_url.update(n => avatar);
-    			console.log(avatar);
-    		};
-    	};
+    			//   console.log(image);
+    			var data = new FormData();
 
-    	let user = 'player';
-    	let input;
-    	let pseudo;
-    	let w = "-";
-    	let l = "-";
-    	let lev = "-";
+    			//  var file = document.getElementById('my-file-element').files[0]
+    			data.append('file', image);
+
+    			data.append('id', $id.toString());
+    			console.log(data.get('image'));
+    			console.log(data.get('id'));
+
+    			//   data.append('id', $id);
+    			// let reader = new FileReader();
+    			// reader.readAsDataURL(image);
+    			// reader.onload = e => {
+    			//      avatar = e.target.result
+    			//      image_url.update(n => avatar);
+    			//      console.log(avatar);
+    			newImage = yield fetch('http://localhost:3000/users/updateimage/', { method: 'post', body: data }).then(response => newImage = response.json());
+
+    			console.log(newImage.url);
+    			image_url.update(n => newImage.url);
+    		});
+    	}
 
     	onMount(() => __awaiter(void 0, void 0, void 0, function* () {
     		avatar = { $image_url };
@@ -2886,7 +2896,7 @@ var app = (function () {
 
     	const change_handler = e => onFileSelected(e);
 
-    	function input_1_binding($$value) {
+    	function input_binding($$value) {
     		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
     			fileinput = $$value;
     			$$invalidate(0, fileinput);
@@ -2907,34 +2917,24 @@ var app = (function () {
     		id,
     		fileinput,
     		avatar,
+    		newImage,
     		onFileSelected,
-    		user,
-    		input,
-    		pseudo,
-    		w,
-    		l,
-    		lev,
     		$image_url,
+    		$id,
     		$logged,
     		$firstname,
     		$lastname,
     		$username,
     		$wins,
     		$losses,
-    		$level,
-    		$id
+    		$level
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('__awaiter' in $$props) __awaiter = $$props.__awaiter;
     		if ('fileinput' in $$props) $$invalidate(0, fileinput = $$props.fileinput);
     		if ('avatar' in $$props) avatar = $$props.avatar;
-    		if ('user' in $$props) user = $$props.user;
-    		if ('input' in $$props) input = $$props.input;
-    		if ('pseudo' in $$props) pseudo = $$props.pseudo;
-    		if ('w' in $$props) w = $$props.w;
-    		if ('l' in $$props) l = $$props.l;
-    		if ('lev' in $$props) lev = $$props.lev;
+    		if ('newImage' in $$props) newImage = $$props.newImage;
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -2944,6 +2944,7 @@ var app = (function () {
     	return [
     		fileinput,
     		$image_url,
+    		$id,
     		$logged,
     		$firstname,
     		$lastname,
@@ -2951,11 +2952,10 @@ var app = (function () {
     		$wins,
     		$losses,
     		$level,
-    		$id,
     		onFileSelected,
     		click_handler,
     		change_handler,
-    		input_1_binding
+    		input_binding
     	];
     }
 
@@ -3014,26 +3014,26 @@ var app = (function () {
     			div2 = element("div");
     			a1 = element("a");
     			a1.textContent = "🔙";
-    			add_location(h2, file$1, 23, 2, 615);
+    			add_location(h2, file$1, 23, 2, 642);
     			set_style(input, "width", "150px");
     			attr_dev(input, "aria-label", "Enter new username");
-    			add_location(input, file$1, 25, 4, 655);
+    			add_location(input, file$1, 25, 4, 682);
     			attr_dev(a0, "href", "#/profile");
     			attr_dev(a0, "type", "submit");
     			attr_dev(a0, "value", "Submit");
     			attr_dev(a0, "class", "svelte-1nt2cii");
-    			add_location(a0, file$1, 27, 4, 751);
-    			add_location(div0, file$1, 26, 4, 741);
+    			add_location(a0, file$1, 27, 4, 778);
+    			add_location(div0, file$1, 26, 4, 768);
     			attr_dev(div1, "class", "link svelte-1nt2cii");
-    			add_location(div1, file$1, 29, 2, 848);
+    			add_location(div1, file$1, 29, 2, 875);
     			attr_dev(a1, "href", "#/profile");
     			attr_dev(a1, "class", "svelte-1nt2cii");
-    			add_location(a1, file$1, 32, 4, 901);
+    			add_location(a1, file$1, 32, 4, 928);
     			attr_dev(div2, "class", "link svelte-1nt2cii");
-    			add_location(div2, file$1, 31, 2, 878);
-    			add_location(div3, file$1, 24, 2, 645);
+    			add_location(div2, file$1, 31, 2, 905);
+    			add_location(div3, file$1, 24, 2, 672);
     			attr_dev(main, "class", "svelte-1nt2cii");
-    			add_location(main, file$1, 22, 0, 606);
+    			add_location(main, file$1, 22, 0, 633);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3089,9 +3089,14 @@ var app = (function () {
     }
 
     function instance$1($$self, $$props, $$invalidate) {
+    	let $user,
+    		$$unsubscribe_user = noop,
+    		$$subscribe_user = () => ($$unsubscribe_user(), $$unsubscribe_user = subscribe(user, $$value => $$invalidate(3, $user = $$value)), user);
+
     	let $id;
     	validate_store(id, 'id');
-    	component_subscribe($$self, id, $$value => $$invalidate(3, $id = $$value));
+    	component_subscribe($$self, id, $$value => $$invalidate(4, $id = $$value));
+    	$$self.$$.on_destroy.push(() => $$unsubscribe_user());
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('User', slots, []);
     	let user;
@@ -3105,9 +3110,10 @@ var app = (function () {
     			headers: {
     				"Content-type": "application/json; charset=UTF-8"
     			},
-    			body: JSON.stringify({ "id": $id, "username": user })
+    			body: JSON.stringify({ "username": user, "id": { $id } })
     		});
 
+    		console.log({ $user });
     		alert("Your username has beem changed to " + user);
     		redirect("#/profile");
     		console.log({ user });
@@ -3121,26 +3127,27 @@ var app = (function () {
 
     	function input_input_handler() {
     		user = this.value;
-    		$$invalidate(0, user);
+    		$$subscribe_user($$invalidate(0, user));
     	}
 
     	$$self.$capture_state = () => ({
     		level,
     		logged,
     		losses,
-    		id,
     		username,
     		wins,
     		image_url,
     		firstname,
     		lastname,
+    		id,
     		user,
     		changeUserName,
+    		$user,
     		$id
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('user' in $$props) $$invalidate(0, user = $$props.user);
+    		if ('user' in $$props) $$subscribe_user($$invalidate(0, user = $$props.user));
     	};
 
     	if ($$props && "$$inject" in $$props) {
