@@ -619,8 +619,8 @@ var app = (function () {
 
     //const on = localStorage.content;
 
-    const id$1 = writable(localStorage.getItem("id") || 0);
-    id$1.subscribe((val) => localStorage.setItem("id", val));
+    const id = writable(localStorage.getItem("id") || 0);
+    id.subscribe((val) => localStorage.setItem("id", val));
 
     const logged = writable(localStorage.getItem("logged") || false);
     logged.subscribe((val) => localStorage.setItem("logged", val));
@@ -1983,7 +1983,7 @@ var app = (function () {
     	//       //TODO: modify values in database;
     	// }
     	function updateAll(isAuth) {
-    		id$1.update(n => isAuth.id);
+    		id.update(n => isAuth.id);
     		logged.update(n => isAuth.logged);
     		username.update(n => isAuth.userName);
     		firstname.update(n => isAuth.firstName);
@@ -2038,7 +2038,7 @@ var app = (function () {
     		image_url,
     		firstname,
     		lastname,
-    		id: id$1,
+    		id,
     		isAuth,
     		updateAll,
     		$logged
@@ -2805,8 +2805,8 @@ var app = (function () {
     	component_subscribe($$self, losses, $$value => $$invalidate(7, $losses = $$value));
     	validate_store(level, 'level');
     	component_subscribe($$self, level, $$value => $$invalidate(8, $level = $$value));
-    	validate_store(id$1, 'id');
-    	component_subscribe($$self, id$1, $$value => $$invalidate(9, $id = $$value));
+    	validate_store(id, 'id');
+    	component_subscribe($$self, id, $$value => $$invalidate(9, $id = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Profile', slots, []);
 
@@ -2904,7 +2904,7 @@ var app = (function () {
     		image_url,
     		firstname,
     		lastname,
-    		id: id$1,
+    		id,
     		fileinput,
     		avatar,
     		onFileSelected,
@@ -3014,26 +3014,26 @@ var app = (function () {
     			div2 = element("div");
     			a1 = element("a");
     			a1.textContent = "🔙";
-    			add_location(h2, file$1, 23, 2, 609);
+    			add_location(h2, file$1, 23, 2, 615);
     			set_style(input, "width", "150px");
     			attr_dev(input, "aria-label", "Enter new username");
-    			add_location(input, file$1, 25, 4, 649);
+    			add_location(input, file$1, 25, 4, 655);
     			attr_dev(a0, "href", "#/profile");
     			attr_dev(a0, "type", "submit");
     			attr_dev(a0, "value", "Submit");
     			attr_dev(a0, "class", "svelte-1nt2cii");
-    			add_location(a0, file$1, 27, 4, 745);
-    			add_location(div0, file$1, 26, 4, 735);
+    			add_location(a0, file$1, 27, 4, 751);
+    			add_location(div0, file$1, 26, 4, 741);
     			attr_dev(div1, "class", "link svelte-1nt2cii");
-    			add_location(div1, file$1, 29, 2, 842);
+    			add_location(div1, file$1, 29, 2, 848);
     			attr_dev(a1, "href", "#/profile");
     			attr_dev(a1, "class", "svelte-1nt2cii");
-    			add_location(a1, file$1, 32, 4, 895);
+    			add_location(a1, file$1, 32, 4, 901);
     			attr_dev(div2, "class", "link svelte-1nt2cii");
-    			add_location(div2, file$1, 31, 2, 872);
-    			add_location(div3, file$1, 24, 2, 639);
+    			add_location(div2, file$1, 31, 2, 878);
+    			add_location(div3, file$1, 24, 2, 645);
     			attr_dev(main, "class", "svelte-1nt2cii");
-    			add_location(main, file$1, 22, 0, 600);
+    			add_location(main, file$1, 22, 0, 606);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3089,6 +3089,9 @@ var app = (function () {
     }
 
     function instance$1($$self, $$props, $$invalidate) {
+    	let $id;
+    	validate_store(id, 'id');
+    	component_subscribe($$self, id, $$value => $$invalidate(3, $id = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('User', slots, []);
     	let user;
@@ -3097,12 +3100,12 @@ var app = (function () {
     		username.update(n => user);
 
     		//TODO: transfer to database;
-    		await fetch("http://localhost:3000/users/updateusername", {
+    		await fetch("http://localhost:3000/users/updateusername/", {
     			method: 'POST',
     			headers: {
     				"Content-type": "application/json; charset=UTF-8"
     			},
-    			body: JSON.stringify({ "username": user, id })
+    			body: JSON.stringify({ "id": $id, "username": user })
     		});
 
     		alert("Your username has beem changed to " + user);
@@ -3125,13 +3128,15 @@ var app = (function () {
     		level,
     		logged,
     		losses,
+    		id,
     		username,
     		wins,
     		image_url,
     		firstname,
     		lastname,
     		user,
-    		changeUserName
+    		changeUserName,
+    		$id
     	});
 
     	$$self.$inject_state = $$props => {
