@@ -3,27 +3,32 @@
     import { level, logged, losses, username, wins, image_url, firstname, lastname, id } from '../stores.js';
   //  import HomeForm from "../components/HomeForm.svelte"
     
-    
     let fileinput;
     let avatar;
     const onFileSelected =(e)=>{
         let image = e.target.files[0];
-            let reader = new FileReader();
-            reader.readAsDataURL(image);
-            reader.onload = e => {
-                 avatar = e.target.result
-                 image_url.update(n => avatar);
-                 console.log(avatar);
-            };
-};  
+     //   console.log(image);
+        var data = new FormData();
+      //  var file = document.getElementById('my-file-element').files[0]
+        data.append('image', image);
+        data.append('id', $id.toString());
+        console.log(data.get('image'));
+        console.log(data.get('id'));
+     //   data.append('id', $id);
+            // let reader = new FileReader();
+            // reader.readAsDataURL(image);
+            // reader.onload = e => {
+            //      avatar = e.target.result
+            //      image_url.update(n => avatar);
+            //      console.log(avatar);
+                 fetch('http://localhost:3000/users/updateimage/', {
+                    method: 'post',
+                    body: data,
+                
+                 });
+                
+            };  
 
-    
-    let user ='player';
-    let input;
-    let pseudo;
-    let w = "-";
-    let l = "-";
-    let lev = "-";
     onMount(async () => {
         avatar = {$image_url};
     }

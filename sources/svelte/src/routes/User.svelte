@@ -1,19 +1,19 @@
 <script>
-  import { level, logged, losses, username, wins, image_url, firstname, lastname } from '../stores.js';
+  import { level, logged, losses, username, wins, image_url, firstname, lastname, id } from '../stores.js';
   let user;
  async	function changeUserName() {
     username.update(n => user);
 
     //TODO: transfer to database;
-    await fetch("http://localhost:3000/users/updateusername", {
+    await fetch("http://localhost:3000/users/updateusername/", {
       method: 'POST',
         headers: 
         {
          "Content-type": "application/json; charset=UTF-8",
         },
-        body: JSON.stringify({"username": user, "id": id})
+        body: JSON.stringify({"username": user, "id": {$id}})
     }); 
-
+    console.log({$user});
     alert("Your username has beem changed to " + user)
     redirect("#/profile");
 		console.log({user});
