@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Res, Header, HttpCode, HttpStatus, Param, Post, Redirect, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Res, Header, HttpCode, HttpStatus, Param, Post, Redirect, Req, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { Request } from 'express';
 import { runInThisContext } from 'vm';
 import { JwtGuard } from 'src/auth/jwt.guard';
@@ -7,6 +7,8 @@ import User from './user.entity';
 import { UsersService } from './users.service';
 import * as FormData from 'form-data';
 import { UpdateUserNameDto } from './dto/update-user-name.dto';
+import { UpdateUserImageDto } from './dto/update-image.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('users')
 export class UsersController {
@@ -66,28 +68,30 @@ export class UsersController {
           return this.userService.create(newUser);
 
         }
-        
-        // return (res.status(HttpStatus.OK).send(JSON.stringify({
-        //   username: profile.login,
-        //   firstname: profile.first_name,
-        //   lastname: profile.last_name,
-        //   image_url: profile.image_url, 
-        //   logged: 'true',
-        //   wins: 4,
-        //   losses: 2,
-        //   level: 1.5,
-  
-        // })))
     }
 
-    @Post(':id')
-    create(@Body() createUserDto : CreateUserDto, @Param('id') par : number) : Promise<User>{
-        return this.userService.create(createUserDto);
-    }
+    // @Post(':id')
+    // create(@Body() createUserDto : CreateUserDto, @Param('id') par : number) : Promise<User>{
+    //     return this.userService.create(createUserDto);
+    // }
 
-    @Post('updatensername')
+    @Post('updateusername')
     updateUser(@Body() updateUser : UpdateUserNameDto){
-        return this.userService.changeUserName(updateUser.id, updateUser.userName);
+        console.log("TEST TEST");
+        return this.userService.changeUserName(updateUser.id, updateUser.username);
+    }
+    
+    @Post('updateimage')
+    updateUserImage(@Body() updateUser : UpdateUserImageDto){
+        console.log("TEST TEST");
+        return this.userService.changeUserImage(updateUser.id, updateUser.imageURL);
+    }
+
+    @Post('file-upload')
+    @UseInterceptors(FileInterceptor('file'))
+    uploadFile(@UploadedFile() file: Express.Multer.File) {
+    console.log(file);
+    return "FILE UPLOAD SUCCEDED";
     }
 
     @UseGuards(JwtGuard)

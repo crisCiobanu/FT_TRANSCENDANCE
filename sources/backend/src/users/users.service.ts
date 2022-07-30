@@ -42,6 +42,13 @@ export class UsersService {
         return newUser;
     }
 
+    async changeUserImage(id: number, imageURL: string): Promise<User>{
+        const newUser = await this.userRepository.findOneBy({ id });
+        newUser.imageURL = imageURL;
+        await this.userRepository.save(newUser);
+        return newUser;
+    }
+
     // async findUserinDb(email : string) : Promise<User>{
     //     const tmpUser = this.getByEmail(email);
     //     if (tmpUser)
