@@ -103,15 +103,18 @@ export class UsersController {
     @Post('updateimage')
     @UseInterceptors(FileInterceptor('file', {
       storage: diskStorage({
-        destination: './avatars'
+        destination: './public',
+        filename: function(req, file, cb){
+          cb(null, file.originalname)
+        }
       })
     }))
     uploadFile(@Req() request: UpdateUserImageDto, @UploadedFile() file: Express.Multer.File, @Res() res ){
     console.log(file);
     // this.userService.changeUserImage(request.id, `/avatars/${file.filename}`);
-    this.userService.changeUserImage(request.id, "/img/pong.svg");
+    this.userService.changeUserImage(request.id, `http://localhost:3000/public/${file.filename}`);
     //return `/avatars/${file.filename}`;
-    return (res.status(HttpStatus.OK).send(JSON.stringify({url: "/img/pong.svg"})));
+    return (res.status(HttpStatus.OK).send(JSON.stringify({url: `http://localhost:3000/public/${file.filename}`})));
    
     
 
