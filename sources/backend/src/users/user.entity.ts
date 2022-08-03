@@ -47,6 +47,14 @@ export class User {
     })
     public imageURL: string;
 
+    @Column({
+        default: false
+    })
+    public isActivated: boolean;
+
+    @Column()
+    public activationLink: string;
+
     @Column()
     public password: string;
 
@@ -54,6 +62,11 @@ export class User {
         default: true
     })
     public logged: boolean;
+
+    @Column({
+        default: false
+    })
+    public TWOFA: boolean;
 }
 
 export default User;

@@ -6,8 +6,14 @@ import { browser } from '$app/env';
 export const id = writable(localStorage.getItem("id") || 0);
 id.subscribe((val) => localStorage.setItem("id", val));
 
-export const logged = writable(localStorage.getItem("logged") || false);
+export const logged = writable(localStorage.getItem("logged") || "false");
 logged.subscribe((val) => localStorage.setItem("logged", val));
+
+export const intra = writable(localStorage.getItem("intra") || "false");
+intra.subscribe((val) => localStorage.setItem("intra", val));
+
+export const TWOFA = writable(localStorage.getItem("TWOFA") || "false");
+TWOFA.subscribe((val) => localStorage.setItem("TWOFA", val));
 
 export const level = writable(localStorage.getItem("level") || 0);
 level.subscribe((val) => localStorage.setItem("level", val));
@@ -29,6 +35,9 @@ firstname.subscribe((val) => localStorage.setItem("firstname", val));
 
 export const lastname = writable(localStorage.getItem("lastname") || "");
 lastname.subscribe((val) => localStorage.setItem("lastname", val));
+
+export const cookie = writable(localStorage.getItem("cookie") || "");
+cookie.subscribe((val) => localStorage.setItem("cookie", val));
 
 // const itemName = "array";
 // const retrieved = localStorage.getItem(itemName);

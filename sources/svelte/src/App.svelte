@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import { level, logged, losses, username, wins, image_url, firstname, lastname } from './stores.js';
+import { level, logged, losses, username, wins, image_url, firstname, lastname, intra, cookie } from './stores.js';
 import Router from "svelte-spa-router";
 import Chat from "./routes/Chat.svelte";
 import Home from "./routes/Home.svelte";
@@ -20,10 +20,12 @@ let routes = {
 
 	}
 	function logOut () {
-		if ($logged)
+		if ($intra == 'true')
 		{
-			logged.update(n => false);
-			alert("You successfully logged out");
+			logged.update(n => 'false');
+			intra.update(n => 'false');
+			cookie.update(n => "");
+			alert('✅ You successfully logged out');
 		}
 	};
 
@@ -32,12 +34,12 @@ let routes = {
 <main>
 	<img src="img/pong.svg" style="width: 300px;" alt="Pong icon">
 	<nav class="menu">
-		{#if $logged}
+		{#if $logged == 'true'}
 		<a class="item" href="#/">HOME</a>
 		<a class="item" href="#/pong">PONG</a>
 		<a class="item" href="#/profile">PROFILE</a>
 		<a class="item" href="#/chat">CHAT</a>
-		<a class="item" on:click={logOut} href="http://localhost:8080/">LOGOUT</a>
+		<a class="item" on:click={logOut} href="#/">LOGOUT</a>
 		{:else}
 		<a class="item" href="#/">HOME</a>
 		<a class="item" href="#/">PONG</a>

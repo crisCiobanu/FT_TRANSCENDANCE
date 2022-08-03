@@ -10,11 +10,13 @@ import { UpdateUserNameDto } from './dto/update-user-name.dto';
 import { UpdateUserImageDto } from './dto/update-image.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {diskStorage} from 'multer';
+import {v4 as uuidv4} from 'uuid'
+import { MailService } from 'src/auth/mail.service';
 
 @Controller('users')
 export class UsersController {
 
-    constructor (private userService : UsersService) {
+    constructor (private userService : UsersService, private mailService: MailService) {
     }
 
     @Post('callback')
@@ -42,30 +44,39 @@ export class UsersController {
           body: formData.getBuffer().toString(),
     
         });
-     console.log(api.status);
-      const {access_token: token, refresh_token: refresh_token} =
+     //console.log(api.status);
+      const {access_token: token} =
               await api.json();
-      console.log(token);
+      //console.log(token);
       const profile = await fetch('https://api.intra.42.fr/v2/me', {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
         }).then(response => response.json());
-        //console.log(profile);
-        //if (profile,first_name && profile.last_name);
-        //return database profile;
+
         const tmpUser = await this.userService.getByEmail(profile.email);
-        if (tmpUser)
+
+
+
+
+        if (tmpUser){
+        //   if(true) // TO DO 2fa activation
+        //     this.mailService.sendActivationMail();    
           return (res.status(HttpStatus.OK).send(JSON.stringify(tmpUser)));
+        }
         else
         {
+          const activLink = uuidv4();
           const newUser: CreateUserDto = { email: profile.email, 
                                           userName: profile.login,
                                           firstName: profile.first_name,
                                           lastName: profile.last_name,
                                           password: '',
                                           imageURL: profile.image_url,
+                                          activationLink: activLink
                                         };
+        // if(true) // TO DO 2fa activation
+        //   this.mailService.sendActivationMail();
           return this.userService.create(newUser);
 
         }
@@ -77,6 +88,7 @@ export class UsersController {
     // }
 
     @Post('updateusername')
+    @UseGuards(JwtGuard)
     updateUser(@Body() updateUser : UpdateUserNameDto){
         return this.userService.changeUserName(updateUser.id, updateUser.username);
     }
@@ -101,6 +113,7 @@ export class UsersController {
     // }
     
     @Post('updateimage')
+    //@UseGuards(JwtGuard)
     @UseInterceptors(FileInterceptor('file', {
       storage: diskStorage({
         destination: './public',
@@ -130,6 +143,12 @@ export class UsersController {
     @Get()
     findAll() : Promise<User[]>{
         return this.userService.getAll();
+    }
+
+    @Post('twofa')
+    @UseGuards(JwtGuard)
+    twofa(@Res({passthrough: true}) res: Response, @Req() req: any) : Promise<User>{
+        return this.userService.changeTWOFA(req.user.email);
     }
 
     @Get(':id')

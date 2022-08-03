@@ -3,7 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UploadImageDto } from './dto/image-upload.dto';
+import { Profile } from 'passport-42';
 import User from './user.entity';
+import {v4 as uuidv4} from 'uuid';
 
 @Injectable()
 export class UsersService {
@@ -50,9 +52,38 @@ export class UsersService {
         return newUser;
     }
 
+    async changeTWOFA(email: string): Promise<User>{
+        const newUser = await this.userRepository.findOneBy({ email });
+        newUser.TWOFA = !(newUser.TWOFA);
+        await this.userRepository.save(newUser);
+        return newUser;
+    }
+
     async uploadFile(id : number, uploadImageDto: UploadImageDto) {
 
     }
+
+//     async validateUser(profile : Profile){
+//         const tmpUser = await this.getByEmail(profile.email);
+
+//         if (tmpUser){   
+//             return tmpUser;
+//         }
+//         else
+//         {
+//           const activLink = uuidv4();
+//           const newUser: CreateUserDto = { email: profile.email, 
+//                                           userName: profile.login,
+//                                           firstName: profile.first_name,
+//                                           lastName: profile.last_name,
+//                                           password: '',
+//                                           imageURL: profile.image_url,
+//                                           activationLink: activLink
+//                                         };
+//           return this.create(newUser);
+
+//     }
+// }
     // async findUserinDb(email : string) : Promise<User>{
     //     const tmpUser = this.getByEmail(email);
     //     if (tmpUser)

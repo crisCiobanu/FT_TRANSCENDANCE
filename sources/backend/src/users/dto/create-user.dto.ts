@@ -5,5 +5,6 @@ export class CreateUserDto{
     lastName : string;
     password : string;
     imageURL: string;
+    activationLink: string;
 
 }
