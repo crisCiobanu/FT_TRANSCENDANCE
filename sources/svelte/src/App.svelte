@@ -8,6 +8,7 @@ import NotFound from "./routes/NotFound.svelte";
 import Pong from "./routes/Pong.svelte";
 import Profile from "./routes/Profile.svelte";
 import User from "./routes/User.svelte";
+import Usermail from "./routes/Usermail.svelte";
 
 let routes = {
 	// "/": Home,
@@ -16,6 +17,7 @@ let routes = {
 	"/chat": Chat,
 	"/profile": Profile,
 	"/user": User,
+	"/usermail": Usermail,
 	"/*": NotFound,
 
 	}
@@ -24,10 +26,18 @@ let routes = {
 		{
 			logged.update(n => 'false');
 			intra.update(n => 'false');
-			cookie.update(n => "");
-			alert('✅ You successfully logged out');
+		//	cookie.update(n => "");
+		var cookies = document.cookie.split(";");
+
+		for (var i = 0; i < cookies.length; i++) {
+			var cookie = cookies[i];
+			var eqPos = cookie.indexOf("=");
+			var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+			document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+			}
 		}
-	};
+			alert('✅ You successfully logged out');
+		};
 
 </script>
 

@@ -2,7 +2,7 @@
 import { onMount } from 'svelte';
 import axios from 'axios';
 // import * as cookie from "cookie";
-import { level, logged, losses, username, wins, image_url, firstname, lastname, id, intra, TWOFA, cookie } from '../stores.js';
+import { level, logged, losses, username, wins, image_url, firstname, lastname, id, intra, TWOFA, cookie, email, ownmail } from '../stores.js';
 let isAuth;
 let code;
 let error = false;
@@ -29,7 +29,6 @@ async function sendCode() {
 
 function updateAll (isAuth: any) {
       id.update(n => isAuth.id);
-    //  logged.update(n => isAuth.logged);
       username.update(n => isAuth.userName);
       firstname.update(n => isAuth.firstName);
       lastname.update(n => isAuth.lastName);
@@ -38,69 +37,33 @@ function updateAll (isAuth: any) {
       level.update(n => isAuth.level);
       image_url.update(n => isAuth.imageURL);
       TWOFA.update(n => isAuth.TWOFA.toString());
-
-      console.log(isAuth);
-      //TODO: modify values in database;
-
+      email.update(n => isAuth.email);
 }
 
 onMount(async () => {
-  if ($logged == 'false')
+  let cookies = document.cookie.split(';').find(n => n.startsWith('access_token'));
+  if (cookies == "") {
+    return;
+  }
+  if ($intra == 'false')
   {
-    let cookies = document.cookie.split(';').find(n => n.startsWith('access_token'));
-    cookie.update(n =>cookies.split('=')[1]);
-    console.log(cookie);
-  //   isAuth = await axios.get('http://loclahost:3000/auth/currentuser', {
-  //     withCredentials: true,
-  //     headers: {
-  //       Authorization: 'Bearer ' + cookie
-  //     }
-  //  })
-  //  console.log(isAuth.json());
-    isAuth = await fetch("http://127.0.0.1:3000/auth/currentuser", 
-    {
-        method: 'GET',
-        credentials: 'include',
-        headers: 
-        {
-         // Cookie: "xxx=yyy",
-         'Authorization': 'Bearer ' + $cookie,
-         "Content-type": "application/json; charset=UTF-8"
-        },
-    }).then(response => isAuth = response.json());
-    console.log(isAuth);
-          console.log("logged");
+            cookie.update(n =>cookies.split('=')[1]);
+          isAuth = await fetch("http://127.0.0.1:3000/auth/currentuser", 
+          {
+              method: 'GET',
+              credentials: 'include',
+              headers: 
+              {
+              'Authorization': 'Bearer ' + $cookie,
+              "Content-type": "application/json; charset=UTF-8"
+              },
+          }).then(response => isAuth = response.json());
           updateAll(isAuth);
           intra.update(n => 'true');
-    // const searchParams = new URLSearchParams(window.location.search);
-    // const code = searchParams.get("code");
-    // console.log(code);
-    // console.log("A");
-    // if (code != null) 
-    // {
-    //   isAuth = await fetch("http://localhost:3000/users/callback/", 
-    //   {
-    //     method: 'POST',
-    //     headers: 
-    //     {
-    //      "Content-type": "application/json; charset=UTF-8"
-    //     },
-    //     body: JSON.stringify({"access_token": `${code}`,})
-    //   }).then(response => isAuth = response.json());
-    //     console.log(isAuth);
-    //   if (isAuth.logged) 
-    //   {
-    //       console.log("logged");
-    //       updateAll(isAuth);
-    //       intra.update(n => 'true');
-    //   }
-      if ($TWOFA == 'true')
-      {
-          //Send mail via backend
-      }
-      else {
-        logged.update(n => 'true');
-      }
+            if ($TWOFA == 'false')
+            {
+              logged.update(n => 'true');
+            }
     }
     return;
   }
@@ -134,21 +97,22 @@ onMount(async () => {
     <a href="#/profile" on:click={sendCode} type="submit" value="Submit" style="display: block;margin: 0 auto;">Send</a>
     </div>
     {:else}
-    <!-- <a href="https://api.intra.42.fr/oauth/authorize?client_id=3e6e67d52700f32ea72111aee9b04403f78ba98745a76856cf11003de9399fa2&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&response_type=code" class="api">Connect with<br><img src="img/42_logo.png" width="40px" alt="42 logo"/></a> -->
-    <a href="http://localhost:3000/auth/42" class="api" style="  color: rgb(255, 255, 255);
-    text-align: center;
-    width: 100px;
-    padding: 5px;
-    padding-left:40px;
-    padding-right: 40px;
-    margin: 0 auto;
-    align-items: center;
-    align-content: center;
-    display: block;
-    margin-top: 30px;
-    background-color: rgb(25, 184, 173);
-    line-height: 2;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Connect with<br><img src="img/42_logo.png" width="40px" alt="42 logo"/></a>
+    <a href="http://localhost:3000/auth/42" class="api" style="color: rgb(255, 255, 255);
+      text-align: center;
+      width: 100px;
+      padding: 5px;
+      padding-left:40px;
+      padding-right: 40px;
+      margin: 0 auto;
+      align-items: center;
+      align-content: center;
+      display: block;
+      margin-top: 30px;
+      background-color: rgb(25, 184, 173);
+      line-height: 2;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+      Connect with<br><img src="img/42_logo.png" width="40px" alt="42 logo"/>
+      </a>
     {/if}
 </main>
   

@@ -39,6 +39,12 @@ lastname.subscribe((val) => localStorage.setItem("lastname", val));
 export const cookie = writable(localStorage.getItem("cookie") || "");
 cookie.subscribe((val) => localStorage.setItem("cookie", val));
 
+export const email = writable(localStorage.getItem("email") || "");
+email.subscribe((val) => localStorage.setItem("email", val));
+
+export const ownmail = writable(localStorage.getItem("ownmail") || "");
+ownmail.subscribe((val) => localStorage.setItem("ownmail", val));
+
 // const itemName = "array";
 // const retrieved = localStorage.getItem(itemName);
 // //const parsed = JSON.parse(retrieved);
