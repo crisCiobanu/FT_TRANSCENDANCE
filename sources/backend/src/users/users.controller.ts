@@ -6,17 +6,17 @@ import { CreateUserDto } from './dto/create-user.dto';
 import User from './user.entity';
 import { UsersService } from './users.service';
 import * as FormData from 'form-data';
-import { UpdateUserNameDto } from './dto/update-user-name.dto';
+import { UpdateUserEmailDto, UpdateUserNameDto } from './dto/update-user-name.dto';
 import { UpdateUserImageDto } from './dto/update-image.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {diskStorage} from 'multer';
 import {v4 as uuidv4} from 'uuid'
-import { MailService } from 'src/auth/mail.service';
+import { MyMailService } from 'src/auth/mail.service';
 
 @Controller('users')
 export class UsersController {
 
-    constructor (private userService : UsersService, private mailService: MailService) {
+    constructor (private userService : UsersService, private mailService: MyMailService) {
     }
 
     @Post('callback')
@@ -91,6 +91,12 @@ export class UsersController {
     @UseGuards(JwtGuard)
     updateUser(@Body() updateUser : UpdateUserNameDto){
         return this.userService.changeUserName(updateUser.id, updateUser.username);
+    }
+
+    @Post('updatemail')
+    //@UseGuards(JwtGuard)
+    updateEmail(@Body() updateUser : UpdateUserEmailDto){
+        return this.userService.changeUserEmail(updateUser.id, updateUser.email);
     }
 
     // @Post('updateimage')

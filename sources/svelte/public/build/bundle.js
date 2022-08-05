@@ -3787,7 +3787,7 @@ var app = (function () {
 
     const file$5 = "src/routes/Home.svelte";
 
-    // (114:4) {:else}
+    // (133:4) {:else}
     function create_else_block$2(ctx) {
     	let a;
     	let t;
@@ -3802,15 +3802,29 @@ var app = (function () {
     			br = element("br");
     			img = element("img");
     			attr_dev(br, "class", "svelte-p7wf28");
-    			add_location(br, file$5, 115, 56, 5471);
+    			add_location(br, file$5, 147, 96, 6461);
     			if (!src_url_equal(img.src, img_src_value = "img/42_logo.png")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "width", "40px");
     			attr_dev(img, "alt", "42 logo");
     			attr_dev(img, "class", "svelte-p7wf28");
-    			add_location(img, file$5, 115, 60, 5475);
+    			add_location(img, file$5, 147, 100, 6465);
     			attr_dev(a, "href", "http://localhost:3000/auth/42");
-    			attr_dev(a, "class", "svelte-p7wf28");
-    			add_location(a, file$5, 115, 4, 5419);
+    			attr_dev(a, "class", "api svelte-p7wf28");
+    			set_style(a, "color", "rgb(255, 255, 255)");
+    			set_style(a, "text-align", "center");
+    			set_style(a, "width", "100px");
+    			set_style(a, "padding", "5px");
+    			set_style(a, "padding-left", "40px");
+    			set_style(a, "padding-right", "40px");
+    			set_style(a, "margin", "0 auto");
+    			set_style(a, "align-items", "center");
+    			set_style(a, "align-content", "center");
+    			set_style(a, "display", "block");
+    			set_style(a, "margin-top", "30px");
+    			set_style(a, "background-color", "rgb(25, 184, 173)");
+    			set_style(a, "line-height", "2");
+    			set_style(a, "font-family", "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif");
+    			add_location(a, file$5, 134, 4, 5994);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -3828,23 +3842,25 @@ var app = (function () {
     		block,
     		id: create_else_block$2.name,
     		type: "else",
-    		source: "(114:4) {:else}",
+    		source: "(133:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (108:31) 
+    // (124:31) 
     function create_if_block_1$1(ctx) {
     	let div;
     	let h2;
     	let t1;
     	let input;
     	let t2;
+    	let t3;
     	let a;
     	let mounted;
     	let dispose;
+    	let if_block = /*error*/ ctx[1] == true && create_if_block_2(ctx);
 
     	const block = {
     		c: function create() {
@@ -3854,11 +3870,13 @@ var app = (function () {
     			t1 = space();
     			input = element("input");
     			t2 = space();
+    			if (if_block) if_block.c();
+    			t3 = space();
     			a = element("a");
     			a.textContent = "Send";
     			set_style(h2, "text-align", "center");
     			attr_dev(h2, "class", "svelte-p7wf28");
-    			add_location(h2, file$5, 109, 4, 4733);
+    			add_location(h2, file$5, 125, 4, 5207);
     			set_style(input, "width", "150px");
     			set_style(input, "display", "block");
     			set_style(input, "margin", "0 auto");
@@ -3866,44 +3884,58 @@ var app = (function () {
     			set_style(input, "text-align", "center");
     			attr_dev(input, "placeholder", "2FA code");
     			attr_dev(input, "class", "svelte-p7wf28");
-    			add_location(input, file$5, 110, 4, 4835);
+    			add_location(input, file$5, 126, 4, 5309);
     			attr_dev(a, "href", "#/profile");
     			attr_dev(a, "type", "submit");
     			attr_dev(a, "value", "Submit");
     			set_style(a, "display", "block");
     			set_style(a, "margin", "0 auto");
     			attr_dev(a, "class", "svelte-p7wf28");
-    			add_location(a, file$5, 111, 4, 4984);
+    			add_location(a, file$5, 130, 4, 5559);
     			set_style(div, "margin", "0 auto");
     			set_style(div, "display", "block");
     			attr_dev(div, "class", "svelte-p7wf28");
-    			add_location(div, file$5, 108, 4, 4684);
+    			add_location(div, file$5, 124, 4, 5158);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, h2);
     			append_dev(div, t1);
     			append_dev(div, input);
-    			set_input_value(input, /*user*/ ctx[0]);
+    			set_input_value(input, /*code*/ ctx[0]);
     			append_dev(div, t2);
+    			if (if_block) if_block.m(div, null);
+    			append_dev(div, t3);
     			append_dev(div, a);
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(input, "input", /*input_input_handler*/ ctx[4]),
-    					listen_dev(a, "click", /*sendCode*/ ctx[3], false, false, false)
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[5]),
+    					listen_dev(a, "click", /*sendCode*/ ctx[4], false, false, false)
     				];
 
     				mounted = true;
     			}
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*user*/ 1 && input.value !== /*user*/ ctx[0]) {
-    				set_input_value(input, /*user*/ ctx[0]);
+    			if (dirty & /*code*/ 1 && input.value !== /*code*/ ctx[0]) {
+    				set_input_value(input, /*code*/ ctx[0]);
+    			}
+
+    			if (/*error*/ ctx[1] == true) {
+    				if (if_block) ; else {
+    					if_block = create_if_block_2(ctx);
+    					if_block.c();
+    					if_block.m(div, t3);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
     			}
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
+    			if (if_block) if_block.d();
     			mounted = false;
     			run_all(dispose);
     		}
@@ -3913,14 +3945,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(108:31) ",
+    		source: "(124:31) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (93:2) {#if $logged == 'true'}
+    // (109:2) {#if $logged == 'true'}
     function create_if_block$2(ctx) {
     	let h1;
     	let t1;
@@ -3944,9 +3976,9 @@ var app = (function () {
     			set_style(h1, "font-weight", "700");
     			set_style(h1, "margin-top", "50px");
     			attr_dev(h1, "class", "svelte-p7wf28");
-    			add_location(h1, file$5, 93, 2, 3638);
+    			add_location(h1, file$5, 109, 2, 4112);
     			attr_dev(p, "class", "svelte-p7wf28");
-    			add_location(p, file$5, 95, 6, 3766);
+    			add_location(p, file$5, 111, 6, 4240);
     			if (!src_url_equal(img.src, img_src_value = "img/console.png")) attr_dev(img, "src", img_src_value);
     			set_style(img, "margin", "0px auto");
     			set_style(img, "display", "block");
@@ -3954,9 +3986,9 @@ var app = (function () {
     			set_style(img, "padding-top", "20px");
     			attr_dev(img, "alt", "First Pong Game console");
     			attr_dev(img, "class", "svelte-p7wf28");
-    			add_location(img, file$5, 105, 8, 4503);
+    			add_location(img, file$5, 121, 8, 4977);
     			attr_dev(div, "class", "about svelte-p7wf28");
-    			add_location(div, file$5, 94, 4, 3740);
+    			add_location(div, file$5, 110, 4, 4214);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -3978,7 +4010,39 @@ var app = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(93:2) {#if $logged == 'true'}",
+    		source: "(109:2) {#if $logged == 'true'}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (128:4) {#if error == true}
+    function create_if_block_2(ctx) {
+    	let p;
+
+    	const block = {
+    		c: function create() {
+    			p = element("p");
+    			p.textContent = "Wrong code number";
+    			set_style(p, "color", "red");
+    			set_style(p, "text-align", "center");
+    			attr_dev(p, "class", "svelte-p7wf28");
+    			add_location(p, file$5, 128, 4, 5482);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, p, anchor);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(p);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_2.name,
+    		type: "if",
+    		source: "(128:4) {#if error == true}",
     		ctx
     	});
 
@@ -3992,8 +4056,8 @@ var app = (function () {
     	let t1;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*$logged*/ ctx[1] == 'true') return create_if_block$2;
-    		if (/*$intra*/ ctx[2] == 'true') return create_if_block_1$1;
+    		if (/*$logged*/ ctx[2] == 'true') return create_if_block$2;
+    		if (/*$intra*/ ctx[3] == 'true') return create_if_block_1$1;
     		return create_else_block$2;
     	}
 
@@ -4004,13 +4068,13 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			p = element("p");
-    			t0 = text(/*$logged*/ ctx[1]);
+    			t0 = text(/*$logged*/ ctx[2]);
     			t1 = space();
     			if_block.c();
     			attr_dev(p, "class", "svelte-p7wf28");
-    			add_location(p, file$5, 91, 2, 3593);
+    			add_location(p, file$5, 107, 2, 4067);
     			attr_dev(main, "class", "svelte-p7wf28");
-    			add_location(main, file$5, 90, 0, 3584);
+    			add_location(main, file$5, 106, 0, 4058);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4023,7 +4087,7 @@ var app = (function () {
     			if_block.m(main, null);
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*$logged*/ 2) set_data_dev(t0, /*$logged*/ ctx[1]);
+    			if (dirty & /*$logged*/ 4) set_data_dev(t0, /*$logged*/ ctx[2]);
 
     			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
     				if_block.p(ctx, dirty);
@@ -4062,13 +4126,13 @@ var app = (function () {
     	let $logged;
     	let $intra;
     	validate_store(TWOFA, 'TWOFA');
-    	component_subscribe($$self, TWOFA, $$value => $$invalidate(6, $TWOFA = $$value));
+    	component_subscribe($$self, TWOFA, $$value => $$invalidate(7, $TWOFA = $$value));
     	validate_store(cookie, 'cookie');
-    	component_subscribe($$self, cookie, $$value => $$invalidate(7, $cookie = $$value));
+    	component_subscribe($$self, cookie, $$value => $$invalidate(8, $cookie = $$value));
     	validate_store(logged, 'logged');
-    	component_subscribe($$self, logged, $$value => $$invalidate(1, $logged = $$value));
+    	component_subscribe($$self, logged, $$value => $$invalidate(2, $logged = $$value));
     	validate_store(intra, 'intra');
-    	component_subscribe($$self, intra, $$value => $$invalidate(2, $intra = $$value));
+    	component_subscribe($$self, intra, $$value => $$invalidate(3, $intra = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Home', slots, []);
 
@@ -4109,9 +4173,26 @@ var app = (function () {
     	};
 
     	let isAuth;
-    	let user;
+    	let code;
+    	let error = false;
 
     	function sendCode() {
+    		return __awaiter(this, void 0, void 0, function* () {
+    			yield fetch('localhost:3000/auth/activation/' + { code }, {
+    				method: 'GET',
+    				headers: {
+    					'Authorization': 'Bearer ' + $cookie,
+    					"Content-type": "application/json; charset=UTF-8"
+    				}
+    			}).then(response => {
+    				if (response.ok) {
+    					logged.update(n => 'true');
+    					return;
+    				} else {
+    					$$invalidate(1, error = true);
+    				}
+    			});
+    		});
     	}
 
     	function updateAll(isAuth) {
@@ -4195,8 +4276,8 @@ var app = (function () {
     	});
 
     	function input_input_handler() {
-    		user = this.value;
-    		$$invalidate(0, user);
+    		code = this.value;
+    		$$invalidate(0, code);
     	}
 
     	$$self.$capture_state = () => ({
@@ -4215,7 +4296,8 @@ var app = (function () {
     		TWOFA,
     		cookie,
     		isAuth,
-    		user,
+    		code,
+    		error,
     		sendCode,
     		updateAll,
     		$TWOFA,
@@ -4227,14 +4309,15 @@ var app = (function () {
     	$$self.$inject_state = $$props => {
     		if ('__awaiter' in $$props) __awaiter = $$props.__awaiter;
     		if ('isAuth' in $$props) isAuth = $$props.isAuth;
-    		if ('user' in $$props) $$invalidate(0, user = $$props.user);
+    		if ('code' in $$props) $$invalidate(0, code = $$props.code);
+    		if ('error' in $$props) $$invalidate(1, error = $$props.error);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [user, $logged, $intra, sendCode, input_input_handler];
+    	return [code, error, $logged, $intra, sendCode, input_input_handler];
     }
 
     class Home extends SvelteComponentDev {

@@ -6,6 +6,7 @@ import User from "src/users/user.entity";
 import { UsersService } from "src/users/users.service";
 import { AuthenticationProvider } from "./auth";
 import { AuthService } from "./auth.service";
+import {v4 as uuidv4} from 'uuid';
 
 
 export class FourtyTwoStrategy extends PassportStrategy(Strategy) {
@@ -30,13 +31,14 @@ export class FourtyTwoStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(access_token: string, refresh_token: string, user: Profile) : Promise<User>{
+        const activLink = uuidv4();
         const newUser: CreateUserDto = { email: user['emails'][0]['value'] , 
             userName: user.username,
             firstName: user.name.givenName,
             lastName: user.name.familyName,
             password: '',
             imageURL: user['photos'][0]['value'],
-            activationLink: ''
+            activationLink: activLink,
           };
 
         console.log(newUser.userName, newUser.firstName, newUser.lastName, newUser.email, newUser.imageURL);

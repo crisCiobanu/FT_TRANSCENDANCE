@@ -4,11 +4,27 @@ import axios from 'axios';
 // import * as cookie from "cookie";
 import { level, logged, losses, username, wins, image_url, firstname, lastname, id, intra, TWOFA, cookie } from '../stores.js';
 let isAuth;
-let user;
+let code;
+let error = false;
 
-function sendCode() {
-    //Send code to backend and compare with generated code
-    $logged == 'true';
+async function sendCode() {
+
+    await fetch('localhost:3000/auth/activation/' + {code}, {
+      method: 'GET',
+      headers: 
+        {
+         'Authorization': 'Bearer ' + $cookie,
+         "Content-type": "application/json; charset=UTF-8"
+        },
+    }).then(response => {
+      if (response.ok) {
+        logged.update(n => 'true');
+        return;
+      }
+      else {
+        error = true;
+      }
+    } )
 }
 
 function updateAll (isAuth: any) {
@@ -111,12 +127,28 @@ onMount(async () => {
     {:else if $intra == 'true'}
     <div style="margin: 0 auto;display: block;">
     <h2 style="text-align: center">Check the authentication code we sent at your 42 mail address</h2>
-    <input style="width: 150px; display: block; margin: 0 auto; margin-bottom: 20px;text-align: center;" placeholder="2FA code" bind:value={user} />
+    <input style="width: 150px; display: block; margin: 0 auto; margin-bottom: 20px;text-align: center;" placeholder="2FA code" bind:value={code} />
+    {#if error == true}
+    <p style="color: red; text-align:center">Wrong code number</p>
+    {/if}
     <a href="#/profile" on:click={sendCode} type="submit" value="Submit" style="display: block;margin: 0 auto;">Send</a>
     </div>
     {:else}
     <!-- <a href="https://api.intra.42.fr/oauth/authorize?client_id=3e6e67d52700f32ea72111aee9b04403f78ba98745a76856cf11003de9399fa2&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&response_type=code" class="api">Connect with<br><img src="img/42_logo.png" width="40px" alt="42 logo"/></a> -->
-    <a href="http://localhost:3000/auth/42">Connect with<br><img src="img/42_logo.png" width="40px" alt="42 logo"/></a>
+    <a href="http://localhost:3000/auth/42" class="api" style="  color: rgb(255, 255, 255);
+    text-align: center;
+    width: 100px;
+    padding: 5px;
+    padding-left:40px;
+    padding-right: 40px;
+    margin: 0 auto;
+    align-items: center;
+    align-content: center;
+    display: block;
+    margin-top: 30px;
+    background-color: rgb(25, 184, 173);
+    line-height: 2;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Connect with<br><img src="img/42_logo.png" width="40px" alt="42 logo"/></a>
     {/if}
 </main>
   

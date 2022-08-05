@@ -10,6 +10,7 @@ import { ProductsModule } from './products/products.module';
 import { ChatGateway } from './chat/chat.gateway';
 import { AuthModule } from './auth/auth.module';
 import { join } from 'path';
+import { MailerModule } from '@nestjs-modules/mailer'
 import * as Joi from '@hapi/joi';
 
 @Module({
@@ -21,9 +22,21 @@ import * as Joi from '@hapi/joi';
       POSTGRES_PASSWORD: Joi.string().required(),
       POSTGRES_DB: Joi.string().required(),
       PORT: Joi.number(),
-    })
+    }),
   }
-  ), DatabaseModule, ProductsModule, AuthModule],
+  ), 
+  MailerModule.forRoot({
+    transport: {
+      host: 'smtp.zoho.eu',
+      port: 465,
+      secure: true,
+      auth: {
+        user: 'fourtytwotranscendence@zohomail.eu',
+        pass: 'Fourtytwo42.'
+      }
+    }
+  }),
+  DatabaseModule, ProductsModule, AuthModule],
   controllers: [AppController],
   providers: [AppService, ChatGateway],
 })

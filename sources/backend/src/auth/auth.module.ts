@@ -8,14 +8,16 @@ import { AuthService } from './auth.service';
 import { FourtyTwoStrategy } from './fourty-two.strategy';
 import { JwtGuard } from './jwt.guard';
 import { JwtStrategy } from './jwt.strategy';
-import { MailService } from './mail.service';
+import { MyMailService } from './mail.service';
+import { MailerModule } from '@nestjs-modules/mailer'
+
 
 @Module({
   controllers: [AuthController],
   providers: [AuthService, 
               FourtyTwoStrategy,
               JwtStrategy,
-              MailService,
+              MyMailService,
               {
                 provide: 'AUTH_SERVICE',
                 useClass: AuthService,
@@ -33,7 +35,7 @@ import { MailService } from './mail.service';
     TypeOrmModule.forFeature([User])
   ],
   exports: [
-    MailService,
+    MyMailService,
     JwtModule,
     {
       provide: 'AUTH_SERVICE',
