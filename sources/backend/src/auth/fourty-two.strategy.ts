@@ -34,6 +34,7 @@ export class FourtyTwoStrategy extends PassportStrategy(Strategy) {
         const activLink = uuidv4();
         const newUser: CreateUserDto = { email: user['emails'][0]['value'] , 
             userName: user.username,
+            userName42: user.username,
             firstName: user.name.givenName,
             lastName: user.name.familyName,
             password: '',

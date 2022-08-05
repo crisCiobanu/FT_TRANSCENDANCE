@@ -19,6 +19,11 @@ export class User {
     @Column({
         nullable: false
     })
+    public userName42: string;
+
+    @Column({
+        nullable: false
+    })
     public firstName: string;
 
     @Column({

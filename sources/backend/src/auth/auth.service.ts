@@ -46,20 +46,26 @@ export class AuthService implements AuthenticationProvider{
 
 
 async validateUser(user: CreateUserDto){
-        const tmpUser = await this.userService.getByEmail(user.email);
+        const tmpUser = await this.userService.getByLogin42(user.userName42);
 
-
-        console.log('HI FROM VALIDATE USER');
         if (tmpUser) 
             return tmpUser;
         else
           return this.userService.create(user);
 }
+
+async activateUser(userName42: string, code: string){
+    const tmpUser = await this.userService.getByLogin42(userName42);
+
+    if (tmpUser.activationLink == code) 
+        return true;
+    false;
+}
     createUser(details: CreateUserDto){
 
     }
-    findUser(email: string): Promise<User | undefined>{
-        return this.userService.getByEmail(email)
+    findUser(userName42: string): Promise<User | undefined>{
+        return this.userService.getByLogin42(userName42)
     }
 
 //     async validateUser(profile : Profile){

@@ -10,6 +10,7 @@ import { JwtGuard } from './jwt.guard';
 import { JwtStrategy } from './jwt.strategy';
 import { MyMailService } from './mail.service';
 import { MailerModule } from '@nestjs-modules/mailer'
+import SmsService from './sms.service';
 
 
 @Module({
@@ -18,6 +19,7 @@ import { MailerModule } from '@nestjs-modules/mailer'
               FourtyTwoStrategy,
               JwtStrategy,
               MyMailService,
+              SmsService,
               {
                 provide: 'AUTH_SERVICE',
                 useClass: AuthService,

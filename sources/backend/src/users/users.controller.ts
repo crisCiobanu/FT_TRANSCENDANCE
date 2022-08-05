@@ -19,68 +19,69 @@ export class UsersController {
     constructor (private userService : UsersService, private mailService: MyMailService) {
     }
 
-    @Post('callback')
-    async login(@Res() res, @Req() req) {
-        console.log("A");
-      const code = req.body.access_token;
+    // @Post('callback')
+    // async login(@Res() res, @Req() req) {
+    //     console.log("A");
+    //   const code = req.body.access_token;
 
-      if (code) {
-        console.log(code);
-      }
+    //   if (code) {
+    //     console.log(code);
+    //   }
 
-      const formData= new FormData();
-      console.log("B");
-      formData.append('grant_type', 'authorization_code');
-      formData.append('client_id', '3e6e67d52700f32ea72111aee9b04403f78ba98745a76856cf11003de9399fa2');
-      formData.append('client_secret', 'e5165b87afe9711afb6b729e50a10a6ea220a05524e1b48dc318951c9edb3d8a');
-       formData.append('code', code);
-       formData.append('redirect_uri', 'http://localhost:8080/');
-       console.log("C");
-      const api = await fetch('https://api.intra.42.fr/oauth/token', {
-        method: 'post',
-        headers: {
-          ...formData.getHeaders(),
-          },
-          body: formData.getBuffer().toString(),
+    //   const formData= new FormData();
+    //   console.log("B");
+    //   formData.append('grant_type', 'authorization_code');
+    //   formData.append('client_id', '3e6e67d52700f32ea72111aee9b04403f78ba98745a76856cf11003de9399fa2');
+    //   formData.append('client_secret', 'e5165b87afe9711afb6b729e50a10a6ea220a05524e1b48dc318951c9edb3d8a');
+    //    formData.append('code', code);
+    //    formData.append('redirect_uri', 'http://localhost:8080/');
+    //    console.log("C");
+    //   const api = await fetch('https://api.intra.42.fr/oauth/token', {
+    //     method: 'post',
+    //     headers: {
+    //       ...formData.getHeaders(),
+    //       },
+    //       body: formData.getBuffer().toString(),
     
-        });
-     //console.log(api.status);
-      const {access_token: token} =
-              await api.json();
-      //console.log(token);
-      const profile = await fetch('https://api.intra.42.fr/v2/me', {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        }).then(response => response.json());
+    //     });
+    //  //console.log(api.status);
+    //   const {access_token: token} =
+    //           await api.json();
+    //   //console.log(token);
+    //   const profile = await fetch('https://api.intra.42.fr/v2/me', {
+    //         headers: {
+    //             'Authorization': `Bearer ${token}`,
+    //         },
+    //     }).then(response => response.json());
 
-        const tmpUser = await this.userService.getByEmail(profile.email);
-
-
+    //     const tmpUser = await this.userService.getByEmail(profile.email);
 
 
-        if (tmpUser){
-        //   if(true) // TO DO 2fa activation
-        //     this.mailService.sendActivationMail();    
-          return (res.status(HttpStatus.OK).send(JSON.stringify(tmpUser)));
-        }
-        else
-        {
-          const activLink = uuidv4();
-          const newUser: CreateUserDto = { email: profile.email, 
-                                          userName: profile.login,
-                                          firstName: profile.first_name,
-                                          lastName: profile.last_name,
-                                          password: '',
-                                          imageURL: profile.image_url,
-                                          activationLink: activLink
-                                        };
-        // if(true) // TO DO 2fa activation
-        //   this.mailService.sendActivationMail();
-          return this.userService.create(newUser);
 
-        }
-    }
+
+    //     if (tmpUser){
+    //     //   if(true) // TO DO 2fa activation
+    //     //     this.mailService.sendActivationMail();    
+    //       return (res.status(HttpStatus.OK).send(JSON.stringify(tmpUser)));
+    //     }
+    //     else
+    //     {
+    //       const activLink = uuidv4();
+    //       const newUser: CreateUserDto = { email: profile.email, 
+    //                                       userName: profile.login,
+    //                                       userName42: profile.login,
+    //                                       firstName: profile.first_name,
+    //                                       lastName: profile.last_name,
+    //                                       password: '',
+    //                                       imageURL: profile.image_url,
+    //                                       activationLink: activLink
+    //                                     };
+    //     // if(true) // TO DO 2fa activation
+    //     //   this.mailService.sendActivationMail();
+    //       return this.userService.create(newUser);
+
+    //     }
+    // }
 
     // @Post(':id')
     // create(@Body() createUserDto : CreateUserDto, @Param('id') par : number) : Promise<User>{

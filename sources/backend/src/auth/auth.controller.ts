@@ -7,7 +7,8 @@ import { FourtyTwoGuard } from './fourty-two.guard';
 import { JwtGuard } from './jwt.guard';
 import { UsersService } from 'src/users/users.service';
 import { MyMailService } from './mail.service';
-import User from 'src/users/user.entity';
+import { User } from 'src/users/user.entity';
+import SmsService from './sms.service';
 
 
 @Controller('auth')
@@ -15,7 +16,8 @@ export class AuthController {
 
     constructor (private authService: AuthService, 
                 private userService: UsersService,
-                private mailService: MyMailService) {}
+                private mailService: MyMailService,
+                private smsService: SmsService) {}
 
     // @Post('/login')
     // login(@Body() userDto: CreateUserDto){
@@ -52,16 +54,33 @@ export class AuthController {
 		res.status(HttpStatus.FOUND).redirect(process.env.FRONTEND_URL);
 	}   
     
-    @Get('activation/:link')
-    findById(@Param('link') parameter : string) {
-        console.log(parameter);
+    @Get('activation/:code')
+    @UseGuards(JwtGuard)
+    async activateUser(@Param('code') parameter : string, @Res({passthrough: true}) res: Response, @Req() req: any) {
+        if (this.authService.activateUser(req.user.email, parameter))
+            res.status(HttpStatus.OK).send();
+        else
+            res.status(HttpStatus.NO_CONTENT);
+
     }
 
     @Get('currentuser')
     @UseGuards(JwtGuard)
     async getCurrentUser(@Res({passthrough: true}) res: Response, @Req() req: any) {
-        console.log(req);
-        return this.userService.getByEmail(req.user.email);
+        //console.log(req);
+        return this.userService.getByLogin42(req.user.userName42);
         //return req.user;
     }
+
+    @Post('initiate-verification')
+    //@UseGuards(JwtGuard)
+
+    async initiatePhoneNumberVerification(@Body() body: any) {
+    //   if (req.user.isPhoneNumberConfirmed) {
+    //     throw new BadRequestException('Phone number already confirmed');
+    //   }
+        console.log(`The phone number is : ${body.phoneNumber}`);
+      await this.smsService.initiatePhoneNumberVerification(body.phoneNumber);
+    }
+
 }
