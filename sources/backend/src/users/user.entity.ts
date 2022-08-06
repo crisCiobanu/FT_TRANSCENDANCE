@@ -72,6 +72,11 @@ export class User {
         default: false
     })
     public TWOFA: boolean;
+
+    @Column({
+        default: false
+    })
+    public ownMail: boolean;
 }
 
 export default User;
