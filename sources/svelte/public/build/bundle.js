@@ -80,7 +80,7 @@ var app = (function () {
     function space() {
         return text(' ');
     }
-    function empty() {
+    function empty$1() {
         return text('');
     }
     function listen(node, event, handler, options) {
@@ -683,6 +683,9 @@ var app = (function () {
     const ownmail = writable(localStorage.getItem("ownmail") || "");
     ownmail.subscribe((val) => localStorage.setItem("ownmail", val));
 
+    const currentRoom = writable(localStorage.getItem("currentRoom") || "general");
+    currentRoom.subscribe((val) => localStorage.setItem("currentRoom", val));
+
     // const itemName = "array";
     // const retrieved = localStorage.getItem(itemName);
     // //const parsed = JSON.parse(retrieved);
@@ -781,7 +784,7 @@ var app = (function () {
         return obj
     }
 
-    function parse(str, loose) {
+    function parse$1(str, loose) {
     	if (str instanceof RegExp) return { keys:false, pattern:str };
     	var c, o, tmp, ext, keys=[], pattern='', arr = str.split('/');
     	arr[0] || arr.shift();
@@ -813,7 +816,7 @@ var app = (function () {
     const { Error: Error_1$1, Object: Object_1, console: console_1$5 } = globals;
 
     // (251:0) {:else}
-    function create_else_block$4(ctx) {
+    function create_else_block$5(ctx) {
     	let switch_instance;
     	let switch_instance_anchor;
     	let current;
@@ -841,7 +844,7 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			if (switch_instance) create_component(switch_instance.$$.fragment);
-    			switch_instance_anchor = empty();
+    			switch_instance_anchor = empty$1();
     		},
     		m: function mount(target, anchor) {
     			if (switch_instance) {
@@ -898,7 +901,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_else_block$4.name,
+    		id: create_else_block$5.name,
     		type: "else",
     		source: "(251:0) {:else}",
     		ctx
@@ -908,7 +911,7 @@ var app = (function () {
     }
 
     // (244:0) {#if componentParams}
-    function create_if_block$4(ctx) {
+    function create_if_block$5(ctx) {
     	let switch_instance;
     	let switch_instance_anchor;
     	let current;
@@ -936,7 +939,7 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			if (switch_instance) create_component(switch_instance.$$.fragment);
-    			switch_instance_anchor = empty();
+    			switch_instance_anchor = empty$1();
     		},
     		m: function mount(target, anchor) {
     			if (switch_instance) {
@@ -996,7 +999,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block$4.name,
+    		id: create_if_block$5.name,
     		type: "if",
     		source: "(244:0) {#if componentParams}",
     		ctx
@@ -1005,12 +1008,12 @@ var app = (function () {
     	return block;
     }
 
-    function create_fragment$8(ctx) {
+    function create_fragment$9(ctx) {
     	let current_block_type_index;
     	let if_block;
     	let if_block_anchor;
     	let current;
-    	const if_block_creators = [create_if_block$4, create_else_block$4];
+    	const if_block_creators = [create_if_block$5, create_else_block$5];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
@@ -1024,7 +1027,7 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			if_block.c();
-    			if_block_anchor = empty();
+    			if_block_anchor = empty$1();
     		},
     		l: function claim(nodes) {
     			throw new Error_1$1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1078,7 +1081,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$8.name,
+    		id: create_fragment$9.name,
     		type: "component",
     		source: "",
     		ctx
@@ -1141,7 +1144,7 @@ var app = (function () {
     	};
     });
 
-    const location = derived(loc, $loc => $loc.location);
+    const location$1 = derived(loc, $loc => $loc.location);
     const querystring = derived(loc, $loc => $loc.querystring);
     const params = writable(undefined);
 
@@ -1271,7 +1274,7 @@ var app = (function () {
     	window.location.hash = href;
     }
 
-    function instance$8($$self, $$props, $$invalidate) {
+    function instance$9($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Router', slots, []);
     	let { routes = {} } = $$props;
@@ -1298,7 +1301,7 @@ var app = (function () {
     				throw Error('Invalid value for "path" argument - strings must start with / or *');
     			}
 
-    			const { pattern, keys } = parse(path);
+    			const { pattern, keys } = parse$1(path);
     			this.path = path;
 
     			// Check if the component is wrapped and we have conditions
@@ -1620,7 +1623,7 @@ var app = (function () {
     		wrap,
     		getLocation,
     		loc,
-    		location,
+    		location: location$1,
     		querystring,
     		params,
     		push,
@@ -1633,7 +1636,7 @@ var app = (function () {
     		onDestroy,
     		createEventDispatcher,
     		afterUpdate,
-    		parse,
+    		parse: parse$1,
     		routes,
     		prefix,
     		restoreScrollState,
@@ -1691,7 +1694,7 @@ var app = (function () {
     	constructor(options) {
     		super(options);
 
-    		init(this, options, instance$8, create_fragment$8, safe_not_equal, {
+    		init(this, options, instance$9, create_fragment$9, safe_not_equal, {
     			routes: 3,
     			prefix: 4,
     			restoreScrollState: 5
@@ -1701,7 +1704,7 @@ var app = (function () {
     			component: this,
     			tagName: "Router",
     			options,
-    			id: create_fragment$8.name
+    			id: create_fragment$9.name
     		});
     	}
 
@@ -1730,63 +1733,3576 @@ var app = (function () {
     	}
     }
 
-    /* src/routes/Chat.svelte generated by Svelte v3.49.0 */
+    const PACKET_TYPES = Object.create(null); // no Map = no polyfill
+    PACKET_TYPES["open"] = "0";
+    PACKET_TYPES["close"] = "1";
+    PACKET_TYPES["ping"] = "2";
+    PACKET_TYPES["pong"] = "3";
+    PACKET_TYPES["message"] = "4";
+    PACKET_TYPES["upgrade"] = "5";
+    PACKET_TYPES["noop"] = "6";
+    const PACKET_TYPES_REVERSE = Object.create(null);
+    Object.keys(PACKET_TYPES).forEach(key => {
+        PACKET_TYPES_REVERSE[PACKET_TYPES[key]] = key;
+    });
+    const ERROR_PACKET = { type: "error", data: "parser error" };
+
+    const withNativeBlob$1 = typeof Blob === "function" ||
+        (typeof Blob !== "undefined" &&
+            Object.prototype.toString.call(Blob) === "[object BlobConstructor]");
+    const withNativeArrayBuffer$2 = typeof ArrayBuffer === "function";
+    // ArrayBuffer.isView method is not defined in IE10
+    const isView$1 = obj => {
+        return typeof ArrayBuffer.isView === "function"
+            ? ArrayBuffer.isView(obj)
+            : obj && obj.buffer instanceof ArrayBuffer;
+    };
+    const encodePacket = ({ type, data }, supportsBinary, callback) => {
+        if (withNativeBlob$1 && data instanceof Blob) {
+            if (supportsBinary) {
+                return callback(data);
+            }
+            else {
+                return encodeBlobAsBase64(data, callback);
+            }
+        }
+        else if (withNativeArrayBuffer$2 &&
+            (data instanceof ArrayBuffer || isView$1(data))) {
+            if (supportsBinary) {
+                return callback(data);
+            }
+            else {
+                return encodeBlobAsBase64(new Blob([data]), callback);
+            }
+        }
+        // plain string
+        return callback(PACKET_TYPES[type] + (data || ""));
+    };
+    const encodeBlobAsBase64 = (data, callback) => {
+        const fileReader = new FileReader();
+        fileReader.onload = function () {
+            const content = fileReader.result.split(",")[1];
+            callback("b" + content);
+        };
+        return fileReader.readAsDataURL(data);
+    };
+
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    // Use a lookup table to find the index.
+    const lookup$1 = typeof Uint8Array === 'undefined' ? [] : new Uint8Array(256);
+    for (let i = 0; i < chars.length; i++) {
+        lookup$1[chars.charCodeAt(i)] = i;
+    }
+    const decode$1 = (base64) => {
+        let bufferLength = base64.length * 0.75, len = base64.length, i, p = 0, encoded1, encoded2, encoded3, encoded4;
+        if (base64[base64.length - 1] === '=') {
+            bufferLength--;
+            if (base64[base64.length - 2] === '=') {
+                bufferLength--;
+            }
+        }
+        const arraybuffer = new ArrayBuffer(bufferLength), bytes = new Uint8Array(arraybuffer);
+        for (i = 0; i < len; i += 4) {
+            encoded1 = lookup$1[base64.charCodeAt(i)];
+            encoded2 = lookup$1[base64.charCodeAt(i + 1)];
+            encoded3 = lookup$1[base64.charCodeAt(i + 2)];
+            encoded4 = lookup$1[base64.charCodeAt(i + 3)];
+            bytes[p++] = (encoded1 << 2) | (encoded2 >> 4);
+            bytes[p++] = ((encoded2 & 15) << 4) | (encoded3 >> 2);
+            bytes[p++] = ((encoded3 & 3) << 6) | (encoded4 & 63);
+        }
+        return arraybuffer;
+    };
+
+    const withNativeArrayBuffer$1 = typeof ArrayBuffer === "function";
+    const decodePacket = (encodedPacket, binaryType) => {
+        if (typeof encodedPacket !== "string") {
+            return {
+                type: "message",
+                data: mapBinary(encodedPacket, binaryType)
+            };
+        }
+        const type = encodedPacket.charAt(0);
+        if (type === "b") {
+            return {
+                type: "message",
+                data: decodeBase64Packet(encodedPacket.substring(1), binaryType)
+            };
+        }
+        const packetType = PACKET_TYPES_REVERSE[type];
+        if (!packetType) {
+            return ERROR_PACKET;
+        }
+        return encodedPacket.length > 1
+            ? {
+                type: PACKET_TYPES_REVERSE[type],
+                data: encodedPacket.substring(1)
+            }
+            : {
+                type: PACKET_TYPES_REVERSE[type]
+            };
+    };
+    const decodeBase64Packet = (data, binaryType) => {
+        if (withNativeArrayBuffer$1) {
+            const decoded = decode$1(data);
+            return mapBinary(decoded, binaryType);
+        }
+        else {
+            return { base64: true, data }; // fallback for old browsers
+        }
+    };
+    const mapBinary = (data, binaryType) => {
+        switch (binaryType) {
+            case "blob":
+                return data instanceof ArrayBuffer ? new Blob([data]) : data;
+            case "arraybuffer":
+            default:
+                return data; // assuming the data is already an ArrayBuffer
+        }
+    };
+
+    const SEPARATOR = String.fromCharCode(30); // see https://en.wikipedia.org/wiki/Delimiter#ASCII_delimited_text
+    const encodePayload = (packets, callback) => {
+        // some packets may be added to the array while encoding, so the initial length must be saved
+        const length = packets.length;
+        const encodedPackets = new Array(length);
+        let count = 0;
+        packets.forEach((packet, i) => {
+            // force base64 encoding for binary packets
+            encodePacket(packet, false, encodedPacket => {
+                encodedPackets[i] = encodedPacket;
+                if (++count === length) {
+                    callback(encodedPackets.join(SEPARATOR));
+                }
+            });
+        });
+    };
+    const decodePayload = (encodedPayload, binaryType) => {
+        const encodedPackets = encodedPayload.split(SEPARATOR);
+        const packets = [];
+        for (let i = 0; i < encodedPackets.length; i++) {
+            const decodedPacket = decodePacket(encodedPackets[i], binaryType);
+            packets.push(decodedPacket);
+            if (decodedPacket.type === "error") {
+                break;
+            }
+        }
+        return packets;
+    };
+    const protocol$1 = 4;
+
+    /**
+     * Initialize a new `Emitter`.
+     *
+     * @api public
+     */
+
+    function Emitter(obj) {
+      if (obj) return mixin(obj);
+    }
+
+    /**
+     * Mixin the emitter properties.
+     *
+     * @param {Object} obj
+     * @return {Object}
+     * @api private
+     */
+
+    function mixin(obj) {
+      for (var key in Emitter.prototype) {
+        obj[key] = Emitter.prototype[key];
+      }
+      return obj;
+    }
+
+    /**
+     * Listen on the given `event` with `fn`.
+     *
+     * @param {String} event
+     * @param {Function} fn
+     * @return {Emitter}
+     * @api public
+     */
+
+    Emitter.prototype.on =
+    Emitter.prototype.addEventListener = function(event, fn){
+      this._callbacks = this._callbacks || {};
+      (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
+        .push(fn);
+      return this;
+    };
+
+    /**
+     * Adds an `event` listener that will be invoked a single
+     * time then automatically removed.
+     *
+     * @param {String} event
+     * @param {Function} fn
+     * @return {Emitter}
+     * @api public
+     */
+
+    Emitter.prototype.once = function(event, fn){
+      function on() {
+        this.off(event, on);
+        fn.apply(this, arguments);
+      }
+
+      on.fn = fn;
+      this.on(event, on);
+      return this;
+    };
+
+    /**
+     * Remove the given callback for `event` or all
+     * registered callbacks.
+     *
+     * @param {String} event
+     * @param {Function} fn
+     * @return {Emitter}
+     * @api public
+     */
+
+    Emitter.prototype.off =
+    Emitter.prototype.removeListener =
+    Emitter.prototype.removeAllListeners =
+    Emitter.prototype.removeEventListener = function(event, fn){
+      this._callbacks = this._callbacks || {};
+
+      // all
+      if (0 == arguments.length) {
+        this._callbacks = {};
+        return this;
+      }
+
+      // specific event
+      var callbacks = this._callbacks['$' + event];
+      if (!callbacks) return this;
+
+      // remove all handlers
+      if (1 == arguments.length) {
+        delete this._callbacks['$' + event];
+        return this;
+      }
+
+      // remove specific handler
+      var cb;
+      for (var i = 0; i < callbacks.length; i++) {
+        cb = callbacks[i];
+        if (cb === fn || cb.fn === fn) {
+          callbacks.splice(i, 1);
+          break;
+        }
+      }
+
+      // Remove event specific arrays for event types that no
+      // one is subscribed for to avoid memory leak.
+      if (callbacks.length === 0) {
+        delete this._callbacks['$' + event];
+      }
+
+      return this;
+    };
+
+    /**
+     * Emit `event` with the given args.
+     *
+     * @param {String} event
+     * @param {Mixed} ...
+     * @return {Emitter}
+     */
+
+    Emitter.prototype.emit = function(event){
+      this._callbacks = this._callbacks || {};
+
+      var args = new Array(arguments.length - 1)
+        , callbacks = this._callbacks['$' + event];
+
+      for (var i = 1; i < arguments.length; i++) {
+        args[i - 1] = arguments[i];
+      }
+
+      if (callbacks) {
+        callbacks = callbacks.slice(0);
+        for (var i = 0, len = callbacks.length; i < len; ++i) {
+          callbacks[i].apply(this, args);
+        }
+      }
+
+      return this;
+    };
+
+    // alias used for reserved events (protected method)
+    Emitter.prototype.emitReserved = Emitter.prototype.emit;
+
+    /**
+     * Return array of callbacks for `event`.
+     *
+     * @param {String} event
+     * @return {Array}
+     * @api public
+     */
+
+    Emitter.prototype.listeners = function(event){
+      this._callbacks = this._callbacks || {};
+      return this._callbacks['$' + event] || [];
+    };
+
+    /**
+     * Check if this emitter has `event` handlers.
+     *
+     * @param {String} event
+     * @return {Boolean}
+     * @api public
+     */
+
+    Emitter.prototype.hasListeners = function(event){
+      return !! this.listeners(event).length;
+    };
+
+    const globalThisShim = (() => {
+        if (typeof self !== "undefined") {
+            return self;
+        }
+        else if (typeof window !== "undefined") {
+            return window;
+        }
+        else {
+            return Function("return this")();
+        }
+    })();
+
+    function pick(obj, ...attr) {
+        return attr.reduce((acc, k) => {
+            if (obj.hasOwnProperty(k)) {
+                acc[k] = obj[k];
+            }
+            return acc;
+        }, {});
+    }
+    // Keep a reference to the real timeout functions so they can be used when overridden
+    const NATIVE_SET_TIMEOUT = setTimeout;
+    const NATIVE_CLEAR_TIMEOUT = clearTimeout;
+    function installTimerFunctions(obj, opts) {
+        if (opts.useNativeTimers) {
+            obj.setTimeoutFn = NATIVE_SET_TIMEOUT.bind(globalThisShim);
+            obj.clearTimeoutFn = NATIVE_CLEAR_TIMEOUT.bind(globalThisShim);
+        }
+        else {
+            obj.setTimeoutFn = setTimeout.bind(globalThisShim);
+            obj.clearTimeoutFn = clearTimeout.bind(globalThisShim);
+        }
+    }
+    // base64 encoded buffers are about 33% bigger (https://en.wikipedia.org/wiki/Base64)
+    const BASE64_OVERHEAD = 1.33;
+    // we could also have used `new Blob([obj]).size`, but it isn't supported in IE9
+    function byteLength(obj) {
+        if (typeof obj === "string") {
+            return utf8Length(obj);
+        }
+        // arraybuffer or blob
+        return Math.ceil((obj.byteLength || obj.size) * BASE64_OVERHEAD);
+    }
+    function utf8Length(str) {
+        let c = 0, length = 0;
+        for (let i = 0, l = str.length; i < l; i++) {
+            c = str.charCodeAt(i);
+            if (c < 0x80) {
+                length += 1;
+            }
+            else if (c < 0x800) {
+                length += 2;
+            }
+            else if (c < 0xd800 || c >= 0xe000) {
+                length += 3;
+            }
+            else {
+                i++;
+                length += 4;
+            }
+        }
+        return length;
+    }
+
+    class TransportError extends Error {
+        constructor(reason, description, context) {
+            super(reason);
+            this.description = description;
+            this.context = context;
+            this.type = "TransportError";
+        }
+    }
+    class Transport extends Emitter {
+        /**
+         * Transport abstract constructor.
+         *
+         * @param {Object} options.
+         * @api private
+         */
+        constructor(opts) {
+            super();
+            this.writable = false;
+            installTimerFunctions(this, opts);
+            this.opts = opts;
+            this.query = opts.query;
+            this.readyState = "";
+            this.socket = opts.socket;
+        }
+        /**
+         * Emits an error.
+         *
+         * @param {String} reason
+         * @param description
+         * @param context - the error context
+         * @return {Transport} for chaining
+         * @api protected
+         */
+        onError(reason, description, context) {
+            super.emitReserved("error", new TransportError(reason, description, context));
+            return this;
+        }
+        /**
+         * Opens the transport.
+         *
+         * @api public
+         */
+        open() {
+            if ("closed" === this.readyState || "" === this.readyState) {
+                this.readyState = "opening";
+                this.doOpen();
+            }
+            return this;
+        }
+        /**
+         * Closes the transport.
+         *
+         * @api public
+         */
+        close() {
+            if ("opening" === this.readyState || "open" === this.readyState) {
+                this.doClose();
+                this.onClose();
+            }
+            return this;
+        }
+        /**
+         * Sends multiple packets.
+         *
+         * @param {Array} packets
+         * @api public
+         */
+        send(packets) {
+            if ("open" === this.readyState) {
+                this.write(packets);
+            }
+        }
+        /**
+         * Called upon open
+         *
+         * @api protected
+         */
+        onOpen() {
+            this.readyState = "open";
+            this.writable = true;
+            super.emitReserved("open");
+        }
+        /**
+         * Called with data.
+         *
+         * @param {String} data
+         * @api protected
+         */
+        onData(data) {
+            const packet = decodePacket(data, this.socket.binaryType);
+            this.onPacket(packet);
+        }
+        /**
+         * Called with a decoded packet.
+         *
+         * @api protected
+         */
+        onPacket(packet) {
+            super.emitReserved("packet", packet);
+        }
+        /**
+         * Called upon close.
+         *
+         * @api protected
+         */
+        onClose(details) {
+            this.readyState = "closed";
+            super.emitReserved("close", details);
+        }
+    }
+
+    // imported from https://github.com/unshiftio/yeast
+    const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'.split(''), length = 64, map = {};
+    let seed = 0, i = 0, prev;
+    /**
+     * Return a string representing the specified number.
+     *
+     * @param {Number} num The number to convert.
+     * @returns {String} The string representation of the number.
+     * @api public
+     */
+    function encode$2(num) {
+        let encoded = '';
+        do {
+            encoded = alphabet[num % length] + encoded;
+            num = Math.floor(num / length);
+        } while (num > 0);
+        return encoded;
+    }
+    /**
+     * Yeast: A tiny growing id generator.
+     *
+     * @returns {String} A unique id.
+     * @api public
+     */
+    function yeast() {
+        const now = encode$2(+new Date());
+        if (now !== prev)
+            return seed = 0, prev = now;
+        return now + '.' + encode$2(seed++);
+    }
+    //
+    // Map each character to its index.
+    //
+    for (; i < length; i++)
+        map[alphabet[i]] = i;
+
+    // imported from https://github.com/galkn/querystring
+    /**
+     * Compiles a querystring
+     * Returns string representation of the object
+     *
+     * @param {Object}
+     * @api private
+     */
+    function encode$1(obj) {
+        let str = '';
+        for (let i in obj) {
+            if (obj.hasOwnProperty(i)) {
+                if (str.length)
+                    str += '&';
+                str += encodeURIComponent(i) + '=' + encodeURIComponent(obj[i]);
+            }
+        }
+        return str;
+    }
+    /**
+     * Parses a simple querystring into an object
+     *
+     * @param {String} qs
+     * @api private
+     */
+    function decode(qs) {
+        let qry = {};
+        let pairs = qs.split('&');
+        for (let i = 0, l = pairs.length; i < l; i++) {
+            let pair = pairs[i].split('=');
+            qry[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+        }
+        return qry;
+    }
+
+    // imported from https://github.com/component/has-cors
+    let value = false;
+    try {
+        value = typeof XMLHttpRequest !== 'undefined' &&
+            'withCredentials' in new XMLHttpRequest();
+    }
+    catch (err) {
+        // if XMLHttp support is disabled in IE then it will throw
+        // when trying to create
+    }
+    const hasCORS = value;
+
+    // browser shim for xmlhttprequest module
+    function XHR(opts) {
+        const xdomain = opts.xdomain;
+        // XMLHttpRequest can be disabled on IE
+        try {
+            if ("undefined" !== typeof XMLHttpRequest && (!xdomain || hasCORS)) {
+                return new XMLHttpRequest();
+            }
+        }
+        catch (e) { }
+        if (!xdomain) {
+            try {
+                return new globalThisShim[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
+            }
+            catch (e) { }
+        }
+    }
+
+    function empty() { }
+    const hasXHR2 = (function () {
+        const xhr = new XHR({
+            xdomain: false
+        });
+        return null != xhr.responseType;
+    })();
+    class Polling extends Transport {
+        /**
+         * XHR Polling constructor.
+         *
+         * @param {Object} opts
+         * @api public
+         */
+        constructor(opts) {
+            super(opts);
+            this.polling = false;
+            if (typeof location !== "undefined") {
+                const isSSL = "https:" === location.protocol;
+                let port = location.port;
+                // some user agents have empty `location.port`
+                if (!port) {
+                    port = isSSL ? "443" : "80";
+                }
+                this.xd =
+                    (typeof location !== "undefined" &&
+                        opts.hostname !== location.hostname) ||
+                        port !== opts.port;
+                this.xs = opts.secure !== isSSL;
+            }
+            /**
+             * XHR supports binary
+             */
+            const forceBase64 = opts && opts.forceBase64;
+            this.supportsBinary = hasXHR2 && !forceBase64;
+        }
+        /**
+         * Transport name.
+         */
+        get name() {
+            return "polling";
+        }
+        /**
+         * Opens the socket (triggers polling). We write a PING message to determine
+         * when the transport is open.
+         *
+         * @api private
+         */
+        doOpen() {
+            this.poll();
+        }
+        /**
+         * Pauses polling.
+         *
+         * @param {Function} callback upon buffers are flushed and transport is paused
+         * @api private
+         */
+        pause(onPause) {
+            this.readyState = "pausing";
+            const pause = () => {
+                this.readyState = "paused";
+                onPause();
+            };
+            if (this.polling || !this.writable) {
+                let total = 0;
+                if (this.polling) {
+                    total++;
+                    this.once("pollComplete", function () {
+                        --total || pause();
+                    });
+                }
+                if (!this.writable) {
+                    total++;
+                    this.once("drain", function () {
+                        --total || pause();
+                    });
+                }
+            }
+            else {
+                pause();
+            }
+        }
+        /**
+         * Starts polling cycle.
+         *
+         * @api public
+         */
+        poll() {
+            this.polling = true;
+            this.doPoll();
+            this.emitReserved("poll");
+        }
+        /**
+         * Overloads onData to detect payloads.
+         *
+         * @api private
+         */
+        onData(data) {
+            const callback = packet => {
+                // if its the first message we consider the transport open
+                if ("opening" === this.readyState && packet.type === "open") {
+                    this.onOpen();
+                }
+                // if its a close packet, we close the ongoing requests
+                if ("close" === packet.type) {
+                    this.onClose({ description: "transport closed by the server" });
+                    return false;
+                }
+                // otherwise bypass onData and handle the message
+                this.onPacket(packet);
+            };
+            // decode payload
+            decodePayload(data, this.socket.binaryType).forEach(callback);
+            // if an event did not trigger closing
+            if ("closed" !== this.readyState) {
+                // if we got data we're not polling
+                this.polling = false;
+                this.emitReserved("pollComplete");
+                if ("open" === this.readyState) {
+                    this.poll();
+                }
+            }
+        }
+        /**
+         * For polling, send a close packet.
+         *
+         * @api private
+         */
+        doClose() {
+            const close = () => {
+                this.write([{ type: "close" }]);
+            };
+            if ("open" === this.readyState) {
+                close();
+            }
+            else {
+                // in case we're trying to close while
+                // handshaking is in progress (GH-164)
+                this.once("open", close);
+            }
+        }
+        /**
+         * Writes a packets payload.
+         *
+         * @param {Array} data packets
+         * @param {Function} drain callback
+         * @api private
+         */
+        write(packets) {
+            this.writable = false;
+            encodePayload(packets, data => {
+                this.doWrite(data, () => {
+                    this.writable = true;
+                    this.emitReserved("drain");
+                });
+            });
+        }
+        /**
+         * Generates uri for connection.
+         *
+         * @api private
+         */
+        uri() {
+            let query = this.query || {};
+            const schema = this.opts.secure ? "https" : "http";
+            let port = "";
+            // cache busting is forced
+            if (false !== this.opts.timestampRequests) {
+                query[this.opts.timestampParam] = yeast();
+            }
+            if (!this.supportsBinary && !query.sid) {
+                query.b64 = 1;
+            }
+            // avoid port if default for schema
+            if (this.opts.port &&
+                (("https" === schema && Number(this.opts.port) !== 443) ||
+                    ("http" === schema && Number(this.opts.port) !== 80))) {
+                port = ":" + this.opts.port;
+            }
+            const encodedQuery = encode$1(query);
+            const ipv6 = this.opts.hostname.indexOf(":") !== -1;
+            return (schema +
+                "://" +
+                (ipv6 ? "[" + this.opts.hostname + "]" : this.opts.hostname) +
+                port +
+                this.opts.path +
+                (encodedQuery.length ? "?" + encodedQuery : ""));
+        }
+        /**
+         * Creates a request.
+         *
+         * @param {String} method
+         * @api private
+         */
+        request(opts = {}) {
+            Object.assign(opts, { xd: this.xd, xs: this.xs }, this.opts);
+            return new Request(this.uri(), opts);
+        }
+        /**
+         * Sends data.
+         *
+         * @param {String} data to send.
+         * @param {Function} called upon flush.
+         * @api private
+         */
+        doWrite(data, fn) {
+            const req = this.request({
+                method: "POST",
+                data: data
+            });
+            req.on("success", fn);
+            req.on("error", (xhrStatus, context) => {
+                this.onError("xhr post error", xhrStatus, context);
+            });
+        }
+        /**
+         * Starts a poll cycle.
+         *
+         * @api private
+         */
+        doPoll() {
+            const req = this.request();
+            req.on("data", this.onData.bind(this));
+            req.on("error", (xhrStatus, context) => {
+                this.onError("xhr poll error", xhrStatus, context);
+            });
+            this.pollXhr = req;
+        }
+    }
+    class Request extends Emitter {
+        /**
+         * Request constructor
+         *
+         * @param {Object} options
+         * @api public
+         */
+        constructor(uri, opts) {
+            super();
+            installTimerFunctions(this, opts);
+            this.opts = opts;
+            this.method = opts.method || "GET";
+            this.uri = uri;
+            this.async = false !== opts.async;
+            this.data = undefined !== opts.data ? opts.data : null;
+            this.create();
+        }
+        /**
+         * Creates the XHR object and sends the request.
+         *
+         * @api private
+         */
+        create() {
+            const opts = pick(this.opts, "agent", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "autoUnref");
+            opts.xdomain = !!this.opts.xd;
+            opts.xscheme = !!this.opts.xs;
+            const xhr = (this.xhr = new XHR(opts));
+            try {
+                xhr.open(this.method, this.uri, this.async);
+                try {
+                    if (this.opts.extraHeaders) {
+                        xhr.setDisableHeaderCheck && xhr.setDisableHeaderCheck(true);
+                        for (let i in this.opts.extraHeaders) {
+                            if (this.opts.extraHeaders.hasOwnProperty(i)) {
+                                xhr.setRequestHeader(i, this.opts.extraHeaders[i]);
+                            }
+                        }
+                    }
+                }
+                catch (e) { }
+                if ("POST" === this.method) {
+                    try {
+                        xhr.setRequestHeader("Content-type", "text/plain;charset=UTF-8");
+                    }
+                    catch (e) { }
+                }
+                try {
+                    xhr.setRequestHeader("Accept", "*/*");
+                }
+                catch (e) { }
+                // ie6 check
+                if ("withCredentials" in xhr) {
+                    xhr.withCredentials = this.opts.withCredentials;
+                }
+                if (this.opts.requestTimeout) {
+                    xhr.timeout = this.opts.requestTimeout;
+                }
+                xhr.onreadystatechange = () => {
+                    if (4 !== xhr.readyState)
+                        return;
+                    if (200 === xhr.status || 1223 === xhr.status) {
+                        this.onLoad();
+                    }
+                    else {
+                        // make sure the `error` event handler that's user-set
+                        // does not throw in the same tick and gets caught here
+                        this.setTimeoutFn(() => {
+                            this.onError(typeof xhr.status === "number" ? xhr.status : 0);
+                        }, 0);
+                    }
+                };
+                xhr.send(this.data);
+            }
+            catch (e) {
+                // Need to defer since .create() is called directly from the constructor
+                // and thus the 'error' event can only be only bound *after* this exception
+                // occurs.  Therefore, also, we cannot throw here at all.
+                this.setTimeoutFn(() => {
+                    this.onError(e);
+                }, 0);
+                return;
+            }
+            if (typeof document !== "undefined") {
+                this.index = Request.requestsCount++;
+                Request.requests[this.index] = this;
+            }
+        }
+        /**
+         * Called upon error.
+         *
+         * @api private
+         */
+        onError(err) {
+            this.emitReserved("error", err, this.xhr);
+            this.cleanup(true);
+        }
+        /**
+         * Cleans up house.
+         *
+         * @api private
+         */
+        cleanup(fromError) {
+            if ("undefined" === typeof this.xhr || null === this.xhr) {
+                return;
+            }
+            this.xhr.onreadystatechange = empty;
+            if (fromError) {
+                try {
+                    this.xhr.abort();
+                }
+                catch (e) { }
+            }
+            if (typeof document !== "undefined") {
+                delete Request.requests[this.index];
+            }
+            this.xhr = null;
+        }
+        /**
+         * Called upon load.
+         *
+         * @api private
+         */
+        onLoad() {
+            const data = this.xhr.responseText;
+            if (data !== null) {
+                this.emitReserved("data", data);
+                this.emitReserved("success");
+                this.cleanup();
+            }
+        }
+        /**
+         * Aborts the request.
+         *
+         * @api public
+         */
+        abort() {
+            this.cleanup();
+        }
+    }
+    Request.requestsCount = 0;
+    Request.requests = {};
+    /**
+     * Aborts pending requests when unloading the window. This is needed to prevent
+     * memory leaks (e.g. when using IE) and to ensure that no spurious error is
+     * emitted.
+     */
+    if (typeof document !== "undefined") {
+        // @ts-ignore
+        if (typeof attachEvent === "function") {
+            // @ts-ignore
+            attachEvent("onunload", unloadHandler);
+        }
+        else if (typeof addEventListener === "function") {
+            const terminationEvent = "onpagehide" in globalThisShim ? "pagehide" : "unload";
+            addEventListener(terminationEvent, unloadHandler, false);
+        }
+    }
+    function unloadHandler() {
+        for (let i in Request.requests) {
+            if (Request.requests.hasOwnProperty(i)) {
+                Request.requests[i].abort();
+            }
+        }
+    }
+
+    const nextTick = (() => {
+        const isPromiseAvailable = typeof Promise === "function" && typeof Promise.resolve === "function";
+        if (isPromiseAvailable) {
+            return cb => Promise.resolve().then(cb);
+        }
+        else {
+            return (cb, setTimeoutFn) => setTimeoutFn(cb, 0);
+        }
+    })();
+    const WebSocket = globalThisShim.WebSocket || globalThisShim.MozWebSocket;
+    const usingBrowserWebSocket = true;
+    const defaultBinaryType = "arraybuffer";
+
+    // detect ReactNative environment
+    const isReactNative = typeof navigator !== "undefined" &&
+        typeof navigator.product === "string" &&
+        navigator.product.toLowerCase() === "reactnative";
+    class WS extends Transport {
+        /**
+         * WebSocket transport constructor.
+         *
+         * @api {Object} connection options
+         * @api public
+         */
+        constructor(opts) {
+            super(opts);
+            this.supportsBinary = !opts.forceBase64;
+        }
+        /**
+         * Transport name.
+         *
+         * @api public
+         */
+        get name() {
+            return "websocket";
+        }
+        /**
+         * Opens socket.
+         *
+         * @api private
+         */
+        doOpen() {
+            if (!this.check()) {
+                // let probe timeout
+                return;
+            }
+            const uri = this.uri();
+            const protocols = this.opts.protocols;
+            // React Native only supports the 'headers' option, and will print a warning if anything else is passed
+            const opts = isReactNative
+                ? {}
+                : pick(this.opts, "agent", "perMessageDeflate", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "localAddress", "protocolVersion", "origin", "maxPayload", "family", "checkServerIdentity");
+            if (this.opts.extraHeaders) {
+                opts.headers = this.opts.extraHeaders;
+            }
+            try {
+                this.ws =
+                    usingBrowserWebSocket && !isReactNative
+                        ? protocols
+                            ? new WebSocket(uri, protocols)
+                            : new WebSocket(uri)
+                        : new WebSocket(uri, protocols, opts);
+            }
+            catch (err) {
+                return this.emitReserved("error", err);
+            }
+            this.ws.binaryType = this.socket.binaryType || defaultBinaryType;
+            this.addEventListeners();
+        }
+        /**
+         * Adds event listeners to the socket
+         *
+         * @api private
+         */
+        addEventListeners() {
+            this.ws.onopen = () => {
+                if (this.opts.autoUnref) {
+                    this.ws._socket.unref();
+                }
+                this.onOpen();
+            };
+            this.ws.onclose = closeEvent => this.onClose({
+                description: "websocket connection closed",
+                context: closeEvent
+            });
+            this.ws.onmessage = ev => this.onData(ev.data);
+            this.ws.onerror = e => this.onError("websocket error", e);
+        }
+        /**
+         * Writes data to socket.
+         *
+         * @param {Array} array of packets.
+         * @api private
+         */
+        write(packets) {
+            this.writable = false;
+            // encodePacket efficient as it uses WS framing
+            // no need for encodePayload
+            for (let i = 0; i < packets.length; i++) {
+                const packet = packets[i];
+                const lastPacket = i === packets.length - 1;
+                encodePacket(packet, this.supportsBinary, data => {
+                    // always create a new object (GH-437)
+                    const opts = {};
+                    // Sometimes the websocket has already been closed but the browser didn't
+                    // have a chance of informing us about it yet, in that case send will
+                    // throw an error
+                    try {
+                        if (usingBrowserWebSocket) {
+                            // TypeError is thrown when passing the second argument on Safari
+                            this.ws.send(data);
+                        }
+                    }
+                    catch (e) {
+                    }
+                    if (lastPacket) {
+                        // fake drain
+                        // defer to next tick to allow Socket to clear writeBuffer
+                        nextTick(() => {
+                            this.writable = true;
+                            this.emitReserved("drain");
+                        }, this.setTimeoutFn);
+                    }
+                });
+            }
+        }
+        /**
+         * Closes socket.
+         *
+         * @api private
+         */
+        doClose() {
+            if (typeof this.ws !== "undefined") {
+                this.ws.close();
+                this.ws = null;
+            }
+        }
+        /**
+         * Generates uri for connection.
+         *
+         * @api private
+         */
+        uri() {
+            let query = this.query || {};
+            const schema = this.opts.secure ? "wss" : "ws";
+            let port = "";
+            // avoid port if default for schema
+            if (this.opts.port &&
+                (("wss" === schema && Number(this.opts.port) !== 443) ||
+                    ("ws" === schema && Number(this.opts.port) !== 80))) {
+                port = ":" + this.opts.port;
+            }
+            // append timestamp to URI
+            if (this.opts.timestampRequests) {
+                query[this.opts.timestampParam] = yeast();
+            }
+            // communicate binary support capabilities
+            if (!this.supportsBinary) {
+                query.b64 = 1;
+            }
+            const encodedQuery = encode$1(query);
+            const ipv6 = this.opts.hostname.indexOf(":") !== -1;
+            return (schema +
+                "://" +
+                (ipv6 ? "[" + this.opts.hostname + "]" : this.opts.hostname) +
+                port +
+                this.opts.path +
+                (encodedQuery.length ? "?" + encodedQuery : ""));
+        }
+        /**
+         * Feature detection for WebSocket.
+         *
+         * @return {Boolean} whether this transport is available.
+         * @api public
+         */
+        check() {
+            return !!WebSocket;
+        }
+    }
+
+    const transports = {
+        websocket: WS,
+        polling: Polling
+    };
+
+    // imported from https://github.com/galkn/parseuri
+    /**
+     * Parses an URI
+     *
+     * @author Steven Levithan <stevenlevithan.com> (MIT license)
+     * @api private
+     */
+    const re = /^(?:(?![^:@]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/;
+    const parts = [
+        'source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor'
+    ];
+    function parse(str) {
+        const src = str, b = str.indexOf('['), e = str.indexOf(']');
+        if (b != -1 && e != -1) {
+            str = str.substring(0, b) + str.substring(b, e).replace(/:/g, ';') + str.substring(e, str.length);
+        }
+        let m = re.exec(str || ''), uri = {}, i = 14;
+        while (i--) {
+            uri[parts[i]] = m[i] || '';
+        }
+        if (b != -1 && e != -1) {
+            uri.source = src;
+            uri.host = uri.host.substring(1, uri.host.length - 1).replace(/;/g, ':');
+            uri.authority = uri.authority.replace('[', '').replace(']', '').replace(/;/g, ':');
+            uri.ipv6uri = true;
+        }
+        uri.pathNames = pathNames(uri, uri['path']);
+        uri.queryKey = queryKey(uri, uri['query']);
+        return uri;
+    }
+    function pathNames(obj, path) {
+        const regx = /\/{2,9}/g, names = path.replace(regx, "/").split("/");
+        if (path.substr(0, 1) == '/' || path.length === 0) {
+            names.splice(0, 1);
+        }
+        if (path.substr(path.length - 1, 1) == '/') {
+            names.splice(names.length - 1, 1);
+        }
+        return names;
+    }
+    function queryKey(uri, query) {
+        const data = {};
+        query.replace(/(?:^|&)([^&=]*)=?([^&]*)/g, function ($0, $1, $2) {
+            if ($1) {
+                data[$1] = $2;
+            }
+        });
+        return data;
+    }
+
+    class Socket$1 extends Emitter {
+        /**
+         * Socket constructor.
+         *
+         * @param {String|Object} uri or options
+         * @param {Object} opts - options
+         * @api public
+         */
+        constructor(uri, opts = {}) {
+            super();
+            if (uri && "object" === typeof uri) {
+                opts = uri;
+                uri = null;
+            }
+            if (uri) {
+                uri = parse(uri);
+                opts.hostname = uri.host;
+                opts.secure = uri.protocol === "https" || uri.protocol === "wss";
+                opts.port = uri.port;
+                if (uri.query)
+                    opts.query = uri.query;
+            }
+            else if (opts.host) {
+                opts.hostname = parse(opts.host).host;
+            }
+            installTimerFunctions(this, opts);
+            this.secure =
+                null != opts.secure
+                    ? opts.secure
+                    : typeof location !== "undefined" && "https:" === location.protocol;
+            if (opts.hostname && !opts.port) {
+                // if no port is specified manually, use the protocol default
+                opts.port = this.secure ? "443" : "80";
+            }
+            this.hostname =
+                opts.hostname ||
+                    (typeof location !== "undefined" ? location.hostname : "localhost");
+            this.port =
+                opts.port ||
+                    (typeof location !== "undefined" && location.port
+                        ? location.port
+                        : this.secure
+                            ? "443"
+                            : "80");
+            this.transports = opts.transports || ["polling", "websocket"];
+            this.readyState = "";
+            this.writeBuffer = [];
+            this.prevBufferLen = 0;
+            this.opts = Object.assign({
+                path: "/engine.io",
+                agent: false,
+                withCredentials: false,
+                upgrade: true,
+                timestampParam: "t",
+                rememberUpgrade: false,
+                rejectUnauthorized: true,
+                perMessageDeflate: {
+                    threshold: 1024
+                },
+                transportOptions: {},
+                closeOnBeforeunload: true
+            }, opts);
+            this.opts.path = this.opts.path.replace(/\/$/, "") + "/";
+            if (typeof this.opts.query === "string") {
+                this.opts.query = decode(this.opts.query);
+            }
+            // set on handshake
+            this.id = null;
+            this.upgrades = null;
+            this.pingInterval = null;
+            this.pingTimeout = null;
+            // set on heartbeat
+            this.pingTimeoutTimer = null;
+            if (typeof addEventListener === "function") {
+                if (this.opts.closeOnBeforeunload) {
+                    // Firefox closes the connection when the "beforeunload" event is emitted but not Chrome. This event listener
+                    // ensures every browser behaves the same (no "disconnect" event at the Socket.IO level when the page is
+                    // closed/reloaded)
+                    addEventListener("beforeunload", () => {
+                        if (this.transport) {
+                            // silently close the transport
+                            this.transport.removeAllListeners();
+                            this.transport.close();
+                        }
+                    }, false);
+                }
+                if (this.hostname !== "localhost") {
+                    this.offlineEventListener = () => {
+                        this.onClose("transport close", {
+                            description: "network connection lost"
+                        });
+                    };
+                    addEventListener("offline", this.offlineEventListener, false);
+                }
+            }
+            this.open();
+        }
+        /**
+         * Creates transport of the given type.
+         *
+         * @param {String} transport name
+         * @return {Transport}
+         * @api private
+         */
+        createTransport(name) {
+            const query = Object.assign({}, this.opts.query);
+            // append engine.io protocol identifier
+            query.EIO = protocol$1;
+            // transport name
+            query.transport = name;
+            // session id if we already have one
+            if (this.id)
+                query.sid = this.id;
+            const opts = Object.assign({}, this.opts.transportOptions[name], this.opts, {
+                query,
+                socket: this,
+                hostname: this.hostname,
+                secure: this.secure,
+                port: this.port
+            });
+            return new transports[name](opts);
+        }
+        /**
+         * Initializes transport to use and starts probe.
+         *
+         * @api private
+         */
+        open() {
+            let transport;
+            if (this.opts.rememberUpgrade &&
+                Socket$1.priorWebsocketSuccess &&
+                this.transports.indexOf("websocket") !== -1) {
+                transport = "websocket";
+            }
+            else if (0 === this.transports.length) {
+                // Emit error on next tick so it can be listened to
+                this.setTimeoutFn(() => {
+                    this.emitReserved("error", "No transports available");
+                }, 0);
+                return;
+            }
+            else {
+                transport = this.transports[0];
+            }
+            this.readyState = "opening";
+            // Retry with the next transport if the transport is disabled (jsonp: false)
+            try {
+                transport = this.createTransport(transport);
+            }
+            catch (e) {
+                this.transports.shift();
+                this.open();
+                return;
+            }
+            transport.open();
+            this.setTransport(transport);
+        }
+        /**
+         * Sets the current transport. Disables the existing one (if any).
+         *
+         * @api private
+         */
+        setTransport(transport) {
+            if (this.transport) {
+                this.transport.removeAllListeners();
+            }
+            // set up transport
+            this.transport = transport;
+            // set up transport listeners
+            transport
+                .on("drain", this.onDrain.bind(this))
+                .on("packet", this.onPacket.bind(this))
+                .on("error", this.onError.bind(this))
+                .on("close", reason => this.onClose("transport close", reason));
+        }
+        /**
+         * Probes a transport.
+         *
+         * @param {String} transport name
+         * @api private
+         */
+        probe(name) {
+            let transport = this.createTransport(name);
+            let failed = false;
+            Socket$1.priorWebsocketSuccess = false;
+            const onTransportOpen = () => {
+                if (failed)
+                    return;
+                transport.send([{ type: "ping", data: "probe" }]);
+                transport.once("packet", msg => {
+                    if (failed)
+                        return;
+                    if ("pong" === msg.type && "probe" === msg.data) {
+                        this.upgrading = true;
+                        this.emitReserved("upgrading", transport);
+                        if (!transport)
+                            return;
+                        Socket$1.priorWebsocketSuccess = "websocket" === transport.name;
+                        this.transport.pause(() => {
+                            if (failed)
+                                return;
+                            if ("closed" === this.readyState)
+                                return;
+                            cleanup();
+                            this.setTransport(transport);
+                            transport.send([{ type: "upgrade" }]);
+                            this.emitReserved("upgrade", transport);
+                            transport = null;
+                            this.upgrading = false;
+                            this.flush();
+                        });
+                    }
+                    else {
+                        const err = new Error("probe error");
+                        // @ts-ignore
+                        err.transport = transport.name;
+                        this.emitReserved("upgradeError", err);
+                    }
+                });
+            };
+            function freezeTransport() {
+                if (failed)
+                    return;
+                // Any callback called by transport should be ignored since now
+                failed = true;
+                cleanup();
+                transport.close();
+                transport = null;
+            }
+            // Handle any error that happens while probing
+            const onerror = err => {
+                const error = new Error("probe error: " + err);
+                // @ts-ignore
+                error.transport = transport.name;
+                freezeTransport();
+                this.emitReserved("upgradeError", error);
+            };
+            function onTransportClose() {
+                onerror("transport closed");
+            }
+            // When the socket is closed while we're probing
+            function onclose() {
+                onerror("socket closed");
+            }
+            // When the socket is upgraded while we're probing
+            function onupgrade(to) {
+                if (transport && to.name !== transport.name) {
+                    freezeTransport();
+                }
+            }
+            // Remove all listeners on the transport and on self
+            const cleanup = () => {
+                transport.removeListener("open", onTransportOpen);
+                transport.removeListener("error", onerror);
+                transport.removeListener("close", onTransportClose);
+                this.off("close", onclose);
+                this.off("upgrading", onupgrade);
+            };
+            transport.once("open", onTransportOpen);
+            transport.once("error", onerror);
+            transport.once("close", onTransportClose);
+            this.once("close", onclose);
+            this.once("upgrading", onupgrade);
+            transport.open();
+        }
+        /**
+         * Called when connection is deemed open.
+         *
+         * @api private
+         */
+        onOpen() {
+            this.readyState = "open";
+            Socket$1.priorWebsocketSuccess = "websocket" === this.transport.name;
+            this.emitReserved("open");
+            this.flush();
+            // we check for `readyState` in case an `open`
+            // listener already closed the socket
+            if ("open" === this.readyState &&
+                this.opts.upgrade &&
+                this.transport.pause) {
+                let i = 0;
+                const l = this.upgrades.length;
+                for (; i < l; i++) {
+                    this.probe(this.upgrades[i]);
+                }
+            }
+        }
+        /**
+         * Handles a packet.
+         *
+         * @api private
+         */
+        onPacket(packet) {
+            if ("opening" === this.readyState ||
+                "open" === this.readyState ||
+                "closing" === this.readyState) {
+                this.emitReserved("packet", packet);
+                // Socket is live - any packet counts
+                this.emitReserved("heartbeat");
+                switch (packet.type) {
+                    case "open":
+                        this.onHandshake(JSON.parse(packet.data));
+                        break;
+                    case "ping":
+                        this.resetPingTimeout();
+                        this.sendPacket("pong");
+                        this.emitReserved("ping");
+                        this.emitReserved("pong");
+                        break;
+                    case "error":
+                        const err = new Error("server error");
+                        // @ts-ignore
+                        err.code = packet.data;
+                        this.onError(err);
+                        break;
+                    case "message":
+                        this.emitReserved("data", packet.data);
+                        this.emitReserved("message", packet.data);
+                        break;
+                }
+            }
+        }
+        /**
+         * Called upon handshake completion.
+         *
+         * @param {Object} data - handshake obj
+         * @api private
+         */
+        onHandshake(data) {
+            this.emitReserved("handshake", data);
+            this.id = data.sid;
+            this.transport.query.sid = data.sid;
+            this.upgrades = this.filterUpgrades(data.upgrades);
+            this.pingInterval = data.pingInterval;
+            this.pingTimeout = data.pingTimeout;
+            this.maxPayload = data.maxPayload;
+            this.onOpen();
+            // In case open handler closes socket
+            if ("closed" === this.readyState)
+                return;
+            this.resetPingTimeout();
+        }
+        /**
+         * Sets and resets ping timeout timer based on server pings.
+         *
+         * @api private
+         */
+        resetPingTimeout() {
+            this.clearTimeoutFn(this.pingTimeoutTimer);
+            this.pingTimeoutTimer = this.setTimeoutFn(() => {
+                this.onClose("ping timeout");
+            }, this.pingInterval + this.pingTimeout);
+            if (this.opts.autoUnref) {
+                this.pingTimeoutTimer.unref();
+            }
+        }
+        /**
+         * Called on `drain` event
+         *
+         * @api private
+         */
+        onDrain() {
+            this.writeBuffer.splice(0, this.prevBufferLen);
+            // setting prevBufferLen = 0 is very important
+            // for example, when upgrading, upgrade packet is sent over,
+            // and a nonzero prevBufferLen could cause problems on `drain`
+            this.prevBufferLen = 0;
+            if (0 === this.writeBuffer.length) {
+                this.emitReserved("drain");
+            }
+            else {
+                this.flush();
+            }
+        }
+        /**
+         * Flush write buffers.
+         *
+         * @api private
+         */
+        flush() {
+            if ("closed" !== this.readyState &&
+                this.transport.writable &&
+                !this.upgrading &&
+                this.writeBuffer.length) {
+                const packets = this.getWritablePackets();
+                this.transport.send(packets);
+                // keep track of current length of writeBuffer
+                // splice writeBuffer and callbackBuffer on `drain`
+                this.prevBufferLen = packets.length;
+                this.emitReserved("flush");
+            }
+        }
+        /**
+         * Ensure the encoded size of the writeBuffer is below the maxPayload value sent by the server (only for HTTP
+         * long-polling)
+         *
+         * @private
+         */
+        getWritablePackets() {
+            const shouldCheckPayloadSize = this.maxPayload &&
+                this.transport.name === "polling" &&
+                this.writeBuffer.length > 1;
+            if (!shouldCheckPayloadSize) {
+                return this.writeBuffer;
+            }
+            let payloadSize = 1; // first packet type
+            for (let i = 0; i < this.writeBuffer.length; i++) {
+                const data = this.writeBuffer[i].data;
+                if (data) {
+                    payloadSize += byteLength(data);
+                }
+                if (i > 0 && payloadSize > this.maxPayload) {
+                    return this.writeBuffer.slice(0, i);
+                }
+                payloadSize += 2; // separator + packet type
+            }
+            return this.writeBuffer;
+        }
+        /**
+         * Sends a message.
+         *
+         * @param {String} message.
+         * @param {Function} callback function.
+         * @param {Object} options.
+         * @return {Socket} for chaining.
+         * @api public
+         */
+        write(msg, options, fn) {
+            this.sendPacket("message", msg, options, fn);
+            return this;
+        }
+        send(msg, options, fn) {
+            this.sendPacket("message", msg, options, fn);
+            return this;
+        }
+        /**
+         * Sends a packet.
+         *
+         * @param {String} packet type.
+         * @param {String} data.
+         * @param {Object} options.
+         * @param {Function} callback function.
+         * @api private
+         */
+        sendPacket(type, data, options, fn) {
+            if ("function" === typeof data) {
+                fn = data;
+                data = undefined;
+            }
+            if ("function" === typeof options) {
+                fn = options;
+                options = null;
+            }
+            if ("closing" === this.readyState || "closed" === this.readyState) {
+                return;
+            }
+            options = options || {};
+            options.compress = false !== options.compress;
+            const packet = {
+                type: type,
+                data: data,
+                options: options
+            };
+            this.emitReserved("packetCreate", packet);
+            this.writeBuffer.push(packet);
+            if (fn)
+                this.once("flush", fn);
+            this.flush();
+        }
+        /**
+         * Closes the connection.
+         *
+         * @api public
+         */
+        close() {
+            const close = () => {
+                this.onClose("forced close");
+                this.transport.close();
+            };
+            const cleanupAndClose = () => {
+                this.off("upgrade", cleanupAndClose);
+                this.off("upgradeError", cleanupAndClose);
+                close();
+            };
+            const waitForUpgrade = () => {
+                // wait for upgrade to finish since we can't send packets while pausing a transport
+                this.once("upgrade", cleanupAndClose);
+                this.once("upgradeError", cleanupAndClose);
+            };
+            if ("opening" === this.readyState || "open" === this.readyState) {
+                this.readyState = "closing";
+                if (this.writeBuffer.length) {
+                    this.once("drain", () => {
+                        if (this.upgrading) {
+                            waitForUpgrade();
+                        }
+                        else {
+                            close();
+                        }
+                    });
+                }
+                else if (this.upgrading) {
+                    waitForUpgrade();
+                }
+                else {
+                    close();
+                }
+            }
+            return this;
+        }
+        /**
+         * Called upon transport error
+         *
+         * @api private
+         */
+        onError(err) {
+            Socket$1.priorWebsocketSuccess = false;
+            this.emitReserved("error", err);
+            this.onClose("transport error", err);
+        }
+        /**
+         * Called upon transport close.
+         *
+         * @api private
+         */
+        onClose(reason, description) {
+            if ("opening" === this.readyState ||
+                "open" === this.readyState ||
+                "closing" === this.readyState) {
+                // clear timers
+                this.clearTimeoutFn(this.pingTimeoutTimer);
+                // stop event from firing again for transport
+                this.transport.removeAllListeners("close");
+                // ensure transport won't stay open
+                this.transport.close();
+                // ignore further transport communication
+                this.transport.removeAllListeners();
+                if (typeof removeEventListener === "function") {
+                    removeEventListener("offline", this.offlineEventListener, false);
+                }
+                // set ready state
+                this.readyState = "closed";
+                // clear session id
+                this.id = null;
+                // emit close event
+                this.emitReserved("close", reason, description);
+                // clean buffers after, so users can still
+                // grab the buffers on `close` event
+                this.writeBuffer = [];
+                this.prevBufferLen = 0;
+            }
+        }
+        /**
+         * Filters upgrades, returning only those matching client transports.
+         *
+         * @param {Array} server upgrades
+         * @api private
+         *
+         */
+        filterUpgrades(upgrades) {
+            const filteredUpgrades = [];
+            let i = 0;
+            const j = upgrades.length;
+            for (; i < j; i++) {
+                if (~this.transports.indexOf(upgrades[i]))
+                    filteredUpgrades.push(upgrades[i]);
+            }
+            return filteredUpgrades;
+        }
+    }
+    Socket$1.protocol = protocol$1;
+
+    /**
+     * URL parser.
+     *
+     * @param uri - url
+     * @param path - the request path of the connection
+     * @param loc - An object meant to mimic window.location.
+     *        Defaults to window.location.
+     * @public
+     */
+    function url(uri, path = "", loc) {
+        let obj = uri;
+        // default to window.location
+        loc = loc || (typeof location !== "undefined" && location);
+        if (null == uri)
+            uri = loc.protocol + "//" + loc.host;
+        // relative path support
+        if (typeof uri === "string") {
+            if ("/" === uri.charAt(0)) {
+                if ("/" === uri.charAt(1)) {
+                    uri = loc.protocol + uri;
+                }
+                else {
+                    uri = loc.host + uri;
+                }
+            }
+            if (!/^(https?|wss?):\/\//.test(uri)) {
+                if ("undefined" !== typeof loc) {
+                    uri = loc.protocol + "//" + uri;
+                }
+                else {
+                    uri = "https://" + uri;
+                }
+            }
+            // parse
+            obj = parse(uri);
+        }
+        // make sure we treat `localhost:80` and `localhost` equally
+        if (!obj.port) {
+            if (/^(http|ws)$/.test(obj.protocol)) {
+                obj.port = "80";
+            }
+            else if (/^(http|ws)s$/.test(obj.protocol)) {
+                obj.port = "443";
+            }
+        }
+        obj.path = obj.path || "/";
+        const ipv6 = obj.host.indexOf(":") !== -1;
+        const host = ipv6 ? "[" + obj.host + "]" : obj.host;
+        // define unique id
+        obj.id = obj.protocol + "://" + host + ":" + obj.port + path;
+        // define href
+        obj.href =
+            obj.protocol +
+                "://" +
+                host +
+                (loc && loc.port === obj.port ? "" : ":" + obj.port);
+        return obj;
+    }
+
+    const withNativeArrayBuffer = typeof ArrayBuffer === "function";
+    const isView = (obj) => {
+        return typeof ArrayBuffer.isView === "function"
+            ? ArrayBuffer.isView(obj)
+            : obj.buffer instanceof ArrayBuffer;
+    };
+    const toString$1 = Object.prototype.toString;
+    const withNativeBlob = typeof Blob === "function" ||
+        (typeof Blob !== "undefined" &&
+            toString$1.call(Blob) === "[object BlobConstructor]");
+    const withNativeFile = typeof File === "function" ||
+        (typeof File !== "undefined" &&
+            toString$1.call(File) === "[object FileConstructor]");
+    /**
+     * Returns true if obj is a Buffer, an ArrayBuffer, a Blob or a File.
+     *
+     * @private
+     */
+    function isBinary(obj) {
+        return ((withNativeArrayBuffer && (obj instanceof ArrayBuffer || isView(obj))) ||
+            (withNativeBlob && obj instanceof Blob) ||
+            (withNativeFile && obj instanceof File));
+    }
+    function hasBinary(obj, toJSON) {
+        if (!obj || typeof obj !== "object") {
+            return false;
+        }
+        if (Array.isArray(obj)) {
+            for (let i = 0, l = obj.length; i < l; i++) {
+                if (hasBinary(obj[i])) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if (isBinary(obj)) {
+            return true;
+        }
+        if (obj.toJSON &&
+            typeof obj.toJSON === "function" &&
+            arguments.length === 1) {
+            return hasBinary(obj.toJSON(), true);
+        }
+        for (const key in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, key) && hasBinary(obj[key])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Replaces every Buffer | ArrayBuffer | Blob | File in packet with a numbered placeholder.
+     *
+     * @param {Object} packet - socket.io event packet
+     * @return {Object} with deconstructed packet and list of buffers
+     * @public
+     */
+    function deconstructPacket(packet) {
+        const buffers = [];
+        const packetData = packet.data;
+        const pack = packet;
+        pack.data = _deconstructPacket(packetData, buffers);
+        pack.attachments = buffers.length; // number of binary 'attachments'
+        return { packet: pack, buffers: buffers };
+    }
+    function _deconstructPacket(data, buffers) {
+        if (!data)
+            return data;
+        if (isBinary(data)) {
+            const placeholder = { _placeholder: true, num: buffers.length };
+            buffers.push(data);
+            return placeholder;
+        }
+        else if (Array.isArray(data)) {
+            const newData = new Array(data.length);
+            for (let i = 0; i < data.length; i++) {
+                newData[i] = _deconstructPacket(data[i], buffers);
+            }
+            return newData;
+        }
+        else if (typeof data === "object" && !(data instanceof Date)) {
+            const newData = {};
+            for (const key in data) {
+                if (Object.prototype.hasOwnProperty.call(data, key)) {
+                    newData[key] = _deconstructPacket(data[key], buffers);
+                }
+            }
+            return newData;
+        }
+        return data;
+    }
+    /**
+     * Reconstructs a binary packet from its placeholder packet and buffers
+     *
+     * @param {Object} packet - event packet with placeholders
+     * @param {Array} buffers - binary buffers to put in placeholder positions
+     * @return {Object} reconstructed packet
+     * @public
+     */
+    function reconstructPacket(packet, buffers) {
+        packet.data = _reconstructPacket(packet.data, buffers);
+        packet.attachments = undefined; // no longer useful
+        return packet;
+    }
+    function _reconstructPacket(data, buffers) {
+        if (!data)
+            return data;
+        if (data && data._placeholder === true) {
+            const isIndexValid = typeof data.num === "number" &&
+                data.num >= 0 &&
+                data.num < buffers.length;
+            if (isIndexValid) {
+                return buffers[data.num]; // appropriate buffer (should be natural order anyway)
+            }
+            else {
+                throw new Error("illegal attachments");
+            }
+        }
+        else if (Array.isArray(data)) {
+            for (let i = 0; i < data.length; i++) {
+                data[i] = _reconstructPacket(data[i], buffers);
+            }
+        }
+        else if (typeof data === "object") {
+            for (const key in data) {
+                if (Object.prototype.hasOwnProperty.call(data, key)) {
+                    data[key] = _reconstructPacket(data[key], buffers);
+                }
+            }
+        }
+        return data;
+    }
+
+    /**
+     * Protocol version.
+     *
+     * @public
+     */
+    const protocol = 5;
+    var PacketType;
+    (function (PacketType) {
+        PacketType[PacketType["CONNECT"] = 0] = "CONNECT";
+        PacketType[PacketType["DISCONNECT"] = 1] = "DISCONNECT";
+        PacketType[PacketType["EVENT"] = 2] = "EVENT";
+        PacketType[PacketType["ACK"] = 3] = "ACK";
+        PacketType[PacketType["CONNECT_ERROR"] = 4] = "CONNECT_ERROR";
+        PacketType[PacketType["BINARY_EVENT"] = 5] = "BINARY_EVENT";
+        PacketType[PacketType["BINARY_ACK"] = 6] = "BINARY_ACK";
+    })(PacketType || (PacketType = {}));
+    /**
+     * A socket.io Encoder instance
+     */
+    class Encoder {
+        /**
+         * Encoder constructor
+         *
+         * @param {function} replacer - custom replacer to pass down to JSON.parse
+         */
+        constructor(replacer) {
+            this.replacer = replacer;
+        }
+        /**
+         * Encode a packet as a single string if non-binary, or as a
+         * buffer sequence, depending on packet type.
+         *
+         * @param {Object} obj - packet object
+         */
+        encode(obj) {
+            if (obj.type === PacketType.EVENT || obj.type === PacketType.ACK) {
+                if (hasBinary(obj)) {
+                    obj.type =
+                        obj.type === PacketType.EVENT
+                            ? PacketType.BINARY_EVENT
+                            : PacketType.BINARY_ACK;
+                    return this.encodeAsBinary(obj);
+                }
+            }
+            return [this.encodeAsString(obj)];
+        }
+        /**
+         * Encode packet as string.
+         */
+        encodeAsString(obj) {
+            // first is type
+            let str = "" + obj.type;
+            // attachments if we have them
+            if (obj.type === PacketType.BINARY_EVENT ||
+                obj.type === PacketType.BINARY_ACK) {
+                str += obj.attachments + "-";
+            }
+            // if we have a namespace other than `/`
+            // we append it followed by a comma `,`
+            if (obj.nsp && "/" !== obj.nsp) {
+                str += obj.nsp + ",";
+            }
+            // immediately followed by the id
+            if (null != obj.id) {
+                str += obj.id;
+            }
+            // json data
+            if (null != obj.data) {
+                str += JSON.stringify(obj.data, this.replacer);
+            }
+            return str;
+        }
+        /**
+         * Encode packet as 'buffer sequence' by removing blobs, and
+         * deconstructing packet into object with placeholders and
+         * a list of buffers.
+         */
+        encodeAsBinary(obj) {
+            const deconstruction = deconstructPacket(obj);
+            const pack = this.encodeAsString(deconstruction.packet);
+            const buffers = deconstruction.buffers;
+            buffers.unshift(pack); // add packet info to beginning of data list
+            return buffers; // write all the buffers
+        }
+    }
+    /**
+     * A socket.io Decoder instance
+     *
+     * @return {Object} decoder
+     */
+    class Decoder extends Emitter {
+        /**
+         * Decoder constructor
+         *
+         * @param {function} reviver - custom reviver to pass down to JSON.stringify
+         */
+        constructor(reviver) {
+            super();
+            this.reviver = reviver;
+        }
+        /**
+         * Decodes an encoded packet string into packet JSON.
+         *
+         * @param {String} obj - encoded packet
+         */
+        add(obj) {
+            let packet;
+            if (typeof obj === "string") {
+                if (this.reconstructor) {
+                    throw new Error("got plaintext data when reconstructing a packet");
+                }
+                packet = this.decodeString(obj);
+                if (packet.type === PacketType.BINARY_EVENT ||
+                    packet.type === PacketType.BINARY_ACK) {
+                    // binary packet's json
+                    this.reconstructor = new BinaryReconstructor(packet);
+                    // no attachments, labeled binary but no binary data to follow
+                    if (packet.attachments === 0) {
+                        super.emitReserved("decoded", packet);
+                    }
+                }
+                else {
+                    // non-binary full packet
+                    super.emitReserved("decoded", packet);
+                }
+            }
+            else if (isBinary(obj) || obj.base64) {
+                // raw binary data
+                if (!this.reconstructor) {
+                    throw new Error("got binary data when not reconstructing a packet");
+                }
+                else {
+                    packet = this.reconstructor.takeBinaryData(obj);
+                    if (packet) {
+                        // received final buffer
+                        this.reconstructor = null;
+                        super.emitReserved("decoded", packet);
+                    }
+                }
+            }
+            else {
+                throw new Error("Unknown type: " + obj);
+            }
+        }
+        /**
+         * Decode a packet String (JSON data)
+         *
+         * @param {String} str
+         * @return {Object} packet
+         */
+        decodeString(str) {
+            let i = 0;
+            // look up type
+            const p = {
+                type: Number(str.charAt(0)),
+            };
+            if (PacketType[p.type] === undefined) {
+                throw new Error("unknown packet type " + p.type);
+            }
+            // look up attachments if type binary
+            if (p.type === PacketType.BINARY_EVENT ||
+                p.type === PacketType.BINARY_ACK) {
+                const start = i + 1;
+                while (str.charAt(++i) !== "-" && i != str.length) { }
+                const buf = str.substring(start, i);
+                if (buf != Number(buf) || str.charAt(i) !== "-") {
+                    throw new Error("Illegal attachments");
+                }
+                p.attachments = Number(buf);
+            }
+            // look up namespace (if any)
+            if ("/" === str.charAt(i + 1)) {
+                const start = i + 1;
+                while (++i) {
+                    const c = str.charAt(i);
+                    if ("," === c)
+                        break;
+                    if (i === str.length)
+                        break;
+                }
+                p.nsp = str.substring(start, i);
+            }
+            else {
+                p.nsp = "/";
+            }
+            // look up id
+            const next = str.charAt(i + 1);
+            if ("" !== next && Number(next) == next) {
+                const start = i + 1;
+                while (++i) {
+                    const c = str.charAt(i);
+                    if (null == c || Number(c) != c) {
+                        --i;
+                        break;
+                    }
+                    if (i === str.length)
+                        break;
+                }
+                p.id = Number(str.substring(start, i + 1));
+            }
+            // look up json data
+            if (str.charAt(++i)) {
+                const payload = this.tryParse(str.substr(i));
+                if (Decoder.isPayloadValid(p.type, payload)) {
+                    p.data = payload;
+                }
+                else {
+                    throw new Error("invalid payload");
+                }
+            }
+            return p;
+        }
+        tryParse(str) {
+            try {
+                return JSON.parse(str, this.reviver);
+            }
+            catch (e) {
+                return false;
+            }
+        }
+        static isPayloadValid(type, payload) {
+            switch (type) {
+                case PacketType.CONNECT:
+                    return typeof payload === "object";
+                case PacketType.DISCONNECT:
+                    return payload === undefined;
+                case PacketType.CONNECT_ERROR:
+                    return typeof payload === "string" || typeof payload === "object";
+                case PacketType.EVENT:
+                case PacketType.BINARY_EVENT:
+                    return Array.isArray(payload) && payload.length > 0;
+                case PacketType.ACK:
+                case PacketType.BINARY_ACK:
+                    return Array.isArray(payload);
+            }
+        }
+        /**
+         * Deallocates a parser's resources
+         */
+        destroy() {
+            if (this.reconstructor) {
+                this.reconstructor.finishedReconstruction();
+            }
+        }
+    }
+    /**
+     * A manager of a binary event's 'buffer sequence'. Should
+     * be constructed whenever a packet of type BINARY_EVENT is
+     * decoded.
+     *
+     * @param {Object} packet
+     * @return {BinaryReconstructor} initialized reconstructor
+     */
+    class BinaryReconstructor {
+        constructor(packet) {
+            this.packet = packet;
+            this.buffers = [];
+            this.reconPack = packet;
+        }
+        /**
+         * Method to be called when binary data received from connection
+         * after a BINARY_EVENT packet.
+         *
+         * @param {Buffer | ArrayBuffer} binData - the raw binary data received
+         * @return {null | Object} returns null if more binary data is expected or
+         *   a reconstructed packet object if all buffers have been received.
+         */
+        takeBinaryData(binData) {
+            this.buffers.push(binData);
+            if (this.buffers.length === this.reconPack.attachments) {
+                // done with buffer list
+                const packet = reconstructPacket(this.reconPack, this.buffers);
+                this.finishedReconstruction();
+                return packet;
+            }
+            return null;
+        }
+        /**
+         * Cleans up binary packet reconstruction variables.
+         */
+        finishedReconstruction() {
+            this.reconPack = null;
+            this.buffers = [];
+        }
+    }
+
+    var parser = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        protocol: protocol,
+        get PacketType () { return PacketType; },
+        Encoder: Encoder,
+        Decoder: Decoder
+    });
+
+    function on(obj, ev, fn) {
+        obj.on(ev, fn);
+        return function subDestroy() {
+            obj.off(ev, fn);
+        };
+    }
+
+    /**
+     * Internal events.
+     * These events can't be emitted by the user.
+     */
+    const RESERVED_EVENTS = Object.freeze({
+        connect: 1,
+        connect_error: 1,
+        disconnect: 1,
+        disconnecting: 1,
+        // EventEmitter reserved events: https://nodejs.org/api/events.html#events_event_newlistener
+        newListener: 1,
+        removeListener: 1,
+    });
+    class Socket extends Emitter {
+        /**
+         * `Socket` constructor.
+         *
+         * @public
+         */
+        constructor(io, nsp, opts) {
+            super();
+            this.connected = false;
+            this.receiveBuffer = [];
+            this.sendBuffer = [];
+            this.ids = 0;
+            this.acks = {};
+            this.flags = {};
+            this.io = io;
+            this.nsp = nsp;
+            if (opts && opts.auth) {
+                this.auth = opts.auth;
+            }
+            if (this.io._autoConnect)
+                this.open();
+        }
+        /**
+         * Whether the socket is currently disconnected
+         */
+        get disconnected() {
+            return !this.connected;
+        }
+        /**
+         * Subscribe to open, close and packet events
+         *
+         * @private
+         */
+        subEvents() {
+            if (this.subs)
+                return;
+            const io = this.io;
+            this.subs = [
+                on(io, "open", this.onopen.bind(this)),
+                on(io, "packet", this.onpacket.bind(this)),
+                on(io, "error", this.onerror.bind(this)),
+                on(io, "close", this.onclose.bind(this)),
+            ];
+        }
+        /**
+         * Whether the Socket will try to reconnect when its Manager connects or reconnects
+         */
+        get active() {
+            return !!this.subs;
+        }
+        /**
+         * "Opens" the socket.
+         *
+         * @public
+         */
+        connect() {
+            if (this.connected)
+                return this;
+            this.subEvents();
+            if (!this.io["_reconnecting"])
+                this.io.open(); // ensure open
+            if ("open" === this.io._readyState)
+                this.onopen();
+            return this;
+        }
+        /**
+         * Alias for connect()
+         */
+        open() {
+            return this.connect();
+        }
+        /**
+         * Sends a `message` event.
+         *
+         * @return self
+         * @public
+         */
+        send(...args) {
+            args.unshift("message");
+            this.emit.apply(this, args);
+            return this;
+        }
+        /**
+         * Override `emit`.
+         * If the event is in `events`, it's emitted normally.
+         *
+         * @return self
+         * @public
+         */
+        emit(ev, ...args) {
+            if (RESERVED_EVENTS.hasOwnProperty(ev)) {
+                throw new Error('"' + ev + '" is a reserved event name');
+            }
+            args.unshift(ev);
+            const packet = {
+                type: PacketType.EVENT,
+                data: args,
+            };
+            packet.options = {};
+            packet.options.compress = this.flags.compress !== false;
+            // event ack callback
+            if ("function" === typeof args[args.length - 1]) {
+                const id = this.ids++;
+                const ack = args.pop();
+                this._registerAckCallback(id, ack);
+                packet.id = id;
+            }
+            const isTransportWritable = this.io.engine &&
+                this.io.engine.transport &&
+                this.io.engine.transport.writable;
+            const discardPacket = this.flags.volatile && (!isTransportWritable || !this.connected);
+            if (discardPacket) ;
+            else if (this.connected) {
+                this.notifyOutgoingListeners(packet);
+                this.packet(packet);
+            }
+            else {
+                this.sendBuffer.push(packet);
+            }
+            this.flags = {};
+            return this;
+        }
+        /**
+         * @private
+         */
+        _registerAckCallback(id, ack) {
+            const timeout = this.flags.timeout;
+            if (timeout === undefined) {
+                this.acks[id] = ack;
+                return;
+            }
+            // @ts-ignore
+            const timer = this.io.setTimeoutFn(() => {
+                delete this.acks[id];
+                for (let i = 0; i < this.sendBuffer.length; i++) {
+                    if (this.sendBuffer[i].id === id) {
+                        this.sendBuffer.splice(i, 1);
+                    }
+                }
+                ack.call(this, new Error("operation has timed out"));
+            }, timeout);
+            this.acks[id] = (...args) => {
+                // @ts-ignore
+                this.io.clearTimeoutFn(timer);
+                ack.apply(this, [null, ...args]);
+            };
+        }
+        /**
+         * Sends a packet.
+         *
+         * @param packet
+         * @private
+         */
+        packet(packet) {
+            packet.nsp = this.nsp;
+            this.io._packet(packet);
+        }
+        /**
+         * Called upon engine `open`.
+         *
+         * @private
+         */
+        onopen() {
+            if (typeof this.auth == "function") {
+                this.auth((data) => {
+                    this.packet({ type: PacketType.CONNECT, data });
+                });
+            }
+            else {
+                this.packet({ type: PacketType.CONNECT, data: this.auth });
+            }
+        }
+        /**
+         * Called upon engine or manager `error`.
+         *
+         * @param err
+         * @private
+         */
+        onerror(err) {
+            if (!this.connected) {
+                this.emitReserved("connect_error", err);
+            }
+        }
+        /**
+         * Called upon engine `close`.
+         *
+         * @param reason
+         * @param description
+         * @private
+         */
+        onclose(reason, description) {
+            this.connected = false;
+            delete this.id;
+            this.emitReserved("disconnect", reason, description);
+        }
+        /**
+         * Called with socket packet.
+         *
+         * @param packet
+         * @private
+         */
+        onpacket(packet) {
+            const sameNamespace = packet.nsp === this.nsp;
+            if (!sameNamespace)
+                return;
+            switch (packet.type) {
+                case PacketType.CONNECT:
+                    if (packet.data && packet.data.sid) {
+                        const id = packet.data.sid;
+                        this.onconnect(id);
+                    }
+                    else {
+                        this.emitReserved("connect_error", new Error("It seems you are trying to reach a Socket.IO server in v2.x with a v3.x client, but they are not compatible (more information here: https://socket.io/docs/v3/migrating-from-2-x-to-3-0/)"));
+                    }
+                    break;
+                case PacketType.EVENT:
+                case PacketType.BINARY_EVENT:
+                    this.onevent(packet);
+                    break;
+                case PacketType.ACK:
+                case PacketType.BINARY_ACK:
+                    this.onack(packet);
+                    break;
+                case PacketType.DISCONNECT:
+                    this.ondisconnect();
+                    break;
+                case PacketType.CONNECT_ERROR:
+                    this.destroy();
+                    const err = new Error(packet.data.message);
+                    // @ts-ignore
+                    err.data = packet.data.data;
+                    this.emitReserved("connect_error", err);
+                    break;
+            }
+        }
+        /**
+         * Called upon a server event.
+         *
+         * @param packet
+         * @private
+         */
+        onevent(packet) {
+            const args = packet.data || [];
+            if (null != packet.id) {
+                args.push(this.ack(packet.id));
+            }
+            if (this.connected) {
+                this.emitEvent(args);
+            }
+            else {
+                this.receiveBuffer.push(Object.freeze(args));
+            }
+        }
+        emitEvent(args) {
+            if (this._anyListeners && this._anyListeners.length) {
+                const listeners = this._anyListeners.slice();
+                for (const listener of listeners) {
+                    listener.apply(this, args);
+                }
+            }
+            super.emit.apply(this, args);
+        }
+        /**
+         * Produces an ack callback to emit with an event.
+         *
+         * @private
+         */
+        ack(id) {
+            const self = this;
+            let sent = false;
+            return function (...args) {
+                // prevent double callbacks
+                if (sent)
+                    return;
+                sent = true;
+                self.packet({
+                    type: PacketType.ACK,
+                    id: id,
+                    data: args,
+                });
+            };
+        }
+        /**
+         * Called upon a server acknowlegement.
+         *
+         * @param packet
+         * @private
+         */
+        onack(packet) {
+            const ack = this.acks[packet.id];
+            if ("function" === typeof ack) {
+                ack.apply(this, packet.data);
+                delete this.acks[packet.id];
+            }
+        }
+        /**
+         * Called upon server connect.
+         *
+         * @private
+         */
+        onconnect(id) {
+            this.id = id;
+            this.connected = true;
+            this.emitBuffered();
+            this.emitReserved("connect");
+        }
+        /**
+         * Emit buffered events (received and emitted).
+         *
+         * @private
+         */
+        emitBuffered() {
+            this.receiveBuffer.forEach((args) => this.emitEvent(args));
+            this.receiveBuffer = [];
+            this.sendBuffer.forEach((packet) => {
+                this.notifyOutgoingListeners(packet);
+                this.packet(packet);
+            });
+            this.sendBuffer = [];
+        }
+        /**
+         * Called upon server disconnect.
+         *
+         * @private
+         */
+        ondisconnect() {
+            this.destroy();
+            this.onclose("io server disconnect");
+        }
+        /**
+         * Called upon forced client/server side disconnections,
+         * this method ensures the manager stops tracking us and
+         * that reconnections don't get triggered for this.
+         *
+         * @private
+         */
+        destroy() {
+            if (this.subs) {
+                // clean subscriptions to avoid reconnections
+                this.subs.forEach((subDestroy) => subDestroy());
+                this.subs = undefined;
+            }
+            this.io["_destroy"](this);
+        }
+        /**
+         * Disconnects the socket manually.
+         *
+         * @return self
+         * @public
+         */
+        disconnect() {
+            if (this.connected) {
+                this.packet({ type: PacketType.DISCONNECT });
+            }
+            // remove socket from pool
+            this.destroy();
+            if (this.connected) {
+                // fire events
+                this.onclose("io client disconnect");
+            }
+            return this;
+        }
+        /**
+         * Alias for disconnect()
+         *
+         * @return self
+         * @public
+         */
+        close() {
+            return this.disconnect();
+        }
+        /**
+         * Sets the compress flag.
+         *
+         * @param compress - if `true`, compresses the sending data
+         * @return self
+         * @public
+         */
+        compress(compress) {
+            this.flags.compress = compress;
+            return this;
+        }
+        /**
+         * Sets a modifier for a subsequent event emission that the event message will be dropped when this socket is not
+         * ready to send messages.
+         *
+         * @returns self
+         * @public
+         */
+        get volatile() {
+            this.flags.volatile = true;
+            return this;
+        }
+        /**
+         * Sets a modifier for a subsequent event emission that the callback will be called with an error when the
+         * given number of milliseconds have elapsed without an acknowledgement from the server:
+         *
+         * ```
+         * socket.timeout(5000).emit("my-event", (err) => {
+         *   if (err) {
+         *     // the server did not acknowledge the event in the given delay
+         *   }
+         * });
+         * ```
+         *
+         * @returns self
+         * @public
+         */
+        timeout(timeout) {
+            this.flags.timeout = timeout;
+            return this;
+        }
+        /**
+         * Adds a listener that will be fired when any event is emitted. The event name is passed as the first argument to the
+         * callback.
+         *
+         * @param listener
+         * @public
+         */
+        onAny(listener) {
+            this._anyListeners = this._anyListeners || [];
+            this._anyListeners.push(listener);
+            return this;
+        }
+        /**
+         * Adds a listener that will be fired when any event is emitted. The event name is passed as the first argument to the
+         * callback. The listener is added to the beginning of the listeners array.
+         *
+         * @param listener
+         * @public
+         */
+        prependAny(listener) {
+            this._anyListeners = this._anyListeners || [];
+            this._anyListeners.unshift(listener);
+            return this;
+        }
+        /**
+         * Removes the listener that will be fired when any event is emitted.
+         *
+         * @param listener
+         * @public
+         */
+        offAny(listener) {
+            if (!this._anyListeners) {
+                return this;
+            }
+            if (listener) {
+                const listeners = this._anyListeners;
+                for (let i = 0; i < listeners.length; i++) {
+                    if (listener === listeners[i]) {
+                        listeners.splice(i, 1);
+                        return this;
+                    }
+                }
+            }
+            else {
+                this._anyListeners = [];
+            }
+            return this;
+        }
+        /**
+         * Returns an array of listeners that are listening for any event that is specified. This array can be manipulated,
+         * e.g. to remove listeners.
+         *
+         * @public
+         */
+        listenersAny() {
+            return this._anyListeners || [];
+        }
+        /**
+         * Adds a listener that will be fired when any event is emitted. The event name is passed as the first argument to the
+         * callback.
+         *
+         * @param listener
+         *
+         * <pre><code>
+         *
+         * socket.onAnyOutgoing((event, ...args) => {
+         *   console.log(event);
+         * });
+         *
+         * </pre></code>
+         *
+         * @public
+         */
+        onAnyOutgoing(listener) {
+            this._anyOutgoingListeners = this._anyOutgoingListeners || [];
+            this._anyOutgoingListeners.push(listener);
+            return this;
+        }
+        /**
+         * Adds a listener that will be fired when any event is emitted. The event name is passed as the first argument to the
+         * callback. The listener is added to the beginning of the listeners array.
+         *
+         * @param listener
+         *
+         * <pre><code>
+         *
+         * socket.prependAnyOutgoing((event, ...args) => {
+         *   console.log(event);
+         * });
+         *
+         * </pre></code>
+         *
+         * @public
+         */
+        prependAnyOutgoing(listener) {
+            this._anyOutgoingListeners = this._anyOutgoingListeners || [];
+            this._anyOutgoingListeners.unshift(listener);
+            return this;
+        }
+        /**
+         * Removes the listener that will be fired when any event is emitted.
+         *
+         * @param listener
+         *
+         * <pre><code>
+         *
+         * const handler = (event, ...args) => {
+         *   console.log(event);
+         * }
+         *
+         * socket.onAnyOutgoing(handler);
+         *
+         * // then later
+         * socket.offAnyOutgoing(handler);
+         *
+         * </pre></code>
+         *
+         * @public
+         */
+        offAnyOutgoing(listener) {
+            if (!this._anyOutgoingListeners) {
+                return this;
+            }
+            if (listener) {
+                const listeners = this._anyOutgoingListeners;
+                for (let i = 0; i < listeners.length; i++) {
+                    if (listener === listeners[i]) {
+                        listeners.splice(i, 1);
+                        return this;
+                    }
+                }
+            }
+            else {
+                this._anyOutgoingListeners = [];
+            }
+            return this;
+        }
+        /**
+         * Returns an array of listeners that are listening for any event that is specified. This array can be manipulated,
+         * e.g. to remove listeners.
+         *
+         * @public
+         */
+        listenersAnyOutgoing() {
+            return this._anyOutgoingListeners || [];
+        }
+        /**
+         * Notify the listeners for each packet sent
+         *
+         * @param packet
+         *
+         * @private
+         */
+        notifyOutgoingListeners(packet) {
+            if (this._anyOutgoingListeners && this._anyOutgoingListeners.length) {
+                const listeners = this._anyOutgoingListeners.slice();
+                for (const listener of listeners) {
+                    listener.apply(this, packet.data);
+                }
+            }
+        }
+    }
+
+    /**
+     * Initialize backoff timer with `opts`.
+     *
+     * - `min` initial timeout in milliseconds [100]
+     * - `max` max timeout [10000]
+     * - `jitter` [0]
+     * - `factor` [2]
+     *
+     * @param {Object} opts
+     * @api public
+     */
+    function Backoff(opts) {
+        opts = opts || {};
+        this.ms = opts.min || 100;
+        this.max = opts.max || 10000;
+        this.factor = opts.factor || 2;
+        this.jitter = opts.jitter > 0 && opts.jitter <= 1 ? opts.jitter : 0;
+        this.attempts = 0;
+    }
+    /**
+     * Return the backoff duration.
+     *
+     * @return {Number}
+     * @api public
+     */
+    Backoff.prototype.duration = function () {
+        var ms = this.ms * Math.pow(this.factor, this.attempts++);
+        if (this.jitter) {
+            var rand = Math.random();
+            var deviation = Math.floor(rand * this.jitter * ms);
+            ms = (Math.floor(rand * 10) & 1) == 0 ? ms - deviation : ms + deviation;
+        }
+        return Math.min(ms, this.max) | 0;
+    };
+    /**
+     * Reset the number of attempts.
+     *
+     * @api public
+     */
+    Backoff.prototype.reset = function () {
+        this.attempts = 0;
+    };
+    /**
+     * Set the minimum duration
+     *
+     * @api public
+     */
+    Backoff.prototype.setMin = function (min) {
+        this.ms = min;
+    };
+    /**
+     * Set the maximum duration
+     *
+     * @api public
+     */
+    Backoff.prototype.setMax = function (max) {
+        this.max = max;
+    };
+    /**
+     * Set the jitter
+     *
+     * @api public
+     */
+    Backoff.prototype.setJitter = function (jitter) {
+        this.jitter = jitter;
+    };
+
+    class Manager extends Emitter {
+        constructor(uri, opts) {
+            var _a;
+            super();
+            this.nsps = {};
+            this.subs = [];
+            if (uri && "object" === typeof uri) {
+                opts = uri;
+                uri = undefined;
+            }
+            opts = opts || {};
+            opts.path = opts.path || "/socket.io";
+            this.opts = opts;
+            installTimerFunctions(this, opts);
+            this.reconnection(opts.reconnection !== false);
+            this.reconnectionAttempts(opts.reconnectionAttempts || Infinity);
+            this.reconnectionDelay(opts.reconnectionDelay || 1000);
+            this.reconnectionDelayMax(opts.reconnectionDelayMax || 5000);
+            this.randomizationFactor((_a = opts.randomizationFactor) !== null && _a !== void 0 ? _a : 0.5);
+            this.backoff = new Backoff({
+                min: this.reconnectionDelay(),
+                max: this.reconnectionDelayMax(),
+                jitter: this.randomizationFactor(),
+            });
+            this.timeout(null == opts.timeout ? 20000 : opts.timeout);
+            this._readyState = "closed";
+            this.uri = uri;
+            const _parser = opts.parser || parser;
+            this.encoder = new _parser.Encoder();
+            this.decoder = new _parser.Decoder();
+            this._autoConnect = opts.autoConnect !== false;
+            if (this._autoConnect)
+                this.open();
+        }
+        reconnection(v) {
+            if (!arguments.length)
+                return this._reconnection;
+            this._reconnection = !!v;
+            return this;
+        }
+        reconnectionAttempts(v) {
+            if (v === undefined)
+                return this._reconnectionAttempts;
+            this._reconnectionAttempts = v;
+            return this;
+        }
+        reconnectionDelay(v) {
+            var _a;
+            if (v === undefined)
+                return this._reconnectionDelay;
+            this._reconnectionDelay = v;
+            (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setMin(v);
+            return this;
+        }
+        randomizationFactor(v) {
+            var _a;
+            if (v === undefined)
+                return this._randomizationFactor;
+            this._randomizationFactor = v;
+            (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setJitter(v);
+            return this;
+        }
+        reconnectionDelayMax(v) {
+            var _a;
+            if (v === undefined)
+                return this._reconnectionDelayMax;
+            this._reconnectionDelayMax = v;
+            (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setMax(v);
+            return this;
+        }
+        timeout(v) {
+            if (!arguments.length)
+                return this._timeout;
+            this._timeout = v;
+            return this;
+        }
+        /**
+         * Starts trying to reconnect if reconnection is enabled and we have not
+         * started reconnecting yet
+         *
+         * @private
+         */
+        maybeReconnectOnOpen() {
+            // Only try to reconnect if it's the first time we're connecting
+            if (!this._reconnecting &&
+                this._reconnection &&
+                this.backoff.attempts === 0) {
+                // keeps reconnection from firing twice for the same reconnection loop
+                this.reconnect();
+            }
+        }
+        /**
+         * Sets the current transport `socket`.
+         *
+         * @param {Function} fn - optional, callback
+         * @return self
+         * @public
+         */
+        open(fn) {
+            if (~this._readyState.indexOf("open"))
+                return this;
+            this.engine = new Socket$1(this.uri, this.opts);
+            const socket = this.engine;
+            const self = this;
+            this._readyState = "opening";
+            this.skipReconnect = false;
+            // emit `open`
+            const openSubDestroy = on(socket, "open", function () {
+                self.onopen();
+                fn && fn();
+            });
+            // emit `error`
+            const errorSub = on(socket, "error", (err) => {
+                self.cleanup();
+                self._readyState = "closed";
+                this.emitReserved("error", err);
+                if (fn) {
+                    fn(err);
+                }
+                else {
+                    // Only do this if there is no fn to handle the error
+                    self.maybeReconnectOnOpen();
+                }
+            });
+            if (false !== this._timeout) {
+                const timeout = this._timeout;
+                if (timeout === 0) {
+                    openSubDestroy(); // prevents a race condition with the 'open' event
+                }
+                // set timer
+                const timer = this.setTimeoutFn(() => {
+                    openSubDestroy();
+                    socket.close();
+                    // @ts-ignore
+                    socket.emit("error", new Error("timeout"));
+                }, timeout);
+                if (this.opts.autoUnref) {
+                    timer.unref();
+                }
+                this.subs.push(function subDestroy() {
+                    clearTimeout(timer);
+                });
+            }
+            this.subs.push(openSubDestroy);
+            this.subs.push(errorSub);
+            return this;
+        }
+        /**
+         * Alias for open()
+         *
+         * @return self
+         * @public
+         */
+        connect(fn) {
+            return this.open(fn);
+        }
+        /**
+         * Called upon transport open.
+         *
+         * @private
+         */
+        onopen() {
+            // clear old subs
+            this.cleanup();
+            // mark as open
+            this._readyState = "open";
+            this.emitReserved("open");
+            // add new subs
+            const socket = this.engine;
+            this.subs.push(on(socket, "ping", this.onping.bind(this)), on(socket, "data", this.ondata.bind(this)), on(socket, "error", this.onerror.bind(this)), on(socket, "close", this.onclose.bind(this)), on(this.decoder, "decoded", this.ondecoded.bind(this)));
+        }
+        /**
+         * Called upon a ping.
+         *
+         * @private
+         */
+        onping() {
+            this.emitReserved("ping");
+        }
+        /**
+         * Called with data.
+         *
+         * @private
+         */
+        ondata(data) {
+            this.decoder.add(data);
+        }
+        /**
+         * Called when parser fully decodes a packet.
+         *
+         * @private
+         */
+        ondecoded(packet) {
+            this.emitReserved("packet", packet);
+        }
+        /**
+         * Called upon socket error.
+         *
+         * @private
+         */
+        onerror(err) {
+            this.emitReserved("error", err);
+        }
+        /**
+         * Creates a new socket for the given `nsp`.
+         *
+         * @return {Socket}
+         * @public
+         */
+        socket(nsp, opts) {
+            let socket = this.nsps[nsp];
+            if (!socket) {
+                socket = new Socket(this, nsp, opts);
+                this.nsps[nsp] = socket;
+            }
+            return socket;
+        }
+        /**
+         * Called upon a socket close.
+         *
+         * @param socket
+         * @private
+         */
+        _destroy(socket) {
+            const nsps = Object.keys(this.nsps);
+            for (const nsp of nsps) {
+                const socket = this.nsps[nsp];
+                if (socket.active) {
+                    return;
+                }
+            }
+            this._close();
+        }
+        /**
+         * Writes a packet.
+         *
+         * @param packet
+         * @private
+         */
+        _packet(packet) {
+            const encodedPackets = this.encoder.encode(packet);
+            for (let i = 0; i < encodedPackets.length; i++) {
+                this.engine.write(encodedPackets[i], packet.options);
+            }
+        }
+        /**
+         * Clean up transport subscriptions and packet buffer.
+         *
+         * @private
+         */
+        cleanup() {
+            this.subs.forEach((subDestroy) => subDestroy());
+            this.subs.length = 0;
+            this.decoder.destroy();
+        }
+        /**
+         * Close the current socket.
+         *
+         * @private
+         */
+        _close() {
+            this.skipReconnect = true;
+            this._reconnecting = false;
+            this.onclose("forced close");
+            if (this.engine)
+                this.engine.close();
+        }
+        /**
+         * Alias for close()
+         *
+         * @private
+         */
+        disconnect() {
+            return this._close();
+        }
+        /**
+         * Called upon engine close.
+         *
+         * @private
+         */
+        onclose(reason, description) {
+            this.cleanup();
+            this.backoff.reset();
+            this._readyState = "closed";
+            this.emitReserved("close", reason, description);
+            if (this._reconnection && !this.skipReconnect) {
+                this.reconnect();
+            }
+        }
+        /**
+         * Attempt a reconnection.
+         *
+         * @private
+         */
+        reconnect() {
+            if (this._reconnecting || this.skipReconnect)
+                return this;
+            const self = this;
+            if (this.backoff.attempts >= this._reconnectionAttempts) {
+                this.backoff.reset();
+                this.emitReserved("reconnect_failed");
+                this._reconnecting = false;
+            }
+            else {
+                const delay = this.backoff.duration();
+                this._reconnecting = true;
+                const timer = this.setTimeoutFn(() => {
+                    if (self.skipReconnect)
+                        return;
+                    this.emitReserved("reconnect_attempt", self.backoff.attempts);
+                    // check again for the case socket closed in above events
+                    if (self.skipReconnect)
+                        return;
+                    self.open((err) => {
+                        if (err) {
+                            self._reconnecting = false;
+                            self.reconnect();
+                            this.emitReserved("reconnect_error", err);
+                        }
+                        else {
+                            self.onreconnect();
+                        }
+                    });
+                }, delay);
+                if (this.opts.autoUnref) {
+                    timer.unref();
+                }
+                this.subs.push(function subDestroy() {
+                    clearTimeout(timer);
+                });
+            }
+        }
+        /**
+         * Called upon successful reconnect.
+         *
+         * @private
+         */
+        onreconnect() {
+            const attempt = this.backoff.attempts;
+            this._reconnecting = false;
+            this.backoff.reset();
+            this.emitReserved("reconnect", attempt);
+        }
+    }
+
+    /**
+     * Managers cache.
+     */
+    const cache = {};
+    function lookup(uri, opts) {
+        if (typeof uri === "object") {
+            opts = uri;
+            uri = undefined;
+        }
+        opts = opts || {};
+        const parsed = url(uri, opts.path || "/socket.io");
+        const source = parsed.source;
+        const id = parsed.id;
+        const path = parsed.path;
+        const sameNamespace = cache[id] && path in cache[id]["nsps"];
+        const newConnection = opts.forceNew ||
+            opts["force new connection"] ||
+            false === opts.multiplex ||
+            sameNamespace;
+        let io;
+        if (newConnection) {
+            io = new Manager(source, opts);
+        }
+        else {
+            if (!cache[id]) {
+                cache[id] = new Manager(source, opts);
+            }
+            io = cache[id];
+        }
+        if (parsed.query && !opts.query) {
+            opts.query = parsed.queryKey;
+        }
+        return io.socket(parsed.path, opts);
+    }
+    // so that "lookup" can be used both as a function (e.g. `io(...)`) and as a
+    // namespace (e.g. `io.connect(...)`), for backward compatibility
+    Object.assign(lookup, {
+        Manager,
+        Socket,
+        io: lookup,
+        connect: lookup,
+    });
+
+    /* src/routes/Chatest.svelte generated by Svelte v3.49.0 */
 
     const { console: console_1$4 } = globals;
-
-    const file$7 = "src/routes/Chat.svelte";
+    const file$8 = "src/routes/Chatest.svelte";
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[11] = list[i];
+    	child_ctx[18] = list[i];
     	return child_ctx;
     }
 
-    // (57:5) {:else}
-    function create_else_block_1$1(ctx) {
-    	let h1;
+    function get_each_context_1(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[21] = list[i];
+    	return child_ctx;
+    }
+
+    function get_each_context_2(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[24] = list[i];
+    	return child_ctx;
+    }
+
+    // (74:12) {:else}
+    function create_else_block_2(ctx) {
+    	let h3;
+    	let t_value = /*roomTitle*/ ctx[2].toUpperCase() + "";
+    	let t;
 
     	const block = {
     		c: function create() {
-    			h1 = element("h1");
-    			h1.textContent = "ACCESS DENIED";
-    			set_style(h1, "text-align", "center");
-    			set_style(h1, "font-weight", "700");
-    			add_location(h1, file$7, 57, 5, 1525);
+    			h3 = element("h3");
+    			t = text(t_value);
+    			set_style(h3, "font-size", "16px");
+    			set_style(h3, "background-color", "slategrey");
+    			set_style(h3, "color", "white");
+    			set_style(h3, "padding", "5px");
+    			set_style(h3, "text-align", "center");
+    			set_style(h3, "margin-bottom", "0px");
+    			add_location(h3, file$8, 74, 12, 2657);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, h1, anchor);
+    			insert_dev(target, h3, anchor);
+    			append_dev(h3, t);
     		},
-    		p: noop,
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*roomTitle*/ 4 && t_value !== (t_value = /*roomTitle*/ ctx[2].toUpperCase() + "")) set_data_dev(t, t_value);
+    		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(h1);
+    			if (detaching) detach_dev(h3);
     		}
     	};
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_else_block_1$1.name,
+    		id: create_else_block_2.name,
     		type: "else",
-    		source: "(57:5) {:else}",
+    		source: "(74:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (36:5) {#if $logged}
-    function create_if_block$3(ctx) {
-    	let h1;
+    // (72:12) {#if roomTitle == ''}
+    function create_if_block_2$2(ctx) {
+    	let h3;
+
+    	const block = {
+    		c: function create() {
+    			h3 = element("h3");
+    			h3.textContent = "No room selected";
+    			set_style(h3, "font-size", "16px");
+    			set_style(h3, "background-color", "slategrey");
+    			set_style(h3, "color", "white");
+    			set_style(h3, "padding", "5px");
+    			set_style(h3, "text-align", "center");
+    			set_style(h3, "margin-bottom", "0px");
+    			add_location(h3, file$8, 72, 12, 2481);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, h3, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(h3);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_2$2.name,
+    		type: "if",
+    		source: "(72:12) {#if roomTitle == ''}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (81:20) {#each rooms as room}
+    function create_each_block_2(ctx) {
+    	let button;
+    	let t0;
+    	let t1_value = /*room*/ ctx[24].toUpperCase() + "";
     	let t1;
-    	let div2;
-    	let div1;
-    	let div0;
-    	let t2;
-    	let form;
-    	let input;
+    	let br;
     	let mounted;
     	let dispose;
-    	let each_value = /*messages*/ ctx[5];
+
+    	function click_handler() {
+    		return /*click_handler*/ ctx[9](/*room*/ ctx[24]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			t0 = text("#");
+    			t1 = text(t1_value);
+    			br = element("br");
+    			set_style(button, "font-size", "12px");
+    			set_style(button, "margin-left", "10px");
+    			set_style(button, "font-weight", "600");
+    			set_style(button, "background-color", "lightgrey");
+    			set_style(button, "border", "none");
+    			set_style(button, "text-align", "left");
+    			add_location(button, file$8, 81, 16, 3091);
+    			add_location(br, file$8, 81, 205, 3280);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+    			append_dev(button, t0);
+    			append_dev(button, t1);
+    			insert_dev(target, br, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", click_handler, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			if (detaching) detach_dev(br);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_2.name,
+    		type: "each",
+    		source: "(81:20) {#each rooms as room}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (85:16) {#each privateMessages as privateMessage}
+    function create_each_block_1(ctx) {
+    	let button;
+    	let t0;
+    	let t1_value = /*privateMessage*/ ctx[21].toUpperCase() + "";
+    	let t1;
+    	let br;
+    	let mounted;
+    	let dispose;
+
+    	function click_handler_1() {
+    		return /*click_handler_1*/ ctx[10](/*privateMessage*/ ctx[21]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			t0 = text("#");
+    			t1 = text(t1_value);
+    			br = element("br");
+    			set_style(button, "font-size", "12px");
+    			set_style(button, "margin-left", "10px");
+    			set_style(button, "font-weight", "600");
+    			set_style(button, "background-color", "lightgrey");
+    			set_style(button, "border", "none");
+    			set_style(button, "text-align", "left");
+    			add_location(button, file$8, 85, 16, 3502);
+    			add_location(br, file$8, 85, 225, 3711);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+    			append_dev(button, t0);
+    			append_dev(button, t1);
+    			insert_dev(target, br, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", click_handler_1, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			if (detaching) detach_dev(br);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_1.name,
+    		type: "each",
+    		source: "(85:16) {#each privateMessages as privateMessage}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (94:20) {:else}
+    function create_else_block$4(ctx) {
+    	let each_1_anchor;
+    	let each_value = /*messages*/ ctx[1];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -1796,63 +5312,22 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			h1 = element("h1");
-    			h1.textContent = "Chat with your friends!";
-    			t1 = space();
-    			div2 = element("div");
-    			div1 = element("div");
-    			div0 = element("div");
-
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			t2 = space();
-    			form = element("form");
-    			input = element("input");
-    			set_style(h1, "text-align", "center");
-    			set_style(h1, "font-weight", "700");
-    			add_location(h1, file$7, 36, 5, 856);
-    			attr_dev(div0, "class", "inner svelte-19ghcvr");
-    			add_location(div0, file$7, 39, 9, 1023);
-    			attr_dev(div1, "class", "messages svelte-19ghcvr");
-    			add_location(div1, file$7, 38, 7, 967);
-    			attr_dev(input, "class", "svelte-19ghcvr");
-    			add_location(input, file$7, 53, 9, 1452);
-    			attr_dev(form, "class", "svelte-19ghcvr");
-    			add_location(form, file$7, 52, 7, 1397);
-    			attr_dev(div2, "class", "panel svelte-19ghcvr");
-    			add_location(div2, file$7, 37, 5, 940);
+    			each_1_anchor = empty$1();
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, h1, anchor);
-    			insert_dev(target, t1, anchor);
-    			insert_dev(target, div2, anchor);
-    			append_dev(div2, div1);
-    			append_dev(div1, div0);
-
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div0, null);
+    				each_blocks[i].m(target, anchor);
     			}
 
-    			/*div1_binding*/ ctx[7](div1);
-    			append_dev(div2, t2);
-    			append_dev(div2, form);
-    			append_dev(form, input);
-    			set_input_value(input, /*text*/ ctx[0]);
-
-    			if (!mounted) {
-    				dispose = [
-    					listen_dev(input, "input", /*input_input_handler*/ ctx[8]),
-    					listen_dev(form, "submit", prevent_default(/*sendMessage*/ ctx[6]), false, true, false)
-    				];
-
-    				mounted = true;
-    			}
+    			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*messages, $username, uid*/ 56) {
-    				each_value = /*messages*/ ctx[5];
+    			if (dirty & /*messages, $username*/ 10) {
+    				each_value = /*messages*/ ctx[1];
     				validate_each_argument(each_value);
     				let i;
 
@@ -1864,7 +5339,7 @@ var app = (function () {
     					} else {
     						each_blocks[i] = create_each_block(child_ctx);
     						each_blocks[i].c();
-    						each_blocks[i].m(div0, null);
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
     					}
     				}
 
@@ -1874,182 +5349,168 @@ var app = (function () {
 
     				each_blocks.length = each_value.length;
     			}
-
-    			if (dirty & /*text*/ 1 && input.value !== /*text*/ ctx[0]) {
-    				set_input_value(input, /*text*/ ctx[0]);
-    			}
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(h1);
-    			if (detaching) detach_dev(t1);
-    			if (detaching) detach_dev(div2);
     			destroy_each(each_blocks, detaching);
-    			/*div1_binding*/ ctx[7](null);
-    			mounted = false;
-    			run_all(dispose);
+    			if (detaching) detach_dev(each_1_anchor);
     		}
     	};
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block$3.name,
-    		type: "if",
-    		source: "(36:5) {#if $logged}",
+    		id: create_else_block$4.name,
+    		type: "else",
+    		source: "(94:20) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (45:15) {:else}
-    function create_else_block$3(ctx) {
-    	let div;
-    	let t_value = /*message*/ ctx[11] + "";
+    // (92:20) {#if roomTitle == ''}
+    function create_if_block$4(ctx) {
+    	let h3;
+    	let br0;
     	let t;
+    	let br1;
 
     	const block = {
     		c: function create() {
-    			div = element("div");
-    			t = text(t_value);
-    			attr_dev(div, "class", "text2 svelte-19ghcvr");
-    			add_location(div, file$7, 45, 15, 1265);
+    			h3 = element("h3");
+    			br0 = element("br");
+    			t = text("Please select a room to start chatting");
+    			br1 = element("br");
+    			add_location(br0, file$8, 92, 55, 3960);
+    			add_location(br1, file$8, 92, 97, 4002);
+    			set_style(h3, "text-align", "center");
+    			add_location(h3, file$8, 92, 24, 3929);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			append_dev(div, t);
+    			insert_dev(target, h3, anchor);
+    			append_dev(h3, br0);
+    			append_dev(h3, t);
+    			append_dev(h3, br1);
     		},
     		p: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(h3);
     		}
     	};
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_else_block$3.name,
-    		type: "else",
-    		source: "(45:15) {:else}",
+    		id: create_if_block$4.name,
+    		type: "if",
+    		source: "(92:20) {#if roomTitle == ''}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (43:15) {#if message.uid === uid}
-    function create_if_block_1$2(ctx) {
-    	let div;
+    // (98:24) {:else}
+    function create_else_block_1$1(ctx) {
+    	let p;
+    	let t0_value = /*msg*/ ctx[18].name + "";
     	let t0;
     	let t1;
-    	let t2_value = /*message*/ ctx[11].text + "";
+    	let t2_value = /*msg*/ ctx[18].text + "";
     	let t2;
 
     	const block = {
     		c: function create() {
-    			div = element("div");
-    			t0 = text(/*$username*/ ctx[3]);
+    			p = element("p");
+    			t0 = text(t0_value);
     			t1 = text(": ");
     			t2 = text(t2_value);
-    			attr_dev(div, "class", "text1 svelte-19ghcvr");
-    			add_location(div, file$7, 43, 16, 1174);
+    			attr_dev(p, "class", "othermsg svelte-1j6s9g3");
+    			add_location(p, file$8, 98, 28, 4263);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			append_dev(div, t0);
-    			append_dev(div, t1);
-    			append_dev(div, t2);
+    			insert_dev(target, p, anchor);
+    			append_dev(p, t0);
+    			append_dev(p, t1);
+    			append_dev(p, t2);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$username*/ 8) set_data_dev(t0, /*$username*/ ctx[3]);
+    			if (dirty & /*messages*/ 2 && t0_value !== (t0_value = /*msg*/ ctx[18].name + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*messages*/ 2 && t2_value !== (t2_value = /*msg*/ ctx[18].text + "")) set_data_dev(t2, t2_value);
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(p);
     		}
     	};
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_1$2.name,
-    		type: "if",
-    		source: "(43:15) {#if message.uid === uid}",
+    		id: create_else_block_1$1.name,
+    		type: "else",
+    		source: "(98:24) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (41:11) {#each messages as message}
-    function create_each_block(ctx) {
-    	let div;
+    // (96:24) {#if msg.name == $username}
+    function create_if_block_1$3(ctx) {
+    	let p;
+    	let t_value = /*msg*/ ctx[18].text + "";
     	let t;
-
-    	function select_block_type_1(ctx, dirty) {
-    		if (/*message*/ ctx[11].uid === /*uid*/ ctx[4]) return create_if_block_1$2;
-    		return create_else_block$3;
-    	}
-
-    	let current_block_type = select_block_type_1(ctx);
-    	let if_block = current_block_type(ctx);
 
     	const block = {
     		c: function create() {
-    			div = element("div");
-    			if_block.c();
-    			t = space();
-    			attr_dev(div, "class", "message svelte-19ghcvr");
-    			add_location(div, file$7, 41, 13, 1095);
+    			p = element("p");
+    			t = text(t_value);
+    			attr_dev(p, "class", "selfmsg svelte-1j6s9g3");
+    			add_location(p, file$8, 96, 28, 4169);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			if_block.m(div, null);
-    			append_dev(div, t);
+    			insert_dev(target, p, anchor);
+    			append_dev(p, t);
     		},
     		p: function update(ctx, dirty) {
-    			if_block.p(ctx, dirty);
+    			if (dirty & /*messages*/ 2 && t_value !== (t_value = /*msg*/ ctx[18].text + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    			if_block.d();
+    			if (detaching) detach_dev(p);
     		}
     	};
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block.name,
-    		type: "each",
-    		source: "(41:11) {#each messages as message}",
+    		id: create_if_block_1$3.name,
+    		type: "if",
+    		source: "(96:24) {#if msg.name == $username}",
     		ctx
     	});
 
     	return block;
     }
 
-    function create_fragment$7(ctx) {
-    	let main;
+    // (95:24) {#each messages as msg}
+    function create_each_block(ctx) {
+    	let if_block_anchor;
 
-    	function select_block_type(ctx, dirty) {
-    		if (/*$logged*/ ctx[2]) return create_if_block$3;
+    	function select_block_type_2(ctx, dirty) {
+    		if (/*msg*/ ctx[18].name == /*$username*/ ctx[3]) return create_if_block_1$3;
     		return create_else_block_1$1;
     	}
 
-    	let current_block_type = select_block_type(ctx);
+    	let current_block_type = select_block_type_2(ctx);
     	let if_block = current_block_type(ctx);
 
     	const block = {
     		c: function create() {
-    			main = element("main");
     			if_block.c();
-    			attr_dev(main, "class", "svelte-19ghcvr");
-    			add_location(main, file$7, 34, 3, 825);
-    		},
-    		l: function claim(nodes) {
-    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    			if_block_anchor = empty$1();
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, main, anchor);
-    			if_block.m(main, null);
+    			if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
     		},
-    		p: function update(ctx, [dirty]) {
-    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+    		p: function update(ctx, dirty) {
+    			if (current_block_type === (current_block_type = select_block_type_2(ctx)) && if_block) {
     				if_block.p(ctx, dirty);
     			} else {
     				if_block.d(1);
@@ -2057,21 +5518,297 @@ var app = (function () {
 
     				if (if_block) {
     					if_block.c();
-    					if_block.m(main, null);
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
     				}
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block.name,
+    		type: "each",
+    		source: "(95:24) {#each messages as msg}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$8(ctx) {
+    	let main;
+    	let h1;
+    	let t1;
+    	let t2;
+    	let div4;
+    	let div1;
+    	let h40;
+    	let t4;
+    	let div0;
+    	let t5;
+    	let h41;
+    	let t7;
+    	let t8;
+    	let div3;
+    	let div2;
+    	let t9;
+    	let form;
+    	let input;
+    	let t10;
+    	let a;
+    	let mounted;
+    	let dispose;
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*roomTitle*/ ctx[2] == '') return create_if_block_2$2;
+    		return create_else_block_2;
+    	}
+
+    	let current_block_type = select_block_type(ctx);
+    	let if_block0 = current_block_type(ctx);
+    	let each_value_2 = /*rooms*/ ctx[6];
+    	validate_each_argument(each_value_2);
+    	let each_blocks_1 = [];
+
+    	for (let i = 0; i < each_value_2.length; i += 1) {
+    		each_blocks_1[i] = create_each_block_2(get_each_context_2(ctx, each_value_2, i));
+    	}
+
+    	let each_value_1 = /*privateMessages*/ ctx[5];
+    	validate_each_argument(each_value_1);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_1.length; i += 1) {
+    		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
+    	}
+
+    	function select_block_type_1(ctx, dirty) {
+    		if (/*roomTitle*/ ctx[2] == '') return create_if_block$4;
+    		return create_else_block$4;
+    	}
+
+    	let current_block_type_1 = select_block_type_1(ctx);
+    	let if_block1 = current_block_type_1(ctx);
+
+    	const block = {
+    		c: function create() {
+    			main = element("main");
+    			h1 = element("h1");
+    			h1.textContent = `${/*title*/ ctx[4]}`;
+    			t1 = space();
+    			if_block0.c();
+    			t2 = space();
+    			div4 = element("div");
+    			div1 = element("div");
+    			h40 = element("h4");
+    			h40.textContent = "Rooms";
+    			t4 = space();
+    			div0 = element("div");
+
+    			for (let i = 0; i < each_blocks_1.length; i += 1) {
+    				each_blocks_1[i].c();
+    			}
+
+    			t5 = space();
+    			h41 = element("h4");
+    			h41.textContent = "Messages";
+    			t7 = space();
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			t8 = space();
+    			div3 = element("div");
+    			div2 = element("div");
+    			if_block1.c();
+    			t9 = space();
+    			form = element("form");
+    			input = element("input");
+    			t10 = space();
+    			a = element("a");
+    			a.textContent = "Create new room";
+    			set_style(h1, "text-align", "center");
+    			attr_dev(h1, "class", "text-center");
+    			add_location(h1, file$8, 70, 12, 2372);
+    			set_style(h40, "background-color", "rgb(240, 240, 240) ");
+    			set_style(h40, "color", "slategrey");
+    			set_style(h40, "padding", "5px 15px 5px");
+    			add_location(h40, file$8, 78, 16, 2908);
+    			set_style(h41, "background-color", "rgb(240, 240, 240)");
+    			set_style(h41, "color", "slategrey");
+    			set_style(h41, "padding", "5px 15px 5px");
+    			add_location(h41, file$8, 83, 16, 3325);
+    			add_location(div0, file$8, 79, 16, 3027);
+    			attr_dev(div1, "class", "column1 svelte-1j6s9g3");
+    			add_location(div1, file$8, 77, 12, 2870);
+    			attr_dev(div2, "id", "messages");
+    			attr_dev(div2, "class", "svelte-1j6s9g3");
+    			add_location(div2, file$8, 90, 16, 3842);
+    			set_style(input, "width", "100%");
+    			attr_dev(input, "class", "form-control");
+    			attr_dev(input, "placeholder", "Enter message...");
+    			add_location(input, file$8, 104, 20, 4506);
+    			add_location(form, file$8, 103, 16, 4437);
+    			set_style(a, "padding", "5px 5px");
+    			set_style(a, "text-align", "center");
+    			set_style(a, "display", "block");
+    			set_style(a, "color", "white");
+    			set_style(a, "background-color", "darkslategrey");
+    			attr_dev(a, "href", "#/newroom");
+    			add_location(a, file$8, 106, 20, 4655);
+    			attr_dev(div3, "id", "chat");
+    			attr_dev(div3, "class", "column2 svelte-1j6s9g3");
+    			add_location(div3, file$8, 89, 12, 3794);
+    			attr_dev(div4, "class", "row svelte-1j6s9g3");
+    			add_location(div4, file$8, 76, 12, 2840);
+    			attr_dev(main, "class", "svelte-1j6s9g3");
+    			add_location(main, file$8, 69, 0, 2353);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, main, anchor);
+    			append_dev(main, h1);
+    			append_dev(main, t1);
+    			if_block0.m(main, null);
+    			append_dev(main, t2);
+    			append_dev(main, div4);
+    			append_dev(div4, div1);
+    			append_dev(div1, h40);
+    			append_dev(div1, t4);
+    			append_dev(div1, div0);
+
+    			for (let i = 0; i < each_blocks_1.length; i += 1) {
+    				each_blocks_1[i].m(div0, null);
+    			}
+
+    			append_dev(div0, t5);
+    			append_dev(div0, h41);
+    			append_dev(div0, t7);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(div0, null);
+    			}
+
+    			append_dev(div4, t8);
+    			append_dev(div4, div3);
+    			append_dev(div3, div2);
+    			if_block1.m(div2, null);
+    			append_dev(div3, t9);
+    			append_dev(div3, form);
+    			append_dev(form, input);
+    			set_input_value(input, /*Otext*/ ctx[0]);
+    			append_dev(div3, t10);
+    			append_dev(div3, a);
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[11]),
+    					listen_dev(form, "submit", prevent_default(/*sendMessage*/ ctx[8]), false, true, false)
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block0) {
+    				if_block0.p(ctx, dirty);
+    			} else {
+    				if_block0.d(1);
+    				if_block0 = current_block_type(ctx);
+
+    				if (if_block0) {
+    					if_block0.c();
+    					if_block0.m(main, t2);
+    				}
+    			}
+
+    			if (dirty & /*changeConv, rooms*/ 192) {
+    				each_value_2 = /*rooms*/ ctx[6];
+    				validate_each_argument(each_value_2);
+    				let i;
+
+    				for (i = 0; i < each_value_2.length; i += 1) {
+    					const child_ctx = get_each_context_2(ctx, each_value_2, i);
+
+    					if (each_blocks_1[i]) {
+    						each_blocks_1[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks_1[i] = create_each_block_2(child_ctx);
+    						each_blocks_1[i].c();
+    						each_blocks_1[i].m(div0, t5);
+    					}
+    				}
+
+    				for (; i < each_blocks_1.length; i += 1) {
+    					each_blocks_1[i].d(1);
+    				}
+
+    				each_blocks_1.length = each_value_2.length;
+    			}
+
+    			if (dirty & /*changeConv, privateMessages*/ 160) {
+    				each_value_1 = /*privateMessages*/ ctx[5];
+    				validate_each_argument(each_value_1);
+    				let i;
+
+    				for (i = 0; i < each_value_1.length; i += 1) {
+    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(div0, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_1.length;
+    			}
+
+    			if (current_block_type_1 === (current_block_type_1 = select_block_type_1(ctx)) && if_block1) {
+    				if_block1.p(ctx, dirty);
+    			} else {
+    				if_block1.d(1);
+    				if_block1 = current_block_type_1(ctx);
+
+    				if (if_block1) {
+    					if_block1.c();
+    					if_block1.m(div2, null);
+    				}
+    			}
+
+    			if (dirty & /*Otext*/ 1 && input.value !== /*Otext*/ ctx[0]) {
+    				set_input_value(input, /*Otext*/ ctx[0]);
     			}
     		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(main);
-    			if_block.d();
+    			if_block0.d();
+    			destroy_each(each_blocks_1, detaching);
+    			destroy_each(each_blocks, detaching);
+    			if_block1.d();
+    			mounted = false;
+    			run_all(dispose);
     		}
     	};
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$7.name,
+    		id: create_fragment$8.name,
     		type: "component",
     		source: "",
     		ctx
@@ -2080,88 +5817,152 @@ var app = (function () {
     	return block;
     }
 
-    function instance$7($$self, $$props, $$invalidate) {
-    	let $logged;
+    function instance$8($$self, $$props, $$invalidate) {
+    	let $currentRoom;
     	let $username;
-    	validate_store(logged, 'logged');
-    	component_subscribe($$self, logged, $$value => $$invalidate(2, $logged = $$value));
+    	validate_store(currentRoom, 'currentRoom');
+    	component_subscribe($$self, currentRoom, $$value => $$invalidate(13, $currentRoom = $$value));
     	validate_store(username, 'username');
     	component_subscribe($$self, username, $$value => $$invalidate(3, $username = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
-    	validate_slots('Chat', slots, []);
-    	let uid = 4;
-    	let text = "";
-    	let messagesRef;
-    	let messages = [];
-    	let channel;
+    	validate_slots('Chatest', slots, []);
 
-    	const appendMessage = message => {
-    		requestAnimationFrame(() => {
-    			$$invalidate(1, messagesRef.scrollTop = messagesRef.scrollHeight, messagesRef);
-    		});
-    	};
-
-    	function sendMessage() {
-    		if (text === "") {
-    			return;
+    	var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+    		function adopt(value) {
+    			return value instanceof P
+    			? value
+    			: new P(function (resolve) {
+    						resolve(value);
+    					});
     		}
 
-    		channel.sendMessage({ text, type: "text" });
-    		appendMessage();
-    		$$invalidate(0, text = "");
-    		console.log({ text });
-    		array.update(n => n.push(text));
+    		return new (P || (P = Promise))(function (resolve, reject) {
+    				function fulfilled(value) {
+    					try {
+    						step(generator.next(value));
+    					} catch(e) {
+    						reject(e);
+    					}
+    				}
 
-    		requestAnimationFrame(() => {
-    			$$invalidate(1, messagesRef.scrollTop = messagesRef.scrollHeight, messagesRef);
-    		});
+    				function rejected(value) {
+    					try {
+    						step(generator["throw"](value));
+    					} catch(e) {
+    						reject(e);
+    					}
+    				}
+
+    				function step(result) {
+    					result.done
+    					? resolve(result.value)
+    					: adopt(result.value).then(fulfilled, rejected);
+    				}
+
+    				step((generator = generator.apply(thisArg, _arguments || [])).next());
+    			});
+    	};
+
+    	let title = 'Pong Chat';
+    	let Oname = $username;
+    	let Otext = '';
+    	let messages = [];
+    	let privateMessages = ['Bot'];
+    	let socket = null;
+    	let roomTitle = $currentRoom;
+    	let rooms = ['general', 'game'];
+
+    	function changeConv(title) {
+    		return __awaiter(this, void 0, void 0, function* () {
+    			console.log(title);
+    			$$invalidate(2, roomTitle = title);
+    			currentRoom.update(n => title);
+    		}); // await fetch('http://localhost:3000/channels/' + title,
+    		// {
+    		//     method: "GET",
+    		//     headers:
+    	} //     {
+    	//         'Authorization' : 'Bearer ' + $cookie,
+
+    	//     }}
+    	// ).then(response => messages = response.json())
+    	function sendMessage() {
+    		if (validateInput()) {
+    			const message = { name: Oname, text: Otext };
+    			socket.emit('msgToServer', message);
+    			$$invalidate(0, Otext = '');
+    		}
     	}
+
+    	function receivedMessage(message) {
+    		$$invalidate(1, messages = [...messages, message]);
+    		console.log(messages);
+    	}
+
+    	function validateInput() {
+    		return Oname.length > 0 && Otext.length > 0;
+    	}
+
+    	onMount(() => __awaiter(void 0, void 0, void 0, function* () {
+    		socket = lookup('http://localhost:3000');
+
+    		socket.on('msgToClient', message => {
+    			receivedMessage(message);
+    		});
+    	})); //  channels = await fetch('http://localhost:3000/rooms', {
+    	//     method: 'GET',
+    	//     headers:
+    	//     {
+    	//          'Authorization' : 'Bearer ' + $cookie,
+    	//     }
 
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$4.warn(`<Chat> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$4.warn(`<Chatest> was created with unknown prop '${key}'`);
     	});
 
-    	function div1_binding($$value) {
-    		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
-    			messagesRef = $$value;
-    			$$invalidate(1, messagesRef);
-    		});
-    	}
+    	const click_handler = room => changeConv(room);
+    	const click_handler_1 = privateMessage => changeConv(privateMessage);
 
     	function input_input_handler() {
-    		text = this.value;
-    		$$invalidate(0, text);
+    		Otext = this.value;
+    		$$invalidate(0, Otext);
     	}
 
     	$$self.$capture_state = () => ({
-    		onMount,
-    		level,
-    		logged,
-    		losses,
+    		__awaiter,
     		username,
-    		wins,
-    		image_url,
-    		firstname,
-    		lastname,
-    		uid,
-    		text,
-    		messagesRef,
+    		cookie,
+    		currentRoom,
+    		onMount,
+    		io: lookup,
+    		title,
+    		Oname,
+    		Otext,
     		messages,
-    		channel,
-    		appendMessage,
+    		privateMessages,
+    		socket,
+    		roomTitle,
+    		rooms,
+    		changeConv,
     		sendMessage,
-    		$logged,
+    		receivedMessage,
+    		validateInput,
+    		$currentRoom,
     		$username
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('uid' in $$props) $$invalidate(4, uid = $$props.uid);
-    		if ('text' in $$props) $$invalidate(0, text = $$props.text);
-    		if ('messagesRef' in $$props) $$invalidate(1, messagesRef = $$props.messagesRef);
-    		if ('messages' in $$props) $$invalidate(5, messages = $$props.messages);
-    		if ('channel' in $$props) channel = $$props.channel;
+    		if ('__awaiter' in $$props) __awaiter = $$props.__awaiter;
+    		if ('title' in $$props) $$invalidate(4, title = $$props.title);
+    		if ('Oname' in $$props) Oname = $$props.Oname;
+    		if ('Otext' in $$props) $$invalidate(0, Otext = $$props.Otext);
+    		if ('messages' in $$props) $$invalidate(1, messages = $$props.messages);
+    		if ('privateMessages' in $$props) $$invalidate(5, privateMessages = $$props.privateMessages);
+    		if ('socket' in $$props) socket = $$props.socket;
+    		if ('roomTitle' in $$props) $$invalidate(2, roomTitle = $$props.roomTitle);
+    		if ('rooms' in $$props) $$invalidate(6, rooms = $$props.rooms);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -2169,28 +5970,31 @@ var app = (function () {
     	}
 
     	return [
-    		text,
-    		messagesRef,
-    		$logged,
-    		$username,
-    		uid,
+    		Otext,
     		messages,
+    		roomTitle,
+    		$username,
+    		title,
+    		privateMessages,
+    		rooms,
+    		changeConv,
     		sendMessage,
-    		div1_binding,
+    		click_handler,
+    		click_handler_1,
     		input_input_handler
     	];
     }
 
-    class Chat extends SvelteComponentDev {
+    class Chatest extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$7, create_fragment$7, safe_not_equal, {});
+    		init(this, options, instance$8, create_fragment$8, safe_not_equal, {});
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
-    			tagName: "Chat",
+    			tagName: "Chatest",
     			options,
-    			id: create_fragment$7.name
+    			id: create_fragment$8.name
     		});
     	}
     }
@@ -4213,10 +8017,10 @@ var app = (function () {
 
     const { console: console_1$3 } = globals;
 
-    const file$6 = "src/routes/Home.svelte";
+    const file$7 = "src/routes/Home.svelte";
 
     // (101:4) {:else}
-    function create_else_block$2(ctx) {
+    function create_else_block$3(ctx) {
     	let a;
     	let t;
     	let br;
@@ -4230,12 +8034,12 @@ var app = (function () {
     			br = element("br");
     			img = element("img");
     			attr_dev(br, "class", "svelte-p7wf28");
-    			add_location(br, file$6, 115, 18, 5047);
+    			add_location(br, file$7, 115, 18, 5047);
     			if (!src_url_equal(img.src, img_src_value = "img/42_logo.png")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "width", "40px");
     			attr_dev(img, "alt", "42 logo");
     			attr_dev(img, "class", "svelte-p7wf28");
-    			add_location(img, file$6, 115, 22, 5051);
+    			add_location(img, file$7, 115, 22, 5051);
     			attr_dev(a, "href", "http://localhost:3000/auth/42");
     			attr_dev(a, "class", "api svelte-p7wf28");
     			set_style(a, "color", "rgb(255, 255, 255)");
@@ -4252,7 +8056,7 @@ var app = (function () {
     			set_style(a, "background-color", "rgb(25, 184, 173)");
     			set_style(a, "line-height", "2");
     			set_style(a, "font-family", "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif");
-    			add_location(a, file$6, 101, 4, 4549);
+    			add_location(a, file$7, 101, 4, 4549);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -4268,7 +8072,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_else_block$2.name,
+    		id: create_else_block$3.name,
     		type: "else",
     		source: "(101:4) {:else}",
     		ctx
@@ -4278,7 +8082,7 @@ var app = (function () {
     }
 
     // (92:31) 
-    function create_if_block_1$1(ctx) {
+    function create_if_block_1$2(ctx) {
     	let div;
     	let h2;
     	let t1;
@@ -4304,7 +8108,7 @@ var app = (function () {
     			a.textContent = "Send";
     			set_style(h2, "text-align", "center");
     			attr_dev(h2, "class", "svelte-p7wf28");
-    			add_location(h2, file$6, 93, 4, 4053);
+    			add_location(h2, file$7, 93, 4, 4053);
     			set_style(input, "width", "150px");
     			set_style(input, "display", "block");
     			set_style(input, "margin", "0 auto");
@@ -4312,18 +8116,18 @@ var app = (function () {
     			set_style(input, "text-align", "center");
     			attr_dev(input, "placeholder", "2FA code");
     			attr_dev(input, "class", "svelte-p7wf28");
-    			add_location(input, file$6, 94, 4, 4155);
+    			add_location(input, file$7, 94, 4, 4155);
     			attr_dev(a, "href", "#/profile");
     			attr_dev(a, "type", "submit");
     			attr_dev(a, "value", "Submit");
     			set_style(a, "display", "block");
     			set_style(a, "margin", "0 auto");
     			attr_dev(a, "class", "svelte-p7wf28");
-    			add_location(a, file$6, 98, 4, 4405);
+    			add_location(a, file$7, 98, 4, 4405);
     			set_style(div, "margin", "0 auto");
     			set_style(div, "display", "block");
     			attr_dev(div, "class", "svelte-p7wf28");
-    			add_location(div, file$6, 92, 4, 4004);
+    			add_location(div, file$7, 92, 4, 4004);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -4371,7 +8175,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_1$1.name,
+    		id: create_if_block_1$2.name,
     		type: "if",
     		source: "(92:31) ",
     		ctx
@@ -4381,7 +8185,7 @@ var app = (function () {
     }
 
     // (77:2) {#if $logged == 'true'}
-    function create_if_block$2(ctx) {
+    function create_if_block$3(ctx) {
     	let h1;
     	let t1;
     	let div;
@@ -4404,9 +8208,9 @@ var app = (function () {
     			set_style(h1, "font-weight", "700");
     			set_style(h1, "margin-top", "50px");
     			attr_dev(h1, "class", "svelte-p7wf28");
-    			add_location(h1, file$6, 77, 2, 2958);
+    			add_location(h1, file$7, 77, 2, 2958);
     			attr_dev(p, "class", "svelte-p7wf28");
-    			add_location(p, file$6, 79, 6, 3086);
+    			add_location(p, file$7, 79, 6, 3086);
     			if (!src_url_equal(img.src, img_src_value = "img/console.png")) attr_dev(img, "src", img_src_value);
     			set_style(img, "margin", "0px auto");
     			set_style(img, "display", "block");
@@ -4414,9 +8218,9 @@ var app = (function () {
     			set_style(img, "padding-top", "20px");
     			attr_dev(img, "alt", "First Pong Game console");
     			attr_dev(img, "class", "svelte-p7wf28");
-    			add_location(img, file$6, 89, 8, 3823);
+    			add_location(img, file$7, 89, 8, 3823);
     			attr_dev(div, "class", "about svelte-p7wf28");
-    			add_location(div, file$6, 78, 4, 3060);
+    			add_location(div, file$7, 78, 4, 3060);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -4436,7 +8240,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block$2.name,
+    		id: create_if_block$3.name,
     		type: "if",
     		source: "(77:2) {#if $logged == 'true'}",
     		ctx
@@ -4456,7 +8260,7 @@ var app = (function () {
     			set_style(p, "color", "red");
     			set_style(p, "text-align", "center");
     			attr_dev(p, "class", "svelte-p7wf28");
-    			add_location(p, file$6, 96, 4, 4328);
+    			add_location(p, file$7, 96, 4, 4328);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -4477,16 +8281,16 @@ var app = (function () {
     	return block;
     }
 
-    function create_fragment$6(ctx) {
+    function create_fragment$7(ctx) {
     	let main;
     	let p;
     	let t0;
     	let t1;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*$logged*/ ctx[3] == 'true') return create_if_block$2;
-    		if (/*$intra*/ ctx[2] == 'true') return create_if_block_1$1;
-    		return create_else_block$2;
+    		if (/*$logged*/ ctx[3] == 'true') return create_if_block$3;
+    		if (/*$intra*/ ctx[2] == 'true') return create_if_block_1$2;
+    		return create_else_block$3;
     	}
 
     	let current_block_type = select_block_type(ctx);
@@ -4500,9 +8304,9 @@ var app = (function () {
     			t1 = space();
     			if_block.c();
     			attr_dev(p, "class", "svelte-p7wf28");
-    			add_location(p, file$6, 75, 2, 2913);
+    			add_location(p, file$7, 75, 2, 2913);
     			attr_dev(main, "class", "svelte-p7wf28");
-    			add_location(main, file$6, 74, 0, 2904);
+    			add_location(main, file$7, 74, 0, 2904);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4539,7 +8343,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$6.name,
+    		id: create_fragment$7.name,
     		type: "component",
     		source: "",
     		ctx
@@ -4548,7 +8352,7 @@ var app = (function () {
     	return block;
     }
 
-    function instance$6($$self, $$props, $$invalidate) {
+    function instance$7($$self, $$props, $$invalidate) {
     	let $TWOFA;
     	let $cookie;
     	let $intra;
@@ -4727,22 +8531,22 @@ var app = (function () {
     class Home extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$6, create_fragment$6, safe_not_equal, {});
+    		init(this, options, instance$7, create_fragment$7, safe_not_equal, {});
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
     			tagName: "Home",
     			options,
-    			id: create_fragment$6.name
+    			id: create_fragment$7.name
     		});
     	}
     }
 
     /* src/routes/NotFound.svelte generated by Svelte v3.49.0 */
 
-    const file$5 = "src/routes/NotFound.svelte";
+    const file$6 = "src/routes/NotFound.svelte";
 
-    function create_fragment$5(ctx) {
+    function create_fragment$6(ctx) {
     	let section;
     	let div0;
     	let h1;
@@ -4766,15 +8570,15 @@ var app = (function () {
     			a = element("a");
     			a.textContent = "🔙";
     			attr_dev(h1, "class", "svelte-1cjh4ti");
-    			add_location(h1, file$5, 2, 8, 28);
-    			add_location(p, file$5, 3, 8, 60);
-    			add_location(div0, file$5, 1, 4, 14);
+    			add_location(h1, file$6, 2, 8, 28);
+    			add_location(p, file$6, 3, 8, 60);
+    			add_location(div0, file$6, 1, 4, 14);
     			attr_dev(a, "href", "#/");
     			attr_dev(a, "class", "svelte-1cjh4ti");
-    			add_location(a, file$5, 6, 7, 105);
-    			add_location(div1, file$5, 5, 4, 92);
+    			add_location(a, file$6, 6, 7, 105);
+    			add_location(div1, file$6, 5, 4, 92);
     			attr_dev(section, "class", "svelte-1cjh4ti");
-    			add_location(section, file$5, 0, 0, 0);
+    			add_location(section, file$6, 0, 0, 0);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4799,7 +8603,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$5.name,
+    		id: create_fragment$6.name,
     		type: "component",
     		source: "",
     		ctx
@@ -4808,7 +8612,7 @@ var app = (function () {
     	return block;
     }
 
-    function instance$5($$self, $$props) {
+    function instance$6($$self, $$props) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('NotFound', slots, []);
     	const writable_props = [];
@@ -4823,22 +8627,22 @@ var app = (function () {
     class NotFound extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$5, create_fragment$5, safe_not_equal, {});
+    		init(this, options, instance$6, create_fragment$6, safe_not_equal, {});
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
     			tagName: "NotFound",
     			options,
-    			id: create_fragment$5.name
+    			id: create_fragment$6.name
     		});
     	}
     }
 
     /* src/routes/Pong.svelte generated by Svelte v3.49.0 */
 
-    const file$4 = "src/routes/Pong.svelte";
+    const file$5 = "src/routes/Pong.svelte";
 
-    function create_fragment$4(ctx) {
+    function create_fragment$5(ctx) {
     	let main;
     	let div2;
     	let div0;
@@ -4867,21 +8671,21 @@ var app = (function () {
     			t5 = space();
     			div5 = element("div");
     			attr_dev(div0, "id", "player-score");
-    			add_location(div0, file$4, 2, 4, 33);
+    			add_location(div0, file$5, 2, 4, 33);
     			attr_dev(div1, "id", "computer-score");
-    			add_location(div1, file$4, 3, 4, 68);
+    			add_location(div1, file$5, 3, 4, 68);
     			attr_dev(div2, "class", "score");
-    			add_location(div2, file$4, 1, 2, 9);
+    			add_location(div2, file$5, 1, 2, 9);
     			attr_dev(div3, "class", "ball");
     			attr_dev(div3, "id", "ball");
-    			add_location(div3, file$4, 5, 2, 112);
+    			add_location(div3, file$5, 5, 2, 112);
     			attr_dev(div4, "class", "paddle left");
     			attr_dev(div4, "id", "player-paddle");
-    			add_location(div4, file$4, 6, 2, 149);
+    			add_location(div4, file$5, 6, 2, 149);
     			attr_dev(div5, "class", "paddle right");
     			attr_dev(div5, "id", "computer-paddle");
-    			add_location(div5, file$4, 7, 2, 202);
-    			add_location(main, file$4, 0, 0, 0);
+    			add_location(div5, file$5, 7, 2, 202);
+    			add_location(main, file$5, 0, 0, 0);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4909,7 +8713,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$4.name,
+    		id: create_fragment$5.name,
     		type: "component",
     		source: "",
     		ctx
@@ -4929,7 +8733,7 @@ var app = (function () {
     	return rect1.left <= rect2.right && rect1.right >= rect2.left && rect1.top <= rect2.bottom && rect1.bottom >= rect2.top;
     }
 
-    function instance$4($$self, $$props, $$invalidate) {
+    function instance$5($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Pong', slots, []);
 
@@ -5101,13 +8905,13 @@ var app = (function () {
     class Pong extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$4, create_fragment$4, safe_not_equal, {});
+    		init(this, options, instance$5, create_fragment$5, safe_not_equal, {});
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
     			tagName: "Pong",
     			options,
-    			id: create_fragment$4.name
+    			id: create_fragment$5.name
     		});
     	}
     }
@@ -5116,7 +8920,7 @@ var app = (function () {
 
     const { Error: Error_1, console: console_1$2 } = globals;
 
-    const file$3 = "src/routes/Profile.svelte";
+    const file$4 = "src/routes/Profile.svelte";
 
     // (109:4) {:else}
     function create_else_block_1(ctx) {
@@ -5128,7 +8932,7 @@ var app = (function () {
     			h1.textContent = "ACCESS DENIED";
     			set_style(h1, "text-align", "center");
     			attr_dev(h1, "class", "svelte-1xtxnqj");
-    			add_location(h1, file$3, 109, 4, 5184);
+    			add_location(h1, file$4, 109, 4, 5184);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -5151,7 +8955,7 @@ var app = (function () {
     }
 
     // (78:4) {#if $logged == 'true'}
-    function create_if_block$1(ctx) {
+    function create_if_block$2(ctx) {
     	let div0;
     	let h10;
     	let t0;
@@ -5200,9 +9004,9 @@ var app = (function () {
     	let dispose;
 
     	function select_block_type_1(ctx, dirty) {
-    		if (/*$TWOFA*/ ctx[1] == 'false' && /*$ownmail*/ ctx[8] == 'true') return create_if_block_1;
+    		if (/*$TWOFA*/ ctx[1] == 'false' && /*$ownmail*/ ctx[8] == 'true') return create_if_block_1$1;
     		if (/*$TWOFA*/ ctx[1] == 'false') return create_if_block_2;
-    		return create_else_block$1;
+    		return create_else_block$2;
     	}
 
     	let current_block_type = select_block_type_1(ctx);
@@ -5264,74 +9068,74 @@ var app = (function () {
     			h14.textContent = "FRIENDS";
     			attr_dev(h10, "class", "name svelte-1xtxnqj");
     			set_style(h10, "color", "darkred");
-    			add_location(h10, file$3, 79, 8, 2983);
+    			add_location(h10, file$4, 79, 8, 2983);
     			attr_dev(img, "class", "profile svelte-1xtxnqj");
     			if (!src_url_equal(img.src, img_src_value = /*$image_url*/ ctx[4])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "width", "200px");
     			attr_dev(img, "alt", "Default Profile");
-    			add_location(img, file$3, 80, 8, 3047);
+    			add_location(img, file$4, 80, 8, 3047);
     			attr_dev(a, "class", "bt2 svelte-1xtxnqj");
     			attr_dev(a, "href", "#/user");
-    			add_location(a, file$3, 81, 8, 3133);
+    			add_location(a, file$4, 81, 8, 3133);
     			set_style(div0, "margin", "0 auto");
     			set_style(div0, "display", "block");
-    			add_location(div0, file$3, 78, 4, 2930);
-    			add_location(br, file$3, 84, 110, 3314);
+    			add_location(div0, file$4, 78, 4, 2930);
+    			add_location(br, file$4, 84, 110, 3314);
     			set_style(p, "text-align", "center");
     			set_style(p, "color", "grey");
     			set_style(p, "font-weight", "500");
     			set_style(p, "font-style", "italic");
-    			add_location(p, file$3, 84, 8, 3212);
-    			add_location(div1, file$3, 83, 4, 3198);
+    			add_location(p, file$4, 84, 8, 3212);
+    			add_location(div1, file$4, 83, 4, 3198);
     			attr_dev(button, "class", "bt1 svelte-1xtxnqj");
-    			add_location(button, file$3, 87, 16, 3393);
+    			add_location(button, file$4, 87, 16, 3393);
     			set_style(input, "display", "none");
     			attr_dev(input, "type", "file");
     			attr_dev(input, "accept", ".jpg, .jpeg, .png");
-    			add_location(input, file$3, 88, 8, 3489);
+    			add_location(input, file$4, 88, 8, 3489);
     			set_style(div2, "margin", "0 auto");
-    			add_location(div2, file$3, 86, 4, 3346);
+    			add_location(div2, file$4, 86, 4, 3346);
     			set_style(h11, "width", "400px");
     			set_style(h11, "background-color", "darkgrey");
     			set_style(h11, "color", "white");
     			set_style(h11, "text-decoration-line", "underline");
     			set_style(h11, "text-underline-offset", "20px");
     			attr_dev(h11, "class", "svelte-1xtxnqj");
-    			add_location(h11, file$3, 98, 8, 4338);
+    			add_location(h11, file$4, 98, 8, 4338);
     			attr_dev(span0, "class", "sp1 svelte-1xtxnqj");
-    			add_location(span0, file$3, 99, 12, 4489);
+    			add_location(span0, file$4, 99, 12, 4489);
     			attr_dev(span1, "class", "sp2 svelte-1xtxnqj");
-    			add_location(span1, file$3, 99, 42, 4519);
+    			add_location(span1, file$4, 99, 42, 4519);
     			attr_dev(span2, "class", "sp1 svelte-1xtxnqj");
-    			add_location(span2, file$3, 99, 79, 4556);
+    			add_location(span2, file$4, 99, 79, 4556);
     			attr_dev(span3, "class", "sp2 svelte-1xtxnqj");
-    			add_location(span3, file$3, 99, 129, 4606);
+    			add_location(span3, file$4, 99, 129, 4606);
     			attr_dev(span4, "class", "sp1 svelte-1xtxnqj");
-    			add_location(span4, file$3, 99, 163, 4640);
+    			add_location(span4, file$4, 99, 163, 4640);
     			attr_dev(span5, "class", "sp2 svelte-1xtxnqj");
-    			add_location(span5, file$3, 99, 211, 4688);
+    			add_location(span5, file$4, 99, 211, 4688);
     			attr_dev(h12, "class", "svelte-1xtxnqj");
-    			add_location(h12, file$3, 99, 8, 4485);
+    			add_location(h12, file$4, 99, 8, 4485);
     			attr_dev(div3, "class", "tb1 svelte-1xtxnqj");
-    			add_location(div3, file$3, 97, 4, 4312);
+    			add_location(div3, file$4, 97, 4, 4312);
     			set_style(h13, "background-color", "darkgrey");
     			set_style(h13, "color", "white");
     			set_style(h13, "text-align", "center");
     			attr_dev(h13, "class", "svelte-1xtxnqj");
-    			add_location(h13, file$3, 103, 8, 4899);
+    			add_location(h13, file$4, 103, 8, 4899);
     			set_style(div4, "width", "400px");
     			set_style(div4, "margin", "0 auto");
     			set_style(div4, "display", "block");
-    			add_location(div4, file$3, 102, 4, 4833);
+    			add_location(div4, file$4, 102, 4, 4833);
     			set_style(h14, "background-color", "darkgrey");
     			set_style(h14, "color", "white");
     			set_style(h14, "text-align", "center");
     			attr_dev(h14, "class", "svelte-1xtxnqj");
-    			add_location(h14, file$3, 106, 8, 5072);
+    			add_location(h14, file$4, 106, 8, 5072);
     			set_style(div5, "width", "400px");
     			set_style(div5, "margin", "0 auto");
     			set_style(div5, "display", "block");
-    			add_location(div5, file$3, 105, 4, 5005);
+    			add_location(div5, file$4, 105, 4, 5005);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -5437,7 +9241,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block$1.name,
+    		id: create_if_block$2.name,
     		type: "if",
     		source: "(78:4) {#if $logged == 'true'}",
     		ctx
@@ -5447,7 +9251,7 @@ var app = (function () {
     }
 
     // (94:8) {:else}
-    function create_else_block$1(ctx) {
+    function create_else_block$2(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -5463,7 +9267,7 @@ var app = (function () {
     			set_style(button, "background-color", "dimgrey");
     			set_style(button, "color", "white");
     			set_style(button, "border-radius", "5px");
-    			add_location(button, file$3, 94, 8, 4107);
+    			add_location(button, file$4, 94, 8, 4107);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -5483,7 +9287,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_else_block$1.name,
+    		id: create_else_block$2.name,
     		type: "else",
     		source: "(94:8) {:else}",
     		ctx
@@ -5508,7 +9312,7 @@ var app = (function () {
     			set_style(a, "color", "white");
     			set_style(a, "background-color", "lightslategrey");
     			set_style(a, "border-radius", "5px");
-    			add_location(a, file$3, 92, 8, 3917);
+    			add_location(a, file$4, 92, 8, 3917);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -5531,7 +9335,7 @@ var app = (function () {
     }
 
     // (90:8) {#if $TWOFA == 'false' && $ownmail == 'true'}
-    function create_if_block_1(ctx) {
+    function create_if_block_1$1(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -5548,7 +9352,7 @@ var app = (function () {
     			set_style(button, "color", "white");
     			set_style(button, "background-color", "lightslategrey");
     			set_style(button, "border-radius", "5px");
-    			add_location(button, file$3, 90, 8, 3677);
+    			add_location(button, file$4, 90, 8, 3677);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -5568,7 +9372,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_1.name,
+    		id: create_if_block_1$1.name,
     		type: "if",
     		source: "(90:8) {#if $TWOFA == 'false' && $ownmail == 'true'}",
     		ctx
@@ -5577,11 +9381,11 @@ var app = (function () {
     	return block;
     }
 
-    function create_fragment$3(ctx) {
+    function create_fragment$4(ctx) {
     	let main;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*$logged*/ ctx[2] == 'true') return create_if_block$1;
+    		if (/*$logged*/ ctx[2] == 'true') return create_if_block$2;
     		return create_else_block_1;
     	}
 
@@ -5593,7 +9397,7 @@ var app = (function () {
     			main = element("main");
     			if_block.c();
     			attr_dev(main, "class", "svelte-1xtxnqj");
-    			add_location(main, file$3, 76, 0, 2891);
+    			add_location(main, file$4, 76, 0, 2891);
     		},
     		l: function claim(nodes) {
     			throw new Error_1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -5625,7 +9429,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$3.name,
+    		id: create_fragment$4.name,
     		type: "component",
     		source: "",
     		ctx
@@ -5638,7 +9442,7 @@ var app = (function () {
     	throw new Error('Function not implemented.');
     }
 
-    function instance$3($$self, $$props, $$invalidate) {
+    function instance$4($$self, $$props, $$invalidate) {
     	let $cookie;
     	let $id;
     	let $TWOFA;
@@ -5867,13 +9671,13 @@ var app = (function () {
     class Profile extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$3, create_fragment$3, safe_not_equal, {});
+    		init(this, options, instance$4, create_fragment$4, safe_not_equal, {});
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
     			tagName: "Profile",
     			options,
-    			id: create_fragment$3.name
+    			id: create_fragment$4.name
     		});
     	}
     }
@@ -5882,9 +9686,9 @@ var app = (function () {
 
     const { console: console_1$1 } = globals;
 
-    const file$2 = "src/routes/User.svelte";
+    const file$3 = "src/routes/User.svelte";
 
-    function create_fragment$2(ctx) {
+    function create_fragment$3(ctx) {
     	let main;
     	let h2;
     	let t1;
@@ -5919,26 +9723,26 @@ var app = (function () {
     			div2 = element("div");
     			a1 = element("a");
     			a1.textContent = "🔙";
-    			add_location(h2, file$2, 29, 2, 834);
+    			add_location(h2, file$3, 29, 2, 834);
     			set_style(input, "width", "150px");
     			attr_dev(input, "aria-label", "Enter new username");
-    			add_location(input, file$2, 31, 4, 874);
+    			add_location(input, file$3, 31, 4, 874);
     			attr_dev(a0, "href", "#/profile");
     			attr_dev(a0, "type", "submit");
     			attr_dev(a0, "value", "Submit");
     			attr_dev(a0, "class", "svelte-1nt2cii");
-    			add_location(a0, file$2, 33, 4, 970);
-    			add_location(div0, file$2, 32, 4, 960);
+    			add_location(a0, file$3, 33, 4, 970);
+    			add_location(div0, file$3, 32, 4, 960);
     			attr_dev(div1, "class", "link svelte-1nt2cii");
-    			add_location(div1, file$2, 35, 2, 1067);
+    			add_location(div1, file$3, 35, 2, 1067);
     			attr_dev(a1, "href", "#/profile");
     			attr_dev(a1, "class", "svelte-1nt2cii");
-    			add_location(a1, file$2, 38, 4, 1120);
+    			add_location(a1, file$3, 38, 4, 1120);
     			attr_dev(div2, "class", "link svelte-1nt2cii");
-    			add_location(div2, file$2, 37, 2, 1097);
-    			add_location(div3, file$2, 30, 2, 864);
+    			add_location(div2, file$3, 37, 2, 1097);
+    			add_location(div3, file$3, 30, 2, 864);
     			attr_dev(main, "class", "svelte-1nt2cii");
-    			add_location(main, file$2, 28, 0, 825);
+    			add_location(main, file$3, 28, 0, 825);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -5984,7 +9788,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$2.name,
+    		id: create_fragment$3.name,
     		type: "component",
     		source: "",
     		ctx
@@ -5993,7 +9797,7 @@ var app = (function () {
     	return block;
     }
 
-    function instance$2($$self, $$props, $$invalidate) {
+    function instance$3($$self, $$props, $$invalidate) {
     	let $user,
     		$$unsubscribe_user = noop,
     		$$subscribe_user = () => ($$unsubscribe_user(), $$unsubscribe_user = subscribe(user, $$value => $$invalidate(3, $user = $$value)), user);
@@ -6076,13 +9880,13 @@ var app = (function () {
     class User extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, {});
+    		init(this, options, instance$3, create_fragment$3, safe_not_equal, {});
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
     			tagName: "User",
     			options,
-    			id: create_fragment$2.name
+    			id: create_fragment$3.name
     		});
     	}
     }
@@ -6091,9 +9895,9 @@ var app = (function () {
 
     const { console: console_1 } = globals;
 
-    const file$1 = "src/routes/Usermail.svelte";
+    const file$2 = "src/routes/Usermail.svelte";
 
-    function create_fragment$1(ctx) {
+    function create_fragment$2(ctx) {
     	let main;
     	let h2;
     	let t1;
@@ -6128,26 +9932,26 @@ var app = (function () {
     			div2 = element("div");
     			a1 = element("a");
     			a1.textContent = "🔙";
-    			add_location(h2, file$1, 42, 4, 1245);
+    			add_location(h2, file$2, 42, 4, 1245);
     			set_style(input, "width", "150px");
     			attr_dev(input, "aria-label", "Mail address");
-    			add_location(input, file$1, 44, 6, 1299);
+    			add_location(input, file$2, 44, 6, 1299);
     			attr_dev(a0, "href", "#/profile");
     			attr_dev(a0, "type", "submit");
     			attr_dev(a0, "value", "Submit");
     			attr_dev(a0, "class", "svelte-kuz6i2");
-    			add_location(a0, file$1, 46, 6, 1393);
-    			add_location(div0, file$1, 45, 6, 1381);
+    			add_location(a0, file$2, 46, 6, 1393);
+    			add_location(div0, file$2, 45, 6, 1381);
     			attr_dev(div1, "class", "link svelte-kuz6i2");
-    			add_location(div1, file$1, 48, 4, 1497);
+    			add_location(div1, file$2, 48, 4, 1497);
     			attr_dev(a1, "href", "#/profile");
     			attr_dev(a1, "class", "svelte-kuz6i2");
-    			add_location(a1, file$1, 51, 6, 1556);
+    			add_location(a1, file$2, 51, 6, 1556);
     			attr_dev(div2, "class", "link svelte-kuz6i2");
-    			add_location(div2, file$1, 50, 4, 1531);
-    			add_location(div3, file$1, 43, 4, 1287);
+    			add_location(div2, file$2, 50, 4, 1531);
+    			add_location(div3, file$2, 43, 4, 1287);
     			attr_dev(main, "class", "svelte-kuz6i2");
-    			add_location(main, file$1, 41, 2, 1234);
+    			add_location(main, file$2, 41, 2, 1234);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -6193,7 +9997,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$1.name,
+    		id: create_fragment$2.name,
     		type: "component",
     		source: "",
     		ctx
@@ -6202,7 +10006,7 @@ var app = (function () {
     	return block;
     }
 
-    function instance$1($$self, $$props, $$invalidate) {
+    function instance$2($$self, $$props, $$invalidate) {
     	let $mail,
     		$$unsubscribe_mail = noop,
     		$$subscribe_mail = () => ($$unsubscribe_mail(), $$unsubscribe_mail = subscribe(mail, $$value => $$invalidate(3, $mail = $$value)), mail);
@@ -6296,11 +10100,446 @@ var app = (function () {
     class Usermail extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$1, create_fragment$1, safe_not_equal, {});
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, {});
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
     			tagName: "Usermail",
+    			options,
+    			id: create_fragment$2.name
+    		});
+    	}
+    }
+
+    /* src/routes/NewRoom.svelte generated by Svelte v3.49.0 */
+
+    const file$1 = "src/routes/NewRoom.svelte";
+
+    // (50:2) {#if password == 'true'}
+    function create_if_block_1(ctx) {
+    	let input;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			input = element("input");
+    			attr_dev(input, "placeholder", "Enter channel password...");
+    			add_location(input, file$1, 50, 5, 1152);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, input, anchor);
+    			set_input_value(input, /*pass*/ ctx[0]);
+
+    			if (!mounted) {
+    				dispose = listen_dev(input, "input", /*input_input_handler*/ ctx[11]);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*pass*/ 1 && input.value !== /*pass*/ ctx[0]) {
+    				set_input_value(input, /*pass*/ ctx[0]);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(input);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1.name,
+    		type: "if",
+    		source: "(50:2) {#if password == 'true'}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (56:4) {:else}
+    function create_else_block$1(ctx) {
+    	let a;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			a = element("a");
+    			a.textContent = "Create new chat room";
+    			attr_dev(a, "href", "#/chat");
+    			set_style(a, "padding", "10px");
+    			set_style(a, "background-color", "darkred");
+    			set_style(a, "color", "white");
+    			add_location(a, file$1, 56, 4, 1439);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, a, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(a, "click", /*createRoom*/ ctx[4], false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(a);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block$1.name,
+    		type: "else",
+    		source: "(56:4) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (54:4) {#if !title || !free || (free == 'private' && !pass)}
+    function create_if_block$1(ctx) {
+    	let button;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			button.textContent = "Create new chat room";
+    			set_style(button, "padding", "10px");
+    			set_style(button, "background-color", "darkred");
+    			set_style(button, "color", "white");
+    			add_location(button, file$1, 54, 4, 1298);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", /*createRoom*/ ctx[4], false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$1.name,
+    		type: "if",
+    		source: "(54:4) {#if !title || !free || (free == 'private' && !pass)}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$1(ctx) {
+    	let main;
+    	let h2;
+    	let t1;
+    	let input0;
+    	let t2;
+    	let div0;
+    	let label0;
+    	let input1;
+    	let t3;
+    	let t4;
+    	let label1;
+    	let input2;
+    	let t5;
+    	let t6;
+    	let br;
+    	let t7;
+    	let div2;
+    	let t8;
+    	let div1;
+    	let mounted;
+    	let dispose;
+    	let if_block0 = /*password*/ ctx[3] == 'true' && create_if_block_1(ctx);
+
+    	function select_block_type(ctx, dirty) {
+    		if (!/*title*/ ctx[2] || !/*free*/ ctx[1] || /*free*/ ctx[1] == 'private' && !/*pass*/ ctx[0]) return create_if_block$1;
+    		return create_else_block$1;
+    	}
+
+    	let current_block_type = select_block_type(ctx);
+    	let if_block1 = current_block_type(ctx);
+
+    	const block = {
+    		c: function create() {
+    			main = element("main");
+    			h2 = element("h2");
+    			h2.textContent = "New Chat Room";
+    			t1 = space();
+    			input0 = element("input");
+    			t2 = space();
+    			div0 = element("div");
+    			label0 = element("label");
+    			input1 = element("input");
+    			t3 = text("\n      Public");
+    			t4 = space();
+    			label1 = element("label");
+    			input2 = element("input");
+    			t5 = text("\n      Private");
+    			t6 = space();
+    			br = element("br");
+    			t7 = space();
+    			div2 = element("div");
+    			if (if_block0) if_block0.c();
+    			t8 = space();
+    			div1 = element("div");
+    			if_block1.c();
+    			add_location(h2, file$1, 30, 4, 664);
+    			attr_dev(input0, "placeholder", "Chat room's name");
+    			add_location(input0, file$1, 32, 4, 692);
+    			attr_dev(input1, "type", "radio");
+    			input1.__value = "public";
+    			input1.value = input1.__value;
+    			/*$$binding_groups*/ ctx[9][0].push(input1);
+    			add_location(input1, file$1, 35, 6, 781);
+    			add_location(label0, file$1, 34, 4, 767);
+    			attr_dev(input2, "type", "radio");
+    			input2.__value = "private";
+    			input2.value = input2.__value;
+    			/*$$binding_groups*/ ctx[9][0].push(input2);
+    			add_location(input2, file$1, 40, 6, 908);
+    			add_location(label1, file$1, 39, 4, 894);
+    			add_location(div0, file$1, 33, 4, 756);
+    			add_location(br, file$1, 44, 2, 1022);
+    			add_location(div1, file$1, 52, 2, 1230);
+    			add_location(div2, file$1, 45, 2, 1029);
+    			attr_dev(main, "class", "svelte-1xm5mdn");
+    			add_location(main, file$1, 29, 2, 653);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, main, anchor);
+    			append_dev(main, h2);
+    			append_dev(main, t1);
+    			append_dev(main, input0);
+    			set_input_value(input0, /*title*/ ctx[2]);
+    			append_dev(main, t2);
+    			append_dev(main, div0);
+    			append_dev(div0, label0);
+    			append_dev(label0, input1);
+    			input1.checked = input1.__value === /*free*/ ctx[1];
+    			append_dev(label0, t3);
+    			append_dev(div0, t4);
+    			append_dev(div0, label1);
+    			append_dev(label1, input2);
+    			input2.checked = input2.__value === /*free*/ ctx[1];
+    			append_dev(label1, t5);
+    			append_dev(main, t6);
+    			append_dev(main, br);
+    			append_dev(main, t7);
+    			append_dev(main, div2);
+    			if (if_block0) if_block0.m(div2, null);
+    			append_dev(div2, t8);
+    			append_dev(div2, div1);
+    			if_block1.m(div1, null);
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[7]),
+    					listen_dev(input1, "click", /*removePassword*/ ctx[6], false, false, false),
+    					listen_dev(input1, "change", /*input1_change_handler*/ ctx[8]),
+    					listen_dev(input2, "click", /*addPassword*/ ctx[5], false, false, false),
+    					listen_dev(input2, "change", /*input2_change_handler*/ ctx[10])
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (dirty & /*title*/ 4 && input0.value !== /*title*/ ctx[2]) {
+    				set_input_value(input0, /*title*/ ctx[2]);
+    			}
+
+    			if (dirty & /*free*/ 2) {
+    				input1.checked = input1.__value === /*free*/ ctx[1];
+    			}
+
+    			if (dirty & /*free*/ 2) {
+    				input2.checked = input2.__value === /*free*/ ctx[1];
+    			}
+
+    			if (/*password*/ ctx[3] == 'true') {
+    				if (if_block0) {
+    					if_block0.p(ctx, dirty);
+    				} else {
+    					if_block0 = create_if_block_1(ctx);
+    					if_block0.c();
+    					if_block0.m(div2, t8);
+    				}
+    			} else if (if_block0) {
+    				if_block0.d(1);
+    				if_block0 = null;
+    			}
+
+    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block1) {
+    				if_block1.p(ctx, dirty);
+    			} else {
+    				if_block1.d(1);
+    				if_block1 = current_block_type(ctx);
+
+    				if (if_block1) {
+    					if_block1.c();
+    					if_block1.m(div1, null);
+    				}
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(main);
+    			/*$$binding_groups*/ ctx[9][0].splice(/*$$binding_groups*/ ctx[9][0].indexOf(input1), 1);
+    			/*$$binding_groups*/ ctx[9][0].splice(/*$$binding_groups*/ ctx[9][0].indexOf(input2), 1);
+    			if (if_block0) if_block0.d();
+    			if_block1.d();
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$1.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$1($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('NewRoom', slots, []);
+    	let pass;
+    	let free;
+    	let title;
+    	let channelName;
+    	let password = 'false';
+
+    	function createRoom() {
+    		if (!title || free == 'private' && !pass) {
+    			alert('Missing information !');
+    		} else {
+    			alert(`✅ Chatroom ${title} has been created`);
+    		}
+    	}
+
+    	function addPassword() {
+    		$$invalidate(3, password = 'true');
+    		$$invalidate(3, password);
+    	}
+
+    	function removePassword() {
+    		$$invalidate(3, password = 'false');
+    		$$invalidate(3, password);
+    	}
+
+    	const writable_props = [];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<NewRoom> was created with unknown prop '${key}'`);
+    	});
+
+    	const $$binding_groups = [[]];
+
+    	function input0_input_handler() {
+    		title = this.value;
+    		$$invalidate(2, title);
+    	}
+
+    	function input1_change_handler() {
+    		free = this.__value;
+    		$$invalidate(1, free);
+    	}
+
+    	function input2_change_handler() {
+    		free = this.__value;
+    		$$invalidate(1, free);
+    	}
+
+    	function input_input_handler() {
+    		pass = this.value;
+    		$$invalidate(0, pass);
+    	}
+
+    	$$self.$capture_state = () => ({
+    		level,
+    		logged,
+    		losses,
+    		username,
+    		wins,
+    		image_url,
+    		firstname,
+    		lastname,
+    		id,
+    		cookie,
+    		TWOFA,
+    		ownmail,
+    		email,
+    		pass,
+    		free,
+    		title,
+    		channelName,
+    		password,
+    		createRoom,
+    		addPassword,
+    		removePassword
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ('pass' in $$props) $$invalidate(0, pass = $$props.pass);
+    		if ('free' in $$props) $$invalidate(1, free = $$props.free);
+    		if ('title' in $$props) $$invalidate(2, title = $$props.title);
+    		if ('channelName' in $$props) channelName = $$props.channelName;
+    		if ('password' in $$props) $$invalidate(3, password = $$props.password);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [
+    		pass,
+    		free,
+    		title,
+    		password,
+    		createRoom,
+    		addPassword,
+    		removePassword,
+    		input0_input_handler,
+    		input1_change_handler,
+    		$$binding_groups,
+    		input2_change_handler,
+    		input_input_handler
+    	];
+    }
+
+    class NewRoom extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, {});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "NewRoom",
     			options,
     			id: create_fragment$1.name
     		});
@@ -6310,7 +10549,7 @@ var app = (function () {
     /* src/App.svelte generated by Svelte v3.49.0 */
     const file = "src/App.svelte";
 
-    // (47:2) {:else}
+    // (50:2) {:else}
     function create_else_block(ctx) {
     	let a0;
     	let t1;
@@ -6342,19 +10581,19 @@ var app = (function () {
     			a4.textContent = "LOGOUT";
     			attr_dev(a0, "class", "item svelte-s2ct73");
     			attr_dev(a0, "href", "#/");
-    			add_location(a0, file, 47, 2, 1508);
+    			add_location(a0, file, 50, 2, 1620);
     			attr_dev(a1, "class", "item svelte-s2ct73");
     			attr_dev(a1, "href", "#/");
-    			add_location(a1, file, 48, 2, 1545);
+    			add_location(a1, file, 51, 2, 1657);
     			attr_dev(a2, "class", "item svelte-s2ct73");
     			attr_dev(a2, "href", "#/");
-    			add_location(a2, file, 49, 2, 1582);
+    			add_location(a2, file, 52, 2, 1694);
     			attr_dev(a3, "class", "item svelte-s2ct73");
     			attr_dev(a3, "href", "#/");
-    			add_location(a3, file, 50, 2, 1622);
+    			add_location(a3, file, 53, 2, 1734);
     			attr_dev(a4, "class", "item svelte-s2ct73");
     			attr_dev(a4, "href", "#/");
-    			add_location(a4, file, 51, 2, 1659);
+    			add_location(a4, file, 54, 2, 1771);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a0, anchor);
@@ -6392,14 +10631,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(47:2) {:else}",
+    		source: "(50:2) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (41:2) {#if $logged == 'true'}
+    // (44:2) {#if $logged == 'true'}
     function create_if_block(ctx) {
     	let a0;
     	let t1;
@@ -6431,19 +10670,19 @@ var app = (function () {
     			a4.textContent = "LOGOUT";
     			attr_dev(a0, "class", "item svelte-s2ct73");
     			attr_dev(a0, "href", "#/");
-    			add_location(a0, file, 41, 2, 1275);
+    			add_location(a0, file, 44, 2, 1387);
     			attr_dev(a1, "class", "item svelte-s2ct73");
     			attr_dev(a1, "href", "#/pong");
-    			add_location(a1, file, 42, 2, 1312);
+    			add_location(a1, file, 45, 2, 1424);
     			attr_dev(a2, "class", "item svelte-s2ct73");
     			attr_dev(a2, "href", "#/profile");
-    			add_location(a2, file, 43, 2, 1353);
+    			add_location(a2, file, 46, 2, 1465);
     			attr_dev(a3, "class", "item svelte-s2ct73");
     			attr_dev(a3, "href", "#/chat");
-    			add_location(a3, file, 44, 2, 1400);
+    			add_location(a3, file, 47, 2, 1512);
     			attr_dev(a4, "class", "item svelte-s2ct73");
     			attr_dev(a4, "href", "#/");
-    			add_location(a4, file, 45, 2, 1441);
+    			add_location(a4, file, 48, 2, 1553);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a0, anchor);
@@ -6481,7 +10720,7 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(41:2) {#if $logged == 'true'}",
+    		source: "(44:2) {#if $logged == 'true'}",
     		ctx
     	});
 
@@ -6523,11 +10762,11 @@ var app = (function () {
     			if (!src_url_equal(img.src, img_src_value = "img/pong.svg")) attr_dev(img, "src", img_src_value);
     			set_style(img, "width", "300px");
     			attr_dev(img, "alt", "Pong icon");
-    			add_location(img, file, 38, 1, 1164);
+    			add_location(img, file, 41, 1, 1276);
     			attr_dev(nav, "class", "menu svelte-s2ct73");
-    			add_location(nav, file, 39, 1, 1228);
+    			add_location(nav, file, 42, 1, 1340);
     			attr_dev(main, "class", "svelte-s2ct73");
-    			add_location(main, file, 37, 0, 1156);
+    			add_location(main, file, 40, 0, 1268);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -6597,10 +10836,11 @@ var app = (function () {
     		// "/": Home,
     		"/": Home,
     		"/pong": Pong,
-    		"/chat": Chat,
+    		"/chat": Chatest,
     		"/profile": Profile,
     		"/user": User,
     		"/usermail": Usermail,
+    		"/newroom": NewRoom,
     		"/*": NotFound
     	};
 
@@ -6632,13 +10872,14 @@ var app = (function () {
     		logged,
     		intra,
     		Router,
-    		Chat,
+    		Chatest,
     		Home,
     		NotFound,
     		Pong,
     		Profile,
     		User,
     		Usermail,
+    		NewRoom,
     		routes,
     		logOut,
     		$intra,

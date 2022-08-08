@@ -19,6 +19,9 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'public'), {
     prefix: '/public',
   });
+  app.useStaticAssets(join(__dirname, '..', 'static'), {
+    prefix: '/chat',
+  });
   await app.listen(process.env.BACKEND_PORT || 3000);
 
 }

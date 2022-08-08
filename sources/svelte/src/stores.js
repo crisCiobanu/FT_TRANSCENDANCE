@@ -45,6 +45,9 @@ email.subscribe((val) => localStorage.setItem("email", val));
 export const ownmail = writable(localStorage.getItem("ownmail") || "");
 ownmail.subscribe((val) => localStorage.setItem("ownmail", val));
 
+export const currentRoom = writable(localStorage.getItem("currentRoom") || "general");
+currentRoom.subscribe((val) => localStorage.setItem("currentRoom", val));
+
 // const itemName = "array";
 // const retrieved = localStorage.getItem(itemName);
 // //const parsed = JSON.parse(retrieved);

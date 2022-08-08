@@ -1,35 +1,26 @@
 <script>
     import { onMount } from "svelte";
     import { level, logged, losses, username, wins, image_url, firstname, lastname } from '../stores.js';
+    import io from 'socket.io-client';
 
     let uid = 4;
      let text = "";
      let messagesRef;
-     let messages = [];
      let channel;
   
-     const appendMessage = message => {
-        requestAnimationFrame(() => {
-          messagesRef.scrollTop = messagesRef.scrollHeight;
-        })
-      };
+     const socket = io("http://localhost:3000")
 
-     function sendMessage() { 
-       if (text === "") {
-        return;  
-       }
-       channel.sendMessage({ text, type: "text" });
-      appendMessage({
-        text: text,
-        uid
-      });
-      text = "";
-      console.log({text});
-      array.update(n => n.push(text));
-      requestAnimationFrame(() => {
-         messagesRef.scrollTop = messagesRef.scrollHeight;
-    });
-  }
+      let messages = []
+      let message = ''
+
+socket.on('chat message', (data) => {
+  messages = [...messages, data]
+})
+
+function sendMessage() {
+  socket.emit('chat message', message)
+  message = ''
+}
   </script>
   
    <main>
@@ -41,7 +32,7 @@
            {#each messages as message}
              <div class="message">
                {#if message.uid === uid}
-                <div class="text1">{$username}: {message.text}</div>
+                <div class="text1">{$username}: {message}</div>
                {:else}
                <div class="text2">{message}</div>
             {/if}
@@ -51,7 +42,7 @@
        </div>
   
        <form on:submit|preventDefault={sendMessage}>
-         <input bind:value={text} />
+         <input bind:value={message} />
        </form>
      </div>
      {:else}
