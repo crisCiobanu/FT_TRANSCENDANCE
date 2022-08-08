@@ -4688,7 +4688,7 @@ var app = (function () {
 
     const file$3 = "src/routes/Profile.svelte";
 
-    // (111:4) {:else}
+    // (109:4) {:else}
     function create_else_block_1(ctx) {
     	let h1;
 
@@ -4698,7 +4698,7 @@ var app = (function () {
     			h1.textContent = "ACCESS DENIED";
     			set_style(h1, "text-align", "center");
     			attr_dev(h1, "class", "svelte-1xtxnqj");
-    			add_location(h1, file$3, 111, 4, 5264);
+    			add_location(h1, file$3, 109, 4, 5184);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -4713,14 +4713,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1.name,
     		type: "else",
-    		source: "(111:4) {:else}",
+    		source: "(109:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (80:4) {#if $logged == 'true'}
+    // (78:4) {#if $logged == 'true'}
     function create_if_block$1(ctx) {
     	let div0;
     	let h10;
@@ -4834,74 +4834,74 @@ var app = (function () {
     			h14.textContent = "FRIENDS";
     			attr_dev(h10, "class", "name svelte-1xtxnqj");
     			set_style(h10, "color", "darkred");
-    			add_location(h10, file$3, 81, 8, 3063);
+    			add_location(h10, file$3, 79, 8, 2983);
     			attr_dev(img, "class", "profile svelte-1xtxnqj");
     			if (!src_url_equal(img.src, img_src_value = /*$image_url*/ ctx[4])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "width", "200px");
     			attr_dev(img, "alt", "Default Profile");
-    			add_location(img, file$3, 82, 8, 3127);
+    			add_location(img, file$3, 80, 8, 3047);
     			attr_dev(a, "class", "bt2 svelte-1xtxnqj");
     			attr_dev(a, "href", "#/user");
-    			add_location(a, file$3, 83, 8, 3213);
+    			add_location(a, file$3, 81, 8, 3133);
     			set_style(div0, "margin", "0 auto");
     			set_style(div0, "display", "block");
-    			add_location(div0, file$3, 80, 4, 3010);
-    			add_location(br, file$3, 86, 110, 3394);
+    			add_location(div0, file$3, 78, 4, 2930);
+    			add_location(br, file$3, 84, 110, 3314);
     			set_style(p, "text-align", "center");
     			set_style(p, "color", "grey");
     			set_style(p, "font-weight", "500");
     			set_style(p, "font-style", "italic");
-    			add_location(p, file$3, 86, 8, 3292);
-    			add_location(div1, file$3, 85, 4, 3278);
+    			add_location(p, file$3, 84, 8, 3212);
+    			add_location(div1, file$3, 83, 4, 3198);
     			attr_dev(button, "class", "bt1 svelte-1xtxnqj");
-    			add_location(button, file$3, 89, 16, 3473);
+    			add_location(button, file$3, 87, 16, 3393);
     			set_style(input, "display", "none");
     			attr_dev(input, "type", "file");
     			attr_dev(input, "accept", ".jpg, .jpeg, .png");
-    			add_location(input, file$3, 90, 8, 3569);
+    			add_location(input, file$3, 88, 8, 3489);
     			set_style(div2, "margin", "0 auto");
-    			add_location(div2, file$3, 88, 4, 3426);
+    			add_location(div2, file$3, 86, 4, 3346);
     			set_style(h11, "width", "400px");
     			set_style(h11, "background-color", "darkgrey");
     			set_style(h11, "color", "white");
     			set_style(h11, "text-decoration-line", "underline");
     			set_style(h11, "text-underline-offset", "20px");
     			attr_dev(h11, "class", "svelte-1xtxnqj");
-    			add_location(h11, file$3, 100, 8, 4418);
+    			add_location(h11, file$3, 98, 8, 4338);
     			attr_dev(span0, "class", "sp1 svelte-1xtxnqj");
-    			add_location(span0, file$3, 101, 12, 4569);
+    			add_location(span0, file$3, 99, 12, 4489);
     			attr_dev(span1, "class", "sp2 svelte-1xtxnqj");
-    			add_location(span1, file$3, 101, 42, 4599);
+    			add_location(span1, file$3, 99, 42, 4519);
     			attr_dev(span2, "class", "sp1 svelte-1xtxnqj");
-    			add_location(span2, file$3, 101, 79, 4636);
+    			add_location(span2, file$3, 99, 79, 4556);
     			attr_dev(span3, "class", "sp2 svelte-1xtxnqj");
-    			add_location(span3, file$3, 101, 129, 4686);
+    			add_location(span3, file$3, 99, 129, 4606);
     			attr_dev(span4, "class", "sp1 svelte-1xtxnqj");
-    			add_location(span4, file$3, 101, 163, 4720);
+    			add_location(span4, file$3, 99, 163, 4640);
     			attr_dev(span5, "class", "sp2 svelte-1xtxnqj");
-    			add_location(span5, file$3, 101, 211, 4768);
+    			add_location(span5, file$3, 99, 211, 4688);
     			attr_dev(h12, "class", "svelte-1xtxnqj");
-    			add_location(h12, file$3, 101, 8, 4565);
+    			add_location(h12, file$3, 99, 8, 4485);
     			attr_dev(div3, "class", "tb1 svelte-1xtxnqj");
-    			add_location(div3, file$3, 99, 4, 4392);
+    			add_location(div3, file$3, 97, 4, 4312);
     			set_style(h13, "background-color", "darkgrey");
     			set_style(h13, "color", "white");
     			set_style(h13, "text-align", "center");
     			attr_dev(h13, "class", "svelte-1xtxnqj");
-    			add_location(h13, file$3, 105, 8, 4979);
+    			add_location(h13, file$3, 103, 8, 4899);
     			set_style(div4, "width", "400px");
     			set_style(div4, "margin", "0 auto");
     			set_style(div4, "display", "block");
-    			add_location(div4, file$3, 104, 4, 4913);
+    			add_location(div4, file$3, 102, 4, 4833);
     			set_style(h14, "background-color", "darkgrey");
     			set_style(h14, "color", "white");
     			set_style(h14, "text-align", "center");
     			attr_dev(h14, "class", "svelte-1xtxnqj");
-    			add_location(h14, file$3, 108, 8, 5152);
+    			add_location(h14, file$3, 106, 8, 5072);
     			set_style(div5, "width", "400px");
     			set_style(div5, "margin", "0 auto");
     			set_style(div5, "display", "block");
-    			add_location(div5, file$3, 107, 4, 5085);
+    			add_location(div5, file$3, 105, 4, 5005);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -5009,14 +5009,14 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(80:4) {#if $logged == 'true'}",
+    		source: "(78:4) {#if $logged == 'true'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (96:8) {:else}
+    // (94:8) {:else}
     function create_else_block$1(ctx) {
     	let button;
     	let mounted;
@@ -5033,7 +5033,7 @@ var app = (function () {
     			set_style(button, "background-color", "dimgrey");
     			set_style(button, "color", "white");
     			set_style(button, "border-radius", "5px");
-    			add_location(button, file$3, 96, 8, 4187);
+    			add_location(button, file$3, 94, 8, 4107);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -5055,14 +5055,14 @@ var app = (function () {
     		block,
     		id: create_else_block$1.name,
     		type: "else",
-    		source: "(96:8) {:else}",
+    		source: "(94:8) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (94:36) 
+    // (92:36) 
     function create_if_block_2(ctx) {
     	let a;
 
@@ -5078,7 +5078,7 @@ var app = (function () {
     			set_style(a, "color", "white");
     			set_style(a, "background-color", "lightslategrey");
     			set_style(a, "border-radius", "5px");
-    			add_location(a, file$3, 94, 8, 3997);
+    			add_location(a, file$3, 92, 8, 3917);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -5093,14 +5093,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(94:36) ",
+    		source: "(92:36) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (92:8) {#if $TWOFA == 'false' && $ownmail == 'true'}
+    // (90:8) {#if $TWOFA == 'false' && $ownmail == 'true'}
     function create_if_block_1(ctx) {
     	let button;
     	let mounted;
@@ -5118,7 +5118,7 @@ var app = (function () {
     			set_style(button, "color", "white");
     			set_style(button, "background-color", "lightslategrey");
     			set_style(button, "border-radius", "5px");
-    			add_location(button, file$3, 92, 8, 3757);
+    			add_location(button, file$3, 90, 8, 3677);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -5140,7 +5140,7 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(92:8) {#if $TWOFA == 'false' && $ownmail == 'true'}",
+    		source: "(90:8) {#if $TWOFA == 'false' && $ownmail == 'true'}",
     		ctx
     	});
 
@@ -5163,7 +5163,7 @@ var app = (function () {
     			main = element("main");
     			if_block.c();
     			attr_dev(main, "class", "svelte-1xtxnqj");
-    			add_location(main, file$3, 78, 0, 2971);
+    			add_location(main, file$3, 76, 0, 2891);
     		},
     		l: function claim(nodes) {
     			throw new Error_1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -5293,16 +5293,13 @@ var app = (function () {
     	function TWOFAon() {
     		return __awaiter(this, void 0, void 0, function* () {
     			if ($TWOFA == 'false') {
-    				// await fetch('http://localhost:3000/users/twofa', {
-    				//     method: "POST",
-    				//     headers:
-    				//     {
-    				//         'Authorization' : 'Bearer ' + $cookie,
-    				//     }
-    				// });
-    				// TWOFA.update(n => 'true');
-    				// alert("✅ Two factor authentification has been enalbled on this account");
-    				redirect$1();
+    				yield fetch('http://localhost:3000/users/twofa', {
+    					method: "POST",
+    					headers: { 'Authorization': 'Bearer ' + $cookie }
+    				});
+
+    				TWOFA.update(n => 'true');
+    				alert("✅ Two factor authentification has been enalbled on this account");
     			} else {
     				alert("❌ Two factor authentication is already enabled!");
     			}
@@ -5701,26 +5698,26 @@ var app = (function () {
     			div2 = element("div");
     			a1 = element("a");
     			a1.textContent = "🔙";
-    			add_location(h2, file$1, 80, 4, 2274);
+    			add_location(h2, file$1, 79, 4, 2241);
     			set_style(input, "width", "150px");
     			attr_dev(input, "aria-label", "Mail address");
-    			add_location(input, file$1, 82, 6, 2328);
+    			add_location(input, file$1, 81, 6, 2295);
     			attr_dev(a0, "href", "#/profile");
     			attr_dev(a0, "type", "submit");
     			attr_dev(a0, "value", "Submit");
     			attr_dev(a0, "class", "svelte-13t8xui");
-    			add_location(a0, file$1, 84, 6, 2422);
-    			add_location(div0, file$1, 83, 6, 2410);
+    			add_location(a0, file$1, 83, 6, 2389);
+    			add_location(div0, file$1, 82, 6, 2377);
     			attr_dev(div1, "class", "link svelte-13t8xui");
-    			add_location(div1, file$1, 86, 4, 2516);
+    			add_location(div1, file$1, 85, 4, 2483);
     			attr_dev(a1, "href", "#/profile");
     			attr_dev(a1, "class", "svelte-13t8xui");
-    			add_location(a1, file$1, 89, 6, 2575);
+    			add_location(a1, file$1, 88, 6, 2542);
     			attr_dev(div2, "class", "link svelte-13t8xui");
-    			add_location(div2, file$1, 88, 4, 2550);
-    			add_location(div3, file$1, 81, 4, 2316);
+    			add_location(div2, file$1, 87, 4, 2517);
+    			add_location(div3, file$1, 80, 4, 2283);
     			attr_dev(main, "class", "svelte-13t8xui");
-    			add_location(main, file$1, 79, 2, 2263);
+    			add_location(main, file$1, 78, 2, 2230);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -5803,9 +5800,8 @@ var app = (function () {
 
     			await fetch("http://localhost:3000/users/updatemail/", {
     				method: 'POST',
-    				body: JSON.stringify({ "id": $id, mail }),
+    				body: JSON.stringify({ "id": $id, "email": mail }),
     				headers: {
-    					// Cookie: "xxx=yyy",
     					'Authorization': 'Bearer ' + $cookie,
     					"Content-type": "application/json; charset=UTF-8"
     				}

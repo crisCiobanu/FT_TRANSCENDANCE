@@ -48,6 +48,7 @@ export class UsersService {
     async changeUserEmail(id: number, email: string): Promise<User>{
         const newUser = await this.userRepository.findOneBy({ id });
         newUser.email = email;
+        newUser.ownMail = true;
         await this.userRepository.save(newUser);
         return newUser;
     }

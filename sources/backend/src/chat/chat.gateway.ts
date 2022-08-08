@@ -34,4 +34,11 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   handleMessage(client: Socket, payload: string): void {
     this.server.emit('msgToClient', payload);
   }
+
+  @SubscribeMessage('testMessage')
+  hand(client: Socket, payload: string): void {
+    client.handshake.headers
+    this.server.emit('msg', { id: 1, name: "testname"});
+    this.logger.log(`Received the message ${payload}`);
+  }
 }

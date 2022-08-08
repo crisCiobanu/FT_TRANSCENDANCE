@@ -4,8 +4,8 @@ import { Strategy, Profile } from 'passport-42'
 import { CreateUserDto } from "src/users/dto/create-user.dto";
 import User from "src/users/user.entity";
 import { UsersService } from "src/users/users.service";
-import { AuthenticationProvider } from "./auth";
-import { AuthService } from "./auth.service";
+import { AuthenticationProvider } from "../auth";
+import { AuthService } from "../auth.service";
 import {v4 as uuidv4} from 'uuid';
 
 

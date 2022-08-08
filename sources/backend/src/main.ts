@@ -15,10 +15,13 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
- //app.useStaticAssets(join(__dirname, '..', 'avatars'));
   app.useStaticAssets(join(__dirname, '..', 'public'), {
     prefix: '/public',
   });
+  app.useStaticAssets(join(__dirname, '..', 'static'), {
+    prefix: '/chat',
+  });
+
   await app.listen(process.env.BACKEND_PORT || 3000);
 
 }

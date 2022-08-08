@@ -5,12 +5,11 @@ import User from 'src/users/user.entity';
 import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { FourtyTwoStrategy } from './fourty-two.strategy';
-import { JwtGuard } from './jwt.guard';
-import { JwtStrategy } from './jwt.strategy';
+import { FourtyTwoStrategy } from './fourty-two/fourty-two.strategy';
+import { JwtGuard } from './jwt/jwt.guard';
+import { JwtStrategy } from './jwt/jwt.strategy';
 import { MyMailService } from './mail.service';
 import { MailerModule } from '@nestjs-modules/mailer'
-import SmsService from './sms.service';
 
 
 @Module({
@@ -19,7 +18,6 @@ import SmsService from './sms.service';
               FourtyTwoStrategy,
               JwtStrategy,
               MyMailService,
-              SmsService,
               {
                 provide: 'AUTH_SERVICE',
                 useClass: AuthService,

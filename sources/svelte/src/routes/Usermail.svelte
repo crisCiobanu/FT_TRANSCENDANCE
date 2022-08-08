@@ -16,10 +16,9 @@
             await fetch("http://localhost:3000/users/updatemail/", {
             method: 'POST',
 
-            body: JSON.stringify({"id": $id, "mail": mail}),
+            body: JSON.stringify({"id": $id, "email": mail}),
             headers: 
             {
-            // Cookie: "xxx=yyy",
             'Authorization': 'Bearer ' + $cookie,
             "Content-type": "application/json; charset=UTF-8"
           },

@@ -9,16 +9,15 @@
     {
         if ($TWOFA == 'false')
         {
-            // await fetch('http://localhost:3000/users/twofa', {
-            //     method: "POST",
-            //     headers:
-            //     {
-            //         'Authorization' : 'Bearer ' + $cookie,
-            //     }
-            // });
-            // TWOFA.update(n => 'true');
-            // alert("✅ Two factor authentification has been enalbled on this account");
-            redirect('#/usermail');
+            await fetch('http://localhost:3000/users/twofa', {
+                method: "POST",
+                headers:
+                {
+                    'Authorization' : 'Bearer ' + $cookie,
+                }
+            });
+            TWOFA.update(n => 'true');
+            alert("✅ Two factor authentification has been enalbled on this account");
         }
         else
         {

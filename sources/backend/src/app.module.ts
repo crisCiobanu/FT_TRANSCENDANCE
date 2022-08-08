@@ -11,6 +11,7 @@ import { ChatGateway } from './chat/chat.gateway';
 import { AuthModule } from './auth/auth.module';
 import { join } from 'path';
 import { MailerModule } from '@nestjs-modules/mailer'
+import { ChatModule } from './chat/chat.module';
 import * as Joi from '@hapi/joi';
 
 @Module({
@@ -36,7 +37,7 @@ import * as Joi from '@hapi/joi';
       }
     }
   }),
-  DatabaseModule, ProductsModule, AuthModule],
+  DatabaseModule, ProductsModule, AuthModule, ChatModule],
   controllers: [AppController],
   providers: [AppService, ChatGateway],
 })

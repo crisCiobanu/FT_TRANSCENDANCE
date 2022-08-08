@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Res, Header, HttpCode, HttpStatus, Param, Post, Redirect, Req, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { Request } from 'express';
 import { runInThisContext } from 'vm';
-import { JwtGuard } from 'src/auth/jwt.guard';
+import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import User from './user.entity';
 import { UsersService } from './users.service';
@@ -131,9 +131,7 @@ export class UsersController {
     }))
     uploadFile(@Req() request: UpdateUserImageDto, @UploadedFile() file: Express.Multer.File, @Res() res ){
     console.log(file);
-    // this.userService.changeUserImage(request.id, `/avatars/${file.filename}`);
     this.userService.changeUserImage(request.id, `http://localhost:3000/public/${file.filename}`);
-    //return `/avatars/${file.filename}`;
     return (res.status(HttpStatus.OK).send(JSON.stringify({url: `http://localhost:3000/public/${file.filename}`})));
    
     

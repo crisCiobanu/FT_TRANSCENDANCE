@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Channel } from "src/chat/channel/channel.entity";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -31,6 +32,9 @@ export class User {
     })
     public lastName: string;
 
+    @ManyToMany(() => Channel, channel => channel.users)
+    channels: Channel[];
+
     @Column({
         default: 0
     })
@@ -56,6 +60,11 @@ export class User {
         default: false
     })
     public isActivated: boolean;
+
+    @Column({
+        default: false
+    })
+    public ownMail: boolean;
 
     @Column()
     public activationLink: string;

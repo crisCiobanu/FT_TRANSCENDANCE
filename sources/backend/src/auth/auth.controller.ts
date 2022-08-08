@@ -3,31 +3,18 @@ import passport from 'passport';
 import { Response, Request} from 'express';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AuthService } from './auth.service';
-import { FourtyTwoGuard } from './fourty-two.guard';
-import { JwtGuard } from './jwt.guard';
+import { FourtyTwoGuard } from './fourty-two/fourty-two.guard';
+import { JwtGuard } from './jwt/jwt.guard';
 import { UsersService } from 'src/users/users.service';
 import { MyMailService } from './mail.service';
 import { User } from 'src/users/user.entity';
-import SmsService from './sms.service';
-
 
 @Controller('auth')
 export class AuthController {
 
     constructor (private authService: AuthService, 
                 private userService: UsersService,
-                private mailService: MyMailService,
-                private smsService: SmsService) {}
-
-    // @Post('/login')
-    // login(@Body() userDto: CreateUserDto){
-    //     return this.authService.login(userDto);
-    // }
-
-    // @Post('/registration')
-    // registration(@Body() userDto: CreateUserDto){
-    //     return this.authService.registration(userDto);
-    // }
+                private mailService: MyMailService) {}
 
 
     @Get('42')
@@ -48,8 +35,6 @@ export class AuthController {
         res.cookie('access_token', accessToken, {
             path: "/",
             httpOnly: false,
-            //hostOnly: false,
-         //   domain: "http://localhost/"
           });
 		res.status(HttpStatus.FOUND).redirect(process.env.FRONTEND_URL);
 	}   
@@ -57,7 +42,8 @@ export class AuthController {
     @Get('activation/:code')
     @UseGuards(JwtGuard)
     async activateUser(@Param('code') parameter : string, @Res({passthrough: true}) res: Response, @Req() req: any) {
-        if (this.authService.activateUser(req.user.email, parameter))
+        console.log("Avtivation code is : " + parameter);
+        if (this.authService.activateUser(req.user.userName42, parameter))
             res.status(HttpStatus.OK).send();
         else
             res.status(HttpStatus.NO_CONTENT);
@@ -72,15 +58,5 @@ export class AuthController {
         //return req.user;
     }
 
-    @Post('initiate-verification')
-    //@UseGuards(JwtGuard)
-
-    async initiatePhoneNumberVerification(@Body() body: any) {
-    //   if (req.user.isPhoneNumberConfirmed) {
-    //     throw new BadRequestException('Phone number already confirmed');
-    //   }
-        console.log(`The phone number is : ${body.phoneNumber}`);
-      await this.smsService.initiatePhoneNumberVerification(body.phoneNumber);
-    }
 
 }
