@@ -8,8 +8,8 @@ let code;
 let error = false;
 
 async function sendCode() {
-
-    await fetch('localhost:3000/auth/activation/' + {code}, {
+  console.log(code);
+    await fetch('http://localhost:3000/auth/activation/' + code, {
       method: 'GET',
       headers: 
         {
@@ -17,7 +17,8 @@ async function sendCode() {
          "Content-type": "application/json; charset=UTF-8"
         },
     }).then(response => {
-      if (response.ok) {
+      console.log(response.status);
+      if (response.status === 200) {
         logged.update(n => 'true');
         return;
       }
@@ -38,6 +39,7 @@ function updateAll (isAuth: any) {
       image_url.update(n => isAuth.imageURL);
       TWOFA.update(n => isAuth.TWOFA.toString());
       email.update(n => isAuth.email);
+      ownmail.update(n => isAuth.ownMail.toString());
 }
 
 onMount(async () => {

@@ -14,7 +14,18 @@ export class AuthController {
 
     constructor (private authService: AuthService, 
                 private userService: UsersService,
-                private mailService: MyMailService) {}
+                private mailService: MyMailService,
+            ) {}
+
+    // @Post('/login')
+    // login(@Body() userDto: CreateUserDto){
+    //     return this.authService.login(userDto);
+    // }
+
+    // @Post('/registration')
+    // registration(@Body() userDto: CreateUserDto){
+    //     return this.authService.registration(userDto);
+    // }
 
 
     @Get('42')

@@ -56,10 +56,11 @@ async validateUser(user: CreateUserDto){
 
 async activateUser(userName42: string, code: string){
     const tmpUser = await this.userService.getByLogin42(userName42);
-
-    if (tmpUser.activationLink == code) 
+    if (tmpUser.activationLink == code) {
         return true;
-    false;
+    }
+    else
+        return false;
 }
     createUser(details: CreateUserDto){
 

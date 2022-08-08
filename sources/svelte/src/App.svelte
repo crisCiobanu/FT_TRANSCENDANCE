@@ -3,21 +3,24 @@
 import { level, logged, losses, username, wins, image_url, firstname, lastname, intra, cookie } from './stores.js';
 import Router from "svelte-spa-router";
 import Chat from "./routes/Chat.svelte";
+import Chatest from "./routes/Chatest.svelte";
 import Home from "./routes/Home.svelte";
 import NotFound from "./routes/NotFound.svelte";
 import Pong from "./routes/Pong.svelte";
 import Profile from "./routes/Profile.svelte";
 import User from "./routes/User.svelte";
 import Usermail from "./routes/Usermail.svelte";
+import NewRoom from './routes/NewRoom.svelte';
 
 let routes = {
 	// "/": Home,
 	"/": Home,
 	"/pong": Pong,
-	"/chat": Chat,
+	"/chat": Chatest,
 	"/profile": Profile,
 	"/user": User,
 	"/usermail": Usermail,
+	"/newroom": NewRoom,
 	"/*": NotFound,
 
 	}
