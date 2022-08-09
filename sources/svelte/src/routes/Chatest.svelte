@@ -16,6 +16,8 @@
     export let currentUser;
 
     function initAll(init) {
+        console.log("A");
+        console.log(init);
         rooms = init.allChannels;
         myRooms = init.userChannels;
         privateMessages = init.directMessageChannels;
@@ -93,21 +95,15 @@
             auth: { token: $cookie }
         });
 
-        socket.on('msgToClient', (message) => {
-        receivedMessage(message)
-        });
-
         socket.on('init', (init) => {
+        console.log(init);
         initAll(init)
         });
-    //  channels = await fetch('http://localhost:3000/rooms', {
-    //     method: 'GET',
-    //     headers:
-    //     {
-    //          'Authorization' : 'Bearer ' + $cookie,
-    //     }
-    // }).then(response => channels = response.json());
 
+        socket.on('msgToClient', (message) => {
+            console.log('msgToClient')
+        receivedMessage(message)
+        });
      })
 
 </script>
@@ -117,6 +113,8 @@
             <h1 style="text-align:center" class="text-center">Pong Chat</h1>
             {#if currentRoom}
                 <h3 id='roomTitle'>{currentRoom.name.toUpperCase()}</h3>
+            {:else}
+                <h3 id='roomTitle'>Please select a room to start chatting</h3>
             {/if}
 
         <div class='row'>
@@ -179,13 +177,13 @@
             {/if}
             
             </div>
-            <form on:submit|preventDefault={sendMessage}>   
-                <input style="width: 100%" class="form-control" bind:value={Otext} placeholder="Enter message..." />
+                <form on:submit|preventDefault={sendMessage}>   
+                    <input style="width: 100%" class="form-control" bind:value={Otext} placeholder="Enter message..." />
                 </form>
                 <div class='my-buttons'>
-                <a id='createRoom' href="#/newroom">Create new room</a>
-                <button id='leaveRoom' on:click={() => leaveRoom(currentRoom)}>Leave Room</button>
-            </div>
+                    <a id='createRoom' href="#/newroom">Create new room</a>
+                    <button id='leaveRoom' on:click={() => leaveRoom(currentRoom)}>Leave Room</button>
+                 </div>
         </div>
     </div>
 </main>
@@ -204,6 +202,8 @@
     
     #roomTitle {
         font-size:16px;
+        font-style: italic;
+        font-weight: 600;
         background-color: slategrey; 
         color: white; 
         padding:5px; 
@@ -254,30 +254,30 @@
     }
 
     .row {
-    display: flex;
-    flex-direction: row; 
-    flex-wrap: wrap;
-    width: 100%;
+        display: flex;
+        flex-direction: row; 
+        flex-wrap: wrap;
+        width: 100%;
     }
 
     .column1 {
-    display: flex;
-    vertical-align: text-bottom;
-    flex-direction: column;
-    flex-basis: 100%;
-    flex: 1;
-    border-right: lightgray;
-    border: 2px black;
-    background-color: lightgrey;
+        display: flex;
+        vertical-align: text-bottom;
+        flex-direction: column;
+        flex-basis: 100%;
+        flex: 1;
+        border-right: lightgray;
+        border: 2px black;
+        background-color: lightgrey;
     }
 
     .column2 {
-    display: flex;
-    flex-direction: column;
-    flex-basis: 100%;
-    flex: 5;
-    padding-left: 10px;
-    background-color: ghostwhite;
+        display: flex;
+        flex-direction: column;
+        flex-basis: 100%;
+        flex: 5;
+        padding-left: 10px;
+        background-color: ghostwhite;
     }
 
     .sectionTitle {
@@ -323,16 +323,16 @@
     }
 
     .my-buttons {
-    display: flex;
-    justify-content: center;
-    /* grid-template-columns: 1fr 1fr;
-    grid-gap: 5px; */
+        display: flex;
+        justify-content: center;
     }
 
     #createRoom {
         cursor: pointer;
-        flex: 1 0 50%;margin: 0 auto;
+        flex: 1 0 40%;
+        margin: 0 auto;
         padding: 5px 5px; 
+        border-radius: 0;
         text-align: center; 
         color: white;
         background-color: lightslategrey
@@ -342,6 +342,7 @@
         cursor: pointer;
         flex: 1 0 50%;
         margin: 0 auto;
+        border-radius: 0;
         background-color: darkred; 
         border: none; 
         color: white;

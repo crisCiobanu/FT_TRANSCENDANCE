@@ -15,14 +15,18 @@
         
         else 
         {
+          console.log(title);
+          console.log(pass);
+          console.log(free);
           await fetch ('http://localhost:3000/chat/createRoom', {
             method: 'POST',
+            body: JSON.stringify({
+              "name": title, "password": pass, "public": free
+            }),
             headers: {
               'Authorization' : 'Bearer ' + $cookie,
+              "Content-type": "application/json; charset=UTF-8"
             },
-            body: JSON.stringify({
-              'name': channelName, 'password': pass, 'public': free
-            })
           })
           alert(`✅ Chatroom ${title} has been created`);
         } 

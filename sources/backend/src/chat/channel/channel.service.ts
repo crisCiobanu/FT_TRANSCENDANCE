@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { Channel } from './channel.entity';
 import { IChannel } from './channel.interface';
 import { Socket } from 'socket.io';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class ChannelService {
@@ -16,7 +17,12 @@ export class ChannelService {
     ){}
 
     async createChannel(channel : IChannel, owner: User): Promise<Channel>{
+        console.log(channel);
         const tempChannel = await this.addOwnerToChannel(channel, owner);
+
+        if (!channel.isPublic){
+            channel.password = await bcrypt.hash(channel.password, 5);         
+        }
         return this.channelRepository.save(tempChannel);
     }
 
@@ -30,10 +36,7 @@ export class ChannelService {
     async getChannelsByUserId(userId: number): Promise<Channel[]>{
         const query = this.channelRepository.createQueryBuilder('channel')
         .leftJoin('channel.users', 'users')
-        .where('users.id = :userid', { userId })
-        .leftJoinAndSelect('room.users', 'all_users')
-        .orderBy('room.updated_at', 'DESC');
-
+        .where('users.id = :userId', { userId });
         const channels: Channel[] = await query.getMany();
         return channels;
     }

@@ -43,14 +43,17 @@ async handleConnection(client: Socket, ...args: any[]) {
         this.logger.log(`User ${user.userName42} is connected`);
 
         client.data.user = user;
+        
 
-        const directMessageChannels = await this.channnelService.getDirectMessageChannels(user.id);
+        const directMessageChannels = await this.channnelService.getDirectMessageChannels(user.id);     
         const userChannels = await this.channnelService.getChannelsByUserId(user.id);
         const allChannels = await this.channnelService.getAllChannels();
 
+
         this.channnelService.printChannels(userChannels);
 
-        client.emit('init', {allChannels, userChannels, directMessageChannels});
+        this.server.to(client.id).emit('init', {allChannels, userChannels, directMessageChannels});
+        //client.emit('init', {allChannels, userChannels, directMessageChannels});
 
       } catch (error) {
         
