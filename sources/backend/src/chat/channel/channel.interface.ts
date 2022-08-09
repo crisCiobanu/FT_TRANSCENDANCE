@@ -8,5 +8,7 @@ export interface IChannel{
     users?: User[];
     created_at?: Date;
     updated_at?: Date;
+    isPublic?: boolean;
+    password?: string;
 
 }

@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { Channel } from './channel.entity';
 import { IChannel } from './channel.interface';
 import { Socket } from 'socket.io';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class ChannelService {
@@ -17,6 +18,9 @@ export class ChannelService {
 
     async createChannel(channel : IChannel, owner: User): Promise<Channel>{
         const tempChannel = await this.addOwnerToChannel(channel, owner);
+        if (!channel.isPublic){
+            channel.password = await bcrypt.hash(channel.password, 5);         
+        }
         return this.channelRepository.save(tempChannel);
     }
 
