@@ -35,6 +35,13 @@
       Otext = ''
      }
     };
+
+    function testHeaderFunction() {
+      socket.emit('testMessage', 'message')
+    };
+
+
+
     function receivedMessage(message) {
      messages = [...messages, message];
      console.log(messages)
@@ -44,9 +51,20 @@
     }
 
     onMount( async () => {
-        socket =  io('http://localhost:3000');
+        socket =  io('http://localhost:3000', {
+                auth: {
+                token: $cookie
+            }
+        });
      socket.on('msgToClient', (message) => {
       receivedMessage(message)
+     })
+
+     socket.on('init', (channels) => {
+        console.log(channels.allChannels);
+        console.log(channels.userChannels);
+        console.log(channels.directMessageChannels);
+
      })
     //  channels = await fetch('http://localhost:3000/rooms', {
     //     method: 'GET',
@@ -98,6 +116,7 @@
                     <input style="width: 100%" class="form-control" bind:value={Otext} placeholder="Enter message..." />
                     </form>
                     <a style="  padding: 5px 5px; text-align: center; display: block; color: white;background-color: darkslategrey" href="#/newroom">Create new room</a>
+                    <button on:click={testHeaderFunction}>test</button>
             </div>
         </div>
 </main>

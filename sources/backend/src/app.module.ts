@@ -13,6 +13,7 @@ import { join } from 'path';
 import { MailerModule } from '@nestjs-modules/mailer'
 import { ChatModule } from './chat/chat.module';
 import * as Joi from '@hapi/joi';
+import { ChannelService } from './chat/channel/channel.service';
 
 @Module({
   imports: [UsersModule, ConfigModule.forRoot({
@@ -39,6 +40,6 @@ import * as Joi from '@hapi/joi';
   }),
   DatabaseModule, ProductsModule, AuthModule, ChatModule],
   controllers: [AppController],
-  providers: [AppService, ChatGateway],
+  providers: [AppService],
 })
 export class AppModule {}

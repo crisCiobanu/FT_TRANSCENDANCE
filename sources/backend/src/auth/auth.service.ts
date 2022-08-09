@@ -7,6 +7,7 @@ import User from 'src/users/user.entity';
 import { Profile } from 'passport-42';
 import {v4 as uuidv4} from 'uuid';
 import { AuthenticationProvider } from './auth';
+import { Socket } from 'socket.io';
 
 
 @Injectable()
@@ -30,10 +31,26 @@ export class AuthService implements AuthenticationProvider{
     // }
 
     async generateToken(user : User){
-        const payload = {email: user.email, id: user.id};
+        const payload = {email: user.userName42, id: user.id};
         console.log(user.email + ' '+ user.id);
         return this.jwtService.sign(payload);
     }
+
+    async getUserFromToken(token : string){
+        const valid = await this.jwtService.verifyAsync(token);
+        if (!valid)
+            return null;
+        const user = await this.userService.getByLogin42(valid.userName42);
+        return (user);
+    }
+
+    async getUserFromSocket(socket: Socket) : Promise<User>{
+        const token = socket.handshake.auth.token;
+        if (!token)
+           return null;
+        const user = await this.getUserFromToken(token);
+        return user;
+      }
 
     // private async validateUser(userDto: CreateUserDto){
     //     const user = await this.userService.getByEmail(userDto.email);
@@ -65,6 +82,10 @@ async activateUser(userName42: string, code: string){
     createUser(details: CreateUserDto){
 
     }
+
+    // async getUserFromSocket(socket: Socket): Promise<User>{
+    //     const user = socket.handshake.headers
+    // }
     findUser(userName42: string): Promise<User | undefined>{
         return this.userService.getByLogin42(userName42)
     }

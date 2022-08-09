@@ -37,6 +37,7 @@ import { MailerModule } from '@nestjs-modules/mailer'
   exports: [
     MyMailService,
     JwtModule,
+    AuthService,
     {
       provide: 'AUTH_SERVICE',
       useClass: AuthService,

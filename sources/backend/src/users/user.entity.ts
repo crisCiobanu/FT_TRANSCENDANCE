@@ -1,5 +1,6 @@
 import { Channel } from "src/chat/channel/channel.entity";
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Message } from "src/chat/message/message.entity";
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -34,6 +35,9 @@ export class User {
 
     @ManyToMany(() => Channel, channel => channel.users)
     channels: Channel[];
+
+    @OneToMany(() => Message, message => message.channel, { cascade: true })
+	messages: Message[];
 
     @Column({
         default: 0
@@ -81,11 +85,6 @@ export class User {
         default: false
     })
     public TWOFA: boolean;
-
-    @Column({
-        default: false
-    })
-    public ownMail: boolean;
 }
 
 export default User;

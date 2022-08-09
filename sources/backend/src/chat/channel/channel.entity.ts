@@ -1,6 +1,7 @@
 
 import User from "src/users/user.entity";
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Message } from "../message/message.entity";
 
 @Entity()
 export class Channel{
@@ -18,6 +19,9 @@ export class Channel{
     @ManyToMany(() => User)
     @JoinTable()
     users: User[];
+
+    @OneToMany(() => Message, message => message.channel, { cascade: true })
+	messages: Message[];
 
     @Column({
         nullable: false
@@ -60,6 +64,8 @@ export class Channel{
         default: false
     })
     public isDirectMessage: boolean;
+
+
 
 
 
