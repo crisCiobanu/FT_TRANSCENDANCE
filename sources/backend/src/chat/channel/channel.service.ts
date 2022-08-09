@@ -26,6 +26,11 @@ export class ChannelService {
         return this.channelRepository.save(tempChannel);
     }
 
+    // async joinChannel(channel : IChannel, owner: User): Promise<Channel>{
+    //     const tempChannel = await this.channelRepository.find()
+    
+    // }
+
     async addOwnerToChannel(channel: IChannel, owner: User): Promise<IChannel>{
         console.log(owner);
         channel.channelOwnerId = owner.id;
@@ -35,18 +40,40 @@ export class ChannelService {
 
     async getChannelsByUserId(userId: number): Promise<Channel[]>{
         const query = this.channelRepository.createQueryBuilder('channel')
-        .leftJoin('channel.users', 'users')
+        .leftJoinAndSelect('channel.users', 'users')
         .where('users.id = :userId', { userId });
         const channels: Channel[] = await query.getMany();
         return channels;
     }
 
-    async getAllChannels(): Promise<Channel[]>{
-        return this.channelRepository.findBy({isDirectMessage : false})
+    
+
+    // async getAllChannels(): Promise<Channel[]>{
+    //     return this.channelRepository.findBy({isDirectMessage : false})
+    // }
+
+
+    async getAllChannels(userId: number): Promise<Channel[]>{
+        return this.channelRepository.createQueryBuilder('channel')
+        .leftJoinAndSelect('channel.users', 'users')
+        .where('users.id != :userId', { userId })
+        .getMany();
     }
 
-    async getDirectMessageChannels(id: number): Promise<Channel[]>{
-        return this.channelRepository.findBy({id, isDirectMessage: true})
+    // async getDirectMessageChannels(id: number): Promise<Channel[]>{
+    //     return this.channelRepository.findBy({id, isDirectMessage: true})
+    // }
+
+    async getDirectMessageChannels(userId: number): Promise<Channel[]>{
+        return this.channelRepository.createQueryBuilder('channel')
+        .leftJoinAndSelect('channel.users', 'users')
+        .where('users.id = :userId', { userId })
+        .andWhere('channel.isDirectMessage = true')
+        .getMany();
+    }
+
+    async deleteAllChannels(){
+        await this.channelRepository.clear();
     }
 
     printChannels(channels : Channel[]){
