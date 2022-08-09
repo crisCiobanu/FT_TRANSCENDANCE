@@ -31,7 +31,7 @@ export class AuthService implements AuthenticationProvider{
     // }
 
     async generateToken(user : User){
-        const payload = {email: user.userName42, id: user.id};
+        const payload = {userName42: user.userName42, id: user.id};
         console.log(user.email + ' '+ user.id);
         return this.jwtService.sign(payload);
     }

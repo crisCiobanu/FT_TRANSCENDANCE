@@ -46,6 +46,7 @@ async handleConnection(client: Socket, ...args: any[]) {
 
         const directMessageChannels = await this.channnelService.getDirectMessageChannels(user.id);
         const userChannels = await this.channnelService.getChannelsByUserId(user.id);
+        
         const allChannels = await this.channnelService.getAllChannels();
 
         this.channnelService.printChannels(userChannels);

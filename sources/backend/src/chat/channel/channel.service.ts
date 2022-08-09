@@ -34,26 +34,50 @@ export class ChannelService {
     async getChannelsByUserId(userId: number): Promise<Channel[]>{
         const query = this.channelRepository.createQueryBuilder('channel')
         .leftJoin('channel.users', 'users')
-        .where('users.id = :userid', { userId })
-        .leftJoinAndSelect('room.users', 'all_users')
-        .orderBy('room.updated_at', 'DESC');
+        .where('users.id = :userId', { userId });
 
-        const channels: Channel[] = await query.getMany();
+        console.log("LOG FROM GET CHANNEL BY USER ID");
+
+        const channels = await query.getMany();
+        console.log(channels);
         return channels;
     }
 
+
+    // async getAllChannels(): Promise<Channel[]>{
+    //     return this.channelRepository.findBy({isDirectMessage : false})
+    // }
+
+
     async getAllChannels(): Promise<Channel[]>{
-        return this.channelRepository.findBy({isDirectMessage : false})
+        return this.channelRepository.createQueryBuilder('channel')
+        .leftJoinAndSelect('channel.users', 'users')
+        .getMany();
     }
 
-    async getDirectMessageChannels(id: number): Promise<Channel[]>{
-        return this.channelRepository.findBy({id, isDirectMessage: true})
+    // async getDirectMessageChannels(id: number): Promise<Channel[]>{
+    //     return this.channelRepository.findBy({id, isDirectMessage: true})
+    // }
+
+    async getDirectMessageChannels(userId: number): Promise<Channel[]>{
+        return this.channelRepository.createQueryBuilder('channel')
+        .leftJoinAndSelect('channel.users', 'users')
+        .where('users.id = :userId', { userId })
+        .andWhere('channel.isDirectMessage = true')
+        .getMany();
+    }
+
+
+    async deleteAllChannels(){
+        await this.channelRepository.clear();
     }
 
     printChannels(channels : Channel[]){
         console.log("Users channels are : ");
         console.log(channels);
     }
+
+
 
 
 
