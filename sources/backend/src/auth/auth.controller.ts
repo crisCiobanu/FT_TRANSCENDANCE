@@ -17,17 +17,6 @@ export class AuthController {
                 private mailService: MyMailService,
             ) {}
 
-    // @Post('/login')
-    // login(@Body() userDto: CreateUserDto){
-    //     return this.authService.login(userDto);
-    // }
-
-    // @Post('/registration')
-    // registration(@Body() userDto: CreateUserDto){
-    //     return this.authService.registration(userDto);
-    // }
-
-
     @Get('42')
     @UseGuards(FourtyTwoGuard)
     authentificate(){
@@ -60,6 +49,7 @@ export class AuthController {
             res.status(HttpStatus.NO_CONTENT);
 
     }
+
 
     @Get('currentuser')
     @UseGuards(JwtGuard)

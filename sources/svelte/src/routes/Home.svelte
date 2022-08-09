@@ -29,6 +29,7 @@ async function sendCode() {
 }
 
 function updateAll (isAuth: any) {
+  console.log(isAuth);
       id.update(n => isAuth.id);
       username.update(n => isAuth.userName);
       firstname.update(n => isAuth.firstName);

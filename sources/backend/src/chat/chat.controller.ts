@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { UsersService } from 'src/users/users.service';
 import { IChannel } from './channel/channel.interface';
@@ -17,5 +17,10 @@ export class ChatController {
         console.log(req);
         console.log({name: req.body.name, password: req.body.password, isPublic: req.body.public});
         return this.channelService.createChannel({name: req.body.name, password: req.body.password, isPublic: req.body.public}, user);
+    }
+
+    @Get('deletechannels')
+    async deleteAllChanels(){
+        await this.channelService.deleteAllChannels();
     }
 }
