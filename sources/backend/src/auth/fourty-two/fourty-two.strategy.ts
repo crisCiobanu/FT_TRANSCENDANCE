@@ -42,8 +42,6 @@ export class FourtyTwoStrategy extends PassportStrategy(Strategy) {
             activationLink: activLink,
           };
 
-        console.log(newUser.userName, newUser.firstName, newUser.lastName, newUser.email, newUser.imageURL);
-
         return this.authService.validateUser(newUser);
     }
 }

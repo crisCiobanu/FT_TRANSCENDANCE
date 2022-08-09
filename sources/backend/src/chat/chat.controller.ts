@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { UsersService } from 'src/users/users.service';
 import { IChannel } from './channel/channel.interface';
@@ -14,6 +14,8 @@ export class ChatController {
     @UseGuards(JwtGuard)
     async createRoom(@Res({passthrough: true}) res: Response, @Req() req: any){
         const user = await this.userServcie.getByLogin42(req.user.userName42);
+        console.log(req);
+        console.log({name: req.body.name, password: req.body.password, isPublic: req.body.public});
         return this.channelService.createChannel({name: req.body.name, password: req.body.password, isPublic: req.body.public}, user);
     }
 

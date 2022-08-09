@@ -17,12 +17,19 @@ export class ChannelService {
     ){}
 
     async createChannel(channel : IChannel, owner: User): Promise<Channel>{
+        console.log(channel);
         const tempChannel = await this.addOwnerToChannel(channel, owner);
+
         if (!channel.isPublic){
             channel.password = await bcrypt.hash(channel.password, 5);         
         }
         return this.channelRepository.save(tempChannel);
     }
+
+    // async joinChannel(channel : IChannel, owner: User): Promise<Channel>{
+    //     const tempChannel = await this.channelRepository.find()
+    
+    // }
 
     async addOwnerToChannel(channel: IChannel, owner: User): Promise<IChannel>{
         console.log(owner);
@@ -33,25 +40,23 @@ export class ChannelService {
 
     async getChannelsByUserId(userId: number): Promise<Channel[]>{
         const query = this.channelRepository.createQueryBuilder('channel')
-        .leftJoin('channel.users', 'users')
+        .leftJoinAndSelect('channel.users', 'users')
         .where('users.id = :userId', { userId });
-
-        console.log("LOG FROM GET CHANNEL BY USER ID");
-
-        const channels = await query.getMany();
-        console.log(channels);
+        const channels: Channel[] = await query.getMany();
         return channels;
     }
 
+    
 
     // async getAllChannels(): Promise<Channel[]>{
     //     return this.channelRepository.findBy({isDirectMessage : false})
     // }
 
 
-    async getAllChannels(): Promise<Channel[]>{
+    async getAllChannels(userId: number): Promise<Channel[]>{
         return this.channelRepository.createQueryBuilder('channel')
         .leftJoinAndSelect('channel.users', 'users')
+        .where('users.id != :userId', { userId })
         .getMany();
     }
 
@@ -66,7 +71,6 @@ export class ChannelService {
         .andWhere('channel.isDirectMessage = true')
         .getMany();
     }
-
 
     async deleteAllChannels(){
         await this.channelRepository.clear();

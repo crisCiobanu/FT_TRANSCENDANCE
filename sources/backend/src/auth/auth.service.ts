@@ -32,7 +32,11 @@ export class AuthService implements AuthenticationProvider{
 
     async generateToken(user : User){
         const payload = {userName42: user.userName42, id: user.id};
+<<<<<<< HEAD
         console.log(user.email + ' '+ user.id);
+=======
+        console.log(user.userName42 + ' '+ user.id);
+>>>>>>> 3cf22530e6dbedcbb16cb6823cadf4507d04127b
         return this.jwtService.sign(payload);
     }
 
@@ -64,7 +68,6 @@ export class AuthService implements AuthenticationProvider{
 
 async validateUser(user: CreateUserDto){
         const tmpUser = await this.userService.getByLogin42(user.userName42);
-
         if (tmpUser) 
             return tmpUser;
         else

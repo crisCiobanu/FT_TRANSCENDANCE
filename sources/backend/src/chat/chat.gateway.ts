@@ -9,6 +9,8 @@ import { OnGatewayConnection,
 import { Server, Socket } from 'socket.io'
 import { AuthService } from 'src/auth/auth.service';
 import { IChannel } from './channel/channel.interface';
+import { IMessage } from './message/message.interface';
+import { MessageService } from './message/message.service';
 import { ChannelService } from './channel/channel.service';
 
 @WebSocketGateway({
@@ -22,7 +24,8 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   constructor(
     private readonly authService: AuthService,
-    private readonly channnelService: ChannelService
+    private readonly channnelService: ChannelService,
+    private readonly messageService: MessageService
 
   ){}
 
@@ -44,27 +47,55 @@ async handleConnection(client: Socket, ...args: any[]) {
 
         client.data.user = user;
 
-        const directMessageChannels = await this.channnelService.getDirectMessageChannels(user.id);
-        const userChannels = await this.channnelService.getChannelsByUserId(user.id);
-        
-        const allChannels = await this.channnelService.getAllChannels();
-
-        this.channnelService.printChannels(userChannels);
-
-        client.emit('init', {allChannels, userChannels, directMessageChannels});
+        this.sendInit(client, 'init');
 
       } catch (error) {
         
       }
   }
+
+  private async sendInit(client: Socket, event: string){
+    const directMessageChannels = await this.channnelService.getDirectMessageChannels(client.data.user.id);     
+    const userChannels = await this.channnelService.getChannelsByUserId(client.data.user.id);
+    const allChannels = await this.channnelService.getAllChannels(client.data.user.id);
+
+    this.server.to(client.id).emit(event, {allChannels, userChannels, directMessageChannels});   
+  }
+
   afterInit(server: Server) {
       this.logger.log('Initiated');
   }
 
   @SubscribeMessage('msgToServer')
   handleMessage(client: Socket, payload: string): void {
+
     this.server.emit('msgToClient', payload);
   }
+
+  @SubscribeMessage('createRoom')
+  async createChannel(client: Socket, payload: any) {
+    const newChannel = await this.channnelService.createChannel(payload, client.data.user);
+
+    if (newChannel){
+      const userChannels = await this.channnelService.getChannelsByUserId(client.data.user.id);
+      await this.sendInit(client, 'createChannel');
+    }
+  }
+
+  @SubscribeMessage('message')
+  async onNewMessage(client: Socket, msg: IMessage){
+
+    console.log(msg);
+    msg.user = client.data.user;
+    const newMsg = await this.messageService.createMessage(msg);
+
+    console.log("LOG OF NEW MSG");
+    console.log(newMsg);
+
+    this.server.emit('msgToClient', newMsg);
+  }
+
+
 
   @SubscribeMessage('testMessage')
   async hand(client: Socket, payload: string): Promise<void> {
