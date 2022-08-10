@@ -16,7 +16,7 @@
   } from '../stores.js';
   import { onMount } from 'svelte';
   import io from 'socket.io-client';
-import { init } from 'svelte/internal';
+  import { init } from 'svelte/internal';
   export let Oname = $username;
   export let Otext = '';
   export let messages = [];
@@ -29,19 +29,15 @@ import { init } from 'svelte/internal';
   export let currentUser;
   export let creation = false;
   export let pass = '';
-  export let free = false;
+  export let free;
   export let title = '';
   export let channelName;
   export let newRoom = {
     name: '',
     password: '',
-    public: false,
+    isPublic: false,
   };
   export let password = 'false';
-//   export let messageSend = {
-//     channel: ,
-//     message: '',
-//   }
 
   async function createRoom() {
     if (!title || (free == true && !pass)) {
@@ -49,7 +45,7 @@ import { init } from 'svelte/internal';
     } else {
       newRoom.name = title;
       newRoom.password = pass;
-      newRoom.public = free;
+      newRoom.isPublic = free;
       socket.emit('createRoom', newRoom);
       console.log(title);
       console.log(pass);
@@ -78,7 +74,7 @@ import { init } from 'svelte/internal';
     rooms = init.allChannels;
     rooms = [...rooms];
     myRooms = init.userChannels;
-    myRooms = [...myRooms]
+    myRooms = [...myRooms];
     privateMessages = init.directMessageChannels;
     privateMessages = [...privateMessages];
   }
@@ -89,7 +85,7 @@ import { init } from 'svelte/internal';
     rooms = channel.allChannels;
     rooms = [...rooms];
     myRooms = channel.userChannels;
-    myRooms = [...myRooms]
+    myRooms = [...myRooms];
     privateMessages = channel.directMessageChannels;
     privateMessages = [...privateMessages];
     currentRoom = myRooms[myRooms.length - 1];
@@ -110,38 +106,34 @@ import { init } from 'svelte/internal';
   }
 
   async function joinRoom(room) {
-    myRooms = [...myRooms, room];
-    await alert('You successfully joined room ' + room.name);
-    console.log(myRooms);
+    socket.emit('joinRoom', { name: room.name, password: pass });
+    //  myRooms = [...myRooms, room];
+    // await alert('You successfully joined room ' + room.name);
+    // console.log(myRooms);
+  }
+
+  function joinedRoom(message) {
+    if (message.logged == true) {
+      alert('✅ You successfully joined room ' + currentRoom.name);
+      rooms = message.allChannels;
+      rooms = [...rooms];
+      myRooms = message.userChannels;
+      myRooms = [...myRooms];
+      privateMessages = message.directMessageChannels;
+      privateMessages = [...privateMessages];
+    }
+    else {
+      alert('❌ Wrong password');
+    }
   }
 
   async function changeConv(title) {
-    //   console.log(title);
+    console.log(myRooms);
     currentRoom = title;
-    messages = currentRoom.messages
-    //  currentRoom.update(n => title.name);
-    // await fetch('http://localhost:3000/channels/' + title,
-    // {
-    //     method: "GET",
-    //     headers:
-    //     {
-    //         'Authorization' : 'Bearer ' + $cookie,
-    //     }}
-    // ).then(response => messages = response.json())
+    //  messages = currentRoom.messages
   }
 
   async function sendRoomPassword(room) {
-    // await fetch('localhost:3000/channels/password', {
-    //     method: 'POST',
-    //     headers:
-    //     {
-    //         'Authorization' : 'Bearer ' + $cookie,
-    //     }
-    // }).then(response => {
-    //     if (response.status == 200) {
-    //         myRooms = [...myRooms, room]
-    //     }
-    // })
     myRooms = [...myRooms, room];
     alert('You successfully jointed room ' + room.name);
     console.log(myRooms);
@@ -155,7 +147,7 @@ import { init } from 'svelte/internal';
         text: Otext,
       };
 
-      socket.emit('message', {'channel': currentRoom, 'text': Otext});
+      socket.emit('message', { channel: currentRoom, text: Otext });
       Otext = '';
     }
   }
@@ -169,15 +161,14 @@ import { init } from 'svelte/internal';
     return Oname.length > 0 && Otext.length > 0;
   }
 
-
   onMount(async () => {
     socket = io('http://localhost:3000', {
       auth: { token: $cookie },
     });
 
     socket.on('userChannels', (userChannels) => {
-        updateChannels(userChannels);
-    })
+      updateChannels(userChannels);
+    });
 
     socket.on('init', (init) => {
       console.log('init');
@@ -193,6 +184,10 @@ import { init } from 'svelte/internal';
       console.log('msgToClient');
       receivedMessage(message);
     });
+    socket.on('joinedRoom', (message) => {
+      console.log('joinedRoom');
+      joinedRoom(message);
+    });
   });
 </script>
 
@@ -201,21 +196,25 @@ import { init } from 'svelte/internal';
   {#if currentRoom}
     <h3 id="roomTitle">{currentRoom.name.toUpperCase()}</h3>
   {:else}
-    <h3 style="font-style: italic;" id="roomTitle">Please select a room to start chatting</h3>
+    <h3 style="font-style: italic;" id="roomTitle">
+      Please select a room to start chatting
+    </h3>
   {/if}
 
   <div class="row">
     <div class="column1">
       <h4 class="sectionTitle">Rooms</h4>
-      <div class='rooms'>
+      <div class="rooms">
         {#each myRooms as myRoom}
-        {#if myRoom.channelOwnerId == $id}
-        <button on:click={() => changeConv(myRoom)} id="selectMyOwnRoom"
-            >#{myRoom.name.toUpperCase()}</button>
-        {:else}
-          <button on:click={() => changeConv(myRoom)} id="selectMyRoom"
-            >#{myRoom.name.toUpperCase()}</button>
-         {/if}   
+          {#if myRoom.channelOwnerId == $id}
+            <button on:click={() => changeConv(myRoom)} id="selectMyOwnRoom"
+              >#{myRoom.name.toUpperCase()}</button
+            >
+          {:else}
+            <button on:click={() => changeConv(myRoom)} id="selectMyRoom"
+              >#{myRoom.name.toUpperCase()}</button
+            >
+          {/if}
           <br />
           {#if myRoom == currentRoom}
             <div>
@@ -224,14 +223,8 @@ import { init } from 'svelte/internal';
                   <button on:click={() => (currentUser = user)} id="selectUser"
                     >{user.userName}</button
                   ><br />
-                  {#if currentUser == user}
-                    <button>kick</button>
-                    <button>ban</button>
-                    <button>mute</button>
-                    <!-- <a href='#/'>Profile</a> -->
-                    {/if}
-                  {:else}
-                    <p>{user.userName}</p>
+                {:else}
+                  <p>{user.userName}</p>
                 {/if}
               {/each}
             </div>
@@ -239,14 +232,14 @@ import { init } from 'svelte/internal';
         {/each}
 
         {#each rooms as room}
-          <!-- {#if myRooms.indexOf(room)} -->
+          {#if myRooms.indexOf(room)}
           <button id="selectRoom" on:click={() => changeConv(room)}
             >#{room.name.toUpperCase()}</button
           ><br />
-          <!-- {/if} -->
+          {/if}
         {/each}
-        </div>
-        <div>
+      </div>
+      <div>
         <h4 class="sectionTitle">Messages</h4>
         {#each privateMessages as privateMessage}
           <button
@@ -262,12 +255,12 @@ import { init } from 'svelte/internal';
     <div id="chat" class="column2">
       <div id="messages">
         {#if currentRoom}
-          {#if myRooms.indexOf(currentRoom) == -1 && currentRoom.isPublic == false}
+          {#if myRooms.indexOf(currentRoom) == -1 && currentRoom.isPublic == true}
             <button on:click={() => joinRoom(currentRoom)}>Join room</button>
-          {:else if currentRoom.isPublic == true && myRooms.indexOf(currentRoom) == -1}
+          {:else if currentRoom.isPublic == false && myRooms.indexOf(currentRoom) == -1}
             <h3>This room is password protected</h3>
             <form
-              on:submit|preventDefault={() => sendRoomPassword(currentRoom)}
+              on:submit|preventDefault={() => joinRoom(currentRoom)}
             >
               <input
                 style="width: 100%"
@@ -304,15 +297,22 @@ import { init } from 'svelte/internal';
         >
       </div>
     </div>
-    {#if currentUser}
-      <image src={currentUser.image_url} />
-    {/if}
-    <div class='column3'>
-
+    <div class="column3">
+      {#if currentUser}
+        <p>{currentUser.userName}</p>
+        <button>View profile</button>
+        <button>Add as friend</button>
+        {#if currentRoom.channelOwnerId.indexOf($id) != -1}
+          <h4>Admin</h4>
+          <button>Mute</button>
+          <button>Ban</button>
+          <button>Upgrade status</button>
+        {/if}
+      {/if}
     </div>
   </div>
 
-  <div>
+  <div id='creation'>
     {#if creation == true}
       <h2>New Chat Room</h2>
       <input bind:value={title} placeholder="Chat room's name" />
@@ -343,7 +343,7 @@ import { init } from 'svelte/internal';
           <input bind:value={pass} placeholder="Enter channel password..." />
         {/if}
         <div>
-          {#if !title || !free || (free == false && !pass)}
+          {#if !title || !free || (free == false && pass == '')}
             <button class="create" on:click={createRoom}>Create new room</button
             >
           {:else}
@@ -372,8 +372,7 @@ import { init } from 'svelte/internal';
     margin-top: 30px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
       sans-serif;
-      overflow: hidden;
-
+    overflow: hidden;
   }
 
   #roomTitle {
@@ -462,6 +461,19 @@ import { init } from 'svelte/internal';
     padding-left: 10px;
     background-color: ghostwhite;
     overflow: scroll;
+  }
+
+  .column3 {
+    display: flex;
+    vertical-align: text-bottom;
+    flex-direction: column;
+    /* flex-basis: 100%; */
+    flex: 1;
+    border-right: lightgray;
+    border: 2px black;
+    background-color: lightgrey;
+    height: 100%;
+    /* overflow: scroll; */
   }
 
   .sectionTitle {

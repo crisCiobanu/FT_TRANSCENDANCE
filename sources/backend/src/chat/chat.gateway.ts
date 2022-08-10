@@ -4,7 +4,8 @@ import { OnGatewayConnection,
           OnGatewayInit, 
           SubscribeMessage, 
           WebSocketGateway, 
-          WebSocketServer } from '@nestjs/websockets';
+          WebSocketServer, 
+          WsException} from '@nestjs/websockets';
 
 import { Server, Socket } from 'socket.io'
 import { AuthService } from 'src/auth/auth.service';
@@ -80,6 +81,15 @@ async handleConnection(client: Socket, ...args: any[]) {
       const userChannels = await this.channnelService.getChannelsByUserId(client.data.user.id);
       await this.sendInit(client, 'createChannel');
     }
+    else
+      throw new WsException('Problem while creating the new room');
+  }
+
+  @SubscribeMessage('joinRoom')
+  async joinChannel(client: Socket, payload: any) {
+    const tempChannel = await this.channnelService.joinChannel(payload, client.data.user);
+    if (tempChannel)
+      return tempChannel;
   }
 
   @SubscribeMessage('message')
