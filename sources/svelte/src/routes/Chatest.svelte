@@ -118,6 +118,7 @@ import { init } from 'svelte/internal';
   async function changeConv(title) {
     //   console.log(title);
     currentRoom = title;
+    messages = currentRoom.messages
     //  currentRoom.update(n => title.name);
     // await fetch('http://localhost:3000/channels/' + title,
     // {
@@ -302,6 +303,12 @@ import { init } from 'svelte/internal';
           >Leave Room</button
         >
       </div>
+    </div>
+    {#if currentUser}
+      <image src={currentUser.image_url} />
+    {/if}
+    <div class='column3'>
+
     </div>
   </div>
 
