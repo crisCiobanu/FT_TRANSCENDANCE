@@ -13,6 +13,8 @@ export class MessageService {
     ){}
 
     async createMessage(msg: IMessage): Promise<Message>{
-        return this.messageRepository.create(msg);
+        const newMsg = await this.messageRepository.create(msg);
+        
+        return this.messageRepository.save(newMsg);
     }
 }
