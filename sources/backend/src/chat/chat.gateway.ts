@@ -63,6 +63,14 @@ async handleConnection(client: Socket, ...args: any[]) {
     this.server.to(client.id).emit(event, {allChannels, userChannels, directMessageChannels});   
   }
 
+  private async sendJoin(client: Socket, event: string){
+    const directMessageChannels = await this.channnelService.getDirectMessageChannels(client.data.user.id);     
+    const userChannels = await this.channnelService.getChannelsByUserId(client.data.user.id);
+    const allChannels = await this.channnelService.getAllChannels(client.data.user.id);
+
+    this.server.emit(event, {allChannels, userChannels, directMessageChannels});   
+  }
+
   afterInit(server: Server) {
       this.logger.log('Initiated');
   }
@@ -89,7 +97,7 @@ async handleConnection(client: Socket, ...args: any[]) {
   async joinChannel(client: Socket, payload: any) {
     const tempChannel = await this.channnelService.joinChannel(payload, client.data.user);
     if (tempChannel)
-      return tempChannel;
+      this.sendJoin(client, 'joinedRoom');
   }
 
   @SubscribeMessage('message')

@@ -14,6 +14,7 @@
     ownmail,
     email,
   } from '../stores.js';
+
   import { onMount } from 'svelte';
   import io from 'socket.io-client';
   import { init } from 'svelte/internal';
@@ -29,9 +30,8 @@
   export let currentUser;
   export let creation = false;
   export let pass = '';
-  export let free;
+  export let free = '';
   export let title = '';
-  export let channelName;
   export let newRoom = {
     name: '',
     password: '',
@@ -40,22 +40,39 @@
   export let password = 'false';
 
   async function createRoom() {
-    if (!title || (free == true && !pass)) {
+    if (!title || !free) {
+      console.log('1');
+      alert('❌ Missing information !');
+    } else if (free != 'true' && !pass) {
+      console.log('2');
       alert('❌ Missing information !');
     } else {
       newRoom.name = title;
       newRoom.password = pass;
-      newRoom.isPublic = free;
+      if (free == 'true') {
+        newRoom.isPublic = true;
+      } else {
+        newRoom.isPublic = false;
+      }
       socket.emit('createRoom', newRoom);
-      console.log(title);
-      console.log(pass);
-      console.log(free);
       alert(`✅ Chatroom ${title} has been created`);
       creation = false;
       pass = '';
       title = '';
-      free = false;
+      free = '';
     }
+  }
+
+  function muteUser() {
+    alert(currentUser.userName + ' has been muted for 1 minute');
+  }
+
+  function banUser() {
+    alert(currentUser.userName + ' has been banned for 1 minute');
+  }
+
+  function makeAdmin() {
+    alert(currentUser.userName + ' is now an administrator of channel #' + currentRoom.name.toUpperCase());
   }
 
   function addPassword() {
@@ -102,29 +119,29 @@
   function leaveRoom(room) {
     alert('You left room ' + room.name);
     myRooms = myRooms.filter((t) => t != room);
-    console.log(myRooms);
+    currentRoom = '';
   }
 
-  async function joinRoom(room) {
-    socket.emit('joinRoom', { name: room.name, password: pass });
-    //  myRooms = [...myRooms, room];
-    // await alert('You successfully joined room ' + room.name);
-    // console.log(myRooms);
+  function joinRoom() {
+    console.log('joinRoom');
+    socket.emit('joinRoom', { name: currentRoom.name, password: roomPassword });
+    roomPassword = '';
   }
 
   function joinedRoom(message) {
-    if (message.logged == true) {
-      alert('✅ You successfully joined room ' + currentRoom.name);
-      rooms = message.allChannels;
-      rooms = [...rooms];
-      myRooms = message.userChannels;
-      myRooms = [...myRooms];
-      privateMessages = message.directMessageChannels;
-      privateMessages = [...privateMessages];
-    }
-    else {
-      alert('❌ Wrong password');
-    }
+    // if (message.logged == true) {
+    //   alert('✅ You successfully joined room ' + currentRoom.name);
+    rooms = message.allChannels;
+    rooms = [...rooms];
+    myRooms = message.userChannels;
+    myRooms = [...myRooms];
+    console.log(myRooms);
+    privateMessages = message.directMessageChannels;
+    privateMessages = [...privateMessages];
+    currentRoom = myRooms[myRooms.length - 1];
+    // } else {
+    //   alert('❌ Wrong password');
+    // }
   }
 
   async function changeConv(title) {
@@ -142,11 +159,6 @@
 
   function sendMessage() {
     if (validateInput()) {
-      const message = {
-        name: Oname,
-        text: Otext,
-      };
-
       socket.emit('message', { channel: currentRoom, text: Otext });
       Otext = '';
     }
@@ -189,133 +201,18 @@
       joinedRoom(message);
     });
   });
+
 </script>
 
 <main>
-  <h1 style="text-align:center" class="text-center">Pong Chat</h1>
-  {#if currentRoom}
-    <h3 id="roomTitle">{currentRoom.name.toUpperCase()}</h3>
-  {:else}
-    <h3 style="font-style: italic;" id="roomTitle">
-      Please select a room to start chatting
-    </h3>
-  {/if}
-
-  <div class="row">
-    <div class="column1">
-      <h4 class="sectionTitle">Rooms</h4>
-      <div class="rooms">
-        {#each myRooms as myRoom}
-          {#if myRoom.channelOwnerId == $id}
-            <button on:click={() => changeConv(myRoom)} id="selectMyOwnRoom"
-              >#{myRoom.name.toUpperCase()}</button
-            >
-          {:else}
-            <button on:click={() => changeConv(myRoom)} id="selectMyRoom"
-              >#{myRoom.name.toUpperCase()}</button
-            >
-          {/if}
-          <br />
-          {#if myRoom == currentRoom}
-            <div>
-              {#each myRoom.users as user}
-                {#if user.userName != $username}
-                  <button on:click={() => (currentUser = user)} id="selectUser"
-                    >{user.userName}</button
-                  ><br />
-                {:else}
-                  <p>{user.userName}</p>
-                {/if}
-              {/each}
-            </div>
-          {/if}
-        {/each}
-
-        {#each rooms as room}
-          {#if myRooms.indexOf(room)}
-          <button id="selectRoom" on:click={() => changeConv(room)}
-            >#{room.name.toUpperCase()}</button
-          ><br />
-          {/if}
-        {/each}
-      </div>
-      <div>
-        <h4 class="sectionTitle">Messages</h4>
-        {#each privateMessages as privateMessage}
-          <button
-            id="selectPrivMsg"
-            on:click={() => changeConv(privateMessage)}
-          >
-            {privateMessage}
-          </button><br />
-        {/each}
-      </div>
-    </div>
-
-    <div id="chat" class="column2">
-      <div id="messages">
-        {#if currentRoom}
-          {#if myRooms.indexOf(currentRoom) == -1 && currentRoom.isPublic == true}
-            <button on:click={() => joinRoom(currentRoom)}>Join room</button>
-          {:else if currentRoom.isPublic == false && myRooms.indexOf(currentRoom) == -1}
-            <h3>This room is password protected</h3>
-            <form
-              on:submit|preventDefault={() => joinRoom(currentRoom)}
-            >
-              <input
-                style="width: 100%"
-                class="form-control"
-                bind:value={roomPassword}
-                placeholder="Enter room password..."
-              />
-            </form>
-          {:else}
-            {#each messages as msg}
-              {#if msg.user.userName == $username}
-                <li class="selfmsg">{msg.text}</li>
-              {:else}
-                <li class="othermsg">{msg.user.userName}: {msg.text}</li>
-              {/if}
-            {/each}
-          {/if}
-        {/if}
-      </div>
-      <form on:submit|preventDefault={sendMessage}>
-        <input
-          style="width: 100%"
-          class="form-control"
-          bind:value={Otext}
-          placeholder="Enter message..."
-        />
-      </form>
-      <div class="my-buttons">
-        <button id="createRoom" on:click={() => (creation = true)}
-          >Create new room</button
-        >
-        <button id="leaveRoom" on:click={() => leaveRoom(currentRoom)}
-          >Leave Room</button
-        >
-      </div>
-    </div>
-    <div class="column3">
-      {#if currentUser}
-        <p>{currentUser.userName}</p>
-        <button>View profile</button>
-        <button>Add as friend</button>
-        {#if currentRoom.channelOwnerId.indexOf($id) != -1}
-          <h4>Admin</h4>
-          <button>Mute</button>
-          <button>Ban</button>
-          <button>Upgrade status</button>
-        {/if}
-      {/if}
-    </div>
-  </div>
-
-  <div id='creation'>
-    {#if creation == true}
+  <!--Creation Form-->
+  {#if creation == true}
+    <div id="creation"> 
       <h2>New Chat Room</h2>
-      <input bind:value={title} placeholder="Chat room's name" />
+      <div>
+        <input bind:value={title} placeholder="Chat room's name" />
+      </div>
+      <br />
       <div>
         <label>
           <input
@@ -343,16 +240,141 @@
           <input bind:value={pass} placeholder="Enter channel password..." />
         {/if}
         <div>
-          {#if !title || !free || (free == false && pass == '')}
-            <button class="create" on:click={createRoom}>Create new room</button
+          <button class="create" on:click={createRoom}>Create new room</button>
+        </div>
+        <button
+          style="border: none; background-color: transparent; font-size: 36px;"
+          on:click={() => (creation = false)}>🔙</button
+        >
+      </div>
+    </div>
+
+  {:else}
+     <!-- Chat interface -->
+    <div class="header">
+      <h1 style="text-align:center" class="text-center">Pong Chat</h1>
+      {#if currentRoom}
+        <h3 id="roomTitle">{currentRoom.name.toUpperCase()}</h3>
+      {:else}
+        <h3 style="font-style: italic;" id="roomTitle">
+          Please select a room to start chatting
+        </h3>
+      {/if}
+    </div>
+    <div class="row">
+      <!--Channels-->
+      <div class="column1">
+        <h4 class="sectionTitle">Rooms</h4>
+        <div class="rooms">
+          {#each myRooms as myRoom}
+            {#if myRoom.channelOwnerId == $id}
+              <button on:click={() => changeConv(myRoom)} id="selectMyOwnRoom"
+                >#{myRoom.name.toUpperCase()}</button
+              >
+            {:else}
+              <button on:click={() => changeConv(myRoom)} id="selectMyRoom"
+                >#{myRoom.name.toUpperCase()}</button
+              >
+            {/if}
+            <br />
+            {#if myRoom == currentRoom}
+              <div>
+                {#each myRoom.users as user}
+                  <!-- {#if user.userName != $username} -->
+                    <button
+                      on:click={() => (currentUser = user)}
+                      id="selectUser">{user.userName}</button
+                    ><br />
+                  <!-- {:else}
+                    <p>{user.userName}</p>
+                  {/if} -->
+                {/each}
+              </div>
+            {/if}
+          {/each}
+
+          {#each rooms as room}
+            {#if myRooms.indexOf(room)}
+              <button id="selectRoom" on:click={() => changeConv(room)}
+                >#{room.name.toUpperCase()}</button
+              ><br />
+            {/if}
+          {/each}
+        </div>
+        <div>
+          <h4 class="sectionTitle">Messages</h4>
+          {#each privateMessages as privateMessage}
+            <button
+              id="selectPrivMsg"
+              on:click={() => changeConv(privateMessage)}
             >
-          {:else}
-            <a href="#/chat" on:click={createRoom}>Create new room</a>
+              {privateMessage}
+            </button><br />
+          {/each}
+        </div>
+      </div>
+
+      <!--Messages-->
+      <div id="chat" class="column2">
+        <div id="messages">
+          {#if currentRoom}
+            {#if myRooms.indexOf(currentRoom) == -1 && currentRoom.isPublic == true}
+              <button on:click={() => joinRoom()}>Join room</button>
+            {:else if currentRoom.isPublic == false && myRooms.indexOf(currentRoom) == -1}
+              <h3>This room is password protected</h3>
+              <form on:submit|preventDefault={joinRoom}>
+                <input
+                  style="width: 100%"
+                  class="form-control"
+                  bind:value={roomPassword}
+                  placeholder="Enter room password..."
+                />
+              </form>
+            {:else}
+              {#each messages as msg}
+                {#if msg.user.userName == $username}
+                  <li class="selfmsg">{msg.text}</li>
+                {:else}
+                  <li class="othermsg">{msg.user.userName}: {msg.text}</li>
+                {/if}
+              {/each}
+            {/if}
+          {/if}
+        </div>
+        <div class="my-buttons">
+          <form class="form-control" on:submit|preventDefault={sendMessage}>
+            <input bind:value={Otext} placeholder="Enter message..." />
+          </form>
+          <button class="sendButton" on:click={sendMessage}>⏎</button>
+        </div>
+        <div class="my-buttons">
+          <button id="createRoom" on:click={() => (creation = true)}
+            >Create new room</button
+          >
+          {#if currentRoom}
+            <button id="leaveRoom" on:click={() => leaveRoom(currentRoom)}
+              >Leave Room</button
+            >
           {/if}
         </div>
       </div>
-    {/if}
-  </div>
+
+      <!--Profile-->
+      <div class="column3">
+        {#if currentUser}
+          <p>{currentUser.userName}</p>
+          <button class='profileButton'>View profile</button>
+          <button class='profileButton'>Add as friend</button>
+          <!-- {#if currentRoom.channelOwnerId.indexOf($id) != -1} -->
+            <h4>Admin</h4>
+            <button on:click={muteUser} class='profileButton'>Mute</button>
+            <button on:click={banUser} class='profileButton'>Ban</button>
+            <button on:click={makeAdmin} class='profileButton'>Upgrade status</button>
+          <!-- {/if} -->
+        {/if}
+      </div>
+    </div>
+  {/if}
 </main>
 
 <style>
@@ -361,7 +383,7 @@
       sans-serif;
     margin: 0 auto;
     align-items: center;
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
     display: block;
     align-items: center;
@@ -387,7 +409,7 @@
 
   #messages {
     height: 300px;
-    overflow: scroll;
+    overflow-y: scroll;
     margin: 0 auto;
     align-items: center;
     max-width: 600px;
@@ -433,7 +455,7 @@
     flex-wrap: wrap;
     width: 100%;
     height: 400px;
-    overflow: scroll;
+    /* overflow: scroll; */
   }
 
   .column1 {
@@ -441,16 +463,18 @@
     vertical-align: text-bottom;
     flex-direction: column;
     /* flex-basis: 100%; */
-    flex: 1;
+    flex: 1.5;
     border-right: lightgray;
     border: 2px black;
     background-color: lightgrey;
     height: 100%;
-    /* overflow: scroll; */
+    overflow-y: scroll;
   }
 
   .rooms {
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
+    text-align: left;
+    padding-left: 5px;
   }
 
   .column2 {
@@ -460,7 +484,7 @@
     flex: 5;
     padding-left: 10px;
     background-color: ghostwhite;
-    overflow: scroll;
+    /* overflow: scroll; */
   }
 
   .column3 {
@@ -468,10 +492,10 @@
     vertical-align: text-bottom;
     flex-direction: column;
     /* flex-basis: 100%; */
-    flex: 1;
+    flex: 1.5;
     border-right: lightgray;
     border: 2px black;
-    background-color: lightgrey;
+    background-color: whitesmoke;
     height: 100%;
     /* overflow: scroll; */
   }
@@ -529,7 +553,35 @@
 
   .my-buttons {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    /* width: 100% */
+    /* flex-wrap: wrap; */
+    /* align-items: right; */
+    margin-right: 10px;
+  }
+
+  .form-control {
+    flex-direction: column;
+    cursor: pointer;
+    flex: 9;
+    display: flex;
+    padding: 5px 5px;
+    border-radius: 0;
+    text-align: center;
+    align-self: flex-start;
+  }
+
+  .sendButton {
+    flex-direction: column;
+    flex: 1;
+    border-radius: 0;
+    display: flex;
+    background-color: darkblue;
+    border: none;
+    color: white;
+    text-align: center;
+    align-self: flex-end;
+    align-self: center;
   }
 
   #createRoom {
@@ -555,7 +607,14 @@
 
   .create {
     padding: 10px;
-    background-color: dimgrey;
+    background-color: darkred;
     color: white;
+  }
+
+  .profileButton {
+    border: 0;
+    background-color: gainsboro;
+    margin: 5px 10px;
+    font-size: 14px;
   }
 </style>

@@ -29,12 +29,11 @@ export class ChannelService {
             return null;
 
         const tempChannel = await this.addOwnerToChannel(channel, owner);
-
-        if (!channel.isPublic){
-            channel.password = await bcrypt.hash(channel.password, 5);         
-        }
+        if (tempChannel.isPublic != true)
+            tempChannel.password = await bcrypt.hash(channel.password, 5);         
         return this.channelRepository.save(tempChannel);
     }
+
 
     async joinChannel(channel : IChannel, newUser: User): Promise<Channel>{
         const tempChannel = await this.getChannelByName(channel.name);
