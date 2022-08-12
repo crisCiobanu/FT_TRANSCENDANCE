@@ -120,16 +120,22 @@ async handleConnection(client: Socket, ...args: any[]) {
         }
       }  
     } else {
-      console.log("IN SEND CREATED ROOM");
-      for ( const user of channel.users){
-        const connections: IConnection[] = await this.connectionService.findByUserId(user.id);
+
+        const connections: IConnection[] = await this.connectionService.getAll();
         for (const connection of connections){
-          if (client.data.user.id === connection.user.id)
+          if (client.data.user.id === connection.user.id){
+
+            console.log("IN ADD TO MY ROOMS")
             this.server.to(connection.socket).emit('addToMyRooms', channel);
-          else
+
+          }
+          else{
+            console.log("IN ADD TO ALL ROOMS");
             this.server.to(connection.socket).emit('addToAllRooms', channel);
+
+          }
         }
-      }  
+     
     }
   }
 

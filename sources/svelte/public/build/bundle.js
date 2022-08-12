@@ -5110,7 +5110,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (248:2) {:else}
+    // (251:2) {:else}
     function create_else_block$4(ctx) {
     	let div0;
     	let h1;
@@ -5236,41 +5236,41 @@ var app = (function () {
     			if (if_block3) if_block3.c();
     			set_style(h1, "text-align", "center");
     			attr_dev(h1, "class", "text-center");
-    			add_location(h1, file$8, 250, 6, 7346);
+    			add_location(h1, file$8, 253, 6, 7447);
     			attr_dev(div0, "class", "header");
-    			add_location(div0, file$8, 249, 4, 7319);
+    			add_location(div0, file$8, 252, 4, 7420);
     			attr_dev(h40, "class", "sectionTitle svelte-lhcpb0");
-    			add_location(h40, file$8, 262, 8, 7736);
+    			add_location(h40, file$8, 265, 8, 7837);
     			attr_dev(div1, "class", "rooms svelte-lhcpb0");
-    			add_location(div1, file$8, 263, 8, 7780);
+    			add_location(div1, file$8, 266, 8, 7881);
     			attr_dev(h41, "class", "sectionTitle svelte-lhcpb0");
-    			add_location(h41, file$8, 300, 10, 9055);
-    			add_location(div2, file$8, 299, 8, 9039);
+    			add_location(h41, file$8, 303, 10, 9156);
+    			add_location(div2, file$8, 302, 8, 9140);
     			attr_dev(div3, "class", "column1 svelte-lhcpb0");
-    			add_location(div3, file$8, 261, 6, 7706);
+    			add_location(div3, file$8, 264, 6, 7807);
     			attr_dev(div4, "id", "messages");
     			attr_dev(div4, "class", "svelte-lhcpb0");
-    			add_location(div4, file$8, 314, 8, 9445);
+    			add_location(div4, file$8, 317, 8, 9546);
     			attr_dev(input, "placeholder", "Enter message...");
-    			add_location(input, file$8, 341, 12, 10570);
+    			add_location(input, file$8, 344, 12, 10671);
     			attr_dev(form, "class", "form-control svelte-lhcpb0");
-    			add_location(form, file$8, 340, 10, 10491);
+    			add_location(form, file$8, 343, 10, 10592);
     			attr_dev(button0, "class", "sendButton svelte-lhcpb0");
-    			add_location(button0, file$8, 343, 10, 10658);
+    			add_location(button0, file$8, 346, 10, 10759);
     			attr_dev(div5, "class", "my-buttons svelte-lhcpb0");
-    			add_location(div5, file$8, 339, 8, 10456);
+    			add_location(div5, file$8, 342, 8, 10557);
     			attr_dev(button1, "id", "createRoom");
     			attr_dev(button1, "class", "svelte-lhcpb0");
-    			add_location(button1, file$8, 346, 10, 10777);
+    			add_location(button1, file$8, 349, 10, 10878);
     			attr_dev(div6, "class", "my-buttons svelte-lhcpb0");
-    			add_location(div6, file$8, 345, 8, 10742);
+    			add_location(div6, file$8, 348, 8, 10843);
     			attr_dev(div7, "id", "chat");
     			attr_dev(div7, "class", "column2 svelte-lhcpb0");
-    			add_location(div7, file$8, 313, 6, 9405);
+    			add_location(div7, file$8, 316, 6, 9506);
     			attr_dev(div8, "class", "column3 svelte-lhcpb0");
-    			add_location(div8, file$8, 358, 6, 11108);
+    			add_location(div8, file$8, 361, 6, 11209);
     			attr_dev(div9, "class", "row svelte-lhcpb0");
-    			add_location(div9, file$8, 259, 4, 7660);
+    			add_location(div9, file$8, 262, 4, 7761);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -5482,14 +5482,14 @@ var app = (function () {
     		block,
     		id: create_else_block$4.name,
     		type: "else",
-    		source: "(248:2) {:else}",
+    		source: "(251:2) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (205:2) {#if creation == true}
+    // (208:2) {#if creation == true}
     function create_if_block$4(ctx) {
     	let div4;
     	let h2;
@@ -5551,35 +5551,35 @@ var app = (function () {
     			t11 = space();
     			button1 = element("button");
     			button1.textContent = "🔙";
-    			add_location(h2, file$8, 206, 6, 6279);
+    			add_location(h2, file$8, 209, 6, 6380);
     			attr_dev(input0, "placeholder", "Chat room's name");
-    			add_location(input0, file$8, 208, 8, 6322);
-    			add_location(div0, file$8, 207, 6, 6308);
-    			add_location(br0, file$8, 210, 6, 6401);
+    			add_location(input0, file$8, 211, 8, 6423);
+    			add_location(div0, file$8, 210, 6, 6409);
+    			add_location(br0, file$8, 213, 6, 6502);
     			attr_dev(input1, "type", "radio");
     			input1.__value = "true";
     			input1.value = input1.__value;
     			/*$$binding_groups*/ ctx[30][0].push(input1);
-    			add_location(input1, file$8, 213, 10, 6446);
-    			add_location(label0, file$8, 212, 8, 6428);
+    			add_location(input1, file$8, 216, 10, 6547);
+    			add_location(label0, file$8, 215, 8, 6529);
     			attr_dev(input2, "type", "radio");
     			input2.__value = "false";
     			input2.value = input2.__value;
     			/*$$binding_groups*/ ctx[30][0].push(input2);
-    			add_location(input2, file$8, 223, 10, 6645);
-    			add_location(label1, file$8, 222, 8, 6627);
-    			add_location(div1, file$8, 211, 6, 6414);
-    			add_location(br1, file$8, 232, 6, 6835);
+    			add_location(input2, file$8, 226, 10, 6746);
+    			add_location(label1, file$8, 225, 8, 6728);
+    			add_location(div1, file$8, 214, 6, 6515);
+    			add_location(br1, file$8, 235, 6, 6936);
     			attr_dev(button0, "class", "create svelte-lhcpb0");
-    			add_location(button0, file$8, 238, 10, 7003);
-    			add_location(div2, file$8, 237, 8, 6987);
+    			add_location(button0, file$8, 241, 10, 7104);
+    			add_location(div2, file$8, 240, 8, 7088);
     			set_style(button1, "border", "none");
     			set_style(button1, "background-color", "transparent");
     			set_style(button1, "font-size", "36px");
-    			add_location(button1, file$8, 240, 8, 7096);
-    			add_location(div3, file$8, 233, 6, 6848);
+    			add_location(button1, file$8, 243, 8, 7197);
+    			add_location(div3, file$8, 236, 6, 6949);
     			attr_dev(div4, "id", "creation");
-    			add_location(div4, file$8, 205, 4, 6252);
+    			add_location(div4, file$8, 208, 4, 6353);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div4, anchor);
@@ -5666,14 +5666,14 @@ var app = (function () {
     		block,
     		id: create_if_block$4.name,
     		type: "if",
-    		source: "(205:2) {#if creation == true}",
+    		source: "(208:2) {#if creation == true}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (254:6) {:else}
+    // (257:6) {:else}
     function create_else_block_4(ctx) {
     	let h3;
 
@@ -5684,7 +5684,7 @@ var app = (function () {
     			set_style(h3, "font-style", "italic");
     			attr_dev(h3, "id", "roomTitle");
     			attr_dev(h3, "class", "svelte-lhcpb0");
-    			add_location(h3, file$8, 254, 8, 7522);
+    			add_location(h3, file$8, 257, 8, 7623);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -5699,14 +5699,14 @@ var app = (function () {
     		block,
     		id: create_else_block_4.name,
     		type: "else",
-    		source: "(254:6) {:else}",
+    		source: "(257:6) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (252:6) {#if currentRoom}
+    // (255:6) {#if currentRoom}
     function create_if_block_11(ctx) {
     	let h3;
     	let t_value = /*currentRoom*/ ctx[4].name.toUpperCase() + "";
@@ -5718,7 +5718,7 @@ var app = (function () {
     			t = text(t_value);
     			attr_dev(h3, "id", "roomTitle");
     			attr_dev(h3, "class", "svelte-lhcpb0");
-    			add_location(h3, file$8, 252, 8, 7443);
+    			add_location(h3, file$8, 255, 8, 7544);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -5736,14 +5736,14 @@ var app = (function () {
     		block,
     		id: create_if_block_11.name,
     		type: "if",
-    		source: "(252:6) {#if currentRoom}",
+    		source: "(255:6) {#if currentRoom}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (270:12) {:else}
+    // (273:12) {:else}
     function create_else_block_3(ctx) {
     	let button;
     	let t0;
@@ -5763,7 +5763,7 @@ var app = (function () {
     			t1 = text(t1_value);
     			attr_dev(button, "id", "selectMyRoom");
     			attr_dev(button, "class", "svelte-lhcpb0");
-    			add_location(button, file$8, 270, 14, 8066);
+    			add_location(button, file$8, 273, 14, 8167);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -5790,14 +5790,14 @@ var app = (function () {
     		block,
     		id: create_else_block_3.name,
     		type: "else",
-    		source: "(270:12) {:else}",
+    		source: "(273:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (266:12) {#if myRoom.channelOwnerId == $id}
+    // (269:12) {#if myRoom.channelOwnerId == $id}
     function create_if_block_10(ctx) {
     	let button;
     	let t0;
@@ -5817,7 +5817,7 @@ var app = (function () {
     			t1 = text(t1_value);
     			attr_dev(button, "id", "selectMyOwnRoom");
     			attr_dev(button, "class", "svelte-lhcpb0");
-    			add_location(button, file$8, 266, 14, 7897);
+    			add_location(button, file$8, 269, 14, 7998);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -5844,14 +5844,14 @@ var app = (function () {
     		block,
     		id: create_if_block_10.name,
     		type: "if",
-    		source: "(266:12) {#if myRoom.channelOwnerId == $id}",
+    		source: "(269:12) {#if myRoom.channelOwnerId == $id}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (276:12) {#if myRoom == currentRoom}
+    // (279:12) {#if myRoom == currentRoom}
     function create_if_block_9(ctx) {
     	let div;
     	let each_value_4 = /*myRoom*/ ctx[65].users;
@@ -5870,7 +5870,7 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(div, file$8, 276, 14, 8289);
+    			add_location(div, file$8, 279, 14, 8390);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -5914,14 +5914,14 @@ var app = (function () {
     		block,
     		id: create_if_block_9.name,
     		type: "if",
-    		source: "(276:12) {#if myRoom == currentRoom}",
+    		source: "(279:12) {#if myRoom == currentRoom}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (278:16) {#each myRoom.users as user}
+    // (281:16) {#each myRoom.users as user}
     function create_each_block_4(ctx) {
     	let button;
     	let t_value = /*user*/ ctx[68].userName + "";
@@ -5941,8 +5941,8 @@ var app = (function () {
     			br = element("br");
     			attr_dev(button, "id", "selectUser");
     			attr_dev(button, "class", "svelte-lhcpb0");
-    			add_location(button, file$8, 279, 20, 8420);
-    			add_location(br, file$8, 282, 21, 8571);
+    			add_location(button, file$8, 282, 20, 8521);
+    			add_location(br, file$8, 285, 21, 8672);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -5970,14 +5970,14 @@ var app = (function () {
     		block,
     		id: create_each_block_4.name,
     		type: "each",
-    		source: "(278:16) {#each myRoom.users as user}",
+    		source: "(281:16) {#each myRoom.users as user}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (265:10) {#each myRooms as myRoom}
+    // (268:10) {#each myRooms as myRoom}
     function create_each_block_3(ctx) {
     	let t0;
     	let br;
@@ -6001,7 +6001,7 @@ var app = (function () {
     			t1 = space();
     			if (if_block1) if_block1.c();
     			if_block1_anchor = empty$1();
-    			add_location(br, file$8, 274, 12, 8228);
+    			add_location(br, file$8, 277, 12, 8329);
     		},
     		m: function mount(target, anchor) {
     			if_block0.m(target, anchor);
@@ -6051,14 +6051,14 @@ var app = (function () {
     		block,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(265:10) {#each myRooms as myRoom}",
+    		source: "(268:10) {#each myRooms as myRoom}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (293:12) {#if myRooms.indexOf(room)}
+    // (296:12) {#if myRooms.indexOf(room)}
     function create_if_block_8(ctx) {
     	let button;
     	let t0;
@@ -6080,8 +6080,8 @@ var app = (function () {
     			br = element("br");
     			attr_dev(button, "id", "selectRoom");
     			attr_dev(button, "class", "svelte-lhcpb0");
-    			add_location(button, file$8, 293, 14, 8848);
-    			add_location(br, file$8, 295, 15, 8973);
+    			add_location(button, file$8, 296, 14, 8949);
+    			add_location(br, file$8, 298, 15, 9074);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -6110,14 +6110,14 @@ var app = (function () {
     		block,
     		id: create_if_block_8.name,
     		type: "if",
-    		source: "(293:12) {#if myRooms.indexOf(room)}",
+    		source: "(296:12) {#if myRooms.indexOf(room)}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (292:10) {#each rooms as room}
+    // (295:10) {#each rooms as room}
     function create_each_block_2(ctx) {
     	let show_if = /*myRooms*/ ctx[6].indexOf(/*room*/ ctx[62]);
     	let if_block_anchor;
@@ -6158,14 +6158,14 @@ var app = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(292:10) {#each rooms as room}",
+    		source: "(295:10) {#each rooms as room}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (302:10) {#each privateMessages as privateMessage}
+    // (305:10) {#each privateMessages as privateMessage}
     function create_each_block_1(ctx) {
     	let button;
     	let t0_value = /*privateMessage*/ ctx[59] + "";
@@ -6187,8 +6187,8 @@ var app = (function () {
     			br = element("br");
     			attr_dev(button, "id", "selectPrivMsg");
     			attr_dev(button, "class", "svelte-lhcpb0");
-    			add_location(button, file$8, 302, 12, 9158);
-    			add_location(br, file$8, 307, 21, 9323);
+    			add_location(button, file$8, 305, 12, 9259);
+    			add_location(br, file$8, 310, 21, 9424);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -6217,14 +6217,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(302:10) {#each privateMessages as privateMessage}",
+    		source: "(305:10) {#each privateMessages as privateMessage}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (316:10) {#if currentRoom}
+    // (319:10) {#if currentRoom}
     function create_if_block_4(ctx) {
     	let show_if;
     	let show_if_1;
@@ -6275,14 +6275,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(316:10) {#if currentRoom}",
+    		source: "(319:10) {#if currentRoom}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (329:12) {:else}
+    // (332:12) {:else}
     function create_else_block_1$1(ctx) {
     	let each_1_anchor;
     	let each_value = /*messages*/ ctx[1];
@@ -6343,14 +6343,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1$1.name,
     		type: "else",
-    		source: "(329:12) {:else}",
+    		source: "(332:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (319:90) 
+    // (322:90) 
     function create_if_block_6(ctx) {
     	let h3;
     	let t1;
@@ -6366,12 +6366,12 @@ var app = (function () {
     			t1 = space();
     			form = element("form");
     			input = element("input");
-    			add_location(h3, file$8, 319, 14, 9752);
+    			add_location(h3, file$8, 322, 14, 9853);
     			set_style(input, "width", "100%");
     			attr_dev(input, "class", "form-control svelte-lhcpb0");
     			attr_dev(input, "placeholder", "Enter room password...");
-    			add_location(input, file$8, 321, 16, 9866);
-    			add_location(form, file$8, 320, 14, 9807);
+    			add_location(input, file$8, 324, 16, 9967);
+    			add_location(form, file$8, 323, 14, 9908);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -6407,14 +6407,14 @@ var app = (function () {
     		block,
     		id: create_if_block_6.name,
     		type: "if",
-    		source: "(319:90) ",
+    		source: "(322:90) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (317:12) {#if myRooms.indexOf(currentRoom) == -1 && currentRoom.isPublic == true}
+    // (320:12) {#if myRooms.indexOf(currentRoom) == -1 && currentRoom.isPublic == true}
     function create_if_block_5(ctx) {
     	let button;
     	let mounted;
@@ -6424,7 +6424,7 @@ var app = (function () {
     		c: function create() {
     			button = element("button");
     			button.textContent = "Join room";
-    			add_location(button, file$8, 317, 14, 9592);
+    			add_location(button, file$8, 320, 14, 9693);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -6446,14 +6446,14 @@ var app = (function () {
     		block,
     		id: create_if_block_5.name,
     		type: "if",
-    		source: "(317:12) {#if myRooms.indexOf(currentRoom) == -1 && currentRoom.isPublic == true}",
+    		source: "(320:12) {#if myRooms.indexOf(currentRoom) == -1 && currentRoom.isPublic == true}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (333:16) {:else}
+    // (336:16) {:else}
     function create_else_block_2(ctx) {
     	let li;
     	let t0_value = /*msg*/ ctx[56].user.userName + "";
@@ -6469,7 +6469,7 @@ var app = (function () {
     			t1 = text(": ");
     			t2 = text(t2_value);
     			attr_dev(li, "class", "othermsg svelte-lhcpb0");
-    			add_location(li, file$8, 333, 18, 10297);
+    			add_location(li, file$8, 336, 18, 10398);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -6490,14 +6490,14 @@ var app = (function () {
     		block,
     		id: create_else_block_2.name,
     		type: "else",
-    		source: "(333:16) {:else}",
+    		source: "(336:16) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (331:16) {#if msg.user.userName == $username}
+    // (334:16) {#if msg.user.userName == $username}
     function create_if_block_7(ctx) {
     	let li;
     	let t_value = /*msg*/ ctx[56].text + "";
@@ -6508,7 +6508,7 @@ var app = (function () {
     			li = element("li");
     			t = text(t_value);
     			attr_dev(li, "class", "selfmsg svelte-lhcpb0");
-    			add_location(li, file$8, 331, 18, 10219);
+    			add_location(li, file$8, 334, 18, 10320);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -6526,14 +6526,14 @@ var app = (function () {
     		block,
     		id: create_if_block_7.name,
     		type: "if",
-    		source: "(331:16) {#if msg.user.userName == $username}",
+    		source: "(334:16) {#if msg.user.userName == $username}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (330:14) {#each messages as msg}
+    // (333:14) {#each messages as msg}
     function create_each_block(ctx) {
     	let if_block_anchor;
 
@@ -6577,14 +6577,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(330:14) {#each messages as msg}",
+    		source: "(333:14) {#each messages as msg}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (350:10) {#if currentRoom}
+    // (353:10) {#if currentRoom}
     function create_if_block_3(ctx) {
     	let button;
     	let mounted;
@@ -6596,7 +6596,7 @@ var app = (function () {
     			button.textContent = "Leave Room";
     			attr_dev(button, "id", "leaveRoom");
     			attr_dev(button, "class", "svelte-lhcpb0");
-    			add_location(button, file$8, 350, 12, 10925);
+    			add_location(button, file$8, 353, 12, 11026);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -6618,14 +6618,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3.name,
     		type: "if",
-    		source: "(350:10) {#if currentRoom}",
+    		source: "(353:10) {#if currentRoom}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (360:8) {#if currentUser}
+    // (363:8) {#if currentUser}
     function create_if_block_2$2(ctx) {
     	let p;
     	let t0_value = /*currentUser*/ ctx[7].userName + "";
@@ -6667,18 +6667,18 @@ var app = (function () {
     			t11 = space();
     			button4 = element("button");
     			button4.textContent = "Upgrade status";
-    			add_location(p, file$8, 360, 10, 11166);
+    			add_location(p, file$8, 363, 10, 11267);
     			attr_dev(button0, "class", "profileButton svelte-lhcpb0");
-    			add_location(button0, file$8, 361, 10, 11206);
+    			add_location(button0, file$8, 364, 10, 11307);
     			attr_dev(button1, "class", "profileButton svelte-lhcpb0");
-    			add_location(button1, file$8, 362, 10, 11268);
-    			add_location(h4, file$8, 364, 12, 11404);
+    			add_location(button1, file$8, 365, 10, 11369);
+    			add_location(h4, file$8, 367, 12, 11505);
     			attr_dev(button2, "class", "profileButton svelte-lhcpb0");
-    			add_location(button2, file$8, 365, 12, 11431);
+    			add_location(button2, file$8, 368, 12, 11532);
     			attr_dev(button3, "class", "profileButton svelte-lhcpb0");
-    			add_location(button3, file$8, 366, 12, 11507);
+    			add_location(button3, file$8, 369, 12, 11608);
     			attr_dev(button4, "class", "profileButton svelte-lhcpb0");
-    			add_location(button4, file$8, 367, 12, 11581);
+    			add_location(button4, file$8, 370, 12, 11682);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -6732,14 +6732,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$2.name,
     		type: "if",
-    		source: "(360:8) {#if currentUser}",
+    		source: "(363:8) {#if currentUser}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (235:8) {#if password == 'true'}
+    // (238:8) {#if password == 'true'}
     function create_if_block_1$3(ctx) {
     	let input;
     	let mounted;
@@ -6749,7 +6749,7 @@ var app = (function () {
     		c: function create() {
     			input = element("input");
     			attr_dev(input, "placeholder", "Enter channel password...");
-    			add_location(input, file$8, 235, 10, 6897);
+    			add_location(input, file$8, 238, 10, 6998);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input, anchor);
@@ -6776,7 +6776,7 @@ var app = (function () {
     		block,
     		id: create_if_block_1$3.name,
     		type: "if",
-    		source: "(235:8) {#if password == 'true'}",
+    		source: "(238:8) {#if password == 'true'}",
     		ctx
     	});
 
@@ -6799,7 +6799,7 @@ var app = (function () {
     			main = element("main");
     			if_block.c();
     			attr_dev(main, "class", "svelte-lhcpb0");
-    			add_location(main, file$8, 202, 0, 6193);
+    			add_location(main, file$8, 205, 0, 6294);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -7083,10 +7083,13 @@ var app = (function () {
     		});
 
     		socket.on('addToMyRooms', room => {
+    			console.log('addToMyRoom');
     			updateMyRooms(room);
     		});
 
     		socket.on('addToAllRooms', room => {
+    			console.log('addToAllRooms');
+    			console.log(room);
     			updateAllRooms(room);
     		});
 

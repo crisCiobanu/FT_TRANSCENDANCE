@@ -26,6 +26,12 @@ export class ConnectionService {
         return connections;
     }
 
+    async getAll(): Promise<IConnection[]> {
+        return this.connectionRepository.createQueryBuilder('connection')
+        .leftJoinAndSelect('connection.user', 'user')
+        .getMany();
+    }
+
     async deleteBySocketId(socket: string){
         return this.connectionRepository.delete({socket});
     }

@@ -30,8 +30,6 @@ export class ChannelService {
             return null;
             
         const tempChannel = await this.addOwnerToChannel(channel, owner);
-        tempChannel.isPublic = channel.isPublic === 'true';
-
         if (tempChannel.isPublic == false)
             tempChannel.password = await bcrypt.hash(channel.password, 5); 
               
