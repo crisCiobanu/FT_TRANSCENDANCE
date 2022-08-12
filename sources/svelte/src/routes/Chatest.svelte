@@ -173,15 +173,15 @@
     return Oname.length > 0 && Otext.length > 0;
   }
 
-  function updatePrivateMessages( room ){
+  function updatePrivateMessages(room){
     privateMessages = [...privateMessages, room];
   }
 
-  function updateMyRooms( room ){
+  function updateMyRooms(room){
     myRooms = [...myRooms, room];
   }
 
-  function updateAllRooms( room ){
+  function updateAllRooms(room){
     rooms = [...rooms, room];
   }
 
@@ -204,10 +204,13 @@
     });
 
     socket.on('addToMyRooms', (room) => {
+      console.log('addToMyRoom');
       updateMyRooms(room);
     });
 
     socket.on('addToAllRooms', (room) => {
+      console.log('addToAllRooms');
+      console.log(room);
       updateAllRooms(room);
     });
 
@@ -220,6 +223,7 @@
       console.log('msgToClient');
       receivedMessage(message);
     });
+
     socket.on('joinedRoom', (message) => {
       console.log('joinedRoom');
       joinedRoom(message);
