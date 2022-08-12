@@ -110,21 +110,24 @@ async handleConnection(client: Socket, ...args: any[]) {
   }
 
   private async sendCreatedRoom(client: Socket, channel: IChannel){
+    console.log("IN SEND CREATED");
+    console.log(channel.isDirectMessage);
     if (channel.isDirectMessage === true){
       for ( const user of channel.users){
         const connections: IConnection[] = await this.connectionService.findByUserId(user.id);
         for (const connection of connections){
-          this.server.to(connection.socket).emit('addDirectMessageRoom', channel);
+          this.server.to(connection.socket).emit('addToDirectMessageRooms', channel);
         }
       }  
     } else {
+      console.log("IN SEND CREATED ROOM");
       for ( const user of channel.users){
         const connections: IConnection[] = await this.connectionService.findByUserId(user.id);
         for (const connection of connections){
           if (client.data.user.id === connection.user.id)
             this.server.to(connection.socket).emit('addToMyRooms', channel);
           else
-          this.server.to(connection.socket).emit('addToAllRooms', channel);
+            this.server.to(connection.socket).emit('addToAllRooms', channel);
         }
       }  
     }
@@ -155,6 +158,8 @@ async handleConnection(client: Socket, ...args: any[]) {
 
   @SubscribeMessage('createRoom')
   async createChannel(client: Socket, payload: IChannel) {
+
+    console.log("IN CREATE ROOM GATEWAY");
     const newChannel = await this.channnelService.createChannel(payload, client.data.user);
 
     if (newChannel)
