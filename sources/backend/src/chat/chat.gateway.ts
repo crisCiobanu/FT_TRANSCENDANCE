@@ -70,9 +70,9 @@ async handleConnection(client: Socket, ...args: any[]) {
   }
 
   private async sendInit(client: Socket, event: string){
-    const directMessageChannels: Channel[] = await this.channnelService.getDirectMessageChannels(client.data.user.id);     
-    const userChannels: Channel[]  = await this.channnelService.getChannelsByUserId(client.data.user.id);
-    const allChannels: Channel[]  = await this.channnelService.getAllChannels(client.data.user.id);
+    const directMessageChannels: Channel[] = await this.channnelService.getDirectMessageChannels(client.data.user.userName42);     
+    const userChannels: Channel[]  = await this.channnelService.getChannelsByUserId(client.data.user.userName42);
+    const allChannels: Channel[]  = await this.channnelService.getAllChannels(client.data.user.userName42);
 
     if (event === 'init')
       this.server.to(client.id).emit(event, {allChannels, userChannels, directMessageChannels}); 
@@ -148,20 +148,6 @@ async handleConnection(client: Socket, ...args: any[]) {
     this.server.emit('msgToClient', payload);
   }
 
-  // @SubscribeMessage('createRoom')
-  // async createChannel(client: Socket, payload: IChannel) {
-  //   const newChannel = await this.channnelService.createChannel(payload, client.data.user);
-
-  //   if (newChannel){
-  //     if (newChannel.isDirectMessage === true)
-  //       await this.sendDirectMessageInit(client, newChannel);
-  //     else
-  //       await this.sendInit(client, 'createChannel');
-  //   }
-  //   else
-  //     throw new WsException('Problem while creating the new room');
-  // }
-
   @SubscribeMessage('createRoom')
   async createChannel(client: Socket, payload: IChannel) {
 
@@ -177,8 +163,9 @@ async handleConnection(client: Socket, ...args: any[]) {
   @SubscribeMessage('joinRoom')
   async joinChannel(client: Socket, payload: any) {
     const tempChannel = await this.channnelService.joinChannel(payload, client.data.user);
-    if (tempChannel)
-      return tempChannel;
+    if (tempChannel){
+      this.server.to(client.id).emit('addToMyRooms', tempChannel);
+    }
   }
 
   @SubscribeMessage('message')

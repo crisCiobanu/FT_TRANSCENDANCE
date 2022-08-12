@@ -179,6 +179,7 @@
 
   function updateMyRooms(room){
     myRooms = [...myRooms, room];
+    rooms = rooms.filter((t) => t == room);
   }
 
   function updateAllRooms(room){
