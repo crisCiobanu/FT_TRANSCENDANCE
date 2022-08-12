@@ -173,6 +173,18 @@
     return Oname.length > 0 && Otext.length > 0;
   }
 
+  function updatePrivateMessages( room ){
+    privateMessages = [...privateMessages, room];
+  }
+
+  function updateMyRooms( room ){
+    myRooms = [...myRooms, room];
+  }
+
+  function updateAllRooms( room ){
+    rooms = [...rooms, room];
+  }
+
   onMount(async () => {
     socket = io('http://localhost:3000', {
       auth: { token: $cookie },
@@ -185,6 +197,18 @@
     socket.on('init', (init) => {
       console.log('init');
       initAll(init);
+    });
+
+    socket.on('addToDirectMessageRooms', (room) => {
+      updatePrivateMessages(room);
+    });
+
+    socket.on('addToMyRooms', (room) => {
+      updateMyRooms(room);
+    });
+
+    socket.on('addToAllRooms', (room) => {
+      updateAllRooms(room);
     });
 
     socket.on('createChannel', (channel) => {

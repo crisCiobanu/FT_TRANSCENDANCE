@@ -10,6 +10,7 @@ export interface IChannel{
     created_at?: Date;
     updated_at?: Date;
     isPublic?: boolean;
+    isDirectMessage?: boolean;
     password?: string;
 
 }

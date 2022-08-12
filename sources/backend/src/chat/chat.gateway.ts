@@ -15,6 +15,7 @@ import { MessageService } from './message/message.service';
 import { ChannelService } from './channel/channel.service';
 import { ConnectionService } from './connection/connection.service';
 import { IConnection } from './connection/connection.interface';
+import { Channel } from './channel/channel.entity';
 
 @WebSocketGateway({
   cors: {
@@ -69,15 +70,20 @@ async handleConnection(client: Socket, ...args: any[]) {
   }
 
   private async sendInit(client: Socket, event: string){
-    const directMessageChannels = await this.channnelService.getDirectMessageChannels(client.data.user.id);     
-    const userChannels = await this.channnelService.getChannelsByUserId(client.data.user.id);
-    const allChannels = await this.channnelService.getAllChannels(client.data.user.id);
+    const directMessageChannels: Channel[] = await this.channnelService.getDirectMessageChannels(client.data.user.id);     
+    const userChannels: Channel[]  = await this.channnelService.getChannelsByUserId(client.data.user.id);
+    const allChannels: Channel[]  = await this.channnelService.getAllChannels(client.data.user.id);
 
     if (event === 'init')
       this.server.to(client.id).emit(event, {allChannels, userChannels, directMessageChannels}); 
-    else
+    else if (event === 'createChannel'){
       this.server.emit(event, {allChannels, userChannels, directMessageChannels});   
+      const tempChannels = await this.channnelService.getAll();
+      client.broadcast.emit('someoneCreatedChannel', {tempChannels});
+    }
   }
+
+
 
   private async sendDirectMessageInit(client: Socket, channel: IChannel){
     const directMessageChannels = await this.channnelService.getDirectMessageChannels(client.data.user.id);     
@@ -92,6 +98,40 @@ async handleConnection(client: Socket, ...args: any[]) {
     }   
   }
 
+  private async sendMessage(client: Socket, message: IMessage){
+
+    const channel = message.channel;
+    for ( const user of channel.users){
+      const connections: IConnection[] = await this.connectionService.findByUserId(user.id);
+      for (const connection of connections){
+        this.server.to(connection.socket).emit('msgToClient', message);
+      }
+    }   
+  }
+
+  private async sendCreatedRoom(client: Socket, channel: IChannel){
+    if (channel.isDirectMessage === true){
+      for ( const user of channel.users){
+        const connections: IConnection[] = await this.connectionService.findByUserId(user.id);
+        for (const connection of connections){
+          this.server.to(connection.socket).emit('addDirectMessageRoom', channel);
+        }
+      }  
+    } else {
+      for ( const user of channel.users){
+        const connections: IConnection[] = await this.connectionService.findByUserId(user.id);
+        for (const connection of connections){
+          if (client.data.user.id === connection.user.id)
+            this.server.to(connection.socket).emit('addToMyRooms', channel);
+          else
+          this.server.to(connection.socket).emit('addToAllRooms', channel);
+        }
+      }  
+    }
+  }
+
+
+
 
   @SubscribeMessage('msgToServer')
   handleMessage(client: Socket, payload: string): void {
@@ -99,16 +139,26 @@ async handleConnection(client: Socket, ...args: any[]) {
     this.server.emit('msgToClient', payload);
   }
 
+  // @SubscribeMessage('createRoom')
+  // async createChannel(client: Socket, payload: IChannel) {
+  //   const newChannel = await this.channnelService.createChannel(payload, client.data.user);
+
+  //   if (newChannel){
+  //     if (newChannel.isDirectMessage === true)
+  //       await this.sendDirectMessageInit(client, newChannel);
+  //     else
+  //       await this.sendInit(client, 'createChannel');
+  //   }
+  //   else
+  //     throw new WsException('Problem while creating the new room');
+  // }
+
   @SubscribeMessage('createRoom')
   async createChannel(client: Socket, payload: IChannel) {
     const newChannel = await this.channnelService.createChannel(payload, client.data.user);
 
-    if (newChannel){
-      if (newChannel.isDirectMessage === true)
-        await this.sendDirectMessageInit(client, newChannel);
-      else
-        await this.sendInit(client, 'createChannel');
-    }
+    if (newChannel)
+      this.sendCreatedRoom(client, newChannel)
     else
       throw new WsException('Problem while creating the new room');
   }
@@ -130,7 +180,7 @@ async handleConnection(client: Socket, ...args: any[]) {
     console.log("LOG OF NEW MSG");
     console.log(newMsg);
 
-    this.server.emit('msgToClient', newMsg);
+    this.sendMessage(client, msg);
   }
 
 

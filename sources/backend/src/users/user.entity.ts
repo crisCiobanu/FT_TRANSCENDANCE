@@ -89,6 +89,28 @@ export class User {
         default: false
     })
     public TWOFA: boolean;
+
+    @Column({
+        default: false
+    })
+    public isBanned: boolean;
+
+    @Column({
+        default: false
+    })
+    public isMuted: boolean;
+
+    @Column({
+        nullable: true
+    })
+    public banExpiration: Date;
+
+    @Column({
+        nullable: true
+    })
+    public muteExpiration: Date;
+
+
 }
 
 export default User;

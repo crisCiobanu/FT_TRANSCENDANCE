@@ -100,6 +100,18 @@ export class UsersController {
         return this.userService.changeUserEmail(updateUser.id, updateUser.email);
     }
 
+    @Post('ban')
+    banUser(){
+
+    }
+
+    @Post('unban')
+    unbanUser(){
+
+    }
+
+
+
     // @Post('updateimage')
     // updateUserImage(@Body() updateUser : UpdateUserImageDto){
     //     return this.userService.changeUserImage(updateUser.id, updateUser.imageURL);

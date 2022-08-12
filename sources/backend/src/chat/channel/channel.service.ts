@@ -102,6 +102,13 @@ export class ChannelService {
         .getMany();
     }
 
+    async getAll(): Promise<Channel[]>{
+        return this.channelRepository.createQueryBuilder('channel')
+        .leftJoinAndSelect('channel.users', 'users')
+        .where('channel.isDirectMessage = false')
+        .getMany();
+    }
+
     // async getDirectMessageChannels(id: number): Promise<Channel[]>{
     //     return this.channelRepository.findBy({id, isDirectMessage: true})
     // }
