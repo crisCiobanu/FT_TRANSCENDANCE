@@ -21,18 +21,20 @@ export class ChannelService {
 
 
 
-    async createChannel(channel : IChannel, owner: User): Promise<Channel>{
+    async createChannel(channel : any, owner: User): Promise<Channel>{
         console.log(channel);
+        
 
         const findChannel = await this.getChannelByName(channel.name);
         if (findChannel)
             return null;
-
+            
         const tempChannel = await this.addOwnerToChannel(channel, owner);
+        tempChannel.isPublic = channel.isPublic === 'true';
 
-        if (!channel.isPublic){
-            channel.password = await bcrypt.hash(channel.password, 5);         
-        }
+        if (tempChannel.isPublic == false)
+            tempChannel.password = await bcrypt.hash(channel.password, 5); 
+              
         return this.channelRepository.save(tempChannel);
     }
 
@@ -40,6 +42,7 @@ export class ChannelService {
         const tempChannel = await this.getChannelByName(channel.name);
         if (!tempChannel)
             return null;
+        
         if (!tempChannel.isPublic){
             let accepted = false;
             if (channel.password)

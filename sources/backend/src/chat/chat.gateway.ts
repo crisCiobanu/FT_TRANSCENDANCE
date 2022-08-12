@@ -13,6 +13,8 @@ import { IChannel } from './channel/channel.interface';
 import { IMessage } from './message/message.interface';
 import { MessageService } from './message/message.service';
 import { ChannelService } from './channel/channel.service';
+import { ConnectionService } from './connection/connection.service';
+import { IConnection } from './connection/connection.interface';
 
 @WebSocketGateway({
   cors: {
@@ -26,7 +28,8 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   constructor(
     private readonly authService: AuthService,
     private readonly channnelService: ChannelService,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly connectionService: ConnectionService
 
   ){}
 
@@ -34,9 +37,17 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   private logger : Logger = new Logger('ChatGateway');
 
   
-  handleDisconnect(client: Socket) {
-      this.logger.log(`Client disconnected : ${client.id}`);
+ async handleDisconnect(client: Socket) {
+    await this.connectionService.deleteBySocketId(client.id);
+
+    this.logger.log(`Client disconnected : ${client.id}`);
   }
+
+  async afterInit(server: Server) {
+    await this.connectionService.deleteAll();
+    this.logger.log('Initiated');
+}
+
 async handleConnection(client: Socket, ...args: any[]) {
 
       this.logger.log(`Client connected : ${client.id}`)
@@ -47,6 +58,8 @@ async handleConnection(client: Socket, ...args: any[]) {
         this.logger.log(`User ${user.userName42} is connected`);
 
         client.data.user = user;
+
+        this.connectionService.create({'socket': client.id, 'user': client.data.user});
 
         this.sendInit(client, 'init');
 
@@ -60,12 +73,25 @@ async handleConnection(client: Socket, ...args: any[]) {
     const userChannels = await this.channnelService.getChannelsByUserId(client.data.user.id);
     const allChannels = await this.channnelService.getAllChannels(client.data.user.id);
 
-    this.server.to(client.id).emit(event, {allChannels, userChannels, directMessageChannels});   
+    if (event === 'init')
+      this.server.to(client.id).emit(event, {allChannels, userChannels, directMessageChannels}); 
+    else
+      this.server.emit(event, {allChannels, userChannels, directMessageChannels});   
   }
 
-  afterInit(server: Server) {
-      this.logger.log('Initiated');
+  private async sendDirectMessageInit(client: Socket, channel: IChannel){
+    const directMessageChannels = await this.channnelService.getDirectMessageChannels(client.data.user.id);     
+    const userChannels = await this.channnelService.getChannelsByUserId(client.data.user.id);
+    const allChannels = await this.channnelService.getAllChannels(client.data.user.id);
+
+    for ( const user of channel.users){
+      const connections: IConnection[] = await this.connectionService.findByUserId(user.id);
+      for (const connection of connections){
+        this.server.to(connection.socket).emit('createDirectMessage', {allChannels, userChannels, directMessageChannels});
+      }
+    }   
   }
+
 
   @SubscribeMessage('msgToServer')
   handleMessage(client: Socket, payload: string): void {
@@ -74,12 +100,14 @@ async handleConnection(client: Socket, ...args: any[]) {
   }
 
   @SubscribeMessage('createRoom')
-  async createChannel(client: Socket, payload: any) {
+  async createChannel(client: Socket, payload: IChannel) {
     const newChannel = await this.channnelService.createChannel(payload, client.data.user);
 
     if (newChannel){
-      const userChannels = await this.channnelService.getChannelsByUserId(client.data.user.id);
-      await this.sendInit(client, 'createChannel');
+      if (newChannel.isDirectMessage === true)
+        await this.sendDirectMessageInit(client, newChannel);
+      else
+        await this.sendInit(client, 'createChannel');
     }
     else
       throw new WsException('Problem while creating the new room');

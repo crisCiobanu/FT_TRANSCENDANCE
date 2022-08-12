@@ -10,12 +10,14 @@ import { AuthModule } from 'src/auth/auth.module';
 import { ChatService } from './chat.service';
 import { ChatController } from './chat.controller';
 import { UsersModule } from 'src/users/users.module';
+import { ConnectionService } from './connection/connection.service';
+import { Connection } from './connection/connection.entity';
 
 @Module({
-  providers: [MessageService, ChannelService, ChatGateway, ChatService],
+  providers: [MessageService, ChannelService, ChatGateway, ChatService, ConnectionService],
   imports: [ AuthModule,
               forwardRef(() => UsersModule),
-              TypeOrmModule.forFeature([Channel, User, Message])],
+              TypeOrmModule.forFeature([Channel, User, Message, Connection])],
   controllers: [ChatController]
 })
 export class ChatModule {}

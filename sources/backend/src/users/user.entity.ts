@@ -1,4 +1,5 @@
 import { Channel } from "src/chat/channel/channel.entity";
+import { Connection } from "src/chat/connection/connection.entity";
 import { Message } from "src/chat/message/message.entity";
 import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -32,6 +33,9 @@ export class User {
         nullable: false
     })
     public lastName: string;
+
+    @OneToMany(() => Connection, connection => connection.user)
+    connections: Connection[];
 
     @ManyToMany(() => Channel, channel => channel.users)
     channels: Channel[];

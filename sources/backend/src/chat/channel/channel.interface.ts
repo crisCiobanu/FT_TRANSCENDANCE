@@ -1,5 +1,6 @@
 import User from "src/users/user.entity";
 
+
 export interface IChannel{
     id?: number;
     name?: string;
