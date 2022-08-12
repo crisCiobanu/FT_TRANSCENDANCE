@@ -38,6 +38,7 @@ export class ChannelService {
         return this.channelRepository.save(tempChannel);
     }
 
+
     async joinChannel(channel : IChannel, newUser: User): Promise<Channel>{
         const tempChannel = await this.getChannelByName(channel.name);
         if (!tempChannel)
