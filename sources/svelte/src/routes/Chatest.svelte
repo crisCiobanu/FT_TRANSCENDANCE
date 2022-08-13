@@ -1,13 +1,15 @@
 <script lang="ts">
   import {
-    level,
+    other_level,
     logged,
-    losses,
+    other_losses,
     username,
-    wins,
+    other_username,
+    other_wins,
     image_url,
-    firstname,
-    lastname,
+    other_image_url,
+    other_firstname,
+    other_lastname,
     id,
     cookie,
     TWOFA,
@@ -26,18 +28,29 @@
   export let rooms = [];
   export let currentRoom;
   export let roomPassword: string = '';
-  export let myRooms = [];
+  // export let myRooms = [];
   export let currentUser;
   export let creation = false;
   export let pass = '';
   export let free = '';
   export let title = '';
+  let myChannels = [];
   export let newRoom = {
     name: '',
     password: '',
     isPublic: false,
   };
   export let password = 'false';
+
+  function viewUser() {
+    other_firstname.update((n) => currentUser.firstName);
+    other_lastname.update((n) => currentUser.lastName);
+    other_level.update((n) => currentUser.level);
+    other_wins.update((n) => currentUser.wins);
+    other_losses.update((n) => currentUser.losses);
+    other_username.update((n) => currentUser.userName);
+    other_image_url.update((n) => currentUser.imageURL);
+  }
 
   async function createRoom() {
     if (!title || !free) {
@@ -72,7 +85,11 @@
   }
 
   function makeAdmin() {
-    alert(currentUser.userName + ' is now an administrator of channel #' + currentRoom.name.toUpperCase());
+    alert(
+      currentUser.userName +
+        ' is now an administrator of channel #' +
+        currentRoom.name.toUpperCase(),
+    );
   }
 
   function addPassword() {
@@ -86,14 +103,18 @@
   }
 
   function initAll(init) {
-    console.log('A');
     console.log(init);
     rooms = init.allChannels;
     rooms = [...rooms];
-    myRooms = init.userChannels;
-    myRooms = [...myRooms];
     privateMessages = init.directMessageChannels;
     privateMessages = [...privateMessages];
+    for (let i = 0; i < rooms.length; i++) {
+      for (let j = 0; j < rooms[i].users.length; j++) {
+        if (rooms[i].users[j].id == $id)
+          myChannels = [...myChannels, rooms[i].name];
+      }
+    }
+    console.log(myChannels);
   }
 
   function createChannel(channel) {
@@ -101,29 +122,31 @@
     console.log(channel);
     rooms = channel.allChannels;
     rooms = [...rooms];
-    myRooms = channel.userChannels;
-    myRooms = [...myRooms];
+    // myRooms = channel.userChannels;
+    // myRooms = [...myRooms];
     privateMessages = channel.directMessageChannels;
     privateMessages = [...privateMessages];
-    currentRoom = myRooms[myRooms.length - 1];
+    // currentRoom = myRooms[myRooms.length - 1];
   }
 
-  function updateChannels(channels) {
-    rooms = channels.allChannels;
-    myRooms = channels.userChannels;
-    privateMessages = channels.directMessageChannels;
-  }
+  // function updateChannels(channels) {
+  //   rooms = channels.allChannels;
+  //   myRooms = channels.userChannels;
+  //   privateMessages = channels.directMessageChannels;
+  // }
 
   function userOptions() {}
 
   function leaveRoom(room) {
     alert('You left room ' + room.name);
-    myRooms = myRooms.filter((t) => t != room);
+    // myRooms = myRooms.filter((t) => t != room);
     currentRoom = '';
   }
 
   function joinRoom() {
     console.log('joinRoom');
+    myChannels = [...myChannels, currentRoom.name];
+    console.log(myChannels);
     socket.emit('joinRoom', { name: currentRoom.name, password: roomPassword });
     roomPassword = '';
   }
@@ -133,32 +156,34 @@
     //   alert('✅ You successfully joined room ' + currentRoom.name);
     rooms = message.allChannels;
     rooms = [...rooms];
-    myRooms = message.userChannels;
-    myRooms = [...myRooms];
-    console.log(myRooms);
+    // myRooms = message.userChannels;
+    // myRooms = [...myRooms];
+    // console.log(myRooms);
     privateMessages = message.directMessageChannels;
     privateMessages = [...privateMessages];
-    currentRoom = myRooms[myRooms.length - 1];
+    // currentRoom = myRooms[myRooms.length - 1];
     // } else {
     //   alert('❌ Wrong password');
     // }
   }
 
   async function changeConv(title) {
-    console.log(myRooms);
+    // console.log(myRooms);
     currentRoom = title;
     //  messages = currentRoom.messages
   }
 
   async function sendRoomPassword(room) {
-    myRooms = [...myRooms, room];
+    // myRooms = [...myRooms, room];
     alert('You successfully jointed room ' + room.name);
-    console.log(myRooms);
+    // console.log(myRooms);
     console.log(currentRoom);
   }
 
   function sendMessage() {
     if (validateInput()) {
+      console.log(currentRoom);
+      console.log(Otext);
       socket.emit('message', { channel: currentRoom, text: Otext });
       Otext = '';
     }
@@ -173,17 +198,31 @@
     return Oname.length > 0 && Otext.length > 0;
   }
 
-  function updatePrivateMessages(room){
+  function updatePrivateMessages(room) {
     privateMessages = [...privateMessages, room];
   }
 
-  function updateMyRooms(room){
-    myRooms = [...myRooms, room];
-    rooms = rooms.filter((t) => t == room);
+  function updateMyRooms(room) {
+    console.log('IN UPDATE MY ROOMS');
+    // myRooms = [...myRooms, room];
   }
 
-  function updateAllRooms(room){
+  function updateAllRooms(room) {
+    console.log('IN UPDATE all ROOMS');
     rooms = [...rooms, room];
+  }
+
+  function updateChannels(update) {
+    console.log(update);
+    rooms = update;
+    rooms = [...rooms];
+    for (let i = 0; i < rooms.length; i++) {
+      for (let j = 0; j < rooms[i].users.length; j++) {
+        if (rooms[i].users[j].id == $id)
+          myChannels = [...myChannels, rooms[i].name];
+      }
+    }
+    console.log(myChannels);
   }
 
   onMount(async () => {
@@ -191,52 +230,56 @@
       auth: { token: $cookie },
     });
 
-    socket.on('userChannels', (userChannels) => {
-      updateChannels(userChannels);
+    socket.on('updateChannels', (update) => {
+      console.log('update');
+      updateChannels(update);
     });
+
+    //   socket.on('userChannels', (userChannels) => {
+    //     updateChannels(userChannels);
+    //   });
 
     socket.on('init', (init) => {
       console.log('init');
       initAll(init);
     });
 
-    socket.on('addToDirectMessageRooms', (room) => {
-      updatePrivateMessages(room);
-    });
+    //   socket.on('addToDirectMessageRooms', (room) => {
+    //     updatePrivateMessages(room);
+    //   });
 
-    socket.on('addToMyRooms', (room) => {
-      console.log('addToMyRoom');
-      updateMyRooms(room);
-    });
+    //   socket.on('addToMyRooms', (room) => {
+    //     console.log('addToMyRoom');
+    //     updateMyRooms(room);
+    //   });
 
-    socket.on('addToAllRooms', (room) => {
-      console.log('addToAllRooms');
-      console.log(room);
-      updateAllRooms(room);
-    });
+    //   socket.on('addToAllRooms', (room) => {
+    //     console.log('addToAllRooms');
+    //     console.log(room);
+    //     updateAllRooms(room);
+    //   });
 
     socket.on('createChannel', (channel) => {
       console.log('createChannel');
       createChannel(channel);
     });
 
-    socket.on('msgToClient', (message) => {
-      console.log('msgToClient');
-      receivedMessage(message);
-    });
+    //   socket.on('msgToClient', (message) => {
+    //     console.log('msgToClient');
+    //     receivedMessage(message);
+    //   });
 
-    socket.on('joinedRoom', (message) => {
-      console.log('joinedRoom');
-      joinedRoom(message);
-    });
+    //   socket.on('joinedRoom', (message) => {
+    //     console.log('joinedRoom');
+    //     joinedRoom(message);
+    //   });
   });
-
 </script>
 
 <main>
   <!--Creation Form-->
   {#if creation == true}
-    <div id="creation"> 
+    <div id="creation">
       <h2>New Chat Room</h2>
       <div>
         <input bind:value={title} placeholder="Chat room's name" />
@@ -277,9 +320,8 @@
         >
       </div>
     </div>
-
   {:else}
-     <!-- Chat interface -->
+    <!-- Chat interface -->
     <div class="header">
       <h1 style="text-align:center" class="text-center">Pong Chat</h1>
       {#if currentRoom}
@@ -295,7 +337,7 @@
       <div class="column1">
         <h4 class="sectionTitle">Rooms</h4>
         <div class="rooms">
-          {#each myRooms as myRoom}
+          <!-- {#each myRooms as myRoom}
             {#if myRoom.channelOwnerId == $id}
               <button on:click={() => changeConv(myRoom)} id="selectMyOwnRoom"
                 >#{myRoom.name.toUpperCase()}</button
@@ -309,24 +351,76 @@
             {#if myRoom == currentRoom}
               <div>
                 {#each myRoom.users as user}
-                  <!-- {#if user.userName != $username} -->
+                  {#if user.userName != $username} -->
+          <!-- <button
+                      on:click={() => (currentUser = user)}
+                      id="selectUser">{user.userName}</button
+                    ><br /> -->
+          <!-- {:else}
+                    <p>{user.userName}</p>
+                  {/if}
+                {/each}
+              </div>
+            {/if}
+          {/each} -->
+
+          {#each rooms as room}
+            <!-- {#if myRooms.indexOf(room) != -1} -->
+            {#if room.channelOwnerId == $id}
+              <button id="selectMyOwnRoom" on:click={() => changeConv(room)}
+                >#{room.name.toUpperCase()}</button
+              ><br />
+
+              {#if room == currentRoom}
+                <div>
+                  {#each room.users as user}
+                    <!-- {#if user.userName != $username} -->
                     <button
                       on:click={() => (currentUser = user)}
                       id="selectUser">{user.userName}</button
                     ><br />
-                  <!-- {:else}
-                    <p>{user.userName}</p>
-                  {/if} -->
-                {/each}
-              </div>
-            {/if}
-          {/each}
-
-          {#each rooms as room}
-            {#if myRooms.indexOf(room)}
+                    <!-- {:else}
+                  <p class='selfUser'>{user.userName}</p> -->
+                    <!-- {/if} -->
+                  {/each}
+                </div>
+              {/if}
+            {:else if myChannels.indexOf(room.name) != -1}
+              <button id="selectMyRoom" on:click={() => changeConv(room)}
+                >#{room.name.toUpperCase()}</button
+              ><br />
+              {#if room == currentRoom}
+                <div>
+                  {#each room.users as user}
+                    <!-- {#if user.userName != $username} -->
+                    <button
+                      on:click={() => (currentUser = user)}
+                      id="selectUser">{user.userName}</button
+                    ><br />
+                    <!-- {:else}
+                      <p>{user.userName}</p> -->
+                    <!-- {/if} -->
+                  {/each}
+                </div>
+              {/if}
+            {:else}
               <button id="selectRoom" on:click={() => changeConv(room)}
                 >#{room.name.toUpperCase()}</button
               ><br />
+              <!-- {#if room == currentRoom}
+                <div>
+                  {#each room.users as user}
+                    {#if user.userName != $username}
+                      <button
+                        on:click={() => (currentUser = user)}
+                        id="selectUser">{user.userName}</button
+                      ><br /> 
+                     <!-- {:else}
+                      <p>{user.userName}</p> -->
+              <!-- {/if}
+                  {/each}
+                </div>
+              {/if} -->
             {/if}
           {/each}
         </div>
@@ -347,9 +441,9 @@
       <div id="chat" class="column2">
         <div id="messages">
           {#if currentRoom}
-            {#if myRooms.indexOf(currentRoom) == -1 && currentRoom.isPublic == true}
+            {#if myChannels.indexOf(currentRoom.name) == -1 && currentRoom.isPublic == true}
               <button on:click={() => joinRoom()}>Join room</button>
-            {:else if currentRoom.isPublic == false && myRooms.indexOf(currentRoom) == -1}
+            {:else if currentRoom.isPublic == false && myChannels.indexOf(currentRoom.name) == -1}
               <h3>This room is password protected</h3>
               <form on:submit|preventDefault={joinRoom}>
                 <input
@@ -362,7 +456,13 @@
             {:else}
               {#each messages as msg}
                 {#if msg.user.userName == $username}
-                  <li class="selfmsg">{msg.text}</li>
+                  <p class="selfmsg">
+                    <img
+                      alt="profile"
+                      class="profile"
+                      src={$image_url}
+                    />{msg.text}
+                  </p>
                 {:else}
                   <li class="othermsg">{msg.user.userName}: {msg.text}</li>
                 {/if}
@@ -391,15 +491,22 @@
       <!--Profile-->
       <div class="column3">
         {#if currentUser}
+          <img class="profile" src={currentUser.imageURL} alt="profile" />
           <p>{currentUser.userName}</p>
-          <button class='profileButton'>View profile</button>
-          <button class='profileButton'>Add as friend</button>
-          <!-- {#if currentRoom.channelOwnerId.indexOf($id) != -1} -->
+          <a href="#/userprofile" on:click={viewUser} class="profileButton"
+            >View profile</a
+          >
+          <button class="profileButton">Add as friend</button>
+          <button class="profileButton">Block user</button>
+          {#if currentRoom.channelOwnerId == $id || currentRoom.channelAdminsId.indexOf($id) != -1}
             <h4>Admin</h4>
-            <button on:click={muteUser} class='profileButton'>Mute</button>
-            <button on:click={banUser} class='profileButton'>Ban</button>
-            <button on:click={makeAdmin} class='profileButton'>Upgrade status</button>
-          <!-- {/if} -->
+            <button on:click={muteUser} class="profileButton">Mute</button>
+            <button on:click={banUser} class="profileButton">Ban</button>
+          {:else if currentRoom.channelOwnerId == $id}
+            <button on:click={makeAdmin} class="profileButton"
+              >Upgrade status</button
+            >
+          {/if}
         {/if}
       </div>
     </div>
@@ -412,7 +519,8 @@
       sans-serif;
     margin: 0 auto;
     align-items: center;
-    max-width: 700px;
+    max-width: 800px;
+    height: 1000px;
     margin: 0 auto;
     display: block;
     align-items: center;
@@ -520,13 +628,11 @@
     display: flex;
     vertical-align: text-bottom;
     flex-direction: column;
-    /* flex-basis: 100%; */
     flex: 1.5;
     border-right: lightgray;
     border: 2px black;
     background-color: whitesmoke;
     height: 100%;
-    /* overflow: scroll; */
   }
 
   .sectionTitle {
@@ -645,5 +751,22 @@
     background-color: gainsboro;
     margin: 5px 10px;
     font-size: 14px;
+  }
+
+  .profile {
+    width: 100px;
+    border: solid 3px black;
+    height: 100px;
+    margin: 0 auto;
+    margin-top: 15px;
+    background-size: contain;
+    background-position: center;
+    border-radius: 50%;
+  }
+
+  .selfUser {
+    margin: 0 auto;
+    text-align: left;
+    margin-left: 10px;
   }
 </style>

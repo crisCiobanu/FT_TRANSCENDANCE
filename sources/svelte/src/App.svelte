@@ -11,6 +11,8 @@ import Profile from "./routes/Profile.svelte";
 import User from "./routes/User.svelte";
 import Usermail from "./routes/Usermail.svelte";
 import NewRoom from './routes/NewRoom.svelte';
+import UserProfile from './routes/UserProfile.svelte';
+
 
 let routes = {
 	// "/": Home,
@@ -21,6 +23,7 @@ let routes = {
 	"/user": User,
 	"/usermail": Usermail,
 	"/newroom": NewRoom,
+	"/userprofile": UserProfile,
 	"/*": NotFound,
 
 	}
