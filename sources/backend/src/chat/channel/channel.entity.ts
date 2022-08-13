@@ -2,6 +2,7 @@
 import User from "src/users/user.entity";
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Message } from "../message/message.entity";
+import { PunishedUser } from "../punisheduser/punisheduser.entity";
 
 @Entity()
 export class Channel{
@@ -16,7 +17,7 @@ export class Channel{
     })
     public description: string;
 
-    @ManyToMany(() => User)
+    @ManyToMany(() => User, { onDelete: 'CASCADE'})
     @JoinTable()
     users: User[];
 
@@ -33,20 +34,13 @@ export class Channel{
     })
     channelAdminsId: number[]
 
-    @Column('simple-array', {
-        default: []
-    })
-    bannedUsers: number[];
+    @OneToMany(() => PunishedUser, punish => punish.channel, { cascade: true })
+	bansAndMutes: PunishedUser[];
 
-    @Column('simple-array', {
-        default: []
-    })
-    mutedUsers: number[];
-
-    @CreateDateColumn()
+    @CreateDateColumn( { type: 'timestamptz' })
     public created_at: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ type: 'timestamptz' })
     public updated_at: Date;
 
     @Column({
