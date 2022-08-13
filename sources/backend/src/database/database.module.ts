@@ -5,6 +5,7 @@ import { Channel } from 'src/chat/channel/channel.entity';
 import { Connection } from 'src/chat/connection/connection.entity';
 import { Message } from 'src/chat/message/message.entity';
 import User from 'src/users/user.entity';
+import { PunishedUser } from "src/chat//punisheduser/punisheduser.entity";
 
 @Module({
     imports: [
@@ -18,7 +19,7 @@ import User from 'src/users/user.entity';
                 username: configService.get('POSTGRES_USER'),
                 password: configService.get('POSTGRES_PASSWORD'),
                 database: configService.get('POSTGRES_DB'),
-                entities: [User, Channel, Message, Connection],
+                entities: [User, Channel, Message, Connection, PunishedUser],
                 synchronize: true,
             })
         })

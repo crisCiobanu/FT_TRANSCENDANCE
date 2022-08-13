@@ -45,9 +45,11 @@ email.subscribe((val) => localStorage.setItem("email", val));
 export const ownmail = writable(localStorage.getItem("ownmail") || "");
 ownmail.subscribe((val) => localStorage.setItem("ownmail", val));
 
-export const currentRoom = writable(localStorage.getItem("currentRoom") || "general");
-currentRoom.subscribe((val) => localStorage.setItem("currentRoom", val));
+export const currentChat = writable(localStorage.getItem("currentChat") || "");
+currentChat.subscribe((val) => localStorage.setItem("currentChat", val));
 
+export const currentProfile = writable(localStorage.getItem("currentProfile") || "");
+currentProfile.subscribe((val) => localStorage.setItem("currentProfile", val));
 // const itemName = "array";
 // const retrieved = localStorage.getItem(itemName);
 // //const parsed = JSON.parse(retrieved);

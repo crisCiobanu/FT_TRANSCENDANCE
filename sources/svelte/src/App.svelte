@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import { level, logged, losses, username, wins, image_url, firstname, lastname, intra, cookie } from './stores.js';
+import { level, logged, losses, username, wins, image_url, firstname, lastname, intra, cookie, currentChat } from './stores.js';
 import Router from "svelte-spa-router";
 import Chat from "./routes/Chat.svelte";
 import Chatest from "./routes/Chatest.svelte";
@@ -32,6 +32,7 @@ let routes = {
 		{
 			logged.update(n => 'false');
 			intra.update(n => 'false');
+			currentChat.update(n => '');
 		//	cookie.update(n => "");
 		var cookies = document.cookie.split(";");
 

@@ -14,7 +14,6 @@ export class MessageService {
 
     async createMessage(msg: IMessage): Promise<Message>{
         const newMsg = await this.messageRepository.create(msg);
-        
         return this.messageRepository.save(newMsg);
     }
 }

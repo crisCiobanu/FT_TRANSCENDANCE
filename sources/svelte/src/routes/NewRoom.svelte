@@ -3,7 +3,6 @@
   export let pass;
   export let free;
   export let title;
-  export let channelName;
   export let password = 'false';
 
   async function createRoom() {

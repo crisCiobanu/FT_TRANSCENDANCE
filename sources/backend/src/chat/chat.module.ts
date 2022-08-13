@@ -12,12 +12,14 @@ import { ChatController } from './chat.controller';
 import { UsersModule } from 'src/users/users.module';
 import { ConnectionService } from './connection/connection.service';
 import { Connection } from './connection/connection.entity';
+import { PunisheduserService } from './punisheduser/punisheduser.service';
+import { PunishedUser } from './punisheduser/punisheduser.entity';
 
 @Module({
-  providers: [MessageService, ChannelService, ChatGateway, ChatService, ConnectionService],
+  providers: [MessageService, ChannelService, ChatGateway, ChatService, ConnectionService, PunisheduserService],
   imports: [ AuthModule,
               forwardRef(() => UsersModule),
-              TypeOrmModule.forFeature([Channel, User, Message, Connection])],
+              TypeOrmModule.forFeature([Channel, User, Message, Connection, PunishedUser])],
   controllers: [ChatController]
 })
 export class ChatModule {}

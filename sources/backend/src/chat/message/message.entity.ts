@@ -10,7 +10,7 @@ export class Message{
     @Column()
     public text: string;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ type: 'timestamptz' })
     public created_at: Date;
 
     @ManyToOne(() => User, user => user.messages, { onDelete: 'CASCADE' })
