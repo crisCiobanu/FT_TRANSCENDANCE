@@ -71,11 +71,19 @@ async handleConnection(client: Socket, ...args: any[]) {
   }
 
   private async sendInit(client: Socket, event: string){
-    const directMessageChannels: Channel[] = await this.channnelService.getDirectMessageChannels(client.data.user.id);     
+    //const directMessageChannels: Channel[] = await this.channnelService.getDirectMessageChannels(client.data.user.id); 
+    const directMessageChannels: Channel[] = await this.channnelService.getAllDirectMessages(client.data.user.id);
+  
     const allChannels: Channel[]  = await this.channnelService.getAll();
 
     this.server.to(client.id).emit(event, {allChannels, directMessageChannels}); 
 
+  }
+
+  private async sendPartInit(client: Socket, event: string){
+    const allChannels: Channel[]  = await this.channnelService.getAll();
+
+    this.server.to(client.id).emit(event, allChannels); 
   }
 
   private async sendDirectMessageInit(client: Socket, channel: IChannel){
@@ -93,15 +101,19 @@ async handleConnection(client: Socket, ...args: any[]) {
 
   private async sendCreatedRoom(client: Socket, channel: IChannel){
     if (channel.isDirectMessage === true){
-      for ( const user of channel.users){
-        const connections: IConnection[] = await this.connectionService.findByUserId(user.id);
-        for (const connection of connections){
-          this.server.to(connection.socket).emit('addDirectMessageRoom', channel);
-        }
-      }  
+      this.sendUpdatePrivateMessages(client, channel);
     } else
       this.sendUpdateChannels(client);
+  }
 
+  private async sendUpdatePrivateMessages(client: Socket, channel: IChannel){
+    const channels = await this.channnelService.getAllDirectMessages(client.data.user.id);
+    for ( const user of channel.users){
+      const connections: IConnection[] = await this.connectionService.findByUserId(user.id);
+      for (const connection of connections){
+        this.server.to(connection.socket).emit('updatePrivateMessages', channels);
+      }
+    }  
   }
 
   private async sendUpdateChannels(client: Socket){
@@ -162,6 +174,46 @@ async handleConnection(client: Socket, ...args: any[]) {
   //     throw new WsException('Problem while creating the new room');
   // }
 
+  @SubscribeMessage('makeAdmin')
+  async giveAdminPrivilegies(client: Socket, payload){
+    console.log("CHANNEL FROM MAKE ADMIN")
+    console.log(payload.channel);
+    console.log(`USER name from make admin ${payload.userName42}`);
+    const user = await this.userService.getByLogin42(payload.userName42);
+    if (!user || !payload.channel){
+      this.server.to(client.id).emit('makeAdminResponse', 'false');
+      return;
+    }
+    const tmpChannel = await this.channnelService.addUserToAdmins(payload.channel, user);
+    if (!tmpChannel)
+      this.server.to(client.id).emit('makeAdminResponse', 'alreadyAdmin');
+    else{
+      this.server.to(client.id).emit('makeAdminResponse', 'true');
+      this.sendUpdateChannels(client);
+      await this.sendAllert(user.id, payload.channel.name, 'youAreNowAdmin');
+    }
+  }
+
+  @SubscribeMessage('removeAdmin')
+  async removeAdminPrivilegies(client: Socket, payload){
+    console.log("CHANNEL FROM REMOVE ADMIN")
+    console.log(payload.channel);
+    console.log(`USER name from remove admin ${payload.userName42}`);
+    const user = await this.userService.getByLogin42(payload.userName42);
+    if (!user || !payload.channel){
+      this.server.to(client.id).emit('removeAdminResponse', 'false');
+      return;
+    }
+    const tmpChannel = await this.channnelService.deleteUserFromAdmins(payload.channel, user);
+    if (!tmpChannel)
+      this.server.to(client.id).emit('removeAdminResponse', 'notAdmin');
+    else{
+      this.server.to(client.id).emit('removeAdminResponse', 'true');
+      this.sendUpdateChannels(client);
+      await this.sendAllert(user.id, payload.channel.name, 'youAreNoMoreAdmin');
+    }
+  }
+
   @SubscribeMessage('createRoom')
   async createChannel(client: Socket, payload: IChannel) {
 
@@ -173,12 +225,34 @@ async handleConnection(client: Socket, ...args: any[]) {
       throw new WsException('Problem while creating the new room');
   }
 
+  @SubscribeMessage('createPrivateMessage')
+  async createPrivateMessage(client: Socket, userName42: string) {
+    const otherUser = await this.userService.getByLogin42(userName42);
+    if (!otherUser)
+      this.server.to(client.id).emit('createPrivateMessageResponse', 'false');
+
+    const newChannel = await this.channnelService.createPrivateMessage(client.data.user, otherUser);
+
+    if (newChannel){
+      this.server.to(client.id).emit('createPrivateMessageResponse', 'true');
+      this.sendCreatedRoom(client, newChannel);
+    }
+    else
+      this.server.to(client.id).emit('createPrivateMessageResponse', 'exist');
+  }
+
+
   @SubscribeMessage('joinRoom')
   async joinChannel(client: Socket, payload: any) {
+    const banned: boolean = await this.channnelService.checkIfBaned(payload, client.data.user)
+    if (banned == true){
+      this.server.to(client.id).emit('joinRoomResponse', 'ban');
+      return;
+    }
     const tempChannel = await this.channnelService.joinChannel(payload, client.data.user);
     if (tempChannel){
-      this.server.to(client.id).emit('joinRoomResponse', 'true');
-      this.sendUpdateChannels(client);
+        this.server.to(client.id).emit('joinRoomResponse', 'true');
+        this.sendUpdateChannels(client);     
     }
     else
       this.server.to(client.id).emit('joinRoomResponse', 'false');
@@ -195,33 +269,59 @@ async handleConnection(client: Socket, ...args: any[]) {
 
   @SubscribeMessage('deleteRoom')
   async deleteChannel(client: Socket, payload: any) {
-  await this.channnelService.deleteChannel(payload, client.data.user);
-  this.sendUpdateChannels(client);
+    await this.channnelService.deleteChannel(payload, client.data.user);
+    this.sendUpdateChannels(client);
+  }
+
+  @SubscribeMessage('deletePrivateMessage')
+  async deletePrivateMessage(client: Socket, payload: any) {
+    const channel = await this.channnelService.getChannelByName(payload.name);
+    //
+    //   TO DO DEMAIN MATIN
+    //
+    await this.channnelService.deleteChannel(payload, client.data.user);
+    this.sendUpdatePrivateMessages(client, channel);
   }
 
   @SubscribeMessage('message')
   async onNewMessage(client: Socket, msg: IMessage){
 
-    console.log(msg);
-    msg.user = client.data.user;
-    const newMsg = await this.messageService.createMessage(msg);
+    const muted: boolean = await this.channnelService.checkIfMuted(msg.channel, client.data.user)
+    console.log(`THE VALUE OF MUTED IS ${muted}`)
+    if (muted == true){
+      
+      this.server.to(client.id).emit('messageResponse', 'muted');
+      return;
+    }
+    else {
+      console.log(msg);
+      msg.user = client.data.user;
+      const newMsg = await this.messageService.createMessage(msg);
 
-    console.log("LOG OF NEW MSG");
-    console.log(newMsg);
+      console.log("LOG OF NEW MSG");
+      console.log(newMsg);
 
-    this.sendMessage(client, newMsg);
+      this.server.to(client.id).emit('messageResponse', 'unmuted');
+      this.sendMessage(client, newMsg);
+    }
   }
 
   private async sendMessage(client: Socket, message){
 
     const channel = message.channel;
-    //const channel = await this.channnelService.getChannelByName(message.channel.name);
     for ( const user of channel.users){
       const connections: IConnection[] = await this.connectionService.findByUserId(user.id);
       for (const connection of connections){
         this.server.to(connection.socket).emit('msgToClient', message);
       }
     }   
+  }
+
+  private async sendAllert(userId: number, message: string, event: string){
+      const connections: IConnection[] = await this.connectionService.findByUserId(userId);
+      for (const connection of connections){
+        this.server.to(connection.socket).emit(event, message);
+      }    
   }
 
   // @SubscribeMessage('deleteMessage')
@@ -238,11 +338,16 @@ async handleConnection(client: Socket, ...args: any[]) {
     const channel = await this.channnelService.getChannelByName(payload.channel);
     const user = await this.userService.getByLogin42(payload.userName42);
     
-    if (!channel || !user)
+    if (!channel || !user){
       this.server.to(client.id).emit('muteUserResponse', 'false');
-
+      return;
+    }
     if ((admin.id === channel.channelOwnerId) || (channel.channelAdminsId.find(nbr => nbr === admin.id) !== undefined)){
-      await this.channnelService.muteUser(channel, user, payload.minutes);
+      const tmpMute = await this.channnelService.muteUser(channel, user, payload.minutes);
+      if (!tmpMute){
+        this.server.to(client.id).emit('muteUserResponse', 'muted');
+        return;
+      }
       this.server.to(client.id).emit('muteUserResponse', 'true');
       this.sendUpdateChannels(client);
     }
@@ -256,13 +361,20 @@ async handleConnection(client: Socket, ...args: any[]) {
     const channel = await this.channnelService.getChannelByName(payload.channel);
     const user = await this.userService.getByLogin42(payload.userName42);
     
-    if (!channel || !user)
+    if (!channel || !user){
       this.server.to(client.id).emit('banUserResponse', 'false');
+      return;
+    }
 
     if ((admin.id === channel.channelOwnerId) || (channel.channelAdminsId.find(nbr => nbr === admin.id) !== undefined)){
-      await this.channnelService.banUser(channel, user, payload.minutes);
+      const tmpBan = await this.channnelService.banUser(channel, user, payload.minutes);
+      if (!tmpBan){
+        this.server.to(client.id).emit('banUserResponse', 'banned');
+        return;
+      }
       this.server.to(client.id).emit('banUserResponse', 'true');
-      this.sendUpdateChannels(client);
+      await this.sendAllert(user.id, channel.name, 'youHaveBeenBanned');
+      await this.sendUpdateChannels(client);
     }
     else
       this.server.to(client.id).emit('banUserResponse', 'false');

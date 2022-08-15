@@ -22,7 +22,7 @@ export class PunishedUser{
 	@Column()
 	userId: number;
 
-	@ManyToOne(() => Channel, channel => channel.messages, {onDelete:'CASCADE'})
+	@ManyToOne(() => Channel, channel => channel.bansAndMutes, {onDelete:'CASCADE'})
 	@JoinTable()
 	channel: Channel;
 		

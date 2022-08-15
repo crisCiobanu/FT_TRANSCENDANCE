@@ -10,6 +10,7 @@ import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { WsException } from '@nestjs/websockets';
 import { PunisheduserService} from '../punisheduser/punisheduser.service'
+import { PunishedUser} from '../punisheduser/punisheduser.entity'
 
 @Injectable()
 export class ChannelService {
@@ -38,14 +39,29 @@ export class ChannelService {
         return this.channelRepository.save(tempChannel);
     }
 
+    async createPrivateMessage(owner: User, otherUser: User): Promise<Channel>{
+
+        const channelName = owner.userName42 + " - " + otherUser.userName42;
+        
+        const foundChannel = await this.getChannelByName(channelName);
+        if (foundChannel)
+            return null;
+        
+        const channel: IChannel = {name: channelName, isDirectMessage: true}
+            
+        const tempChannel = await this.addOwnerToChannel(channel, owner);
+        tempChannel.users.push(otherUser);
+                 
+        return this.channelRepository.save(tempChannel);
+    }
+
+
 
     async joinChannel(channel : IChannel, newUser: User): Promise<Channel>{
         const tempChannel = await this.getChannelByName(channel.name);
         if (!tempChannel)
             return null;
         
-        
-
         if (!tempChannel.isPublic){
             let accepted: boolean  = false;
             if (channel.password)
@@ -55,6 +71,35 @@ export class ChannelService {
         }
         tempChannel.users.push(newUser);
         return this.channelRepository.save(tempChannel); 
+    }
+
+    async checkIfBaned(channel : IChannel, usr: User) : Promise<boolean>{
+        const ban = await this.punishedUserService.getBanByUserId(usr.id, channel.name);
+        if (ban && ban.banned == true){
+            if (ban.expires.getTime() > new Date().getTime())
+                return true;
+            else {
+                await this.punishedUserService.delete(ban.id);
+                return false;
+            }
+        }
+    }
+
+    async checkIfMuted(channel : IChannel, usr: User) : Promise<boolean>{
+        const mute = await this.punishedUserService.getMuteByUserId(usr.id, channel.name);
+        console.log("LOG OF MUTe OBJECT");
+        console.log(mute);
+        if (mute && mute.muted == true){
+            if (mute.expires.getTime() > new Date().getTime()){
+                console.log("TIME DIFFERENCE")
+                console.log(mute.expires.getTime() - new Date().getTime())
+                return true;
+            }
+            else {
+                await this.punishedUserService.delete(mute.id);
+                return false;
+            }
+        }
     }
 
     async leaveChannel(channel : IChannel, userToLeave: User): Promise<Channel>{
@@ -69,7 +114,7 @@ export class ChannelService {
         const tempChannel = await this.getChannelByName(channel.name);
         if (!tempChannel)
             return null;
-        if (tempChannel.channelOwnerId !== user.id)
+        if (tempChannel.isDirectMessage == false &&  tempChannel.channelOwnerId !== user.id)
             throw new WsException('NOT AUTHORIZED DO DELETE THIS ROOM');
         await this.channelRepository.delete({id: tempChannel.id });
     }
@@ -139,6 +184,8 @@ export class ChannelService {
     //     return this.channelRepository.findBy({id, isDirectMessage: true})
     // }
 
+    
+
     async getDirectMessageChannels(userId: number): Promise<Channel[]>{
         return this.channelRepository.createQueryBuilder('channel')
         .leftJoinAndSelect('channel.users', 'users',)
@@ -147,23 +194,80 @@ export class ChannelService {
         .getMany();
     }
 
-    async muteUser(channel: Channel, user: User, minutes: number){
+    async getAllDirectMessages(user: User): Promise<Channel[]>{
+        const channels = await this.channelRepository.find({
+            relations: {
+                users: true,
+                messages: {
+                    user: true,
+                    channel: true
+                },
+                bansAndMutes: true
+            },
+            where: {
+                isDirectMessage: true,
+                users: {
+                    id: user.id
+                }
+            }
+        })
+        console.log("LOG FROM GET ALL DIR MESSAGES");
+        console.log(channels);
+        return channels;
+    }
+
+    async muteUser(channel: Channel, user: User, minutes: number): Promise<PunishedUser>{
         const expire_epoch = new Date().getTime() + minutes * 60000;
         const expire_at = new Date(expire_epoch);
+        const punish = await this.punishedUserService.getMuteByUserId(user.id, channel.name);
+        if (punish){
+            if (punish.expires.getTime() <= expire_epoch){
+                punish.expires = expire_at;
+                return this.punishedUserService.update(punish);
+            }
+            else
+                return null;
+        }   else{ 
         const newPunish = await this.punishedUserService.create({expires: expire_at,
                                                             muted: true,
                                                             userId: user.id,
                                                             channel: channel});
-    }
+            return newPunish;
+            }
+        }
 
-    async banUser(channel: Channel, banedUser: User, minutes: number){
+    async banUser(channel: Channel, bannedUser: User, minutes: number){
         const expire_epoch = new Date().getTime() + minutes * 60000;
         const expire_at = new Date(expire_epoch);
+        const punish = await this.punishedUserService.getBanByUserId(bannedUser.id, channel.name);
+        if (punish){
+            if (punish.expires.getTime() <= expire_epoch){
+                punish.expires = expire_at;
+                return this.punishedUserService.update(punish);
+            }
+            else
+                return null;
+        }   else{ 
         const newPunish = await this.punishedUserService.create({expires: expire_at,
-                                                            muted: true,
-                                                            userId: banedUser.id,
+                                                            banned: true,
+                                                            userId: bannedUser.id,
                                                             channel: channel});
-        channel.users = channel.users.filter(user => user.id != banedUser.id);
+        channel.users = channel.users.filter(user => user.id != bannedUser.id);
+        return this.channelRepository.save(channel);
+        }
+    }
+
+    async addUserToAdmins(channel: Channel, user: User): Promise<Channel>{
+        if (channel.channelAdminsId.find(id => id == user.id) != undefined)
+            return null;
+        channel.channelAdminsId.push(user.id);
+        return this.channelRepository.save(channel);
+    }
+
+    async deleteUserFromAdmins(channel: Channel, user: User): Promise<Channel>{
+        if (channel.channelAdminsId.find(id => id == user.id) == undefined)
+            return null;
+        channel.channelAdminsId = channel.channelAdminsId.filter((id) => id != user.id)
         return this.channelRepository.save(channel);
     }
 
