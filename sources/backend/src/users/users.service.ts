@@ -60,6 +60,42 @@ export class UsersService {
         return newUser;
     }
 
+    async blockUser(email: string, id: string): Promise<User>{
+        const newUser = await this.userRepository.findOneBy({ email });
+        newUser.blocked.push(id);
+        await this.userRepository.save(newUser);
+        return newUser;
+    }
+
+    async unBlockUser(userName42: string, id: string): Promise<User>{
+        const newUser = await this.userRepository.findOneBy({ userName42 });
+        let index = newUser.blocked.indexOf(id);
+        // newUser.blocked.length = 0;
+        if (index != -1) {
+            newUser.blocked.splice(index, 1);
+        }
+        await this.userRepository.save(newUser);
+        return newUser;
+    }
+
+    async makeFriend(userName42: string, id: number): Promise<User>{
+        const newUser = await this.userRepository.findOneBy({ userName42 });
+        newUser.friends.push(id.toString());
+        await this.userRepository.save(newUser);
+        return newUser;
+    }
+
+    async removeFriend(userName42: string, id: number): Promise<User>{
+        const newUser = await this.userRepository.findOneBy({ userName42 });
+        let index = newUser.friends.indexOf(id.toString());
+        // newUser.friends.length = 0;
+        if (index != -1) {
+            newUser.friends.splice(index, 1);
+        }
+        await this.userRepository.save(newUser);
+        return newUser;
+    }
+
     async changeTWOFA(email: string): Promise<User>{
         const newUser = await this.userRepository.findOneBy({ email });
         newUser.TWOFA = !(newUser.TWOFA);

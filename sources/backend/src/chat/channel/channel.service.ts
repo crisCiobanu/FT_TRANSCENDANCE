@@ -257,6 +257,26 @@ export class ChannelService {
         }
     }
 
+    async kickUser(channel: Channel, bannedUser: User, minutes: number){
+        // const expire_epoch = new Date().getTime() + minutes * 60000;
+        // const expire_at = new Date(expire_epoch);
+        // const punish = await this.punishedUserService.getBanByUserId(bannedUser.id, channel.name);
+        // if (punish){
+        //     if (punish.expires.getTime() <= expire_epoch){
+        //         punish.expires = expire_at;
+        //         return this.punishedUserService.update(punish);
+        //     }
+        //     else
+        //         return null;
+        // }   else{ 
+        // const newPunish = await this.punishedUserService.create({expires: expire_at,
+        //                                                     banned: true,
+        //                                                     userId: bannedUser.id,
+        //                                                     channel: channel});
+        channel.users = channel.users.filter(user => user.id != bannedUser.id);
+        return this.channelRepository.save(channel);
+        }
+
     async addUserToAdmins(channel: Channel, user: User): Promise<Channel>{
         if (channel.channelAdminsId.find(id => id == user.id) != undefined)
             return null;

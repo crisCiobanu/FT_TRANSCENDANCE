@@ -1,7 +1,7 @@
 import { Channel } from "src/chat/channel/channel.entity";
 import { Connection } from "src/chat/connection/connection.entity";
 import { Message } from "src/chat/message/message.entity";
-import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn, JoinTable } from "typeorm";
 
 @Entity()
 export class User {
@@ -109,6 +109,16 @@ export class User {
         nullable: true
     })
     public muteExpiration: Date;
+
+    @Column('simple-array', {
+        default: []
+    })
+    blocked: string[]
+
+    @Column('simple-array', {
+        default: []
+    })
+    friends: string[]
 
 
 }

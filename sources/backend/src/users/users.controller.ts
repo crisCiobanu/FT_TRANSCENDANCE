@@ -168,6 +168,31 @@ export class UsersController {
         return this.userService.changeTWOFA(req.user.email);
     }
 
+    @Post('block')
+    @UseGuards(JwtGuard)
+    block(@Res({passthrough: true}) res: Response, @Req() req: any) : Promise<User>{
+        return this.userService.blockUser(req.user.email, req.body.id);
+    }
+
+    @Post('unblock')
+    @UseGuards(JwtGuard)
+    unblock(@Res({passthrough: true}) res: Response, @Req() req: any) : Promise<User>{
+        console.log(req.user.userName42);
+        return this.userService.unBlockUser(req.user.userName42, req.body.id.toString());
+    }
+
+    @Post('friends')
+    @UseGuards(JwtGuard)
+    friend(@Res({passthrough: true}) res: Response, @Req() req: any) : Promise<User>{
+        return this.userService.makeFriend(req.user.userName42, req.body.id);
+    }
+
+    @Post('unfriend')
+    @UseGuards(JwtGuard)
+    unfriend(@Res({passthrough: true}) res: Response, @Req() req: any) : Promise<User>{
+        return this.userService.removeFriend(req.user.userName42, req.body.id);
+    }
+
     @Get(':id')
     findById(@Param('id') parameter : number) : Promise<User>{
         console.log('HERE');

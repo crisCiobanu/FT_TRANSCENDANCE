@@ -3,8 +3,10 @@ import { onMount } from 'svelte';
 import axios from 'axios';
 // import * as cookie from "cookie";
 import { level, logged, losses, username, wins, image_url, firstname, lastname, id, intra, TWOFA, cookie, email, ownmail } from '../stores.js';
+let blocked = [];
 let isAuth;
 let code;
+let friends;
 let error = false;
 
 async function sendCode() {
@@ -41,6 +43,10 @@ function updateAll (isAuth: any) {
       TWOFA.update(n => isAuth.TWOFA.toString());
       email.update(n => isAuth.email);
       ownmail.update(n => isAuth.ownMail.toString());
+      blocked = isAuth.blocked;
+      friends = isAuth.friends;
+      console.log(friends);
+      console.log(blocked);
 }
 
 onMount(async () => {

@@ -379,7 +379,34 @@ async handleConnection(client: Socket, ...args: any[]) {
     else
       this.server.to(client.id).emit('banUserResponse', 'false');
   }
+/////////
 
+  @SubscribeMessage('kickUser')
+  async kickUser(client: Socket, payload){
+    const admin = client.data.user;
+    const channel = await this.channnelService.getChannelByName(payload.channel);
+    const user = await this.userService.getByLogin42(payload.userName42);
+    
+    if (!channel || !user){
+      this.server.to(client.id).emit('kickUserResponse', 'false');
+      return;
+    }
+
+    if ((admin.id === channel.channelOwnerId) || (channel.channelAdminsId.find(nbr => nbr === admin.id) !== undefined)){
+      const tmpKick = await this.channnelService.kickUser(channel, user, payload.minutes);
+      if (!tmpKick){
+        this.server.to(client.id).emit('kickUserResponse', 'banned');
+        return;
+      }
+      this.server.to(client.id).emit('kickUserResponse', 'true');
+      await this.sendAllert(user.id, channel.name, 'youHaveBeenKicked');
+      await this.sendUpdateChannels(client);
+    }
+    else
+      this.server.to(client.id).emit('kickUserResponse', 'false');
+  }
+
+/////////
 
 
   @SubscribeMessage('testMessage')

@@ -42,7 +42,7 @@
   export let banOptions = 'false';
   export let banTime = 0;
   export let Mutes = [];
-  export let numberId = Number($id);
+  // export let numberId = Number($id);
   let myChannels = [];
   let allRooms = [];
   export let newRoom = {
@@ -51,14 +51,26 @@
     isPublic: false,
   };
   export let password = 'false';
+  export let blocked = [];
+  export let block;
 
   function sendInvitation() {
 
   }
 
   function kickUser() {
-    // socket.emit('kickUser')
-    alert(currentUser.userName + ' has been kicked from room #' + currentRoom.name.toUpperCase());
+     socket.emit('kickUser', {
+      channel: currentRoom.name,
+      userName42: currentUser.userName42,
+      minutes: banTime,
+     })
+     socket.on('kickUserResponse', (response) => {
+      if (response == 'true') {
+        alert(currentUser.userName + ' has been kicked from room #' + currentRoom.name.toUpperCase());
+        currentUser = '';
+        currentProfile.update(n => '');
+      }
+     })
   }
 
   async function createRoom() {
@@ -397,6 +409,19 @@
   }
 
   onMount(async () => {
+
+    block = await fetch('http://localhost:3000/users/' + $id, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        Authorization: 'Bearer ' + $cookie,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    }).then((response) => (block = response.json()));
+    blocked = block.blocked;
+    console.log('blocked');
+    console.log(blocked);
+
     socket = io('http://localhost:3000', {
       auth: { token: $cookie },
     });
@@ -433,6 +458,15 @@
       myChannels = myChannels.filter((t) => t != message);
     });
 
+    socket.on('youHaveBeenKicked', (message) => {
+      alert('You have been banned from channel ' + message);
+      currentRoom = '';
+      currentUser = '';
+      currentProfile.update((n) => '');
+      currentChat.update((n) => '');
+      myChannels = myChannels.filter((t) => t != message);
+    });
+
     socket.on('youAreNowAdmin', (message) => {
       alert('You are now an administator on channel #' + message);
     });
@@ -447,7 +481,6 @@
         currentRoom = privateMessages[privateMessages.length - 1];
       messages = currentRoom.messages;
       }
-
     })
   });
 </script>
@@ -583,14 +616,16 @@
               </form>
             {:else}
               {#each messages as msg}
+                {#if blocked.indexOf(msg.user.id.toString()) == -1}
                 {#if msg.user.userName == $username}
                   <p class="selfmsg">
-                    <i>you</i>: {msg.text}
+                    <i>you</i>: {msg.text} id:{msg.user.id}
                   </p>
                 {:else}
                   <p class="othermsg">
-                    <b>{msg.user.userName}</b>: {msg.text}
+                    <b>{msg.user.userName}</b>: {msg.text} id:{msg.user.id}
                   </p>
+                {/if}
                 {/if}
               {/each}
             {/if}

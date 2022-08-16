@@ -14,6 +14,7 @@
     cookie,
     email,
     ownmail,
+    otherUser,
   } from '../stores.js';
 
   let mail;
@@ -22,6 +23,10 @@
   let newMail = 'false';
   let fileinput: any;
   let newImage: any;
+  let friendArray = [];
+  let myFriends: any;
+  let friends = [];
+  let newFriend;
 
   async function changeMailAddress() {
     if ($TWOFA == 'false') {
@@ -83,6 +88,10 @@
     }
   }
 
+  function onlyNumbers(str) {
+  return /^[0-9]+$/.test(str);
+}
+
   async function TWOFAoff() {
     if ($TWOFA == 'true') {
       await fetch('http://localhost:3000/users/twofa', {
@@ -117,7 +126,35 @@
     image_url.update((n) => newImage.url);
   }
 
-  onMount(async () => {});
+  onMount(async () => {
+    myFriends = await fetch("http://127.0.0.1:3000/auth/currentuser", 
+          {
+              method: 'GET',
+              credentials: 'include',
+              headers: 
+              {
+              'Authorization': 'Bearer ' + $cookie,
+              "Content-type": "application/json; charset=UTF-8"
+              },
+          }).then(response => myFriends = response.json());
+          friendArray = myFriends.friends;
+          console.log(friendArray);
+          for (let i = 0; i < friendArray.length; i++) {
+            if (onlyNumbers(friendArray[i])) {
+              newFriend = await fetch('http://localhost:3000/users/' + friendArray[i], {
+              method: 'GET',
+              credentials: 'include',
+              headers: {
+                Authorization: 'Bearer ' + $cookie,
+                'Content-type': 'application/json; charset=UTF-8',
+              },
+            }).then((response) => (newFriend = response.json()));
+            console.log(newFriend);
+            friends = [...friends, newFriend];
+            }
+          }
+          console.log(friends);
+});
 
   function redirect(arg0: string) {
     throw new Error('Function not implemented.');
@@ -136,8 +173,11 @@
             bind:value={user}
           />
           <div>
-            <button on:click={changeUserName} type="submit" value="Submit" style='cursor: pointer'
-              >Change</button
+            <button
+              on:click={changeUserName}
+              type="submit"
+              value="Submit"
+              style="cursor: pointer">Change</button
             >
           </div>
           <div />
@@ -161,8 +201,11 @@
             bind:value={mail}
           />
           <div>
-            <button on:click={changeMailAddress} type="submit" value="Submit" style='cursor: pointer'
-              >Change</button
+            <button
+              on:click={changeMailAddress}
+              type="submit"
+              value="Submit"
+              style="cursor: pointer">Change</button
             >
           </div>
           <div />
@@ -184,7 +227,8 @@
           alt="Default Profile"
         />
         <button
-          class="bt2" style='cursor: pointer'
+          class="bt2"
+          style="cursor: pointer"
           on:click={() => {
             newUserName = 'true';
             newMail = 'false';
@@ -201,7 +245,8 @@
       </div>
       <div style="margin: 0 auto; ">
         <button
-          class="bt1" style='cursor: pointer'
+          class="bt1"
+          style="cursor: pointer"
           on:click={() => {
             fileinput.click();
           }}>Change profile picture</button
@@ -259,6 +304,20 @@
         <h1 style="background-color: darkgrey; color:white; text-align:center;">
           FRIENDS
         </h1>
+        <div class='friends'>
+        {#each friends as friend}
+        <div class=oneFriend>
+          <img
+          class="otherProfile"
+          src={friend.imageURL}
+          alt="profile"
+        />
+        <p style='color: black; font-size:16px;'>  
+        <b>{friend.userName}</b></p>
+        <a class="profileLink" href="#/userprofile" on:click={() => {otherUser.update(n => friend.id)}}>View profile</a>
+      </div>
+          {/each}
+        </div>
       </div>
     {/if}
   {:else}
@@ -287,6 +346,43 @@
     align-content: center;
     border-radius: 50%;
     border: solid 10px darkgrey;
+  }
+
+  .oneFriend {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .friends {
+    display: block;
+    align-items: center;
+    margin-bottom: 50px;
+    text-align: center;;
+  }
+
+  .otherProfile {
+    width: 100px;
+    /* display: block; */
+    border: solid 3px black;
+    height: 100px;
+    /* margin: 0 auto; */
+    /* margin-top: 15px; */
+    background-size: contain;
+    background-position: center;
+    border-radius: 50%;
+  }
+
+  .profileLink {
+    text-align: center;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 50px;
+    /* width: 50px; */
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: dodgerblue;
+    color: white;
   }
   .name {
     text-align: center;
