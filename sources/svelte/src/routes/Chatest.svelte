@@ -4,6 +4,7 @@
     logged,
     other_losses,
     username,
+    otherUser,
     other_username,
     other_wins,
     image_url,
@@ -51,14 +52,13 @@
   };
   export let password = 'false';
 
-  function viewUser() {
-    other_firstname.update((n) => currentUser.firstName);
-    other_lastname.update((n) => currentUser.lastName);
-    other_level.update((n) => currentUser.level);
-    other_wins.update((n) => currentUser.wins);
-    other_losses.update((n) => currentUser.losses);
-    other_username.update((n) => currentUser.userName);
-    other_image_url.update((n) => currentUser.imageURL);
+  function sendInvitation() {
+
+  }
+
+  function kickUser() {
+    // socket.emit('kickUser')
+    alert(currentUser.userName + ' has been kicked from room #' + currentRoom.name.toUpperCase());
   }
 
   async function createRoom() {
@@ -154,6 +154,8 @@
             currentRoom.name.toUpperCase(),
         );
       }
+      banOptions = 'false';
+      muteOptions = 'false'
     });
   }
 
@@ -325,7 +327,6 @@
   }
 
   function receivedMessage(message) {
-    console.log('ca passe');
     messages = [...messages, message];
   }
 
@@ -641,7 +642,7 @@
         {#if currentUser}
         {#if currentRoom.isDirectMessage == false}
           <button
-            style="display: block; text-align: right; border: none; margin-bottom: -10px; color: black"
+            style="cursor: pointer;display: block; text-align: right; border: none; margin-bottom: -10px; color: black"
             on:click={() => {
               currentUser = '';
               currentProfile.update((n) => '');
@@ -649,7 +650,7 @@
           >
           {/if}
           {#if currentUser.id == $id}
-            <a href="#/profile" class="profileLink"
+            <a href="#/profile" class="profileLink" style='color: black; font-size:16px;'
               ><img
                 class="profile"
                 src={$image_url}
@@ -657,26 +658,27 @@
               />{currentUser.userName}</a
             >
           {:else if currentRoom.isDirectMessage == true}
-          <a href="#/profile" class="profileLink"
+          <a href="#/userprofile" class="profileLink" style='color: darkred; font-size:16px;'
           ><img
             class="profile"
             src={currentUser.imageURL}
             alt="profile"
-          />{currentUser.userName}</a
+          /><b>{currentUser.userName}</b></a
         >
           {:else}
-            <a href="#/userprofile" on:click={viewUser} class="profileLink">
+            <a href="#/userprofile" on:click={() => {otherUser.update(n => currentUser.id)}} class="profileLink" style='color: darkred; font-size:16px;'>
               <img
                 class="profile"
                 src={currentUser.imageURL}
                 alt="profile"
-              />{currentUser.userName}</a
+              /><b>{currentUser.userName}</b></a
             >
-            <!-- <button class="profileButton">Add as friend</button>
-            <button class="profileButton">Block user</button> -->
-            <button on:click={createPrivateMessage} class="profileButton"
-              >Send PM</button
+            <button on:click={createPrivateMessage} class="profileButton" style="color: white; background-color: rgb(224, 62, 62)"
+              >Send PM ✉️</button
             >
+            <button on:click={sendInvitation} class="profileButton" style="background-color: dodgerblue; color: white"
+            >Invite to play 🏓</button
+          >
             {#if currentRoom && (currentRoom.channelOwnerId == $id || currentRoom.channelAdminsId.indexOf($id) != -1)}
               <h4>Admin</h4>
 
@@ -685,10 +687,15 @@
               {:else if currentRoom.channelOwnerId != currentUser.id}
                 <button
                   on:click={() => {
-                    muteOptions = 'true';
+                    if (muteOptions == 'false') {
+                      muteOptions = 'true';
+                    }
+                    else {
+                      muteOptions = 'false';
+                    }
                     banOptions = 'false';
                   }}
-                  class="profileButton">Mute</button
+                  class="profileButton" style='background-color: slategrey; color: white'>Mute</button
                 >
               {/if}
               {#if muteOptions == 'true'}
@@ -713,8 +720,16 @@
               {/if}
 
               <button
-                on:click={() => (banOptions = 'true')}
-                class="profileButton">Ban</button
+                on:click={() => {
+                  if (banOptions == 'false') {
+                    banOptions = 'true';
+                  }
+                  else {
+                    banOptions = 'false';
+                  }
+                  muteOptions = 'false';
+                }}
+                class="profileButton" style='background-color: slategrey; color: white'>Ban</button
               >
 
               {#if banOptions == 'true'}
@@ -738,12 +753,15 @@
                 </div>
               {/if}
             {/if}
+            <button on:click={kickUser} class="profileButton" style='background-color: slategrey; color: white'
+            >Kick</button
+            >
             {#if currentRoom.channelOwnerId == $id && currentRoom.channelAdminsId.indexOf(currentUser.id.toString()) == -1}
-              <button on:click={makeAdmin} class="profileButton"
+              <button style='background-color: gold' on:click={makeAdmin} class="profileButton"
                 >Upgrade status</button
               >
             {:else if currentRoom.channelOwnerId == $id && currentRoom.channelAdminsId.indexOf(currentUser.id.toString()) != -1}
-              <button on:click={removeAdmin} class="profileButton"
+              <button style='border: solid 1px brown; color: brown; background-color: transparent' on:click={removeAdmin} class="profileButton"
                 >Downgrade status</button
               >
             {/if}
@@ -780,7 +798,7 @@
   }
 
   #messages {
-    height: 400px;
+    height: 500px;
     overflow-y: scroll;
     margin: 0 auto;
     align-items: center;
@@ -826,7 +844,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
-    height: 400px;
+    height: 500px;
   }
 
   .column1 {
@@ -873,6 +891,7 @@
 
   #selectUser {
     font-size: 16px;
+    cursor: pointer;
     margin-left: 20px;
     /* margin-top: 0px; */
 
@@ -889,6 +908,7 @@
   }
 
   #selectMyRoom {
+    cursor: pointer;
     font-size: 12px;
     margin-left: 10px;
     font-weight: 600;
@@ -899,6 +919,7 @@
   }
 
   #selectMyOwnRoom {
+    cursor: pointer;
     font-size: 12px;
     margin-left: 10px;
     font-weight: 600;
@@ -909,6 +930,7 @@
   }
 
   #selectRoom {
+    cursor: pointer;
     font-size: 12px;
     margin-left: 10px;
     font-weight: 600;
@@ -918,6 +940,7 @@
   }
 
   #selectPrivMsg {
+    cursor: pointer;
     font-size: 12px;
     margin-left: 10px;
     font-weight: 600;
@@ -927,6 +950,7 @@
   }
 
   .my-buttons {
+    cursor: pointer;
     display: flex;
     flex-direction: row;
     margin-right: 10px;
@@ -948,6 +972,7 @@
     flex: 1;
     border-radius: 0;
     display: flex;
+    cursor: pointer;
     background-color: darkblue;
     border: none;
     color: white;
@@ -985,7 +1010,8 @@
 
   .profileButton {
     border: 0;
-    background-color: gainsboro;
+    cursor:pointer;
+    /* background-color: darkgoldenrod; */
     margin: 5px 10px;
     font-size: 14px;
   }

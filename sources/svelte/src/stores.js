@@ -56,6 +56,9 @@ currentProfile.subscribe((val) => localStorage.setItem("currentProfile", val));
 // export const array = writable(parsed || []);
 // array.subscribe(val => localStorage.setItem(itemName, JSON.stringify(val))); 
 
+export const otherUser = writable(localStorage.getItem("otherUser") || '');
+otherUser.subscribe((val) => localStorage.setItem("otherUser", val));
+
 export const other_level = writable(localStorage.getItem("other_level") || 0);
 other_level.subscribe((val) => localStorage.setItem("other_level", val));
 

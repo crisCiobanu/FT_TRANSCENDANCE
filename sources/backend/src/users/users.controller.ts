@@ -170,6 +170,7 @@ export class UsersController {
 
     @Get(':id')
     findById(@Param('id') parameter : number) : Promise<User>{
+        console.log('HERE');
         console.log(parameter);
         return this.userService.getById(parameter);
     }

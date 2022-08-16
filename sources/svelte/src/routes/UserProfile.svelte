@@ -1,24 +1,90 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import {
-    other_level,
+    otherUser,
     logged,
-    other_losses,
-    other_username,
-    other_wins,
-    other_image_url,
-    other_firstname,
-    other_lastname,
+    cookie,
+    id,
   } from '../stores.js';
+
+  export let user;
+  export let level;
+  export let losses;
+  export let username;
+  export let wins;
+  export let image_url;
+  export let firstname;
+  export let lastname;
+  export let status;
+  export let blocked = [];
+
+  async function blockUser() {
+    let result = await fetch('http://localhost:3000/users/block', {
+      method: 'POST',
+      headers: 
+        {
+        // Cookie: "xxx=yyy",
+        'Authorization': 'Bearer ' + $cookie,
+        "Content-type": "application/json; charset=UTF-8"
+        },
+        body: JSON.stringify({'username': username}),
+    }).then(response => result = response.json())
+    if (result == 'true') {
+      alert(username + ' has been blocked 🚫 🚫 🚫');
+    }
+    else {
+      alert(username + ' is already among your block list ❎ ❎ ❎')
+    }
+  }
+
+  async function friendRequest() {
+    let result = await fetch('http://localhost:3000/users/friend', {
+      method: 'POST',
+      headers: 
+        {
+        // Cookie: "xxx=yyy",
+        'Authorization': 'Bearer ' + $cookie,
+        "Content-type": "application/json; charset=UTF-8"
+        },
+      body: JSON.stringify({'username': username}),
+    }).then(response => result = response.json())
+
+  }
+
+  onMount(async () => {
+    console.log($otherUser);
+   user = await fetch('http://localhost:3000/users/' + $otherUser, {
+      method: 'GET',
+      credentials: 'include',
+        headers: 
+        {
+        // Cookie: "xxx=yyy",
+        'Authorization': 'Bearer ' + $cookie,
+        "Content-type": "application/json; charset=UTF-8"
+        },
+    }).then(response => user = response.json());
+      username= user.userName;
+      firstname = user.firstName;
+      lastname = user.lastName;
+      wins = user.wins;
+      losses = user.losses;
+      level = user.level;
+      image_url = user.imageURL;
+      status = user.status;
+      blocked = user.blocked;
+    }) 
 </script>
 
 <main>
   {#if $logged == 'true'}
+  {#if blocked && blocked.indexOf($id) != -1}
+    <h1 style="text-align: center">ACCESS TO THIS PROFILE HAS BEEN DENIED BY THE OWNER</h1>
+  {:else}
     <div style="margin: 0 auto; display: block">
-      <h1 class="name" style="color:darkred">{$other_username}</h1>
+      <h1 class="name" style="color:black">{username}</h1>
       <img
         class="profile"
-        src={$other_image_url}
+        src={image_url}
         width="200px"
         alt="Default Profile"
       />
@@ -27,14 +93,24 @@
       <p
         style="text-align:center; color:grey; font-weight:500; font-style: italic"
       >
-        {$other_firstname}
-        {$other_lastname}<br />
+        {firstname}
+        {lastname}<br />
       </p>
     </div>
-
+    <div>
+      <h1>
+        {#if status == 'online'}
+        <span class="sp1">Status</span><span class="sp2">🟢 {status}</span>
+        {:else if status == 'offline'}
+        <span class="sp1">Status</span><span class="sp2">🔴 {status}</span>
+        {:else if status == 'ingame'}
+        <span class="sp1">Status</span><span class="sp2">🔵 {status}</span>
+        {/if}
+      </h1>
+    </div>
     <div class='buttons'>
-      <button class="friend">Add as friend</button>
-      <button class="block">Block user</button>
+      <button on:click={friendRequest} class="friend">Add as friend</button>
+      <button on:click={blockUser} class="block">Block user</button>
     </div>
 
     <div class="tb1">
@@ -45,11 +121,11 @@
       </h1>
       <h1>
         <span class="sp1">wins</span>
-        <span class="sp2"> {$other_wins}</span><span class="sp1"
+        <span class="sp2"> {wins}</span><span class="sp1"
           >&emsp;&emsp;&emsp;losses</span
-        > <span class="sp2">{$other_losses}</span><span class="sp1"
+        > <span class="sp2">{losses}</span><span class="sp1"
           >&emsp;&emsp;&emsp;level</span
-        ><span class="sp2"> {$other_level}</span>
+        ><span class="sp2"> {level}</span>
       </h1>
       <!-- <h1><span class="sp1">ID   </span><span class="sp2">  {$id}</span></h1> -->
     </div>
@@ -63,6 +139,7 @@
         FRIENDS
       </h1>
     </div>
+    {/if}
   {:else}
     <h1 style="text-align: center">ACCESS DENIED</h1>
   {/if}
