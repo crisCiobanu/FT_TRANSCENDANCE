@@ -26,6 +26,8 @@ export class ConnectionService {
         return connections;
     }
 
+    
+
     async getAll(): Promise<IConnection[]> {
         return this.connectionRepository.createQueryBuilder('connection')
         .leftJoinAndSelect('connection.user', 'user')
