@@ -12,10 +12,11 @@ import { UsersService } from './users.service';
 
 @Module({
     imports: [DatabaseModule,
-        AuthModule,
-        ChatModule,
+        //AuthModule,
+        //ChatModule,
         TypeOrmModule.forFeature([User]),
-        forwardRef(() => AuthModule)   
+        forwardRef(() => AuthModule),   
+        forwardRef(() => ChatModule),  
     ],
     controllers: [UsersController],
     providers: [UsersService],

@@ -27,6 +27,9 @@ wins.subscribe((val) => localStorage.setItem("wins", val));
 export const username = writable(localStorage.getItem("username") || "player");
 username.subscribe((val) => localStorage.setItem("username", val));
 
+export const username42 = writable(localStorage.getItem("username42") || "player");
+username42.subscribe((val) => localStorage.setItem("username42", val));
+
 export const image_url = writable(localStorage.getItem("image_url") || "img/default_profile.png");
 image_url.subscribe((val) => localStorage.setItem("image_url", val));
 

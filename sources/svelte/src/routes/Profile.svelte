@@ -307,14 +307,18 @@
         <div class='friends'>
         {#each friends as friend}
         <div class=oneFriend>
-          <img
+          <!-- <img
           class="otherProfile"
           src={friend.imageURL}
           alt="profile"
-        />
-        <p style='color: black; font-size:16px;'>  
-        <b>{friend.userName}</b></p>
-        <a class="profileLink" href="#/userprofile" on:click={() => {otherUser.update(n => friend.id)}}>View profile</a>
+        /> -->
+        <!-- <p style='color: black; font-size:16px;'>  
+        <b>{friend.userName}</b></p> -->
+        <a class="profileLink" href="#/userprofile" on:click={() => {otherUser.update(n => friend.id)}}>  <img
+          class="otherProfile"
+          src={friend.imageURL}
+          alt="profile"
+        />{friend.userName}</a>
       </div>
           {/each}
         </div>
@@ -349,12 +353,12 @@
   }
 
   .oneFriend {
-    display: block;
+    display: flex;
     margin: 0 auto;
   }
 
   .friends {
-    display: block;
+    display: flex;
     align-items: center;
     margin-bottom: 50px;
     text-align: center;;
@@ -362,21 +366,22 @@
 
   .otherProfile {
     width: 100px;
-    /* display: block; */
     border: solid 3px black;
     height: 100px;
     /* margin: 0 auto; */
-    /* margin-top: 15px; */
-    background-size: contain;
-    background-position: center;
+    margin-bottom: 10px;
+    /* background-size: contain;
+    background-position: center; */
     border-radius: 50%;
+    display: block;
   }
 
   .profileLink {
     text-align: center;
-    text-align: center;
     margin: 0 auto;
-    margin-top: 50px;
+    /* margin-top: 50px; */
+    margin-bottom: 20px;
+    display: block;
     /* width: 50px; */
     padding: 10px;
     border-radius: 10px;

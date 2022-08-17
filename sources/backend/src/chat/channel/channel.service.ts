@@ -40,17 +40,20 @@ export class ChannelService {
     }
 
     async createPrivateMessage(owner: User, otherUser: User): Promise<Channel>{
-
         const channelName = owner.userName42 + " - " + otherUser.userName42;
-        
-        const foundChannel = await this.getChannelByName(channelName);
-        if (foundChannel)
+        const inverseChannelName = otherUser.userName42 + " - " + owner.userName42
+        const foundByName = await this.getChannelByName(channelName);
+        const foundByInverseName = await this.getChannelByName(inverseChannelName);
+        if (foundByName || foundByInverseName)
             return null;
         
         const channel: IChannel = {name: channelName, isDirectMessage: true}
             
         const tempChannel = await this.addOwnerToChannel(channel, owner);
         tempChannel.users.push(otherUser);
+
+        // console.log("LOG FROM CREATE PRIVATE MESSAGE FUNCTION");
+        // console.log(tempChannel.users[0].userName42 + " " + tempChannel.users[1].userName42);
                  
         return this.channelRepository.save(tempChannel);
     }
@@ -145,6 +148,7 @@ export class ChannelService {
     }
 
 
+
     
 
     // async getAllChannels(): Promise<Channel[]>{
@@ -194,8 +198,30 @@ export class ChannelService {
         .getMany();
     }
 
-    async getAllDirectMessages(user: User): Promise<Channel[]>{
-        const channels = await this.channelRepository.find({
+    // async getAllDirectMessages(iNuser: User): Promise<Channel[]>{
+    //     const channels = await this.channelRepository.find({
+    //         relations: {
+    //             users: true,
+    //             messages: {
+    //                 user: true,
+    //                 channel: true
+    //             },
+    //             bansAndMutes: true
+    //         },
+    //         where: {
+    //             isDirectMessage: true,
+    //             users: {
+    //                 id: iNuser.id
+    //             }
+    //         }
+    //     })
+    //     console.log("LOG FROM GET ALL DIR MESSAGES");
+    //     console.log(channels);
+    //     return channels;
+    // }
+
+    async getAllDirectMessages(iNuser: User): Promise<Channel[]>{
+        let channels = await this.channelRepository.find({
             relations: {
                 users: true,
                 messages: {
@@ -206,11 +232,9 @@ export class ChannelService {
             },
             where: {
                 isDirectMessage: true,
-                users: {
-                    id: user.id
-                }
             }
         })
+        channels = channels.filter(channel => channel.users.find(user => user.id == iNuser.id) != undefined)
         console.log("LOG FROM GET ALL DIR MESSAGES");
         console.log(channels);
         return channels;

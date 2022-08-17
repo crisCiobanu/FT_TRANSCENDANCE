@@ -2,7 +2,7 @@
 import { onMount } from 'svelte';
 import axios from 'axios';
 // import * as cookie from "cookie";
-import { level, logged, losses, username, wins, image_url, firstname, lastname, id, intra, TWOFA, cookie, email, ownmail } from '../stores.js';
+import { username42, level, logged, losses, username, wins, image_url, firstname, lastname, id, intra, TWOFA, cookie, email, ownmail } from '../stores.js';
 let blocked = [];
 let isAuth;
 let code;
@@ -34,6 +34,7 @@ function updateAll (isAuth: any) {
   console.log(isAuth);
       id.update(n => isAuth.id);
       username.update(n => isAuth.userName);
+      username42.update(n => isAuth.userName42)
       firstname.update(n => isAuth.firstName);
       lastname.update(n => isAuth.lastName);
       wins.update(n => isAuth.wins);

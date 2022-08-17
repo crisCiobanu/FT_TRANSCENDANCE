@@ -11,12 +11,12 @@
    let firstname :string;
    let lastname: string;
    let status;
-   let userId;
+   let userId: number;
    let blocked = [];
 
    let myBlocked = [];
    let myFriends = [];
-   let self;
+   let self: any;
 
   async function blockUser() {
     let result = await fetch('http://localhost:3000/users/block', {

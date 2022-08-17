@@ -71,8 +71,7 @@ async handleConnection(client: Socket, ...args: any[]) {
   }
 
   private async sendInit(client: Socket, event: string){
-    //const directMessageChannels: Channel[] = await this.channnelService.getDirectMessageChannels(client.data.user.id); 
-    const directMessageChannels: Channel[] = await this.channnelService.getAllDirectMessages(client.data.user.id);
+    const directMessageChannels: Channel[] = await this.channnelService.getAllDirectMessages(client.data.user);
   
     const allChannels: Channel[]  = await this.channnelService.getAll();
 
@@ -86,18 +85,6 @@ async handleConnection(client: Socket, ...args: any[]) {
     this.server.to(client.id).emit(event, allChannels); 
   }
 
-  private async sendDirectMessageInit(client: Socket, channel: IChannel){
-    const directMessageChannels = await this.channnelService.getDirectMessageChannels(client.data.user.id);     
-    const userChannels = await this.channnelService.getChannelsByUserId(client.data.user.id);
-    const allChannels = await this.channnelService.getAllChannels(client.data.user.id);
-
-    for ( const user of channel.users){
-      const connections: IConnection[] = await this.connectionService.findByUserId(user.id);
-      for (const connection of connections){
-        this.server.to(connection.socket).emit('createDirectMessage', {allChannels, userChannels, directMessageChannels});
-      }
-    }   
-  }
 
   private async sendCreatedRoom(client: Socket, channel: IChannel){
     if (channel.isDirectMessage === true){
@@ -107,8 +94,9 @@ async handleConnection(client: Socket, ...args: any[]) {
   }
 
   private async sendUpdatePrivateMessages(client: Socket, channel: IChannel){
-    const channels = await this.channnelService.getAllDirectMessages(client.data.user.id);
+    const channels = await this.channnelService.getAllDirectMessages(client.data.user);
     for ( const user of channel.users){
+      //const channels = await this.channnelService.getAllDirectMessages(user);
       const connections: IConnection[] = await this.connectionService.findByUserId(user.id);
       for (const connection of connections){
         this.server.to(connection.socket).emit('updatePrivateMessages', channels);
@@ -228,9 +216,14 @@ async handleConnection(client: Socket, ...args: any[]) {
   @SubscribeMessage('createPrivateMessage')
   async createPrivateMessage(client: Socket, userName42: string) {
     const otherUser = await this.userService.getByLogin42(userName42);
-    if (!otherUser)
+    if (!otherUser){
       this.server.to(client.id).emit('createPrivateMessageResponse', 'false');
-
+      return;
+    }
+    if (otherUser.blocked.find(id => id == client.data.user.id) != undefined){
+      this.server.to(client.id).emit('createPrivateMessageResponse', 'blocked');
+      return;
+    }
     const newChannel = await this.channnelService.createPrivateMessage(client.data.user, otherUser);
 
     if (newChannel){
@@ -258,7 +251,19 @@ async handleConnection(client: Socket, ...args: any[]) {
       this.server.to(client.id).emit('joinRoomResponse', 'false');
   }
 
+  @SubscribeMessage('changeConv')
+  async onChangeConv(client: Socket, payload: any) {
+    const channels = await this.channnelService.getAll();
+    this.server.to(client.id).emit('updateChannels', channels);
+  }
 
+  @SubscribeMessage('changePrivateConv')
+  async onChangePrivateConv(client: Socket, payload: any) {
+    console.log("LOG FROM CHANGE PRIV MSG")
+    const channels = await this.channnelService.getAllDirectMessages(client.data.user);
+    console.log(channels);
+    this.server.to(client.id).emit('updatePrivateMessages', channels);
+  }
 
   @SubscribeMessage('leaveRoom')
   async leaveChannel(client: Socket, payload: any) {
@@ -276,6 +281,10 @@ async handleConnection(client: Socket, ...args: any[]) {
   @SubscribeMessage('deletePrivateMessage')
   async deletePrivateMessage(client: Socket, payload: any) {
     const channel = await this.channnelService.getChannelByName(payload.name);
+    const otherUser = channel.users.find(usr => usr.id != client.data.user.id);
+    if (!otherUser)
+      return;
+    await this.sendAllert(otherUser.id, channel.name, 'privateMessageDeleted'); 
     //
     //   TO DO DEMAIN MATIN
     //
@@ -307,9 +316,15 @@ async handleConnection(client: Socket, ...args: any[]) {
   }
 
   private async sendMessage(client: Socket, message){
+    console.log("LOG FROM SEND MESSAGE FUNCTION AT ENTRY");
+    //const channel = message.channel;
 
-    const channel = message.channel;
+    const channel = await this.channnelService.getChannelByName(message.channel.name);
+    console.log(channel);
+    console.log("LOG FROM SEND MESSAGE FUNCTION");
     for ( const user of channel.users){
+
+      console.log(user.userName42);
       const connections: IConnection[] = await this.connectionService.findByUserId(user.id);
       for (const connection of connections){
         this.server.to(connection.socket).emit('msgToClient', message);
