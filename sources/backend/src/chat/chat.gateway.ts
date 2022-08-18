@@ -21,7 +21,8 @@ import { UsersService } from 'src/users/users.service';
 @WebSocketGateway({
   cors: {
     origin: '*',
-  }
+  },
+  namespace: 'chat'
 })
 
 export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect{

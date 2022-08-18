@@ -6,20 +6,18 @@ import Chat from "./routes/Chat.svelte";
 import Chatest from "./routes/Chatest.svelte";
 import Home from "./routes/Home.svelte";
 import NotFound from "./routes/NotFound.svelte";
-import Pong from "./routes/Pong.svelte";
 import Profile from "./routes/Profile.svelte";
 import User from "./routes/User.svelte";
 import Usermail from "./routes/Usermail.svelte";
 import NewRoom from './routes/NewRoom.svelte';
 import UserProfile from './routes/UserProfile.svelte';
-import Pong2 from './routes/Pong2.svelte';
+import Pong from './routes/Pong.svelte';
 
 
 let routes = {
 	// "/": Home,
 	"/": Home,
 	"/pong": Pong,
-	"/pong2": Pong2,
 	"/chat": Chatest,
 	"/profile": Profile,
 	"/user": User,
@@ -56,7 +54,6 @@ let routes = {
 		{#if $logged == 'true'}
 		<a class="item" href="#/">HOME</a>
 		<a class="item" href="#/pong">PONG</a>
-		<a class="item" href="#/pong2">PONG2</a>
 		<a class="item" href="#/profile">PROFILE</a>
 		<a class="item" href="#/chat">CHAT</a>
 		<a class="item" on:click={logOut} href="#/">LOGOUT</a>

@@ -337,6 +337,7 @@
     align-items: center;
     margin: 0 auto;
     align-items: center;
+    color: black;
   }
   h1 {
     font-weight: 700;

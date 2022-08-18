@@ -466,7 +466,7 @@
     }).then((response) => (block = response.json()));
     blocked = block.blocked;
 
-    socket = io('http://localhost:3000', {
+    socket = io('http://localhost:3000/chat', {
       auth: { token: $cookie },
     });
 
@@ -932,6 +932,7 @@
     align-content: center;
     text-align: center;
     margin-top: 30px;
+    color: black;
   }
 
   #roomTitle {

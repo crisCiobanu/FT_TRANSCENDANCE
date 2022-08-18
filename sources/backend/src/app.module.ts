@@ -14,6 +14,8 @@ import { MailerModule } from '@nestjs-modules/mailer'
 import { ChatModule } from './chat/chat.module';
 import * as Joi from '@hapi/joi';
 import { ChannelService } from './chat/channel/channel.service';
+import { PongGateway } from './pong/pong.gateway';
+import { PongModule } from './pong/pong.module';
 
 @Module({
   imports: [UsersModule, ConfigModule.forRoot({
@@ -38,7 +40,7 @@ import { ChannelService } from './chat/channel/channel.service';
       }
     }
   }),
-  DatabaseModule, ProductsModule, AuthModule, ChatModule],
+  DatabaseModule, ProductsModule, AuthModule, ChatModule, PongModule],
   controllers: [AppController],
   providers: [AppService],
 })

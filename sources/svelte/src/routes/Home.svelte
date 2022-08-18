@@ -81,7 +81,6 @@ onMount(async () => {
 
 </script>
 <main>
-  <p>{$logged}</p>
   {#if $logged == 'true'}
   <h1 style="text-align: center; font-weight: 700; margin-top: 50px;">Just a bit of history...</h1>
     <div class="about">
@@ -135,6 +134,7 @@ onMount(async () => {
           display: block;
           margin: 0 auto;
           margin-top: 30px;
+          color: black;
           font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     }
     @media (min-width: 1024px) {
