@@ -41,9 +41,11 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   @SubscribeMessage('waiting')
   async onWainting(client: Socket, payload: any){
-    const result = await this.gameService.addToQueue(client);
-    if (result)
-      this.server.to(client.id).emit('foundPeer', 'GAME NAME');
+    const pongGame = await this.gameService.addToQueue(client);
+    if (pongGame){
+      this.server.to(pongGame.paddleLeft.socket.id).emit('foundPeer', 'GAME NAME');
+      this.server.to(pongGame.paddleRight.socket.id).emit('foundPeer', 'GAME NAME');
+    }
   }
 }
 
