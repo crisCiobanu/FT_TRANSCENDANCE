@@ -45,13 +45,8 @@
       },
       body: JSON.stringify({ id: userId }),
     }).then((response) => (result = response.json()));
-    // if (result == 'true') {
-    //   alert(username + ' has been blocked 🚫 🚫 🚫');
-    // }
-    // else {
       alert(username + ' has been unblocked ❎ ❎ ❎')
       myBlocked = myBlocked.filter((t) => t != userId);
-    // }
   }
 
   async function friendRequest() {
@@ -161,6 +156,7 @@
         {/if}
       </div>
 
+      {#if myFriends.indexOf(userId) != -1}
       <div class="tb1">
         <h1
           style="width: 400px;background-color: darkgrey; color:white;text-decoration-line: underline;text-underline-offset: 20px;"
@@ -175,18 +171,13 @@
             >&emsp;&emsp;&emsp;level</span
           ><span class="sp2"> {level}</span>
         </h1>
-        <!-- <h1><span class="sp1">ID   </span><span class="sp2">  {$id}</span></h1> -->
       </div>
       <div style="width: 400px;margin: 0 auto; display: block">
         <h1 style="background-color: darkgrey; color:white; text-align:center;">
           MATCH HISTORY
         </h1>
       </div>
-      <div style="width:400px; margin: 0 auto; display: block;">
-        <h1 style="background-color: darkgrey; color:white; text-align:center;">
-          FRIENDS
-        </h1>
-      </div>
+      {/if}
     {/if}
   {:else}
     <h1 style="text-align: center">ACCESS DENIED</h1>
@@ -200,6 +191,7 @@
       sans-serif;
     align-items: center;
     margin: 0 auto;
+    color: black;
   }
   h1 {
     font-weight: 700;
@@ -212,6 +204,8 @@
     background-position: center;
     border-radius: 50%;
     border: solid 10px gainsboro;
+    display: block;
+    margin: 0 auto;
   }
   .name {
     text-align: center;
@@ -246,7 +240,6 @@
     flex-direction: column;
     color: white;
     padding: 10px;
-    /* margin: 0 auto; */
     display: flex;
   }
 
@@ -255,7 +248,6 @@
     background-color: darkred;
     color: white;
     padding: 10px;
-    /* margin: 0 auto; */
     display: flex;
   }
 
@@ -264,7 +256,6 @@
     background-color: lightgreen;
     color: darkslategray;
     padding: 10px;
-    /* margin: 0 auto; */
     display: flex;
   }
 </style>

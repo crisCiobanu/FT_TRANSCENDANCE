@@ -1,17 +1,10 @@
 <script lang='ts'>
   import {
-    other_level,
     logged,
-    other_losses,
     username,
     otherUser,
-    other_username,
-    other_wins,
     image_url,
     username42,
-    other_image_url,
-    other_firstname,
-    other_lastname,
     id,
     cookie,
     TWOFA,
@@ -28,6 +21,9 @@
 
   export let socket = null;
   let games = [];
+  let otherPlayer;
+  let playerTwo;
+  let ingame = 'false';
 
   const tween = tweened(0);
 
@@ -260,12 +256,6 @@
   };
 
 
-
-
-
-let otherPlayer: any;
-let ingame = 'false';
-
  async function gameRequest() {
     ingame = 'waiting';
     socket.emit('waiting');
@@ -282,12 +272,21 @@ let ingame = 'false';
       auth: { token: $cookie },
     });
 
-    socket.on('foundPeer', (message) => {
-      otherPlayer = message.player;
+    socket.on('foundPeer', async (message) => {
+      alert('foundPeer');
+      otherPlayer =  await fetch('http://localhost:3000/users/' + message, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        Authorization: 'Bearer ' + $cookie,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    }).then((response) => (otherPlayer = response.json()))
       ingame = 'true';
-
+      draw();
     });
   });
+
 </script>
 
 <svelte:body on:keydown={handleKeydown} on:keyup={handleKeyup} />
@@ -351,13 +350,13 @@ let ingame = 'false';
     margin-bottom: 50px;
     text-align: center;;"
   >
-    <div style="display:flex;  margin:0 auto;">
+    <div style="display:block;  margin:0 auto;">
       <img
         class="player1_picture"
         src={$image_url}
         alt="player1_profile_picture"
       />
-      <p style="color: black;">{otherPlayer.userName}</p>
+      <p style="color: black;">{$username}</p>
     </div>
     <div style="display:block;  margin:0 auto;">
       <img
@@ -365,7 +364,7 @@ let ingame = 'false';
         src={otherPlayer.imageURL}
         alt="player1_profile_picture"
       />
-      <p style="color: black;">{$username}</p>
+      <p style="color: black;">{otherPlayer.userName}</p>
     </div>
   </div>
 {:else}
@@ -392,9 +391,7 @@ let ingame = 'false';
 
   .game {
     display: block;
-    /* margin-left: 500px; */
     margin: 0 auto;
-    /* margin-top: 100px; */
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
       sans-serif;
   }

@@ -99,7 +99,7 @@ export class Paddle {
 	speed;
 	keys;
 	score;
-	user: User;
+	user: number;
 	socket: Socket;
 
 	show(context) {

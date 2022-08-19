@@ -1,17 +1,10 @@
 <script lang="ts">
   import {
-    other_level,
     logged,
-    other_losses,
     username,
     otherUser,
-    other_username,
-    other_wins,
     image_url,
     username42,
-    other_image_url,
-    other_firstname,
-    other_lastname,
     id,
     cookie,
     TWOFA,
@@ -21,7 +14,7 @@
     currentProfile,
   } from '../stores.js';
 
-  import { onMount } from 'svelte';
+  import { onMount, afterUpdate } from 'svelte';
   import io from 'socket.io-client';
   import { init, xlink_attr } from 'svelte/internal';
 
@@ -43,7 +36,6 @@
   export let banOptions = 'false';
   export let banTime = 0;
   export let Mutes = [];
-  // export let numberId = Number($id);
   let myChannels = [];
   let allRooms = [];
   export let newRoom = {
@@ -454,6 +446,7 @@
     });
   }
 
+
   onMount(async () => {
     console.log($username42)
     block = await fetch('http://localhost:3000/users/' + $id, {
@@ -594,7 +587,7 @@
       <h1 style="text-align:center" class="text-center">Pong Chat</h1>
       {#if currentRoom}
         {#if currentRoom.isDirectMessage != true}
-          <h3 id="roomTitle">Room#{currentRoom.name.toUpperCase()}</h3>
+          <h3 id="roomTitle">Room #{currentRoom.name.toUpperCase()}</h3>
         {:else}
           <h3 id="roomTitle">
             Conversation {currentRoom.name}
@@ -690,6 +683,7 @@
                 />
               </form>
             {:else}
+            <!-- <div class='messageBoard'> -->
               {#each messages as msg}
                 {#if blocked.indexOf(msg.user.id.toString()) == -1}
                   {#if msg.user.userName == $username}
@@ -707,9 +701,11 @@
                       ><br />
                       {msg.text}
                     </p>
+                
                   {/if}
                 {/if}
               {/each}
+            <!-- </div> -->
             {/if}
           {/if}
         </div>
@@ -954,9 +950,11 @@
     margin: 0 auto;
     background-color: ghostwhite;
     display: flex;
-    flex-flow: column wrap;
+    /* flex-flow: column wrap; */
+    flex-flow: column;
     padding-top: 10px;
   }
+
 
   #chat {
     margin-top: 2rem;
@@ -974,7 +972,9 @@
     padding: 10px;
     max-width: 50%;
     margin-top: -7px;
+    margin-right:10px;
     align-self: flex-end;
+    display: block;
   }
   .othermsg {
     background-color: rgb(173, 230, 175);
@@ -984,7 +984,9 @@
     text-align: left;
     padding: 10px 20px 10px 15px;
     max-width: 50%;
+    margin-left: 10px;
     align-self: flex-start;
+    display: block;
   }
 
   .row {
