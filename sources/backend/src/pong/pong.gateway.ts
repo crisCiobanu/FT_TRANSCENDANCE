@@ -4,6 +4,9 @@ import { Server, Socket } from 'socket.io';
 import { GameService } from './game/game.service';
 import { AuthService} from '../auth/auth.service'
 import { UsersService } from '../users/users.service';
+import { IGame, State } from './pong.interfaces';
+import { PongService } from './pong.service';
+import { Interval } from '@nestjs/schedule';
 
 
 @WebSocketGateway({
@@ -17,10 +20,12 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   constructor(
     private readonly gameService: GameService,
     private readonly userService: UsersService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly pongService: PongService
   ){}
    
-  @WebSocketServer() server : Server;
+  @WebSocketServer() 
+  private server : Server;
   private logger : Logger = new Logger('PongGateway');
     
   async handleDisconnect(client: Socket) {
@@ -49,6 +54,16 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       
     }
   }
+  @SubscribeMessage('ready')
+  async onReady(client: Socket, payload: any){
+    console.log("LOG FROM READY EVENT FUNCTION");
+    console.log(payload);
+    const game = await this.gameService.startGame(payload.name);
+    if (game){
+      console.log(" CONDITION IS TRUE IN READY ")
+      this.gameService.startBall(game);
+    }
+  }
 
   @SubscribeMessage('message')
   handleMessage(client: Socket, payload: any): string {
@@ -59,9 +74,34 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   async onWainting(client: Socket, payload: any){
     const pongGame = await this.gameService.addToQueue(client);
     if (pongGame){
-      // this.server.to(pongGame.paddleLeft.socket.id).emit('foundPeer', pongGame.paddleRight.user);
-      // this.server.to(pongGame.paddleRight.socket.id).emit('foundPeer', pongGame.paddleLeft.user);
+      this.server.to(pongGame.leftPaddle.socket).emit('foundPeer', {game: pongGame, opponentId: pongGame.rightPaddle.userId});
+      this.server.to(pongGame.rightPaddle.socket).emit('foundPeer', {game: pongGame, opponentId: pongGame.leftPaddle.userId});
     }
   }
+
+  async sendToAll(game: IGame, event: string, message){
+    this.server.to(game.leftPaddle.socket).emit(event, message);
+    this.server.to(game.rightPaddle.socket).emit(event, message);
+    if (game.spectators){
+      for (const socket of game.spectators){
+        this.server.to(socket).emit(event, message);
+      }
+    }
+  }
+
+  @Interval(1000/ 60)
+	async sendUpdate(){
+    const games = this.gameService.getGames();
+		for (const game of games.values()){
+			if (game.state == State.INPROGRESS){
+				const tempGame = await this.pongService.update(game);
+        await this.gameService.saveGame(tempGame);
+        this.sendToAll(game, 'updateGame', game);
+      }
+		}
+	}
+		
+	
+
 }
 

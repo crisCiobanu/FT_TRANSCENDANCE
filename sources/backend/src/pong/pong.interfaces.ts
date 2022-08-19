@@ -7,14 +7,14 @@ export enum State{
 	FINISHED
 }
 
-export interface IPuck{
+export interface IBall{
 	x: number;
 	x0?: number;
 	y: number;
 	y0?:number;
 	r: number;
 	startAngle?: number;
-	endAngle: number;// = Math.PI * 2;
+	endAngle?: number;// = Math.PI * 2;
 	dx?:number;
 	dy?:number;
 	initialSpeed?:number;
@@ -38,8 +38,9 @@ export interface IGame{
 	name: string;
 	leftPaddle: IPaddle;
 	rightPaddle: IPaddle;
-	puck: IPuck;
+	ball: IBall;
 	state: State;
 	spectators?: string[];
+	accepted?: number;
 }
 

@@ -10,7 +10,6 @@ let friends;
 let error = false;
 
 async function sendCode() {
-  console.log(code);
     await fetch('http://localhost:3000/auth/activation/' + code, {
       method: 'GET',
       headers: 
@@ -19,7 +18,6 @@ async function sendCode() {
          "Content-type": "application/json; charset=UTF-8"
         },
     }).then(response => {
-      console.log(response.status);
       if (response.status === 200) {
         logged.update(n => 'true');
         return;
@@ -31,7 +29,6 @@ async function sendCode() {
 }
 
 function updateAll (isAuth: any) {
-  console.log(isAuth);
       id.update(n => isAuth.id);
       username.update(n => isAuth.userName);
       username42.update(n => isAuth.userName42)
@@ -46,8 +43,6 @@ function updateAll (isAuth: any) {
       ownmail.update(n => isAuth.ownMail.toString());
       blocked = isAuth.blocked;
       friends = isAuth.friends;
-      console.log(friends);
-      console.log(blocked);
 }
 
 onMount(async () => {

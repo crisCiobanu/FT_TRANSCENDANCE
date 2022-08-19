@@ -1,7 +1,4 @@
 import { writable } from 'svelte/store';
-import { browser } from '$app/env';
-
-//const on = localStorage.content;
 
 export const id = writable(localStorage.getItem("id") || 0);
 id.subscribe((val) => localStorage.setItem("id", val));
@@ -57,24 +54,3 @@ currentProfile.subscribe((val) => localStorage.setItem("currentProfile", val));
 
 export const otherUser = writable(localStorage.getItem("otherUser") || '');
 otherUser.subscribe((val) => localStorage.setItem("otherUser", val));
-
-// export const other_level = writable(localStorage.getItem("other_level") || 0);
-// other_level.subscribe((val) => localStorage.setItem("other_level", val));
-
-// export const other_losses = writable(localStorage.getItem("other_losses") || 0);
-// other_losses.subscribe((val) => localStorage.setItem("other_losses", val));
-
-// export const other_wins = writable(localStorage.getItem("other_wins") || 0);
-// other_wins.subscribe((val) => localStorage.setItem("other_wins", val));
-
-// export const other_username = writable(localStorage.getItem("other_username") || "player");
-// other_username.subscribe((val) => localStorage.setItem("other_username", val));
-
-// export const other_image_url = writable(localStorage.getItem("other_image_url") || "img/default_profile.png");
-// other_image_url.subscribe((val) => localStorage.setItem("other_image_url", val));
-
-// export const other_firstname = writable(localStorage.getItem("other_firstname") || "");
-// other_firstname.subscribe((val) => localStorage.setItem("other_firstname", val));
-
-// export const other_lastname = writable(localStorage.getItem("other_lastname") || "");
-// other_lastname.subscribe((val) => localStorage.setItem("other_lastname", val));

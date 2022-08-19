@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang='ts'>
   import {
     logged,
     username,
@@ -19,35 +19,31 @@
   import { Puck, Paddle, map } from '../utils.js';
   import { tweened } from 'svelte/motion';
 
-  export let socket: any = null;
-  let games: any = [];
-  let otherPlayer: any;
+  export let socket = null;
+  let games = [];
+  let otherPlayer;
   let playerTwo;
   let ingame = 'false';
-  let gameName: string;
-  let scoreRight: number;
-  let scoreLeft: number;
-  let endGame: string = 'false';
 
   const tween = tweened(0);
 
-  const canvasWidth: number = 500;
-  const canvasHeight: number = 320;
-  const padding: number = 10;
-  const margin: number = 5;
-  const border: number = 5;
+  const canvasWidth = 500;
+  const canvasHeight = 320;
+  const padding = 10;
+  const margin = 5;
+  const border = 5;
 
-  const width: number = canvasWidth - margin * 2;
-  const height: number = canvasHeight - margin * 2;
+  const width = canvasWidth - margin * 2;
+  const height = canvasHeight - margin * 2;
 
-  const puckRadius: number = 7;
+  const puckRadius = 7;
 
-  const paddleWidth: number = 15;
-  const paddleHeight: number = 70;
+  const paddleWidth = 15;
+  const paddleHeight = 70;
 
-  let puck: any = new Puck({ x: width / 2, y: height / 2, r: puckRadius });
+  const puck = new Puck({ x: width / 2, y: height / 2, r: puckRadius });
 
-  let paddleLeft: any = new Paddle({
+  const paddleLeft = new Paddle({
     x: padding,
     y: height / 2 - paddleHeight / 2,
     w: paddleWidth,
@@ -57,8 +53,7 @@
       KeyS: 1,
     },
   });
-
-  let paddleRight: any = new Paddle({
+  const paddleRight = new Paddle({
     x: width - padding - paddleWidth,
     y: height / 2 - paddleHeight / 2,
     w: paddleWidth,
@@ -69,8 +64,8 @@
     },
   });
 
-  let canvas: any, context: any;
-  let playing: boolean, animationId: any;
+  let canvas, context;
+  let playing, animationId;
 
   onMount(() => {
     context = canvas.getContext('2d');
@@ -101,10 +96,19 @@
     context.stroke();
 
     context.fillStyle = 'hsl(0, 0%, 100%)';
-    puckshow(context, puck);
+    puck.show(context);
+
     context.fillStyle = 'hsl(0, 0%, 100%)';
-    paddleshow(context, paddleLeft);
-    paddleshow(context, paddleRight);
+    paddleLeft.show(context);
+    paddleRight.show(context);
+  };
+
+  const handleStart = () => {
+    if (playing) return;
+
+    playing = true;
+    puck.start();
+    update();
   };
 
   const handleKeydown = (e) => {
@@ -118,19 +122,6 @@
 
     e.preventDefault();
   };
-
-  function puckshow(context, ball) {
-    const { x, y, r, startAngle, endAngle } = ball;
-    context.beginPath();
-    context.arc(x, y, r, startAngle, endAngle);
-    context.closePath();
-    context.fill();
-  }
-
-  function paddleshow(context, paddle) {
-    const { x, y, w, h } = paddle;
-    context.fillRect(x, y, w, h);
-  }
 
   const handleKeyup = (e) => {
     const { code } = e;
@@ -264,27 +255,18 @@
     handleStart();
   };
 
-  const handleStart = () => {
-    if (playing) return;
-    console.log(gameName);
-    socket.emit('ready', { name: gameName });
-    playing = true;
-  };
 
-  function initGame(game) {
-    puck = game.ball;
-    paddleLeft = game.leftPaddle;
-    paddleRight = game.rightPaddle;
-  }
-
-  async function gameRequest() {
+ async function gameRequest() {
     ingame = 'waiting';
     socket.emit('waiting');
   }
 
   function watchGame() {
-    socket.emit('watchGame', {});
+    socket.emit('watchGame', {
+
+    })
   }
+
 
   onMount(async () => {
     socket = io('http://localhost:3000/pong', {
@@ -292,39 +274,21 @@
     });
 
     socket.on('foundPeer', async (game) => {
-      console.log(game.game);
-      gameName = game.game.name;
-      otherPlayer = await fetch(
-        'http://localhost:3000/users/' + game.opponentId,
-        {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
-            Authorization: 'Bearer ' + $cookie,
-            'Content-type': 'application/json; charset=UTF-8',
-          },
-        },
-      ).then((response) => (otherPlayer = response.json()));
-      initGame(game.game);
+      alert('foundPeer');
+      otherPlayer =  await fetch('http://localhost:3000/users/' + game.opponentId, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        Authorization: 'Bearer ' + $cookie,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    }).then((response) => (otherPlayer = response.json()));
+      
       ingame = 'true';
       draw();
     });
-
-    socket.on('updateGame', (game) => {
-      console.log('updateGame');
-      puck = game.ball;
-      console.log(puck.x + ' y:' + puck.y);
-      paddleLeft = game.leftPaddle;
-      paddleRight = game.rightPaddle;
-      draw();
-      // scoreLeft = game.scoreLeft;
-      // scoreRight = game.scoreRight;
-      // if (scoreLeft >= 11 || scoreRight >= 11) {
-      //   socket.emit('endGame');
-      // }
-      // ingame == 'endgame';
-    });
   });
+
 </script>
 
 <svelte:body on:keydown={handleKeydown} on:keyup={handleKeyup} />
@@ -357,8 +321,6 @@
       class="cancel_button">Play</button
     >
   </div>
-{:else if ingame == 'endgame'}
-<div class='endgame'></div>
 {:else}
   <div class="game">
     <article>
@@ -387,13 +349,8 @@
     style="display: block; margin:0 auto; align-items:center;     
     display: flex;
     align-items: center;
-    margin-top:50px;
     margin-bottom: 50px;
-    text-align: center;
-    width: 700px;
-    height: 200px;
-    border-top: 5px dotted black;
-    border-bottom: 5px dotted black;"
+    text-align: center;;"
   >
     <div style="display:block;  margin:0 auto;">
       <img
@@ -403,9 +360,6 @@
       />
       <p style="color: black;">{$username}</p>
     </div>
-    {#if gameName}
-      <h3 style="text-align:center; color: black;">{gameName}</h3>
-    {/if}
     <div style="display:block;  margin:0 auto;">
       <img
         class="player1_picture"
@@ -419,17 +373,15 @@
   <h1 style="margin-top: -450px;color:black; text-align:center">
     Watch live games
   </h1>
-  {#if games.length == 0}
-    <h3 style="color:dimgrey; font-style:italic; text-align:center">
-      No live games to watch at the moment
-    </h3>
-  {:else}
-    {#each games as game}
-      <button on:click={watchGame} class="liveGame">
-        {game.name}<br /><br />🏓 🏓 🏓
-      </button>
-    {/each}
-  {/if}
+{#if games.length == 0}
+<h3 style='color:dimgrey; font-style:italic; text-align:center'>No live games to watch at the moment</h3>
+{:else}
+{#each games as game}
+  <button on:click={watchGame} class="liveGame">
+    {game.name}<br /><br />🏓 🏓 🏓
+  </button>
+{/each}  
+{/if}
 {/if}
 
 <style>
@@ -566,7 +518,9 @@
     background-image: linear-gradient(
       to right,
       #000000 0%,
+      /* #2764b3 51%, */
       rgb(106, 106, 106) 51%,
+      /* #6d1010 51% */
       #d3d3d3 100%
     );
     margin: 10px;
@@ -576,16 +530,16 @@
     transition: 0.5s;
     background-size: 200% auto;
     color: white;
+    /* box-shadow: 0 0 20px #eee; */
     border-radius: 10px;
     display: block;
     margin: 0 auto;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
-      sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: 500;
   }
 
   .liveGame:hover {
-    background-position: right center;
+    background-position: right center; 
     color: #fff;
     text-decoration: none;
   }

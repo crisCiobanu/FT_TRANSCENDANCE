@@ -45,7 +45,6 @@
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-      console.log({ $mail });
       ownmail.update((n) => 'true');
       TWOFA.update((n) => 'true');
       email.update((n) => mail);
@@ -67,9 +66,7 @@
         'Content-type': 'application/json; charset=UTF-8',
       },
     });
-    console.log({ $user });
     alert('Your username has beem changed to ' + user);
-    console.log({ user });
     newUserName = 'false';
   }
 
@@ -112,8 +109,6 @@
     var data = new FormData();
     data.append('file', image);
     data.append('id', $id.toString());
-    console.log(data.get('image'));
-    console.log(data.get('id'));
     newImage = await fetch('http://localhost:3000/users/updateimage/', {
       method: 'post',
       body: data,
@@ -121,8 +116,6 @@
         Authorization: 'Bearer ' + $cookie,
       },
     }).then((response) => (newImage = response.json()));
-
-    console.log(newImage.url);
     image_url.update((n) => newImage.url);
   }
 
@@ -138,7 +131,6 @@
               },
           }).then(response => myFriends = response.json());
           friendArray = myFriends.friends;
-          console.log(friendArray);
           for (let i = 0; i < friendArray.length; i++) {
             if (onlyNumbers(friendArray[i])) {
               newFriend = await fetch('http://localhost:3000/users/' + friendArray[i], {
@@ -149,11 +141,9 @@
                 'Content-type': 'application/json; charset=UTF-8',
               },
             }).then((response) => (newFriend = response.json()));
-            console.log(newFriend);
             friends = [...friends, newFriend];
             }
           }
-          console.log(friends);
 });
 
   function redirect(arg0: string) {
@@ -227,24 +217,6 @@
           alt="Default Profile"
         />
         <button
-          class="bt2"
-          style="cursor: pointer"
-          on:click={() => {
-            newUserName = 'true';
-            newMail = 'false';
-          }}>Change user name</button
-        >
-      </div>
-      <div>
-        <p
-          style="text-align:center; color:grey; font-weight:500; font-style: italic"
-        >
-          {$firstname}
-          {$lastname}<br />{$email}
-        </p>
-      </div>
-      <div style="margin: 0 auto; ">
-        <button
           class="bt1"
           style="cursor: pointer"
           on:click={() => {
@@ -258,6 +230,24 @@
           on:change={(e) => onFileSelected(e)}
           bind:this={fileinput}
         />
+      </div>
+      <div>
+        <p
+          style="text-align:center; color:grey; font-weight:500; font-style: italic"
+        >
+          {$firstname}
+          {$lastname}<br />{$email}
+        </p>
+      </div>
+      <div style="margin: 0 auto; ">
+        <button
+        class="bt2"
+        style="cursor: pointer"
+        on:click={() => {
+          newUserName = 'true';
+          newMail = 'false';
+        }}>Change user name</button
+      >
         {#if $TWOFA == 'false' && $ownmail == 'true'}
           <button
             on:click={TWOFAon}
@@ -282,16 +272,18 @@
         {/if}
       </div>
       <div class="tb1">
+        <div style="width: 400px;margin: 0 auto; display: block">
         <h1
-          style="width: 400px;background-color: darkgrey; color:white;text-decoration-line: underline;text-underline-offset: 20px;"
+          style="text-align: center; width: 400px;background-color: darkgrey; color:white;text-decoration-line: underline;text-underline-offset: 20px;"
         >
           SCORES
         </h1>
+      </div>
         <h1>
           <span class="sp1">wins</span> <span class="sp2"> {$wins}</span><span
-            class="sp1">&emsp;&emsp;&emsp;losses</span
+            class="sp1">&emsp;losses</span
           > <span class="sp2">{$losses}</span><span class="sp1"
-            >&emsp;&emsp;&emsp;level</span
+            >&emsp;level</span
           ><span class="sp2"> {$level}</span>
         </h1>
       </div>
@@ -307,13 +299,6 @@
         <div class='friends'>
         {#each friends as friend}
         <div class=oneFriend>
-          <!-- <img
-          class="otherProfile"
-          src={friend.imageURL}
-          alt="profile"
-        /> -->
-        <!-- <p style='color: black; font-size:16px;'>  
-        <b>{friend.userName}</b></p> -->
         <a class="profileLink" href="#/userprofile" on:click={() => {otherUser.update(n => friend.id)}}>  <img
           class="otherProfile"
           src={friend.imageURL}
@@ -347,10 +332,14 @@
     margin: 0 auto;
     margin-top: 30px;
     display: block;
-    align-items: center;
-    align-content: center;
+    width: 200px;
+    height: 200px;
+    background-size: contain;
+    background-position: center;
     border-radius: 50%;
-    border: solid 10px darkgrey;
+    border: solid 10px gainsboro;
+    display: block;
+    margin: 0 auto;
   }
 
   .oneFriend {
@@ -418,7 +407,6 @@
     min-width: 200px;
     text-align: center;
     border-radius: 5px;
-    /* display: block; */
     background-color: rgb(224, 62, 62);
     color: white;
     padding: 10px;
@@ -430,14 +418,12 @@
   .bt2 {
     margin: 0 auto;
     align-items: center;
-    width: 150px;
-    font-weight: 500;
-    text-decoration: underline solid 2px;
-    border-radius: 5px;
-    color: rgb(2, 84, 131);
-    align-items: center;
-    display: block;
+    min-width: 200px;
     text-align: center;
+    border-radius: 5px;
+    background-color: rgb(41, 138, 235);
+    color: white;
+    padding: 10px;
     transition: transform 0.1s;
   }
   .bt2:hover {

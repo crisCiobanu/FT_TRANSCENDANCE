@@ -3,26 +3,18 @@
 import { level, logged, losses, username, wins, image_url, firstname, lastname, intra, cookie, currentChat } from './stores.js';
 import Router from "svelte-spa-router";
 import Chat from "./routes/Chat.svelte";
-import Chatest from "./routes/Chatest.svelte";
 import Home from "./routes/Home.svelte";
 import NotFound from "./routes/NotFound.svelte";
 import Profile from "./routes/Profile.svelte";
-import User from "./routes/User.svelte";
-import Usermail from "./routes/Usermail.svelte";
-import NewRoom from './routes/NewRoom.svelte';
 import UserProfile from './routes/UserProfile.svelte';
 import Pong from './routes/Pong.svelte';
 
 
 let routes = {
-	// "/": Home,
 	"/": Home,
 	"/pong": Pong,
-	"/chat": Chatest,
+	"/chat": Chat,
 	"/profile": Profile,
-	"/user": User,
-	"/usermail": Usermail,
-	"/newroom": NewRoom,
 	"/userprofile": UserProfile,
 	"/*": NotFound,
 
@@ -33,7 +25,6 @@ let routes = {
 			logged.update(n => 'false');
 			intra.update(n => 'false');
 			currentChat.update(n => '');
-		//	cookie.update(n => "");
 		var cookies = document.cookie.split(";");
 
 		for (var i = 0; i < cookies.length; i++) {
