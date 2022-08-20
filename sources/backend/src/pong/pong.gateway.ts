@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { SubscribeMessage, WebSocketGateway, WebSocketServer, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit,  } from '@nestjs/websockets';
+import { SubscribeMessage, WebSocketGateway, WebSocketServer, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, WsException,  } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { GameService } from './game/game.service';
 import { AuthService} from '../auth/auth.service'
@@ -79,6 +79,20 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     }
   }
 
+  @SubscribeMessage('keyDown')
+  async updatePaddleKeyDown(client: Socket, payload: any){
+    const res = await this.gameService.updatePaddle(payload.name, payload.pos, payload.dy);
+    if (!res)
+      throw new WsException('UPDATE PADDLE FAILED');
+  }
+
+  @SubscribeMessage('keyUp')
+  async updatePaddleKeyUp(client: Socket, payload: any){
+    const res = await this.gameService.updatePaddle(payload.name, payload.pos, 0);
+    if (!res)
+      throw new WsException('UPDATE PADDLE FAILED');
+  }
+
   async sendToAll(game: IGame, event: string, message){
     this.server.to(game.leftPaddle.socket).emit(event, message);
     this.server.to(game.rightPaddle.socket).emit(event, message);
@@ -97,6 +111,8 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				const tempGame = await this.pongService.update(game);
         await this.gameService.saveGame(tempGame);
         this.sendToAll(game, 'updateGame', game);
+        // console.log("LOG FROM SEND UPDATE")
+        // console.log(game.leftPaddle.y + ' : ' + game.rightPaddle.y)
       }
 		}
 	}

@@ -51,6 +51,8 @@ currentChat.subscribe((val) => localStorage.setItem("currentChat", val));
 export const currentProfile = writable(localStorage.getItem("currentProfile") || "");
 currentProfile.subscribe((val) => localStorage.setItem("currentProfile", val));
 
+export const currentPage = writable(localStorage.getItem("currentPage") || '');
+currentPage.subscribe((val) => localStorage.setItem("currentPage", val));
 
 export const otherUser = writable(localStorage.getItem("otherUser") || '');
 otherUser.subscribe((val) => localStorage.setItem("otherUser", val));

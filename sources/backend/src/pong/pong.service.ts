@@ -3,6 +3,7 @@ import { Paddle, Puck } from './pong.utils';
 import { User } from '../users/user.entity';
 import { Socket } from 'socket.io';
 import { IGame, IPaddle, IBall, State } from './pong.interfaces'; 
+import { GameService } from './game/game.service';
 
 export const map = (value, minDomain, maxDomain, minRange, maxRange) =>
 minRange +
@@ -27,20 +28,31 @@ const paddleHeight = 70;
 @Injectable()
 export class PongService {
 
-	ball: IBall = { x: width / 2, y: height / 2, r: puckRadius, startAngle: 0, endAngle: Math.PI * 2, dx: 0, dy: 0, initialSpeed: 3, speed: 3 };
+	constructor(
+		@Inject(forwardRef(() => GameService))
+		private readonly gameService: GameService
+	  ){}
 
-	defaultPaddleLeft: IPaddle ={
-		x: padding,
-		y: height / 2 - paddleHeight / 2,
-		w: paddleWidth,
-		h: paddleHeight,
-		};
-	defaultPaddleRight: IPaddle = {
-		x: width - padding - paddleWidth,
-		y: height / 2 - paddleHeight / 2,
-		w: paddleWidth,
-		h: paddleHeight,
-	};
+	// ball: IBall = { x: width / 2, y: height / 2, r: puckRadius, startAngle: 0, endAngle: Math.PI * 2, dx: 0, dy: 0, initialSpeed: 3, speed: 3 };
+
+	// defaultPaddleLeft: IPaddle ={
+	// 	x: padding,
+	// 	y: height / 2 - paddleHeight / 2,
+	// 	w: paddleWidth,
+	// 	h: paddleHeight,
+	// 	dy: 0,
+	// 	speed: 3.5,
+	// 	score: 0
+	// 	};
+	// defaultPaddleRight: IPaddle = {
+	// 	x: width - padding - paddleWidth,
+	// 	y: height / 2 - paddleHeight / 2,
+	// 	w: paddleWidth,
+	// 	h: paddleHeight,
+	// 	dy: 0,
+	// 	speed: 3.5,
+	// 	score: 0
+	// };
 
 	// private async initPaddles(firstSocket: Socket, secondSocket: Socket): Promise<any>{
 	// 	let leftPaddle = this.defaultPaddleLeft;
@@ -49,27 +61,73 @@ export class PongService {
 	// }
 
 	async createGame(firstSocket: Socket, secondSocket: Socket): Promise<IGame>{
+		const ball: IBall = { x: width / 2, y: height / 2, r: puckRadius, startAngle: 0, endAngle: Math.PI * 2, dx: 0, dy: 0, initialSpeed: 3, speed: 3 };
+
+		const defaultPaddleLeft: IPaddle ={
+			x: padding,
+			y: height / 2 - paddleHeight / 2,
+			w: paddleWidth,
+			h: paddleHeight,
+			dy: 0,
+			speed: 3.5,
+			score: 0
+			};
+		const defaultPaddleRight: IPaddle = {
+			x: width - padding - paddleWidth,
+			y: height / 2 - paddleHeight / 2,
+			w: paddleWidth,
+			h: paddleHeight,
+			dy: 0,
+			speed: 3.5,
+			score: 0
+		};
 		if (!firstSocket.data.user || !secondSocket.data.user)
 			return null;
 
 		
 		const gameName = firstSocket.data.user.userName42 + ' - ' + secondSocket.data.user.userName42;
-		let leftPad = this.defaultPaddleLeft;
+		let leftPad = defaultPaddleLeft;
 		leftPad.userId = firstSocket.data.user.id;
 		leftPad.socket = firstSocket.id;
-		let rightPad = this.defaultPaddleRight;
+		let rightPad = defaultPaddleRight;
 		rightPad.userId = secondSocket.data.user.id;
 		rightPad.socket = secondSocket.id;
 
 		const createdGame: IGame = { name: gameName,
 							leftPaddle: leftPad,
 							rightPaddle: rightPad,
-							ball: this.ball,
+							ball: ball,
 							state: State.WAITING,
 							accepted: 0};
 		
 		return createdGame;
 	
+	}
+
+	async resetBall(ball: IBall){
+		ball.x = width / 2;
+		ball.y = height / 2;
+		ball.r = puckRadius;
+		ball.startAngle = 0;
+		ball.endAngle = Math.PI * 2;
+		ball.dx = 0;
+		ball.dy = 0;
+		ball.initialSpeed = 3;
+		ball.speed = 3;
+		return ball;
+	}
+
+	async resetPaddles(game: IGame){
+		game.leftPaddle.x = padding;
+		game.leftPaddle.y = height / 2 - paddleHeight / 2;
+
+		game.rightPaddle.x = width - padding - paddleWidth;
+		game.rightPaddle.y = height / 2 - paddleHeight / 2;
+		return game;
+	}
+
+	async updateLeftPaddle(dy: number){
+
 	}
 
 	async startBall(game: IGame): Promise<IGame> {
@@ -101,12 +159,12 @@ export class PongService {
 	}
 
 	async update(game: IGame){
-		// game.ball.update();
-		// game.leftPaddle.update();
-		// game.rightPaddle.update();
 		game.ball.x += game.ball.dx;
 		game.ball.y += game.ball.dy;
-	
+
+		game.leftPaddle.y += game.leftPaddle.dy * game.leftPaddle.speed;
+		game.rightPaddle.y += game.rightPaddle.dy * game.rightPaddle.speed;
+
 		// game.ball bounces against wall
 		if (game.ball.y - game.ball.r < 0) {
 		  game.ball.y = game.ball.r;
@@ -115,7 +173,7 @@ export class PongService {
 		  game.ball.y = height - game.ball.r;
 		  game.ball.dy *= -1;
 		}
-	
+	 
 		// game.ball bounces against game.paddles
 		if (this.isCollision(game.ball, game.leftPaddle)){
 		// if (game.ball.collides(game.leftPaddle)) {
@@ -175,8 +233,10 @@ export class PongService {
 		  } else {
 			game.leftPaddle.score += 1;
 		  }
-	
-		  this.gameReset(game);
+		  if (game.leftPaddle.score >= 3 || game.rightPaddle.score >= 3)
+		  	this.gameService.endGame(game);
+		  else
+		  	this.gameReset(game);
 		}
 	
 		// game.paddles exceed vertical constraints
@@ -200,16 +260,11 @@ export class PongService {
 	  };
 
 	  async gameReset(game: IGame){
+		game = await this.resetPaddles(game);
+		game.ball = await this.resetBall(game.ball);
+		game = await this.startBall(game);
+		await this.gameService.saveGame(game);
 	
-		// const paddleLeftGap = this.paddleLeft.y - this.paddleLeft.y0;
-		// const paddleRightGap = this.paddleRight.y - this.paddleRight.y0;
-
-	
-		// this.ball.reset();
-		// // draw();
-		// // tween.set(0, { duration: 0 });
-		// // playing = false;
-		// // handleStart();
 	  };
 
 

@@ -6,6 +6,7 @@ import { UploadImageDto } from './dto/image-upload.dto';
 import { Profile } from 'passport-42';
 import { ChannelService } from '../chat/channel/channel.service'
 import User from './user.entity';
+import { IMatch } from '../pong/game/match.interface';
 import {v4 as uuidv4} from 'uuid';
 
 @Injectable()
@@ -106,6 +107,17 @@ export class UsersService {
         return newUser;
     }
 
+    async addMatch(match: IMatch){
+        console.log("LOG FROM ADD MATCH")
+        console.log(match)
+        const winner = await this.userRepository.findOneBy({ userName42: match.winner});
+        const loser = await this.userRepository.findOneBy({ userName42: match.loser});
+
+        winner.matches.push(match);
+        await this.userRepository.save(winner);
+        loser.matches.push(match);
+        await this.userRepository.save(loser);
+    }
 
 
     async uploadFile(id : number, uploadImageDto: UploadImageDto) {

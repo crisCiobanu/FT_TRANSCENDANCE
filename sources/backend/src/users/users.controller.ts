@@ -194,10 +194,12 @@ export class UsersController {
     }
 
     @Get(':id')
-    findById(@Param('id') parameter : number) : Promise<User>{
+    async findById(@Param('id') parameter : number) : Promise<User>{
         console.log('HERE');
         console.log(parameter);
-        return this.userService.getById(parameter);
+        const user: User = await this.userService.getById(parameter);
+        console.log(user.matches);
+        return user;
     }
 
     @Delete(':id')

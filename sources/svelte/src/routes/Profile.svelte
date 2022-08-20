@@ -15,6 +15,7 @@
     email,
     ownmail,
     otherUser,
+    username42,
   } from '../stores.js';
 
   let mail;
@@ -27,6 +28,8 @@
   let myFriends: any;
   let friends = [];
   let newFriend;
+  let matches = [];
+  let mat = [];
 
   async function changeMailAddress() {
     if ($TWOFA == 'false') {
@@ -131,6 +134,8 @@
               },
           }).then(response => myFriends = response.json());
           friendArray = myFriends.friends;
+          matches = myFriends.matches;
+          console.log(myFriends);
           for (let i = 0; i < friendArray.length; i++) {
             if (onlyNumbers(friendArray[i])) {
               newFriend = await fetch('http://localhost:3000/users/' + friendArray[i], {
@@ -291,6 +296,9 @@
         <h1 style="background-color: darkgrey; color:white; text-align:center;">
           MATCH HISTORY
         </h1>
+        {#each matches as match}
+        <li style='margin-left:100px;'>{match.winner == $username42 ? 'Won to ' + match.loser + ' ' + match.score : 'Lost to ' + match.winner + ' ' + match.score }</li>
+        {/each}
       </div>
       <div style="width:400px; margin: 0 auto; display: block;">
         <h1 style="background-color: darkgrey; color:white; text-align:center;">

@@ -28,8 +28,11 @@
   let scoreRight: number;
   let scoreLeft: number;
   let endGame: string = 'false';
+  let myPaddle: string = '';
+  let won: string = '';
+  let lost: string = '';
+  let theme = 1;
 
-  const tween = tweened(0);
 
   const canvasWidth: number = 500;
   const canvasHeight: number = 320;
@@ -87,10 +90,23 @@
   const draw = () => {
     context.clearRect(0, 0, width, height);
 
-    context.strokeStyle = 'hsl(0, 0%,50%)';
+    if (theme == 1) {
+      context.strokeStyle = 'hsl(0, 0%,50%)';
+    } else if (theme == 2) {
+      context.strokeStyle = 'white';
+    }
+    else {
+      context.strokeStyle = 'white';
+    }
     context.lineWidth = border * 2;
     context.strokeRect(500, 500, width, height);
-    context.fillStyle = 'hsl(0, 0%, 0%)';
+    if (theme == 1) {
+      context.fillStyle = 'black';
+    } else if (theme == 2) {
+      context.fillStyle = 'slategrey';
+    } else {
+      context.fillStyle = 'darkred';
+    }
     context.fillRect(0, 0, width, height);
 
     context.lineWidth = border;
@@ -101,29 +117,24 @@
     context.stroke();
 
     context.fillStyle = 'hsl(0, 0%, 100%)';
+    context.fillStyle = 'white';
     puckshow(context, puck);
-    context.fillStyle = 'hsl(0, 0%, 100%)';
+    if (theme == 1) {
+    context.fillStyle = 'white';
+    } else if (theme == 2) {
+      context.fillStyle = 'white';
+    } else {
+      context.fillStyle = 'white';
+    }
     paddleshow(context, paddleLeft);
     paddleshow(context, paddleRight);
   };
 
-  const handleKeydown = (e) => {
-    const { code } = e;
-
-    if (paddleLeft.keys[code]) {
-      paddleLeft.dy = paddleLeft.keys[code];
-    } else if (paddleRight.keys[code]) {
-      paddleRight.dy = paddleRight.keys[code];
-    } else return;
-
-    e.preventDefault();
-  };
-
   function puckshow(context, ball) {
     const { x, y, r, startAngle, endAngle } = ball;
-    context.beginPath();
+    // context.beginPath();
     context.arc(x, y, r, startAngle, endAngle);
-    context.closePath();
+    // context.closePath();
     context.fill();
   }
 
@@ -132,136 +143,33 @@
     context.fillRect(x, y, w, h);
   }
 
+  const handleKeydown = (e) => {
+    if (!myPaddle) {
+      return;
+    }
+    // const { code } = e;
+    if (e.keyCode == 40) {
+      console.log('down');
+      socket.emit('keyDown', { name: gameName, pos: myPaddle, dy: 1 });
+    }
+    if (e.keyCode == 38) {
+      console.log('up');
+      socket.emit('keyDown', { name: gameName, pos: myPaddle, dy: -1 });
+    }
+  };
+
   const handleKeyup = (e) => {
-    const { code } = e;
-
-    if (paddleLeft.keys[code]) {
-      paddleLeft.dy = 0;
-    } else if (paddleRight.keys[code]) {
-      paddleRight.dy = 0;
-    } else return;
-
-    e.preventDefault();
-  };
-
-  const update = () => {
-    animationId = requestAnimationFrame(update);
-
-    draw();
-
-    puck.update();
-    paddleLeft.update();
-    paddleRight.update();
-
-    // puck bounces against wall
-    if (puck.y - puck.r < 0) {
-      puck.y = puck.r;
-      puck.dy *= -1;
-    } else if (puck.y + puck.r > height) {
-      puck.y = height - puck.r;
-      puck.dy *= -1;
+    if (!myPaddle) {
+      return;
     }
-
-    // puck bounces against paddles
-    if (puck.collides(paddleLeft)) {
-      puck.speed *= 1.025;
-
-      const y = (puck.y - paddleLeft.y) / paddleLeft.h;
-      if (y < 0) {
-        puck.dy = -1;
-        puck.y = paddleLeft.y - puck.r;
-      } else if (y > 1) {
-        puck.dy = 1;
-        puck.y = paddleLeft.y + paddleLeft.h + puck.r;
-      } else {
-        puck.x = paddleLeft.x + paddleLeft.w + puck.r;
-
-        const maxAngle = 90;
-        const angles = 4;
-        const angle = Math.round(map(y, 0, 1, 0, angles));
-        const theta = ((angle * (maxAngle / angles) - 45) / 180) * Math.PI;
-
-        const dx = Math.cos(theta) * puck.speed;
-        const dy = Math.sin(theta) * puck.speed;
-
-        puck.dx = dx;
-        puck.dy = dy;
-      }
-    } else if (puck.collides(paddleRight)) {
-      puck.speed *= 1.025;
-
-      const y = (puck.y - paddleRight.y) / paddleRight.h;
-      if (y < 0) {
-        puck.dy = -1;
-        puck.y = paddleRight.y - puck.r;
-      } else if (y > 1) {
-        puck.dy = 1;
-        puck.y = paddleRight.y + paddleRight.h + puck.r;
-      } else {
-        puck.x = paddleRight.x - puck.r;
-
-        const maxAngle = 90;
-        const angles = 4;
-        const angle = Math.round(map(y, 0, 1, 0, angles));
-        const theta = ((angle * (maxAngle / angles) - 45) / 180) * Math.PI;
-
-        const dx = Math.cos(theta) * puck.speed;
-        const dy = Math.sin(theta) * puck.speed;
-
-        puck.dx = dx * -1;
-        puck.dy = dy;
-      }
+    if (e.keyCode == 40) {
+      console.log('down');
+      socket.emit('keyUp', { name: gameName, pos: myPaddle, dy: 1 });
     }
-
-    // puck exceeds horizontal constraints
-    if (puck.x < -puck.r || puck.x > width + puck.r) {
-      if (puck.x < width / 2) {
-        paddleRight.score += 1;
-      } else {
-        paddleLeft.score += 1;
-      }
-
-      reset();
+    if (e.keyCode == 38) {
+      console.log('up');
+      socket.emit('keyUp', { name: gameName, pos: myPaddle, dy: -1 });
     }
-
-    // paddles exceed vertical constraints
-    if (paddleLeft.y < 0) {
-      paddleLeft.y = 0;
-      paddleLeft.dy = 0;
-    } else if (paddleLeft.y > height - paddleLeft.h) {
-      paddleLeft.y = height - paddleLeft.h;
-      paddleLeft.dy = 0;
-    }
-
-    if (paddleRight.y < 0) {
-      paddleRight.y = 0;
-      paddleRight.dy = 0;
-    } else if (paddleRight.y > height - paddleRight.h) {
-      paddleRight.y = height - paddleRight.h;
-      paddleRight.dy = 0;
-    }
-  };
-
-  const reset = async () => {
-    cancelAnimationFrame(animationId);
-
-    const paddleLeftGap = paddleLeft.y - paddleLeft.y0;
-    const paddleRightGap = paddleRight.y - paddleRight.y0;
-
-    await tween.set(1, {
-      interpolate: (to, from) => (t) => {
-        paddleLeft.y = paddleLeft.y0 + paddleLeftGap * (1 - t);
-        paddleRight.y = paddleRight.y0 + paddleRightGap * (1 - t);
-        draw();
-        return (from - to) * t;
-      },
-    });
-
-    puck.reset();
-    draw();
-    tween.set(0, { duration: 0 });
-    playing = false;
-    handleStart();
   };
 
   const handleStart = () => {
@@ -271,10 +179,17 @@
     playing = true;
   };
 
+  function changeTheme() {
+    theme == 3 ? theme = 1 : theme += 1;
+    draw();
+  }
+
   function initGame(game) {
     puck = game.ball;
     paddleLeft = game.leftPaddle;
     paddleRight = game.rightPaddle;
+    scoreLeft = game.leftPaddle.score;
+    scoreRight = game.rightPaddle.score;
   }
 
   async function gameRequest() {
@@ -286,14 +201,24 @@
     socket.emit('watchGame', {});
   }
 
+  function forfeit() {
+    socket.emit('forfeit', { game: gameName });
+    context.clearRect(0, 0, width, height);
+    ingame = 'false';
+    playing = false;
+    alert('😨 😨 😨 Your abandon will be counted as a loss');
+  }
+
   onMount(async () => {
     socket = io('http://localhost:3000/pong', {
       auth: { token: $cookie },
     });
 
     socket.on('foundPeer', async (game) => {
-      console.log(game.game);
       gameName = game.game.name;
+      myPaddle =
+        game.game.leftPaddle.user == $username42 ? 'leftpaddle' : 'rightpaddle';
+      console.log(myPaddle);
       otherPlayer = await fetch(
         'http://localhost:3000/users/' + game.opponentId,
         {
@@ -311,18 +236,34 @@
     });
 
     socket.on('updateGame', (game) => {
-      console.log('updateGame');
-      puck = game.ball;
-      console.log(puck.x + ' y:' + puck.y);
-      paddleLeft = game.leftPaddle;
-      paddleRight = game.rightPaddle;
-      draw();
-      // scoreLeft = game.scoreLeft;
-      // scoreRight = game.scoreRight;
-      // if (scoreLeft >= 11 || scoreRight >= 11) {
-      //   socket.emit('endGame');
-      // }
-      // ingame == 'endgame';
+      if (ingame == 'true') {
+        puck = game.ball;
+        paddleLeft = game.leftPaddle;
+        paddleRight = game.rightPaddle;
+        console.log('paddeLeft: ' + game.leftPaddle.y);
+        console.log('paddeRight: ' + game.rightPaddle.y);
+        draw();
+        scoreLeft = game.leftPaddle.score;
+        scoreRight = game.rightPaddle.score;
+        if (scoreLeft >= 3 || scoreRight >= 3) {
+          playing = false;
+          context.clearRect(0, 0, width, height);
+          ingame = 'endgame';
+          if (myPaddle == 'rightpaddle' && scoreRight >= 3) {
+            alert(
+              '🍾 🍾 🍾 Congratulations for you victory, your level is now higher!',
+            );
+          } else if (myPaddle == 'leftpaddle' && scoreLeft >= 3) {
+            alert(
+              '🍾 🍾 🍾 Congratulations for you victory, your level is now higher!',
+            );
+          } else {
+            alert("🦆 🦆 🦆 Too bad! You'll play better next time!");
+          }
+          scoreLeft = 0;
+          scoreRight = 0;
+        }
+      }
     });
   });
 </script>
@@ -337,6 +278,12 @@
       alt="play_logo"
     /><br /><br />
     <button on:click={gameRequest} class="play">▶︎</button>
+    <button
+      style="margin:0 auto; display:block;"
+      on:click={() => {
+        ingame = 'endgame';
+      }}>test</button
+    >
   </div>
 {:else if ingame == 'waiting'}
   <div class="homescreen">
@@ -358,7 +305,14 @@
     >
   </div>
 {:else if ingame == 'endgame'}
-<div class='endgame'></div>
+  <div class="endgame">
+    <h2 style="padding-top: 150px;">
+      Match is over<br />Thank you for participating
+    </h2>
+    <button on:click={() => (ingame = 'false')} class="play_again"
+      >Play again</button
+    >
+  </div>
 {:else}
   <div class="game">
     <article>
@@ -383,6 +337,16 @@
 {/if}
 <canvas bind:this={canvas} width={canvasWidth} height={canvasHeight} />
 {#if ingame == 'true'}
+  <div style="display: flex; margin: 0 auto; width: 400px;">
+    {#if theme == 1}
+    <button on:click={changeTheme} class='theme_button1'>Change theme</button>
+    {:else if theme == 2}
+    <button on:click={changeTheme} class='theme_button2'>Change theme</button>
+    {:else}
+    <button on:click={changeTheme} class='theme_button3'>Change theme</button>
+    {/if}
+    <button on:click={forfeit} class="forfeit_button">Forfeit the game</button>
+  </div>
   <div
     style="display: block; margin:0 auto; align-items:center;     
     display: flex;
@@ -392,28 +356,58 @@
     text-align: center;
     width: 700px;
     height: 200px;
-    border-top: 5px dotted black;
-    border-bottom: 5px dotted black;"
+    border-top: 2px dotted black;
+    border-bottom: 2px dotted black;"
   >
-    <div style="display:block;  margin:0 auto;">
-      <img
-        class="player1_picture"
-        src={$image_url}
-        alt="player1_profile_picture"
-      />
-      <p style="color: black;">{$username}</p>
-    </div>
-    {#if gameName}
-      <h3 style="text-align:center; color: black;">{gameName}</h3>
+    {#if myPaddle == 'leftpaddle'}
+      <div style="display:block;  margin:0 auto;">
+        <img
+          class="player1_picture"
+          src={$image_url}
+          alt="player1_profile_picture"
+        />
+        <!-- <p style="color: black;">{$username}</p> -->
+      </div>
+      {#if gameName}
+        <h3 style="text-align:center; color: black;">
+          {gameName.split(' ')[0] == $username42
+            ? gameName.split(' ')[0] + ' - ' + gameName.split(' ')[2]
+            : gameName.split(' ')[2] + ' - ' + gameName.split(' ')[0]}
+        </h3>
+      {/if}
+      <div style="display:block;  margin:0 auto;">
+        <img
+          class="player1_picture"
+          src={otherPlayer.imageURL}
+          alt="player1_profile_picture"
+        />
+        <!-- <p style="color: black;">{otherPlayer.userName}</p> -->
+      </div>
+    {:else if myPaddle == 'rightpaddle'}
+      <div style="display:block;  margin:0 auto;">
+        <img
+          class="player1_picture"
+          src={otherPlayer.imageURL}
+          alt="player1_profile_picture"
+        />
+        <!-- <p style="color: black;">{otherPlayer.userName}</p> -->
+      </div>
+      {#if gameName}
+        <h3 style="text-align:center; color: black;">
+          {gameName.split(' ')[0] == $username42
+            ? gameName.split(' ')[2] + ' - ' + gameName.split(' ')[0]
+            : gameName.split(' ')[0] + ' - ' + gameName.split(' ')[2]}
+        </h3>
+      {/if}
+      <div style="display:block;  margin:0 auto;">
+        <img
+          class="player1_picture"
+          src={$image_url}
+          alt="player1_profile_picture"
+        />
+        <!-- <p style="color: black;">{$username}</p> -->
+      </div>
     {/if}
-    <div style="display:block;  margin:0 auto;">
-      <img
-        class="player1_picture"
-        src={otherPlayer.imageURL}
-        alt="player1_profile_picture"
-      />
-      <p style="color: black;">{otherPlayer.userName}</p>
-    </div>
   </div>
 {:else}
   <h1 style="margin-top: -450px;color:black; text-align:center">
@@ -489,7 +483,7 @@
   button {
     font-weight: 700;
     font-family: sans-serif;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: 0.9rem;
     padding: 0.3rem 0.8rem;
     border-radius: 0.25rem;
@@ -499,11 +493,6 @@
     border: 0.2rem solid currentColor;
     accent-color: currentColor;
   }
-
-  /* button:active {
-    color: hsl(330, 79%, 56%);
-    background: currentColor;
-  } */
 
   .homescreen {
     margin: 0 auto;
@@ -588,5 +577,68 @@
     background-position: right center;
     color: #fff;
     text-decoration: none;
+  }
+
+  .endgame {
+    margin: 0 auto;
+    margin-top: 50px;
+    display: block;
+    height: 450px;
+    width: 800px;
+    text-align: center;
+    background-color: black;
+  }
+
+  .play_again {
+    background-color: transparent;
+    border: solid 1px white;
+    color: white;
+    display: block;
+    margin: 0 auto;
+    margin-top: 30px;
+    transition: transform 0.1s;
+    padding: 10px;
+  }
+
+  .forfeit_button {
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    background-color: darkred;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+
+  .theme_button1 {
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    background-color: slategrey;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  .theme_button2 {
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    background-color: darkred;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  .theme_button3 {
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
   }
 </style>

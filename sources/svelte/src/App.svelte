@@ -19,6 +19,8 @@ let routes = {
 	"/*": NotFound,
 
 	}
+
+	export let tab = 'home';
 	function logOut () {
 		if ($intra == 'true')
 		{
@@ -43,10 +45,30 @@ let routes = {
 	<img src="img/pong.svg" style="width: 300px;" alt="Pong icon">
 	<nav class="menu">
 		{#if $logged == 'true'}
-		<a class="item" href="#/">HOME</a>
-		<a class="item" href="#/pong">PONG</a>
-		<a class="item" href="#/profile">PROFILE</a>
-		<a class="item" href="#/chat">CHAT</a>
+
+		{#if tab == 'home'}
+		<a on:click={() => {tab = 'home'}} class="item_active" href="#/">HOME</a>
+		{:else}
+		<a on:click={() => {tab = 'home'}} class="item" href="#/">HOME</a>
+		{/if}
+
+		{#if tab == 'pong'}
+		<a on:click={() => {tab = 'pong'}} class="item_active" href="#/pong">PONG</a>
+		{:else}
+		<a on:click={() => {tab = 'pong'}} class="item" href="#/pong">PONG</a>
+		{/if}
+
+		{#if tab =='profile'}
+		<a on:click={() => {tab = 'profile'}} class="item_active" href="#/profile">PROFILE</a>
+		{:else}
+		<a on:click={() => {tab = 'profile'}} class="item" href="#/profile">PROFILE</a>
+		{/if}
+
+		{#if tab == 'chat'}
+		<a on:click={() => {tab = 'chat'}} class="item_active" href="#/chat">CHAT</a>
+		{:else}
+		<a on:click={() => {tab = 'chat'}} class="item" href="#/chat">CHAT</a>
+		{/if}
 		<a class="item" on:click={logOut} href="#/">LOGOUT</a>
 		{:else}
 		<a class="item" href="#/">HOME</a>
@@ -86,6 +108,18 @@ let routes = {
 		padding-right: 20px;
 		color: rgb(255, 255, 255);
 		 background-color: hsl(0, 0%, 44%);
+		}
+		.item_active {
+		font-size: 12px;
+		text-align: center;
+		font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+		display: inline-block;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		padding-left: 20px;
+		padding-right: 20px;
+		color: rgb(255, 255, 255);
+		 background-color: darkslategray;
 		}
 
 	@media (min-width: 640px) {

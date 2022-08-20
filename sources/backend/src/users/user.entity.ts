@@ -1,6 +1,7 @@
 import { Channel } from "src/chat/channel/channel.entity";
 import { Connection } from "src/chat/connection/connection.entity";
 import { Message } from "src/chat/message/message.entity";
+import { IMatch } from '../pong/game/match.interface';
 import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn, JoinTable } from "typeorm";
 
 @Entity()
@@ -119,6 +120,11 @@ export class User {
         default: []
     })
     friends: string[]
+
+    @Column('simple-array', {
+        default: []
+    })
+    matches: IMatch[]
 
 
 }
