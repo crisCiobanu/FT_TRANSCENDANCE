@@ -6,6 +6,7 @@
    let level: number;
    let losses: number;
    let username: string;
+   let username42: string;
    let wins: number;
    let image_url: string;
    let firstname :string;
@@ -17,6 +18,13 @@
    let myBlocked = [];
    let myFriends = [];
    let self: any;
+   let matches = [];
+   let myMatches;
+  
+   import io, { Manager } from 'socket.io-client';
+import App from '../App.svelte';
+
+   export let socket = null;
 
   async function blockUser() {
     let result = await fetch('http://localhost:3000/users/block', {
@@ -27,13 +35,8 @@
       },
       body: JSON.stringify({ id: userId }),
     }).then((response) => (result = response.json()));
-    // if (result == 'true') {
       alert(username + ' has been blocked 🚫 🚫 🚫');
       myBlocked = [...myBlocked, userId];
-    // }
-    // else {
-    //   alert(username + ' is already among your block list ❎ ❎ ❎')
-    // }
   }
 
   async function unBlockUser() {
@@ -74,6 +77,9 @@
   }
 
   onMount(async () => {
+    socket = io('http://localhost:3000/online', {
+      auth: { token: $cookie },
+    });
     user = await fetch('http://localhost:3000/users/' + $otherUser, {
       method: 'GET',
       credentials: 'include',
@@ -88,10 +94,11 @@
     lastname = user.lastName;
     wins = user.wins;
     losses = user.losses;
-    level = user.level;
+    level = user.level.toFixed(1);
     image_url = user.imageURL;
-    status = user.status;
+    status = user.state;
     blocked = user.blocked;
+    username42 = user.userName42;
     self = await fetch('http://localhost:3000/users/' + $id, {
       method: 'GET',
       credentials: 'include',
@@ -102,6 +109,17 @@
     }).then((response) => (self = response.json()));
     myBlocked = self.blocked;
     myFriends = self.friends;
+    myMatches = await fetch('http://localhost:3000/matches/getForUser', {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({ id: userId }),
+      headers: {
+        Authorization: 'Bearer ' + $cookie,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    }).then((response) => (myMatches = response.json()));
+    console.log(myMatches);
+    matches = myMatches;
   });
 </script>
 
@@ -129,30 +147,34 @@
           {lastname}<br />
         </p>
         {#if myFriends.indexOf(userId) != -1}
-         <p style='text-align: center'>✔️ <i>Friends</i></p>
+         <p style='text-align: center; margin-bottom: -10px; color: royalblue'>✔︎ <i>Friends</i></p>
         {/if}
       </div>
+      {#if myFriends.indexOf(userId) != -1}
       <div>
-        <h1>
-          {#if status == 'online'}
-            <span class="sp1">Status</span><span class="sp2">🟢 {status}</span>
-          {:else if status == 'offline'}
-            <span class="sp1">Status</span><span class="sp2">🔴 {status}</span>
-          {:else if status == 'ingame'}
-            <span class="sp1">Status</span><span class="sp2">🔵 {status}</span>
+        <h1 style='text-align:center;'>
+          {#if status == 1}
+           <span class="sp2">🟢 online</span>
+          {:else if status == 0}
+           <span class="sp2">🔴 offline</span>
+          {:else if status == 3}
+           <span class="sp2">🔵 gaming</span>
+          {:else if status == 2}
+           <span class="sp2">🟠 chatting</span>
           {/if}
         </h1>
       </div>
+      {/if}
       <div class="buttons">
         {#if myFriends.indexOf(userId) != -1}
-        <button on:click={unFriend} style='color: white; background-color: navy;' class="friend">👎 Unfriend</button>
+        <button on:click={unFriend} style='width: 200px; color: white; background-color: slategrey;' class="friend">Unfriend</button>
         {:else}
-        <button on:click={friendRequest} style='color: white; background-color: dodgerblue;' class="friend">🍻 Add as friend</button>
+        <button on:click={friendRequest} style='width: 200px;color: white; background-color: dodgerblue;' class="friend">Add as friend</button>
         {/if}
         {#if myBlocked.indexOf(userId) != -1}
-        <button on:click={unBlockUser} class="block2">Unblock user ♻️</button>
+        <button on:click={unBlockUser} class="block2">Unblock user</button>
         {:else}
-        <button on:click={blockUser} class="block">Block user 🚫</button>
+        <button on:click={blockUser} class="block">Block user</button>
         {/if}
       </div>
 
@@ -176,6 +198,32 @@
         <h1 style="background-color: darkgrey; color:white; text-align:center;">
           MATCH HISTORY
         </h1>
+        <!-- <div style='display:block; margin: 0 auto; text-align: center'> -->
+          <div class='row' id ='history' style='max-height: 150px; overflow-y: scroll; margin: 0 auto; display:block;  align-content: center; text-align: center'>
+          {#each [...matches].reverse() as match}
+          {#if match.winner.userName42 == username42}
+          <div class='column' style='float: left; width: 30%; display: block; margin:0 auto;'>
+          <p style='color: green; font-weight: 700'>Won to</p>
+          </div>
+          <div class='column' style='float: left; width: 30%;'>
+            <p>{match.loser.userName42}</p>
+            </div>
+            <div class='column' style='float: left; width: 30%;'>
+              <p>{match.score}</p>
+              </div>
+          {:else}
+          <div class='column' style='float: left; width: 30%;'>
+            <p style='color: red; font-weight: 700'>Lost to</p>
+            </div>
+            <div class='column' style='float: left; width: 30%;'>
+              <p>{match.winner.userName42}</p>
+              </div>
+              <div class='column' style='float: left; width: 30%;'>
+                <p>{match.score}</p>
+                </div>
+                {/if}
+          {/each}
+        </div>
       </div>
       {/if}
     {/if}
@@ -206,6 +254,7 @@
     border: solid 10px gainsboro;
     display: block;
     margin: 0 auto;
+    color:royalblue;
   }
   .name {
     text-align: center;
@@ -245,10 +294,11 @@
 
   .block {
     flex-direction: column;
-    background-color: darkred;
+    background-color: rgb(224, 62, 62);
     color: white;
     padding: 10px;
     display: flex;
+    width: 200px;
   }
 
   .block2 {
@@ -257,5 +307,6 @@
     color: darkslategray;
     padding: 10px;
     display: flex;
+    width: 200px;
   }
 </style>

@@ -53,16 +53,6 @@ export class AuthService implements AuthenticationProvider{
         return user;
       }
 
-    // private async validateUser(userDto: CreateUserDto){
-    //     const user = await this.userService.getByEmail(userDto.email);
-    //     const passEqual = await bcrypt.compare(userDto.password, user.password);
-    //     if (user && passEqual)
-    //         return user;
-    //     throw new UnauthorizedException('Login or password are wrong');
-
-    // }
-
-
 async validateUser(user: CreateUserDto){
         const tmpUser = await this.userService.getByLogin42(user.userName42);
         if (tmpUser) 
@@ -73,41 +63,13 @@ async validateUser(user: CreateUserDto){
 
 async activateUser(userName42: string, code: string){
     const tmpUser = await this.userService.getByLogin42(userName42);
+    // console.log("LOG FROM ACTIVATE USER")
+    // console.log(userName42 + ' - ' + tmpUser.activationLink + ' - ' + code);
     if (tmpUser.activationLink == code) {
         return true;
     }
     else
         return false;
 }
-    createUser(details: CreateUserDto){
 
-    }
-
-    // async getUserFromSocket(socket: Socket): Promise<User>{
-    //     const user = socket.handshake.headers
-    // }
-    findUser(userName42: string): Promise<User | undefined>{
-        return this.userService.getByLogin42(userName42)
-    }
-
-//     async validateUser(profile : Profile){
-//         const tmpUser = await this.userService.getByEmail(profile.email);
-
-//         if (tmpUser){   
-//             return tmpUser;
-//         }
-//         else
-//         {
-//           const activLink = uuidv4();
-//           const newUser: CreateUserDto = { email: profile.email, 
-//                                           userName: profile.login,
-//                                           firstName: profile.first_name,
-//                                           lastName: profile.last_name,
-//                                           password: '',
-//                                           imageURL: profile.image_url,
-//                                           activationLink: activLink
-//                                         };
-//           return this.userService.create(newUser);
-//     }
-// }
 }

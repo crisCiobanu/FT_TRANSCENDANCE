@@ -1,8 +1,15 @@
 import { Channel } from "src/chat/channel/channel.entity";
 import { Connection } from "src/chat/connection/connection.entity";
 import { Message } from "src/chat/message/message.entity";
-import { IMatch } from '../pong/game/match.interface';
 import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn, JoinTable } from "typeorm";
+
+
+export enum UserState{
+	OFFLINE,
+	ONLINE,
+	CHATTING,
+	GAMING
+}
 
 @Entity()
 export class User {
@@ -55,7 +62,8 @@ export class User {
     public losses: number;
 
     @Column({
-        default: 1
+        type: "float",
+        default: 1.0
     })
     public level: number;
 
@@ -121,10 +129,17 @@ export class User {
     })
     friends: string[]
 
-    @Column('simple-array', {
-        default: []
+    @Column({
+        type: "enum",
+        enum: UserState,
+        default: UserState.OFFLINE,
     })
-    matches: IMatch[]
+    state: UserState
+
+    // @Column('simple-array', {
+    //     default: []
+    // })
+    // matches: IMatch[]
 
 
 }

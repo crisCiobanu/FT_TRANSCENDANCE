@@ -5,8 +5,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UploadImageDto } from './dto/image-upload.dto';
 import { Profile } from 'passport-42';
 import { ChannelService } from '../chat/channel/channel.service'
-import User from './user.entity';
-import { IMatch } from '../pong/game/match.interface';
+import { IMatch } from '../pong/match/match.interface';
+import {User, UserState} from './user.entity';
 import {v4 as uuidv4} from 'uuid';
 
 @Injectable()
@@ -49,8 +49,8 @@ export class UsersService {
         return newUser;
     }
 
-    async changeUserEmail(id: number, email: string): Promise<User>{
-        const newUser = await this.userRepository.findOneBy({ id });
+    async changeUserEmail(userName42: string, email: string): Promise<User>{
+        const newUser = await this.userRepository.findOneBy({ userName42 });
         newUser.email = email;
         newUser.ownMail = true;
         await this.userRepository.save(newUser);
@@ -100,57 +100,44 @@ export class UsersService {
         return newUser;
     }
 
-    async changeTWOFA(email: string): Promise<User>{
-        const newUser = await this.userRepository.findOneBy({ email });
-        newUser.TWOFA = !(newUser.TWOFA);
+    async changeTWOFA(userName42: string): Promise<User>{
+
+
+        const newUser = await this.userRepository.findOneBy({ userName42 });
+        console.log(`LOG FROM TWOFA : ${userName42} - ${newUser.TWOFA}`)
+
+        //newUser.TWOFA = !(newUser.TWOFA);
+        newUser.TWOFA = newUser.TWOFA == true ? false : true;
+
         await this.userRepository.save(newUser);
         return newUser;
     }
 
-    async addMatch(match: IMatch){
-        console.log("LOG FROM ADD MATCH")
-        console.log(match)
-        const winner = await this.userRepository.findOneBy({ userName42: match.winner});
-        const loser = await this.userRepository.findOneBy({ userName42: match.loser});
-
-        winner.matches.push(match);
-        await this.userRepository.save(winner);
-        loser.matches.push(match);
-        await this.userRepository.save(loser);
+    async updateScore(match : IMatch){
+        ++match.loser.losses;
+        ++match.winner.wins;
+        console.log("LOG FROM UODATE SCORE");
+        console.log(`LOSSES : ${match.loser.losses} and WINS: ${match.winner.wins}`)
+        await this.userRepository.save(match.loser);
+        await this.userRepository.save(match.winner);
+        await this.updateUserLevel(match);
     }
 
+    async updateUserLevel(match: IMatch){
+        const newLevel = match.winner.level + 0.42 / (Math.floor(match.winner.level));
+        match.winner.level = newLevel;
+        console.log("LOG FROM UODATE USER LEVEL");
+        console.log(`${match.winner.userName42} LEVEL : ${match.winner.level}`)
+        await this.userRepository.save(match.winner);
+    }
+
+    async changeUserStatus(user: User, state: UserState){
+        user.state = state;
+        await this.userRepository.save(user);
+    }
 
     async uploadFile(id : number, uploadImageDto: UploadImageDto) {
 
     }
-
-//     async validateUser(profile : Profile){
-//         const tmpUser = await this.getByEmail(profile.email);
-
-//         if (tmpUser){   
-//             return tmpUser;
-//         }
-//         else
-//         {
-//           const activLink = uuidv4();
-//           const newUser: CreateUserDto = { email: profile.email, 
-//                                           userName: profile.login,
-//                                           firstName: profile.first_name,
-//                                           lastName: profile.last_name,
-//                                           password: '',
-//                                           imageURL: profile.image_url,
-//                                           activationLink: activLink
-//                                         };
-//           return this.create(newUser);
-
-//     }
-// }
-    // async findUserinDb(email : string) : Promise<User>{
-    //     const tmpUser = this.getByEmail(email);
-    //     if (tmpUser)
-    //         return tmpUser;
-        
-
- //   }
 
 }

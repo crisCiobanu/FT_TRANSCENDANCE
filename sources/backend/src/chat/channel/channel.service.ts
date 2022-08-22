@@ -122,6 +122,25 @@ export class ChannelService {
         await this.channelRepository.delete({id: tempChannel.id });
     }
 
+    async removePassword(channelName: string, ){
+        let tempChannel = await this.getChannelByName(channelName);
+        if (!tempChannel)
+            return null;
+        tempChannel.isPublic = true;
+        tempChannel.password = null;
+
+        return this.channelRepository.save(tempChannel);
+    }
+
+    async changePassword(channelName: string, password: string){
+        let tempChannel = await this.getChannelByName(channelName);
+        if (!tempChannel)
+            return null;
+        tempChannel.password =  await bcrypt.hash(password, 5);
+
+        return this.channelRepository.save(tempChannel);
+    }
+
 
     async addOwnerToChannel(channel: IChannel, owner: User): Promise<IChannel>{
         console.log(owner);
@@ -148,14 +167,6 @@ export class ChannelService {
     }
 
 
-
-    
-
-    // async getAllChannels(): Promise<Channel[]>{
-    //     return this.channelRepository.findBy({isDirectMessage : false})
-    // }
-
-
     async getAllChannels(userId: number): Promise<Channel[]>{
         return this.channelRepository.createQueryBuilder('channel')
         .leftJoinAndSelect('channel.users', 'users', 'users.id = :userId', { userId })
@@ -178,17 +189,7 @@ export class ChannelService {
             }
         })
         return channels;
-        // return this.channelRepository.createQueryBuilder('channel')
-        // .leftJoinAndSelect('channel.users', 'users')
-        // .where('channel.isDirectMessage = false')
-        // .getMany();
     }
-
-    // async getDirectMessageChannels(id: number): Promise<Channel[]>{
-    //     return this.channelRepository.findBy({id, isDirectMessage: true})
-    // }
-
-    
 
     async getDirectMessageChannels(userId: number): Promise<Channel[]>{
         return this.channelRepository.createQueryBuilder('channel')
@@ -197,28 +198,6 @@ export class ChannelService {
         .andWhere('channel.isDirectMessage = true')
         .getMany();
     }
-
-    // async getAllDirectMessages(iNuser: User): Promise<Channel[]>{
-    //     const channels = await this.channelRepository.find({
-    //         relations: {
-    //             users: true,
-    //             messages: {
-    //                 user: true,
-    //                 channel: true
-    //             },
-    //             bansAndMutes: true
-    //         },
-    //         where: {
-    //             isDirectMessage: true,
-    //             users: {
-    //                 id: iNuser.id
-    //             }
-    //         }
-    //     })
-    //     console.log("LOG FROM GET ALL DIR MESSAGES");
-    //     console.log(channels);
-    //     return channels;
-    // }
 
     async getAllDirectMessages(iNuser: User): Promise<Channel[]>{
         let channels = await this.channelRepository.find({
@@ -235,8 +214,6 @@ export class ChannelService {
             }
         })
         channels = channels.filter(channel => channel.users.find(user => user.id == iNuser.id) != undefined)
-        console.log("LOG FROM GET ALL DIR MESSAGES");
-        console.log(channels);
         return channels;
     }
 
@@ -282,21 +259,6 @@ export class ChannelService {
     }
 
     async kickUser(channel: Channel, bannedUser: User, minutes: number){
-        // const expire_epoch = new Date().getTime() + minutes * 60000;
-        // const expire_at = new Date(expire_epoch);
-        // const punish = await this.punishedUserService.getBanByUserId(bannedUser.id, channel.name);
-        // if (punish){
-        //     if (punish.expires.getTime() <= expire_epoch){
-        //         punish.expires = expire_at;
-        //         return this.punishedUserService.update(punish);
-        //     }
-        //     else
-        //         return null;
-        // }   else{ 
-        // const newPunish = await this.punishedUserService.create({expires: expire_at,
-        //                                                     banned: true,
-        //                                                     userId: bannedUser.id,
-        //                                                     channel: channel});
         channel.users = channel.users.filter(user => user.id != bannedUser.id);
         return this.channelRepository.save(channel);
         }

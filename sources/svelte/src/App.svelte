@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import { level, logged, losses, username, wins, image_url, firstname, lastname, intra, cookie, currentChat } from './stores.js';
+import { logged, intra, currentChat, currentPage, cookie } from './stores.js';
 import Router from "svelte-spa-router";
 import Chat from "./routes/Chat.svelte";
 import Home from "./routes/Home.svelte";
@@ -8,7 +8,12 @@ import NotFound from "./routes/NotFound.svelte";
 import Profile from "./routes/Profile.svelte";
 import UserProfile from './routes/UserProfile.svelte';
 import Pong from './routes/Pong.svelte';
+import { writable } from 'svelte/store';
+import { onMount } from 'svelte';
+import { Socket } from 'socket.io-client';
+import io from 'socket.io-client';
 
+let socket = null;
 
 let routes = {
 	"/": Home,
@@ -20,13 +25,13 @@ let routes = {
 
 	}
 
-	export let tab = 'home';
 	function logOut () {
 		if ($intra == 'true')
 		{
 			logged.update(n => 'false');
 			intra.update(n => 'false');
 			currentChat.update(n => '');
+			currentPage.update(m => '');
 		var cookies = document.cookie.split(";");
 
 		for (var i = 0; i < cookies.length; i++) {
@@ -35,9 +40,13 @@ let routes = {
 			var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
 			document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
 			}
+		socket.emit('logout');
+		alert('✅ You successfully logged out');
 		}
-			alert('✅ You successfully logged out');
 		};
+
+onMount(() => {
+})
 
 </script>
 
@@ -46,29 +55,30 @@ let routes = {
 	<nav class="menu">
 		{#if $logged == 'true'}
 
-		{#if tab == 'home'}
-		<a on:click={() => {tab = 'home'}} class="item_active" href="#/">HOME</a>
+		{#if $currentPage == 'home'}
+		<a on:click={() => {currentPage.update(n => 'home')}} class="item_active" href="#/">HOME</a>
 		{:else}
-		<a on:click={() => {tab = 'home'}} class="item" href="#/">HOME</a>
+		<a on:click={() => {currentPage.update(n => 'home')}} class="item" href="#/">HOME</a>
 		{/if}
 
-		{#if tab == 'pong'}
-		<a on:click={() => {tab = 'pong'}} class="item_active" href="#/pong">PONG</a>
+		{#if $currentPage =='profile'}
+		<a on:click={() => {currentPage.update(n => 'profile')}} class="item_active" href="#/profile">PROFILE</a>
 		{:else}
-		<a on:click={() => {tab = 'pong'}} class="item" href="#/pong">PONG</a>
+		<a on:click={() => {currentPage.update(n => 'profile')}} class="item" href="#/profile">PROFILE</a>
 		{/if}
 
-		{#if tab =='profile'}
-		<a on:click={() => {tab = 'profile'}} class="item_active" href="#/profile">PROFILE</a>
+		{#if $currentPage == 'chat'}
+		<a on:click={() => {currentPage.update(n => 'chat')}} class="item_active" href="#/chat">CHAT</a>
 		{:else}
-		<a on:click={() => {tab = 'profile'}} class="item" href="#/profile">PROFILE</a>
+		<a on:click={() => {currentPage.update(n => 'chat')}} class="item" href="#/chat">CHAT</a>
 		{/if}
 
-		{#if tab == 'chat'}
-		<a on:click={() => {tab = 'chat'}} class="item_active" href="#/chat">CHAT</a>
+		{#if $currentPage == 'pong'}
+		<a on:click={() => {currentPage.update(n => 'pong')}} class="item_active" href="#/pong">PONG</a>
 		{:else}
-		<a on:click={() => {tab = 'chat'}} class="item" href="#/chat">CHAT</a>
+		<a on:click={() => {currentPage.update(n => 'pong')}} class="item" href="#/pong">PONG</a>
 		{/if}
+
 		<a class="item" on:click={logOut} href="#/">LOGOUT</a>
 		{:else}
 		<a class="item" href="#/">HOME</a>

@@ -1,3 +1,12 @@
+<script>
+
+import { currentPage } from "../stores";
+    import { onMount } from 'svelte';
+    onMount(() => {
+        currentPage.update(n => '');
+    })
+</script>
+
 <section>
     <div>
         <h1>Page Not Found</h1>
@@ -13,6 +22,7 @@
         margin-top: 100px;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         text-align: center;
+        color: black;
     }
     h1 {
         font-size: 3rem;

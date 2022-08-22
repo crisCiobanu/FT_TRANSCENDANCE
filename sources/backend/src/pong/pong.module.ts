@@ -7,12 +7,13 @@ import { UsersModule } from 'src/users/users.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FinishedgameService } from './finishedgame/finishedgame.service';
-import { FinishedgameController } from './finishedgame/finishedgame.controller';
+import { MatchService } from './match/match.service';
+import { MatchController } from './match/match.controller';
+import { Match } from './match/match.entity';
 
 @Module({
-  imports: [UsersModule, AuthModule, ScheduleModule.forRoot(), TypeOrmModule.forFeature([])],
-  providers: [PongGateway, PongService, GameService, FinishedgameService],
-  controllers: [PongController, FinishedgameController]
+  imports: [UsersModule, AuthModule, ScheduleModule.forRoot(), TypeOrmModule.forFeature([Match])],
+  providers: [PongGateway, PongService, GameService, MatchService],
+  controllers: [PongController, MatchController]
 })
 export class PongModule {}

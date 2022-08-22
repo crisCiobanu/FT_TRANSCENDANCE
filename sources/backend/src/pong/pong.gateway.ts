@@ -7,6 +7,7 @@ import { UsersService } from '../users/users.service';
 import { IGame, State } from './pong.interfaces';
 import { PongService } from './pong.service';
 import { Interval } from '@nestjs/schedule';
+import { UserState } from 'src/users/user.entity';
 
 
 @WebSocketGateway({
@@ -31,6 +32,19 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   async handleDisconnect(client: Socket) {
 
     this.logger.log(`Client disconnected : ${client.id}`);
+    if (client.data.user){
+      await this.userService.changeUserStatus(client.data.user, UserState.OFFLINE);
+      const game = await this.gameService.getUserGame(client.data.user.id);
+      if (game){
+        const winner = await this.gameService.forfeitGame(game.name, client.data.user);
+        if (!winner){
+
+        }
+        await this.server.to(winner).emit('winByDisconnect');
+      }
+    }
+
+    await this.userService.changeUserStatus(client.data.user, UserState.OFFLINE)
 
   }
 
@@ -48,7 +62,7 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       this.logger.log(`User ${user.userName42} is connected`);
 
       client.data.user = user;
-
+      await this.userService.changeUserStatus(user, UserState.GAMING)
 
     } catch (error) {
       
@@ -69,6 +83,17 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   handleMessage(client: Socket, payload: any): string {
     return 'Hello world!';
   }
+
+  @SubscribeMessage('forfeit')
+  async forfeitGame(client: Socket, payload: any){
+    const winner = await this.gameService.forfeitGame(payload.game, client.data.user);
+    if (!winner){
+        
+    }
+    this.server.to(winner).emit('winByForfeit');
+ 
+  }
+
 
   @SubscribeMessage('waiting')
   async onWainting(client: Socket, payload: any){

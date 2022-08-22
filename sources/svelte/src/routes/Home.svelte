@@ -2,7 +2,11 @@
 import { onMount } from 'svelte';
 import axios from 'axios';
 // import * as cookie from "cookie";
-import { username42, level, logged, losses, username, wins, image_url, firstname, lastname, id, intra, TWOFA, cookie, email, ownmail } from '../stores.js';
+import { username42, currentPage, level, logged, losses, username, wins, image_url, firstname, lastname, id, intra, TWOFA, cookie, email, ownmail } from '../stores.js';
+import io, { Manager } from 'socket.io-client';
+
+export let socket = null;
+
 let blocked = [];
 let isAuth;
 let code;
@@ -18,17 +22,19 @@ async function sendCode() {
          "Content-type": "application/json; charset=UTF-8"
         },
     }).then(response => {
+      console.log(response);
       if (response.status === 200) {
         logged.update(n => 'true');
-        return;
       }
       else {
+        code = '';
         error = true;
       }
     } )
 }
 
 function updateAll (isAuth: any) {
+        console.log(isAuth);
       id.update(n => isAuth.id);
       username.update(n => isAuth.userName);
       username42.update(n => isAuth.userName42)
@@ -46,6 +52,7 @@ function updateAll (isAuth: any) {
 }
 
 onMount(async () => {
+  currentPage.update(n=> 'home')
   let cookies = document.cookie.split(';').find(n => n.startsWith('access_token'));
   if (cookies == "") {
     return;
@@ -68,9 +75,16 @@ onMount(async () => {
             if ($TWOFA == 'false')
             {
               logged.update(n => 'true');
+              socket = io('http://localhost:3000/online', {
+              auth: { token: $cookie },
+    });
             }
     }
-    return;
+    if ($logged == 'true') {
+      socket = io('http://localhost:3000/online', {
+      auth: { token: $cookie },
+    });
+    }
   }
   )
 
@@ -93,12 +107,12 @@ onMount(async () => {
     </div>
     {:else if $intra == 'true'}
     <div style="margin: 0 auto;display: block;">
-    <h2 style="text-align: center">Check the authentication code we sent at your 42 mail address</h2>
-    <input style="width: 150px; display: block; margin: 0 auto; margin-bottom: 20px;text-align: center;" placeholder="2FA code" bind:value={code} />
+    <h2 style="text-align: center">Check your mails for the authentication code !</h2>
+    <input style="width: 150px; display: block; margin: 0 auto; margin-bottom: 20px;text-align: center;" type="password" placeholder="2FA code" bind:value={code} />
     {#if error == true}
     <p style="color: red; text-align:center">Wrong code number</p>
     {/if}
-    <a href="#/profile" on:click={sendCode} type="submit" value="Submit" style="display: block;margin: 0 auto;">Send</a>
+    <button on:click={sendCode} type="submit" value="Submit" style="display: block;margin: 0 auto;">Send</button>
     </div>
     {:else}
     <a href="http://localhost:3000/auth/42" class="api" style="color: rgb(255, 255, 255);

@@ -17,6 +17,7 @@ import { ConnectionService } from './connection/connection.service';
 import { IConnection } from './connection/connection.interface';
 import { Channel } from './channel/channel.entity';
 import { UsersService } from 'src/users/users.service';
+import { UserState } from 'src/users/user.entity';
 
 @WebSocketGateway({
   cors: {
@@ -44,6 +45,8 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     await this.connectionService.deleteBySocketId(client.id);
 
     this.logger.log(`Client disconnected : ${client.id}`);
+    if (client.data.user)
+      await this.userService.changeUserStatus(client.data.user, UserState.OFFLINE);
   }
 
   async afterInit(server: Server) {
@@ -63,6 +66,7 @@ async handleConnection(client: Socket, ...args: any[]) {
         client.data.user = user;
 
         this.connectionService.create({'socket': client.id, 'user': client.data.user});
+        await this.userService.changeUserStatus(user, UserState.CHATTING);
 
         this.sendInit(client, 'init');
 
@@ -110,58 +114,11 @@ async handleConnection(client: Socket, ...args: any[]) {
     this.server.emit('updateChannels', channels);
   }
   
-  // private async sendAlert(client: Socket, msg: string){
-  //     this.server.to(client.id).emit('jo', msg);
-  // }
-
-  // private async sendCreatedRoom(client: Socket, channel: IChannel){
-  //   if (channel.isDirectMessage === true){
-  //     for ( const user of channel.users){
-  //       const connections: IConnection[] = await this.connectionService.findByUserId(user.id);
-  //       for (const connection of connections){
-  //         this.server.to(connection.socket).emit('addDirectMessageRoom', channel);
-  //       }
-  //     }  
-  //   } else {
-  //       const connections: IConnection[] = await this.connectionService.getAll();
-  //       for (const connection of connections){
-  //         if (client.data.user.id === connection.user.id){
-
-  //           console.log("IN ADD TO MY ROOMS")
-  //           this.server.to(connection.socket).emit('addToMyRooms', channel);
-  //         }
-  //         else{
-  //           console.log("IN ADD TO ALL ROOMS");
-  //           this.server.to(connection.socket).emit('addToAllRooms', channel);
-
-  //         }
-  //       }
-     
-  //   }
-  // }
-
-
-
-
   @SubscribeMessage('msgToServer')
   handleMessage(client: Socket, payload: string): void {
 
     this.server.emit('msgToClient', payload);
   }
-
-  // @SubscribeMessage('createRoom')
-  // async createChannel(client: Socket, payload: IChannel) {
-  //   const newChannel = await this.channnelService.createChannel(payload, client.data.user);
-
-  //   if (newChannel){
-  //     if (newChannel.isDirectMessage === true)
-  //       await this.sendDirectMessageInit(client, newChannel);
-  //     else
-  //       await this.sendInit(client, 'createChannel');
-  //   }
-  //   else
-  //     throw new WsException('Problem while creating the new room');
-  // }
 
   @SubscribeMessage('makeAdmin')
   async giveAdminPrivilegies(client: Socket, payload){
@@ -233,6 +190,16 @@ async handleConnection(client: Socket, ...args: any[]) {
     }
     else
       this.server.to(client.id).emit('createPrivateMessageResponse', 'exist');
+  }
+
+  @SubscribeMessage('removePass')
+  async removePassword(client: Socket, payload: any){
+    await this.channnelService.removePassword(payload.room);
+  }
+
+  @SubscribeMessage('changePass')
+  async changePassword(client: Socket, payload: any){
+    await this.channnelService.changePassword(payload.room, payload.pass);
   }
 
 

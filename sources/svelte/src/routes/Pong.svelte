@@ -12,11 +12,12 @@
     email,
     currentChat,
     currentProfile,
+    currentPage,
   } from '../stores.js';
 
-  import io from 'socket.io-client';
+  import io, { Manager } from 'socket.io-client';
   import { onMount } from 'svelte';
-  import { Puck, Paddle, map } from '../utils.js';
+  import { Puck, Paddle } from '../utils.js';
   import { tweened } from 'svelte/motion';
 
   export let socket: any = null;
@@ -149,11 +150,9 @@
     }
     // const { code } = e;
     if (e.keyCode == 40) {
-      console.log('down');
       socket.emit('keyDown', { name: gameName, pos: myPaddle, dy: 1 });
     }
     if (e.keyCode == 38) {
-      console.log('up');
       socket.emit('keyDown', { name: gameName, pos: myPaddle, dy: -1 });
     }
   };
@@ -163,18 +162,15 @@
       return;
     }
     if (e.keyCode == 40) {
-      console.log('down');
       socket.emit('keyUp', { name: gameName, pos: myPaddle, dy: 1 });
     }
     if (e.keyCode == 38) {
-      console.log('up');
       socket.emit('keyUp', { name: gameName, pos: myPaddle, dy: -1 });
     }
   };
 
   const handleStart = () => {
     if (playing) return;
-    console.log(gameName);
     socket.emit('ready', { name: gameName });
     playing = true;
   };
@@ -206,10 +202,11 @@
     context.clearRect(0, 0, width, height);
     ingame = 'false';
     playing = false;
-    alert('😨 😨 😨 Your abandon will be counted as a loss');
+    alert('⚠️ Your abandon will be counted as a loss');
   }
 
   onMount(async () => {
+    currentPage.update(n=> 'pong')
     socket = io('http://localhost:3000/pong', {
       auth: { token: $cookie },
     });
@@ -217,8 +214,7 @@
     socket.on('foundPeer', async (game) => {
       gameName = game.game.name;
       myPaddle =
-        game.game.leftPaddle.user == $username42 ? 'leftpaddle' : 'rightpaddle';
-      console.log(myPaddle);
+        game.game.leftPaddle.userId == $id ? 'leftpaddle' : 'rightpaddle';
       otherPlayer = await fetch(
         'http://localhost:3000/users/' + game.opponentId,
         {
@@ -240,12 +236,11 @@
         puck = game.ball;
         paddleLeft = game.leftPaddle;
         paddleRight = game.rightPaddle;
-        console.log('paddeLeft: ' + game.leftPaddle.y);
-        console.log('paddeRight: ' + game.rightPaddle.y);
         draw();
         scoreLeft = game.leftPaddle.score;
         scoreRight = game.rightPaddle.score;
         if (scoreLeft >= 3 || scoreRight >= 3) {
+          scoreLeft >= 3 ? scoreLeft = scoreLeft += 1 : scoreRight += 1;
           playing = false;
           context.clearRect(0, 0, width, height);
           ingame = 'endgame';
@@ -264,7 +259,20 @@
           scoreRight = 0;
         }
       }
+    }
+    );
+    socket.on('winByForfeit', () => {
+      ingame = 'endgame';
+      playing = false;
+      alert('Your opponent forfeited the game. You are the winner');
+      context.clearRect(0, 0, width, height);
     });
+    socket.on('winByDisconnect', () => {
+      ingame = 'endgame';
+      playing = false;
+      alert('Your opponnent disconnected. You are the winner')
+      context.clearRect(0, 0, width, height);
+    })
   });
 </script>
 

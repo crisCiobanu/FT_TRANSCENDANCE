@@ -6,7 +6,6 @@ import { UsersService } from './users/users.service';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
-import { ProductsModule } from './products/products.module';
 import { ChatGateway } from './chat/chat.gateway';
 import { AuthModule } from './auth/auth.module';
 import { join } from 'path';
@@ -16,6 +15,7 @@ import * as Joi from '@hapi/joi';
 import { ChannelService } from './chat/channel/channel.service';
 import { PongGateway } from './pong/pong.gateway';
 import { PongModule } from './pong/pong.module';
+import { OnlineModule } from './online/online.module';
 
 @Module({
   imports: [UsersModule, ConfigModule.forRoot({
@@ -40,7 +40,7 @@ import { PongModule } from './pong/pong.module';
       }
     }
   }),
-  DatabaseModule, ProductsModule, AuthModule, ChatModule, PongModule],
+  DatabaseModule, AuthModule, ChatModule, PongModule, OnlineModule],
   controllers: [AppController],
   providers: [AppService],
 })

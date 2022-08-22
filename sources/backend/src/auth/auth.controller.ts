@@ -43,20 +43,17 @@ export class AuthController {
     @UseGuards(JwtGuard)
     async activateUser(@Param('code') parameter : string, @Res({passthrough: true}) res: Response, @Req() req: any) {
         console.log("Avtivation code is : " + parameter);
-        if (this.authService.activateUser(req.user.userName42, parameter))
+        if (await this.authService.activateUser(req.user.userName42, parameter))
             res.status(HttpStatus.OK).send();
         else
-            res.status(HttpStatus.NO_CONTENT);
+            res.status(HttpStatus.NO_CONTENT).send();
 
     }
-
 
     @Get('currentuser')
     @UseGuards(JwtGuard)
     async getCurrentUser(@Res({passthrough: true}) res: Response, @Req() req: any) {
-        //console.log(req);
         return this.userService.getByLogin42(req.user.userName42);
-        //return req.user;
     }
 
 

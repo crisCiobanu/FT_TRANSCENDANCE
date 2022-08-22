@@ -3,10 +3,13 @@ import { SubscribeMessage } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { PongService } from '../pong.service'
 import { UsersService } from '../../users/users.service';
+import { User } from '../../users/user.entity';
 import { Paddle } from '../pong.utils';
 import { IGame, State } from '../pong.interfaces';
 import { Interval } from '@nestjs/schedule';
-import { IMatch } from './match.interface';
+import { IMatch } from '../match/match.interface';
+import { MatchService } from '../match/match.service'
+
 
 @Injectable()
 export class GameService {
@@ -17,7 +20,8 @@ export class GameService {
 	constructor(
 		@Inject(forwardRef(() => PongService))
 		private readonly pongService: PongService,
-		private readonly userService: UsersService
+		private readonly userService: UsersService,
+		private readonly matchService: MatchService
 	  ){}
 
 	async addToQueue(client: Socket): Promise<IGame>{
@@ -46,25 +50,54 @@ export class GameService {
 		return null;
 	}
 
+	async forfeitGame(gameName: string, user: User): Promise<string>{
+		const tempGame = this.games.get(gameName);
+		let winner, loser, res;
+		if (!tempGame)
+			return null;
+		if (tempGame.leftPaddle.userId != user.id && tempGame.rightPaddle.userId != user.id)
+			return null;
+		if (tempGame.leftPaddle.userId == user.id){
+				winner = tempGame.rightPaddle.userId;
+				loser = tempGame.leftPaddle.userId;
+				res = tempGame.rightPaddle.socket;
+		} else{
+				winner = tempGame.leftPaddle.userId;
+				loser = tempGame.rightPaddle.userId;
+				res = tempGame.leftPaddle.socket;
+
+		}
+
+			let match: IMatch = { score: `${tempGame.leftPaddle.score} - ${tempGame.rightPaddle.score}`,
+			winner: await this.userService.getById(winner),
+			loser: await this.userService.getById(loser)};
+			await this.matchService.createMatch(match);
+			await this.userService.updateScore(match);
+
+
+			this.saveGame(tempGame);
+			this.games.delete(tempGame.name);
+			return res;
+	}
+
 	async startBall(game: IGame){
 		const startedGame: IGame = await this.pongService.startBall(game);
 		this.games.set(startedGame.name, startedGame);
 	}
 
 	async endGame(game: IGame){
-		console.log("LOG FROM END GAME");
-		game.state = State.FINISHED;
-		// const winner =  game.leftPaddle.score > game.rightPaddle.score ? game.name.split(' - ')[0] : game.name.split(' - ')[1];
-		// const loser  = game.leftPaddle.score > game.rightPaddle.score ? game.name.split(' - ')[1] : game.name.split(' - ')[0];
-
-		let match: IMatch = {score: `${game.leftPaddle.score} - ${game.rightPaddle.score}`,
-							winner: game.leftPaddle.score > game.rightPaddle.score ? game.name.split(' - ')[0] : game.name.split(' - ')[1],
-							loser: game.leftPaddle.score > game.rightPaddle.score ? game.name.split(' - ')[1] : game.name.split(' - ')[0]};
-
-		this.userService.addMatch(match);
-		this.saveGame(game);
-		this.games.delete(game.name);
-	}
+        console.log("LOG FROM END GAME");
+        game.state = State.FINISHED;
+        const winner =  game.leftPaddle.score > game.rightPaddle.score ? game.leftPaddle.userId : game.rightPaddle.userId;
+        const loser  =  game.leftPaddle.score > game.rightPaddle.score ? game.rightPaddle.userId : game.leftPaddle.userId;
+        let match: IMatch = { score: `${game.leftPaddle.score} - ${game.rightPaddle.score}`,
+                            winner: await this.userService.getById(winner),
+                            loser: await this.userService.getById(loser)};
+        await this.matchService.createMatch(match);
+		await this.userService.updateScore(match);
+        this.saveGame(game);
+        this.games.delete(game.name);
+    }
 
 	async updatePaddle(gameName: string, pos: string, dy: number){
 		let game = this.games.get(gameName);
@@ -88,6 +121,13 @@ export class GameService {
 
 	async getGameBYName(name: string): Promise<IGame>{
 		return this.games.get(name);
+	}
+
+	async getUserGame(userId: number): Promise<IGame>{
+		const game: IGame = Array.from(this.games.values()).find((game) => game.leftPaddle.userId == userId || game.rightPaddle.userId == userId);
+		if (game == undefined)
+			return null;
+		return game;
 	}
 
 	async saveGame(game: IGame){

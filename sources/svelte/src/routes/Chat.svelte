@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { onMount, afterUpdate } from 'svelte';
+  import io from 'socket.io-client';
+
   import {
     logged,
     username,
@@ -13,10 +16,6 @@
     currentChat,
     currentProfile,
   } from '../stores.js';
-
-  import { onMount, afterUpdate } from 'svelte';
-  import io from 'socket.io-client';
-  import { init, xlink_attr } from 'svelte/internal';
 
   export let Oname = $username;
   export let Otext = '';
@@ -36,6 +35,8 @@
   export let banOptions = 'false';
   export let banTime = 0;
   export let Mutes = [];
+  export let changeRemove = 'false';
+  export let newPass;
   let myChannels = [];
   let allRooms = [];
   export let newRoom = {
@@ -110,6 +111,23 @@
     });
     muteOptions = 'false';
     muteTime = 0;
+  }
+
+  function removeRoomPass() {
+    socket.emit('removePass', { room: currentRoom.name });
+    alert('#' + currentRoom.name.toUpperCase() + ' is now a public channel');
+    changeRemove = 'false';
+  }
+
+  function changeRoomPass() {
+    socket.emit('changePass', { room: currentRoom.name, pass: newPass });
+    newPass = '';
+    alert(
+      '#' +
+        currentRoom.name.toUpperCase() +
+        ' is now protected by a new password',
+    );
+    changeRemove = 'false';
   }
 
   async function banUser() {
@@ -240,11 +258,8 @@
   function createChannel(channel) {
     rooms = channel.allChannels;
     rooms = [...rooms];
-    // myRooms = channel.userChannels;
-    // myRooms = [...myRooms];
     privateMessages = channel.directMessageChannels;
     privateMessages = [...privateMessages];
-    // currentRoom = myRooms[myRooms.length - 1];
   }
 
   function deleteRoom(room) {
@@ -381,9 +396,10 @@
   async function createPrivateMessage() {
     await socket.emit('createPrivateMessage', currentUser.userName42);
     socket.on('createPrivateMessageResponse', (newPM) => {
-
       if (newPM == 'blocked') {
-        alert('This user has made impossible for you to start a new conversation 😢 😢 😢'); 
+        alert(
+          'This user has made impossible for you to start a new conversation 😢 😢 😢',
+        );
       }
       if (newPM == 'true') {
         socket.emit('changePrivateConv');
@@ -412,7 +428,6 @@
       }
     });
   }
-
 
   onMount(async () => {
     block = await fetch('http://localhost:3000/users/' + $id, {
@@ -494,7 +509,6 @@
         }
       }
     });
-
   });
 </script>
 
@@ -575,7 +589,10 @@
                 >#{room.name.toUpperCase()}</button
               ><br />
             {:else if room.channelOwnerId == $id}
-              <button style='color: lightblue;' id="selectMyOwnRoom" on:click={() => changeConv(room)}
+              <button
+                style="color: lightblue;"
+                id="selectMyOwnRoom"
+                on:click={() => changeConv(room)}
                 >#{room.name.toUpperCase()}</button
               ><br />
             {:else if myChannels.indexOf(room.name) != -1 && room == currentRoom}
@@ -586,7 +603,10 @@
                 >#{room.name.toUpperCase()}</button
               ><br />
             {:else if myChannels.indexOf(room.name) != -1}
-              <button style='color:lightgreen' id="selectMyRoom" on:click={() => changeConv(room)}
+              <button
+                style="color:lightgreen"
+                id="selectMyRoom"
+                on:click={() => changeConv(room)}
                 >#{room.name.toUpperCase()}</button
               ><br />
             {:else}
@@ -597,25 +617,29 @@
           {/each}
         </div>
         <!--Private Messages-->
-        <div class='privateMessages'>
+        <div class="privateMessages">
           <h4 class="sectionTitle">Messages</h4>
           {#each privateMessages as privateMessage}
-          {#if privateMessage == currentRoom}
-            <button
-            style="color: white; background-color: darkslategrey"
-              id="selectPrivMsg"
-              on:click={() => changeConvMessages(privateMessage)}
-            >
-              {privateMessage.users[0].id == $id ? privateMessage.users[1].userName42.toUpperCase() : privateMessage.users[0].userName42.toUpperCase()}
-            </button><br />
+            {#if privateMessage == currentRoom}
+              <button
+                style="color: white; background-color: darkslategrey"
+                id="selectPrivMsg"
+                on:click={() => changeConvMessages(privateMessage)}
+              >
+                {privateMessage.users[0].id == $id
+                  ? privateMessage.users[1].userName42.toUpperCase()
+                  : privateMessage.users[0].userName42.toUpperCase()}
+              </button><br />
             {:else}
-            <button
-            id="selectPrivMsg"
-            on:click={() => changeConvMessages(privateMessage)}
-          >
-          {privateMessage.users[0].id == $id ? privateMessage.users[1].userName42.toUpperCase() : privateMessage.users[0].userName42.toUpperCase()}
-          </button><br />
-          {/if}
+              <button
+                id="selectPrivMsg"
+                on:click={() => changeConvMessages(privateMessage)}
+              >
+                {privateMessage.users[0].id == $id
+                  ? privateMessage.users[1].userName42.toUpperCase()
+                  : privateMessage.users[0].userName42.toUpperCase()}
+              </button><br />
+            {/if}
           {/each}
         </div>
       </div>
@@ -632,19 +656,21 @@
               {/if}
             </div>
             {#if myChannels.indexOf(currentRoom.name) == -1 && currentRoom.isPublic == true && currentRoom.isDirectMessage != true}
-              <button on:click={() => joinRoom()}>Join room</button>
+              <button class="joinButton" on:click={() => joinRoom()}
+                >Join room</button
+              >
             {:else if currentRoom.isPublic == false && myChannels.indexOf(currentRoom.name) == -1}
-              <h3>This room is password protected</h3>
+              <h3 style="margin-top: 30px;">This room is password protected</h3>
               <form on:submit|preventDefault={joinRoom}>
                 <input
                   style="width: 100%"
                   class="form-control"
+                  type="password"
                   bind:value={roomPassword}
                   placeholder="Enter room password..."
                 />
               </form>
             {:else}
-            <!-- <div class='messageBoard'> -->
               {#each messages as msg}
                 {#if blocked.indexOf(msg.user.id.toString()) == -1}
                   {#if msg.user.userName == $username}
@@ -662,11 +688,9 @@
                       ><br />
                       {msg.text}
                     </p>
-                
                   {/if}
                 {/if}
               {/each}
-            <!-- </div> -->
             {/if}
           {/if}
         </div>
@@ -696,6 +720,31 @@
             >
           {/if}
         </div>
+        {#if currentRoom && currentRoom.channelOwnerId == $id && currentRoom.isPublic == false}
+          <div style="margin-top: 5px;" class="my-buttons">
+            <button
+              id="createRoom2"
+              on:click={() => {
+                changeRemove = 'true';
+              }}>Change password</button
+            >
+            <button id="leaveRoom2" on:click={removeRoomPass}
+              >Remove password</button
+            >
+          </div>
+          {#if changeRemove == 'true'}
+            <form on:submit|preventDefault={() => changeRoomPass}>
+              <input
+                style="width: 100%; margin-top:10px;"
+                class="form-control"
+                type="password"
+                bind:value={newPass}
+                placeholder="Enter new password..."
+              />
+            </form>
+            <button on:click={changeRoomPass}>Submit</button>
+          {/if}
+        {/if}
       </div>
 
       <!--PROFILE-->
@@ -779,7 +828,7 @@
               style="background-color: dodgerblue; color: white"
               >Invite to play 🏓</button
             >
-            {#if currentRoom && (currentRoom.channelOwnerId == $id || currentRoom.channelAdminsId.indexOf($id) != -1)}
+            {#if currentRoom && currentRoom.channelOwnerId != currentUser.id && (currentRoom.channelOwnerId == $id || currentRoom.channelAdminsId.indexOf($id) != -1)}
               <h4>Admin</h4>
 
               {#if Mutes.indexOf(currentRoom.name) != -1}
@@ -814,24 +863,24 @@
                     <input type="radio" bind:group={muteTime} value="4320" />
                     3 days
                   </label>
-                  <!-- {#if currentRoom.} -->
                   <button on:click={muteUser}>Mute User</button>
                 </div>
               {/if}
 
-              <button
-                on:click={() => {
-                  if (banOptions == 'false') {
-                    banOptions = 'true';
-                  } else {
-                    banOptions = 'false';
-                  }
-                  muteOptions = 'false';
-                }}
-                class="profileButton"
-                style="background-color: slategrey; color: white">Ban</button
-              >
-
+              {#if currentRoom.channelOwnerId != currentUser.id}
+                <button
+                  on:click={() => {
+                    if (banOptions == 'false') {
+                      banOptions = 'true';
+                    } else {
+                      banOptions = 'false';
+                    }
+                    muteOptions = 'false';
+                  }}
+                  class="profileButton"
+                  style="background-color: slategrey; color: white">Ban</button
+                >
+              {/if}
               {#if banOptions == 'true'}
                 <div>
                   <label>
@@ -848,16 +897,17 @@
                     <input type="radio" bind:group={banTime} value="4320" />
                     3 days
                   </label>
-                  <!-- {#if currentRoom.} -->
                   <button on:click={banUser}>Ban User</button>
                 </div>
               {/if}
+              {#if currentUser.id != currentRoom.channelOwnerId}
+                <button
+                  on:click={kickUser}
+                  class="profileButton"
+                  style="background-color: slategrey; color: white">Kick</button
+                >
+              {/if}
             {/if}
-            <button
-              on:click={kickUser}
-              class="profileButton"
-              style="background-color: slategrey; color: white">Kick</button
-            >
             {#if currentRoom.channelOwnerId == $id && currentRoom.channelAdminsId.indexOf(currentUser.id.toString()) == -1}
               <button
                 style="background-color: gold"
@@ -896,7 +946,7 @@
   #roomTitle {
     font-size: 16px;
     font-weight: 600;
-    background-color:slategrey;
+    background-color: slategrey;
     color: white;
     padding: 10px;
     text-align: center;
@@ -912,11 +962,9 @@
     margin: 0 auto;
     background-color: ghostwhite;
     display: flex;
-    /* flex-flow: column wrap; */
     flex-flow: column;
     padding-top: 10px;
   }
-
 
   #chat {
     margin-top: 2rem;
@@ -934,7 +982,7 @@
     padding: 10px;
     max-width: 50%;
     margin-top: -7px;
-    margin-right:10px;
+    margin-right: 10px;
     align-self: flex-end;
     display: block;
   }
@@ -977,7 +1025,6 @@
 
   .privateMessages {
     text-align: left;
-    /* padding-left: 5px; */
   }
 
   .column2 {
@@ -996,7 +1043,6 @@
     border-right: lightgray;
     border: 2px black;
     background-color: whitesmoke;
-    /* height: 100%; */
   }
 
   .sectionTitle {
@@ -1004,20 +1050,16 @@
     color: slategrey;
     padding: 5px 15px 5px;
     border: 2px solid slategray;
-    /* margin-top: 0; */
+    text-align: center;
   }
 
   .sectionTitle2 {
     background-color: transparent;
     color: slategrey;
     padding: 5px 15px 5px;
-    /* margin-top: 1px; */
     margin-bottom: 0;
-    /* margin-top: -20px;
-    padding-top: 40px;
-    padding-bottom: 10px; */
-    border-top: 2px solid slategrey; 
-    border-bottom: 2px solid slategrey; 
+    border-top: 2px solid slategrey;
+    border-bottom: 2px solid slategrey;
   }
 
   #selectUser {
@@ -1049,7 +1091,6 @@
     font-size: 12px;
     margin-left: 10px;
     font-weight: 600;
-    /* color: blue; */
     background-color: transparent;
     border: none;
     text-align: left;
@@ -1062,7 +1103,7 @@
     font-weight: 600;
     background-color: transparent;
     border: none;
-    color:gainsboro;
+    color: gainsboro;
     text-align: left;
   }
 
@@ -1072,7 +1113,7 @@
     margin-left: 10px;
     font-weight: 600;
     background-color: transparent;
-    color:gainsboro;
+    color: gainsboro;
     border: none;
     text-align: left;
   }
@@ -1101,7 +1142,7 @@
     border-radius: 0;
     display: flex;
     cursor: pointer;
-    background-color:darkslateblue;
+    background-color: darkslateblue;
     border: none;
     color: white;
     text-align: center;
@@ -1120,12 +1161,33 @@
     background-color: steelblue;
   }
 
+  #createRoom2 {
+    cursor: pointer;
+    flex: 1 0 40%;
+    margin: 0 auto;
+    padding: 8px 8px;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    background-color: darkslategray;
+  }
+
   #leaveRoom {
     cursor: pointer;
     flex: 1 0 50%;
     margin: 0 auto;
     border-radius: 5px;
     background-color: darkred;
+    border: none;
+    color: white;
+  }
+
+  #leaveRoom2 {
+    cursor: pointer;
+    flex: 1 0 50%;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: darkslateblue;
     border: none;
     color: white;
   }
@@ -1174,5 +1236,20 @@
     background-position: center;
     border-radius: 50%;
     border: 1px solid dimgrey;
+  }
+
+  .joinButton {
+    width: 100px;
+    font-weight: 600;
+    margin-top: 100px;
+    padding: 15px;
+    background-color:firebrick;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: transform 0.1s;
+  }
+  .joinButton:hover {
+    transform: scale(1.1);
   }
 </style>
