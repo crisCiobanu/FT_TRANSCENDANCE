@@ -1,38 +1,27 @@
 <script lang="ts">
   import {
-    logged,
-    username,
-    otherUser,
     image_url,
     username42,
     id,
     cookie,
-    TWOFA,
-    ownmail,
-    email,
-    currentChat,
-    currentProfile,
     currentPage,
   } from '../stores.js';
 
   import io, { Manager } from 'socket.io-client';
   import { onMount } from 'svelte';
   import { Puck, Paddle } from '../utils.js';
-  import { tweened } from 'svelte/motion';
 
   export let socket: any = null;
   let games: any = [];
   let otherPlayer: any;
-  let playerTwo;
   let ingame = 'false';
+  let gameId: string;
   let gameName: string;
   let scoreRight: number;
   let scoreLeft: number;
-  let endGame: string = 'false';
   let myPaddle: string = '';
-  let won: string = '';
-  let lost: string = '';
   let theme = 1;
+  let allGames: any;
 
 
   const canvasWidth: number = 500;
@@ -133,9 +122,7 @@
 
   function puckshow(context, ball) {
     const { x, y, r, startAngle, endAngle } = ball;
-    // context.beginPath();
     context.arc(x, y, r, startAngle, endAngle);
-    // context.closePath();
     context.fill();
   }
 
@@ -148,12 +135,11 @@
     if (!myPaddle) {
       return;
     }
-    // const { code } = e;
     if (e.keyCode == 40) {
-      socket.emit('keyDown', { name: gameName, pos: myPaddle, dy: 1 });
+      socket.emit('keyDown', { gameId: gameId, pos: myPaddle, dy: 1 });
     }
     if (e.keyCode == 38) {
-      socket.emit('keyDown', { name: gameName, pos: myPaddle, dy: -1 });
+      socket.emit('keyDown', { gameId: gameId, pos: myPaddle, dy: -1 });
     }
   };
 
@@ -162,22 +148,27 @@
       return;
     }
     if (e.keyCode == 40) {
-      socket.emit('keyUp', { name: gameName, pos: myPaddle, dy: 1 });
+      socket.emit('keyUp', { gameId: gameId, pos: myPaddle, dy: 1 });
     }
     if (e.keyCode == 38) {
-      socket.emit('keyUp', { name: gameName, pos: myPaddle, dy: -1 });
+      socket.emit('keyUp', { gameId: gameId, pos: myPaddle, dy: -1 });
     }
   };
 
   const handleStart = () => {
     if (playing) return;
-    socket.emit('ready', { name: gameName });
+    socket.emit('ready', { gameId: gameId });
     playing = true;
   };
 
   function changeTheme() {
     theme == 3 ? theme = 1 : theme += 1;
     draw();
+  }
+
+  function cancelGame() {
+    ingame = 'false';
+    socket.emit('cancelGame')
   }
 
   function initGame(game) {
@@ -193,12 +184,23 @@
     socket.emit('waiting');
   }
 
-  function watchGame() {
-    socket.emit('watchGame', {});
+  async function watchGame(currentGame) {
+    socket.emit('watchGame', {gameId: currentGame.id});
+    await socket.on('watchGameResponse', (message) => {
+      if (message == 'noGame') {
+        alert('Ne game is no more available')
+        games.filter((t) => t != currentGame);
+      }
+      if (message == 'goWatchGame') {
+        ingame = 'watch';
+        draw();
+        playing = true;
+      }
+    } )
   }
 
   function forfeit() {
-    socket.emit('forfeit', { game: gameName });
+    socket.emit('forfeit', { gameId: gameId });
     context.clearRect(0, 0, width, height);
     ingame = 'false';
     playing = false;
@@ -212,6 +214,7 @@
     });
 
     socket.on('foundPeer', async (game) => {
+      gameId = game.game.id;
       gameName = game.game.name;
       myPaddle =
         game.game.leftPaddle.userId == $id ? 'leftpaddle' : 'rightpaddle';
@@ -232,7 +235,8 @@
     });
 
     socket.on('updateGame', (game) => {
-      if (ingame == 'true') {
+      if (ingame == 'true' || ingame == 'watch') {
+        gameName = game.name;
         puck = game.ball;
         paddleLeft = game.leftPaddle;
         paddleRight = game.rightPaddle;
@@ -243,6 +247,11 @@
           scoreLeft >= 3 ? scoreLeft = scoreLeft += 1 : scoreRight += 1;
           playing = false;
           context.clearRect(0, 0, width, height);
+          if (ingame == 'watch') {
+            alert("Match is over, you will be redirected to the lobby");
+            window.location.replace("http://localhost:8080/#/pong");
+            return;
+          }
           ingame = 'endgame';
           if (myPaddle == 'rightpaddle' && scoreRight >= 3) {
             alert(
@@ -259,8 +268,17 @@
           scoreRight = 0;
         }
       }
-    }
-    );
+    })
+    allGames = await fetch('http://localhost:3000/pong/games',
+    {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            Authorization: 'Bearer ' + $cookie,
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+      }).then((response) => allGames = response.json());
+    games = allGames;
     socket.on('winByForfeit', () => {
       ingame = 'endgame';
       playing = false;
@@ -277,6 +295,12 @@
 </script>
 
 <svelte:body on:keydown={handleKeydown} on:keyup={handleKeyup} />
+{#if ingame == 'watch'}
+<h2 style='color: black text-align: center; font-style:italic'>Watching Live</h2>
+{#if gameName}
+<h4 style='color: black text-align: center;'>{gameName}</h4>
+{/if}
+{/if}
 {#if ingame == 'false'}
   <div class="homescreen">
     <img
@@ -299,17 +323,8 @@
       Waiting for other players...
     </h2>
     <button
-      on:click={() => {
-        ingame = 'false';
-      }}
+      on:click={cancelGame}
       class="cancel_button">Cancel</button
-    >
-    <button
-      on:click={() => {
-        ingame = 'true';
-        draw();
-      }}
-      class="cancel_button">Play</button
     >
   </div>
 {:else if ingame == 'endgame'}
@@ -374,7 +389,6 @@
           src={$image_url}
           alt="player1_profile_picture"
         />
-        <!-- <p style="color: black;">{$username}</p> -->
       </div>
       {#if gameName}
         <h3 style="text-align:center; color: black;">
@@ -389,7 +403,6 @@
           src={otherPlayer.imageURL}
           alt="player1_profile_picture"
         />
-        <!-- <p style="color: black;">{otherPlayer.userName}</p> -->
       </div>
     {:else if myPaddle == 'rightpaddle'}
       <div style="display:block;  margin:0 auto;">
@@ -398,7 +411,6 @@
           src={otherPlayer.imageURL}
           alt="player1_profile_picture"
         />
-        <!-- <p style="color: black;">{otherPlayer.userName}</p> -->
       </div>
       {#if gameName}
         <h3 style="text-align:center; color: black;">
@@ -413,11 +425,10 @@
           src={$image_url}
           alt="player1_profile_picture"
         />
-        <!-- <p style="color: black;">{$username}</p> -->
       </div>
     {/if}
   </div>
-{:else}
+{:else if ingame == 'false'}
   <h1 style="margin-top: -450px;color:black; text-align:center">
     Watch live games
   </h1>
@@ -427,7 +438,7 @@
     </h3>
   {:else}
     {#each games as game}
-      <button on:click={watchGame} class="liveGame">
+      <button on:click={() => watchGame(game)} class="liveGame">
         {game.name}<br /><br />🏓 🏓 🏓
       </button>
     {/each}

@@ -8,7 +8,8 @@ import { Paddle } from '../pong.utils';
 import { IGame, State } from '../pong.interfaces';
 import { Interval } from '@nestjs/schedule';
 import { IMatch } from '../match/match.interface';
-import { MatchService } from '../match/match.service'
+import { MatchService } from '../match/match.service';
+import {v4 as uuidv4} from 'uuid';
 
 
 @Injectable()
@@ -35,23 +36,40 @@ export class GameService {
 		const newGame: IGame = await this.pongService.createGame(this.queue[0], this.queue[1]);
 		this.queue.shift();
 		this.queue.shift();
-		this.games.set(newGame.name, newGame);
+		this.games.set(newGame.id, newGame);
 		return newGame;
 	}
 
-	async startGame(gameName: string){
-		let game = this.games.get(gameName);
+	async removeFromQueue(client: Socket){
+		//this.queue.shift();
+		this.queue = this.queue.filter(socket => socket.id != client.id);
+	}
+
+	async startGame(gameId: string){
+		let game = this.games.get(gameId);
 		game.accepted++;
 		if (game.accepted == 2)
 			game.state = State.INPROGRESS;
-		this.games.set(game.name, game);
+		this.games.set(game.id, game);
 		if (game.state == State.INPROGRESS)
 			return game;
 		return null;
 	}
 
-	async forfeitGame(gameName: string, user: User): Promise<string>{
-		const tempGame = this.games.get(gameName);
+	async getAllGames(){
+		return Array.from(this.games.values());
+	}
+
+	async addWatcher(gameId: string, socketId: string){
+		let game: IGame = this.games.get(gameId);
+		if (!game)
+			return null;
+		game.spectators.push(socketId);
+		return this.games.set(game.id, game);
+	}
+
+	async forfeitGame(gameId: string, user: User): Promise<string>{
+		const tempGame = this.games.get(gameId);
 		let winner, loser, res;
 		if (!tempGame)
 			return null;
@@ -76,13 +94,13 @@ export class GameService {
 
 
 			this.saveGame(tempGame);
-			this.games.delete(tempGame.name);
+			this.games.delete(tempGame.id);
 			return res;
 	}
 
 	async startBall(game: IGame){
 		const startedGame: IGame = await this.pongService.startBall(game);
-		this.games.set(startedGame.name, startedGame);
+		this.games.set(startedGame.id, startedGame);
 	}
 
 	async endGame(game: IGame){
@@ -96,11 +114,11 @@ export class GameService {
         await this.matchService.createMatch(match);
 		await this.userService.updateScore(match);
         this.saveGame(game);
-        this.games.delete(game.name);
+        this.games.delete(game.id);
     }
 
-	async updatePaddle(gameName: string, pos: string, dy: number){
-		let game = this.games.get(gameName);
+	async updatePaddle(gameId: string, pos: string, dy: number){
+		let game = this.games.get(gameId);
 		
 		if (!game){
 			return null;
@@ -112,15 +130,15 @@ export class GameService {
 		else if (pos == 'rightpaddle'){
 			game.rightPaddle.dy = dy;
 		}
-		return this.games.set(game.name, game);
+		return this.games.set(game.id, game);
 	}
 
 	// async sendToAll(game: IGame, event: string, message: string){
 
 	// }
 
-	async getGameBYName(name: string): Promise<IGame>{
-		return this.games.get(name);
+	async getGameById(gameId: string): Promise<IGame>{
+		return this.games.get(gameId);
 	}
 
 	async getUserGame(userId: number): Promise<IGame>{
@@ -131,7 +149,7 @@ export class GameService {
 	}
 
 	async saveGame(game: IGame){
-		this.games.set(game.name, game);
+		this.games.set(game.id, game);
 	}
 
 	getGames(): Map<string, IGame>{

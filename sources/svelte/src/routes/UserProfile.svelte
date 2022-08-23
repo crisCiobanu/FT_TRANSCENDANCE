@@ -181,17 +181,15 @@ import App from '../App.svelte';
       {#if myFriends.indexOf(userId) != -1}
       <div class="tb1">
         <h1
-          style="width: 400px;background-color: darkgrey; color:white;text-decoration-line: underline;text-underline-offset: 20px;"
+          style="text-align: center;width: 400px;background-color: darkgrey; color:white;text-decoration-line: underline;text-underline-offset: 20px;"
         >
           SCORES
         </h1>
-        <h1>
-          <span class="sp1">wins</span>
-          <span class="sp2"> {wins}</span><span class="sp1"
-            >&emsp;&emsp;&emsp;losses</span
-          > <span class="sp2">{losses}</span><span class="sp1"
-            >&emsp;&emsp;&emsp;level</span
-          ><span class="sp2"> {level}</span>
+        <h1 style='text-transform: uppercase;'>
+          <p><span class="sp1">wins</span> <span class="sp2">{wins}</span
+            > <span style='font-weight:300;'> | </span><span class="sp1">losses</span> <span class="sp2">{losses}</span
+            > <span style='font-weight:300;'> | </span><span class="sp1">level</span> <span class="sp2">{level}</span
+            ></p>
         </h1>
       </div>
       <div style="width: 400px;margin: 0 auto; display: block">
@@ -272,11 +270,11 @@ import App from '../App.svelte';
   }
   .sp1 {
     font-weight: 700;
-    font-size: 2rem;
+    font-size: 20px;;
   }
   .sp2 {
     font-weight: 200;
-    font-size: 2rem;
+    font-size: 20px;;
   }
 
   .buttons {

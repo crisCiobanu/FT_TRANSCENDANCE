@@ -303,11 +303,11 @@
             SCORES
           </h1>
         </div>
-        <h1>
-          <pre><span class="sp1">wins</span> <span class="sp2">{$wins}</span
-            ><span class="sp1">  losses</span> <span class="sp2">{$losses}</span
-            ><span class="sp1">  level</span> <span class="sp2">{$level}</span
-            ></pre>
+        <h1 style='text-transform: uppercase;'>
+          <p><span class="sp1">wins</span> <span class="sp2">{$wins}</span
+            > <span style='font-weight:300;'> | </span><span class="sp1">losses</span> <span class="sp2">{$losses}</span
+            > <span style='font-weight:300;'> | </span><span class="sp1">level</span> <span class="sp2">{$level}</span
+            ></p>
         </h1>
       </div>
       <div style="width: 400px;margin: 0 auto; display: block">
@@ -347,6 +347,21 @@
               {/if}
             {/each}
           </div>
+        </div>
+      </div>
+      <div style="width:400px; margin: 0 auto; display: block;">
+        <h1 style="background-color: darkgrey; color:white; text-align:center;">
+          ACHIEVEMENTS
+        </h1>
+        <div class="achievements">
+          {#if $wins == 0}
+          <p style='tex-align: center'>No achivements yet</p>
+          {:else}
+          <p><span style ='text-transform: uppercase; font-weight: 600;'>🥇 One first win 🥇</span><br><span style='font-weight: 400;font-style: italic; color:grey'>You defeated aother player on match!</span></p>
+          {/if}
+          {#if friends.length > 0}
+          <p><span style ='text-transform: uppercase; font-weight: 600;'>🤹‍♀️ Social guy 🤹‍♀️</span><br><span style='font-weight: 400;font-style: italic; color:grey'>You added one person as a friend!</span></p>
+          {/if}
         </div>
       </div>
       <div style="width:400px; margin: 0 auto; display: block;">
@@ -415,7 +430,7 @@
   .friends {
     display: flex;
     align-items: center;
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
     text-align: center;
   }
 
@@ -456,12 +471,12 @@
   }
   .sp1 {
     font-weight: 700;
-    font-size: 25px;
+    font-size: 20px;
     tab-size: 4;
   }
   .sp2 {
     font-weight: 200;
-    font-size: 25px;
+    font-size: 20px;
     tab-size: 4;
   }
   .bt1 {
@@ -521,5 +536,10 @@
     font-weight: 600;
     text-transform: uppercase;
     tab-size: 10;
+  }
+
+  .achievements {
+    font-size: 15px;
+    text-align: center;
   }
 </style>

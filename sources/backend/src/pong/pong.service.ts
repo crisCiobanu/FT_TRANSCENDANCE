@@ -4,6 +4,7 @@ import { User } from '../users/user.entity';
 import { Socket } from 'socket.io';
 import { IGame, IPaddle, IBall, State } from './pong.interfaces'; 
 import { GameService } from './game/game.service';
+import {v4 as uuidv4} from 'uuid';
 
 export const map = (value, minDomain, maxDomain, minRange, maxRange) =>
 minRange +
@@ -86,6 +87,7 @@ export class PongService {
 
 		
 		const gameName = firstSocket.data.user.userName42 + ' - ' + secondSocket.data.user.userName42;
+		const gameId = uuidv4();
 		let leftPad = defaultPaddleLeft;
 		leftPad.userId = firstSocket.data.user.id;
 		leftPad.socket = firstSocket.id;
@@ -93,12 +95,15 @@ export class PongService {
 		rightPad.userId = secondSocket.data.user.id;
 		rightPad.socket = secondSocket.id;
 
-		const createdGame: IGame = { name: gameName,
+		const createdGame: IGame = { 
+							id: gameId,	
+							name: gameName,
 							leftPaddle: leftPad,
 							rightPaddle: rightPad,
 							ball: ball,
 							state: State.WAITING,
-							accepted: 0};
+							accepted: 0,
+							spectators: []};
 		
 		return createdGame;
 	

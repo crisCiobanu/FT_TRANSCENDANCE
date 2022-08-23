@@ -36,18 +36,18 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       await this.userService.changeUserStatus(client.data.user, UserState.OFFLINE);
       const game = await this.gameService.getUserGame(client.data.user.id);
       if (game){
-        const winner = await this.gameService.forfeitGame(game.name, client.data.user);
+        const winner = await this.gameService.forfeitGame(game.id, client.data.user);
         if (!winner){
 
         }
         await this.server.to(winner).emit('winByDisconnect');
       }
+      else 
+        await this.gameService.removeFromQueue(client);
     }
-
-    await this.userService.changeUserStatus(client.data.user, UserState.OFFLINE)
-
   }
 
+  
   async afterInit(server: Server) {
     this.logger.log('Initiated');
   }
@@ -57,8 +57,10 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
     try {
       const user = await this.authService.getUserFromSocket(client);
-      if(!user)
+      if(!user){
         client.disconnect();
+        return;
+      }
       this.logger.log(`User ${user.userName42} is connected`);
 
       client.data.user = user;
@@ -72,7 +74,7 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   async onReady(client: Socket, payload: any){
     console.log("LOG FROM READY EVENT FUNCTION");
     console.log(payload);
-    const game = await this.gameService.startGame(payload.name);
+    const game = await this.gameService.startGame(payload.gameId);
     if (game){
       console.log(" CONDITION IS TRUE IN READY ")
       this.gameService.startBall(game);
@@ -86,12 +88,28 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   @SubscribeMessage('forfeit')
   async forfeitGame(client: Socket, payload: any){
-    const winner = await this.gameService.forfeitGame(payload.game, client.data.user);
+    const winner = await this.gameService.forfeitGame(payload.gameId, client.data.user);
     if (!winner){
         
     }
     this.server.to(winner).emit('winByForfeit');
- 
+  }
+
+  @SubscribeMessage('cancelGame')
+  async cancelGame(client: Socket, payload: any){
+    console.log("LOG FROM CANCEL FUNCTION");
+    console.log(payload);
+    await this.gameService.removeFromQueue(client);
+  }
+
+  @SubscribeMessage('watchGame')
+  async onWatchFame(client: Socket, payload: any){
+    const game = await this.gameService.addWatcher(payload.gameId, client.id);
+    if (!game){
+      this.server.to(client.id).emit('watchGameResponse', 'noGame');
+      return;
+    }
+    this.server.to(client.id).emit('watchGameResponse', 'goWatchGame');
   }
 
 
@@ -106,14 +124,14 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   @SubscribeMessage('keyDown')
   async updatePaddleKeyDown(client: Socket, payload: any){
-    const res = await this.gameService.updatePaddle(payload.name, payload.pos, payload.dy);
+    const res = await this.gameService.updatePaddle(payload.gameId, payload.pos, payload.dy);
     if (!res)
       throw new WsException('UPDATE PADDLE FAILED');
   }
 
   @SubscribeMessage('keyUp')
   async updatePaddleKeyUp(client: Socket, payload: any){
-    const res = await this.gameService.updatePaddle(payload.name, payload.pos, 0);
+    const res = await this.gameService.updatePaddle(payload.gameId, payload.pos, 0);
     if (!res)
       throw new WsException('UPDATE PADDLE FAILED');
   }

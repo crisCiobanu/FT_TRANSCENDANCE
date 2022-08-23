@@ -35,6 +35,7 @@ export interface IPaddle{
 }
 
 export interface IGame{
+	id: string;
 	name: string;
 	leftPaddle: IPaddle;
 	rightPaddle: IPaddle;

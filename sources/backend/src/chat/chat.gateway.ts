@@ -59,8 +59,10 @@ async handleConnection(client: Socket, ...args: any[]) {
       this.logger.log(`Client connected : ${client.id}`)
       try {
         const user = await this.authService.getUserFromSocket(client);
-        if(!user)
+        if(!user){
           client.disconnect();
+          return;
+        }
         this.logger.log(`User ${user.userName42} is connected`);
 
         client.data.user = user;
