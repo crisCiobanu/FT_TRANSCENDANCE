@@ -30,8 +30,9 @@ let routes = {
 		{
 			logged.update(n => 'false');
 			intra.update(n => 'false');
-			currentChat.update(n => '');
-			currentPage.update(m => '');
+			localStorage.removeItem('currentChat');
+			localStorage.removeItem('currentPage');
+			localStorage.removeItem('invitedPlayer');
 		var cookies = document.cookie.split(";");
 
 		for (var i = 0; i < cookies.length; i++) {

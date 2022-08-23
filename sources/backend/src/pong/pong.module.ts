@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { PongGateway } from './pong.gateway';
 import { PongService } from './pong.service';
 import { PongController } from './pong.controller';
@@ -12,7 +12,9 @@ import { MatchController } from './match/match.controller';
 import { Match } from './match/match.entity';
 
 @Module({
-  imports: [UsersModule, AuthModule, ScheduleModule.forRoot(), TypeOrmModule.forFeature([Match])],
+  imports: [
+    forwardRef(() => UsersModule),  
+    AuthModule, ScheduleModule.forRoot(), TypeOrmModule.forFeature([Match])],
   providers: [PongGateway, PongService, GameService, MatchService],
   controllers: [PongController, MatchController]
 })

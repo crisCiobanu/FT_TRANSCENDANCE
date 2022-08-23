@@ -17,6 +17,7 @@ import { ConnectionService } from './connection/connection.service';
 import { IConnection } from './connection/connection.interface';
 import { Channel } from './channel/channel.entity';
 import { UsersService } from 'src/users/users.service';
+import { GameService } from '../pong/game/game.service';
 import { UserState } from 'src/users/user.entity';
 
 @WebSocketGateway({
@@ -34,7 +35,8 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     private readonly channnelService: ChannelService,
     private readonly messageService: MessageService,
     private readonly connectionService: ConnectionService,
-    private readonly userService: UsersService
+    private readonly userService: UsersService,
+    // private readonly gameService: GameService
   ){}
 
   @WebSocketServer() server : Server;
@@ -390,6 +392,13 @@ async handleConnection(client: Socket, ...args: any[]) {
     else
       this.server.to(client.id).emit('kickUserResponse', 'false');
   }
+
+
+  // @SubscribeMessage('inviteToGame')
+  // async onInviting(client: Socket, payload: any){
+  //   const pongGame = await this.gameService.addToQueue(client);
+
+  // }
 
 /////////
 

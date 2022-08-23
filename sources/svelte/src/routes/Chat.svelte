@@ -3,18 +3,15 @@
   import io from 'socket.io-client';
 
   import {
-    logged,
+    invitedPlayer,
     username,
     otherUser,
     image_url,
-    username42,
     id,
     cookie,
-    TWOFA,
-    ownmail,
-    email,
     currentChat,
     currentProfile,
+    invitation
   } from '../stores.js';
 
   export let Oname = $username;
@@ -48,7 +45,11 @@
   export let blocked = [];
   export let block;
 
-  function sendInvitation() {}
+async function sendInvitation() {
+   invitedPlayer.update(n => currentUser.userName42);
+   invitation.update(n => 'true');
+   window.location.replace("http://localhost:8080/#/pong");
+  }
 
   function kickUser() {
     socket.emit('kickUser', {
@@ -1013,7 +1014,6 @@
     flex-direction: column;
     flex: 1.5;
     border-right: lightgray;
-    /* border: 2px black; */
     background-color: slategrey;
     overflow: auto;
   }

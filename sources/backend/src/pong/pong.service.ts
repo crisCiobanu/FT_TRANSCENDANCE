@@ -34,33 +34,6 @@ export class PongService {
 		private readonly gameService: GameService
 	  ){}
 
-	// ball: IBall = { x: width / 2, y: height / 2, r: puckRadius, startAngle: 0, endAngle: Math.PI * 2, dx: 0, dy: 0, initialSpeed: 3, speed: 3 };
-
-	// defaultPaddleLeft: IPaddle ={
-	// 	x: padding,
-	// 	y: height / 2 - paddleHeight / 2,
-	// 	w: paddleWidth,
-	// 	h: paddleHeight,
-	// 	dy: 0,
-	// 	speed: 3.5,
-	// 	score: 0
-	// 	};
-	// defaultPaddleRight: IPaddle = {
-	// 	x: width - padding - paddleWidth,
-	// 	y: height / 2 - paddleHeight / 2,
-	// 	w: paddleWidth,
-	// 	h: paddleHeight,
-	// 	dy: 0,
-	// 	speed: 3.5,
-	// 	score: 0
-	// };
-
-	// private async initPaddles(firstSocket: Socket, secondSocket: Socket): Promise<any>{
-	// 	let leftPaddle = this.defaultPaddleLeft;
-	// 	leftPaddle.userId = firstSocket.data.user.id;
-	// 	leftPaddle.socket = firstSocket.id;
-	// }
-
 	async createGame(firstSocket: Socket, secondSocket: Socket): Promise<IGame>{
 		const ball: IBall = { x: width / 2, y: height / 2, r: puckRadius, startAngle: 0, endAngle: Math.PI * 2, dx: 0, dy: 0, initialSpeed: 3, speed: 3 };
 

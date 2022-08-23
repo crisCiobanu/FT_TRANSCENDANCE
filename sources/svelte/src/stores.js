@@ -57,3 +57,8 @@ currentPage.subscribe((val) => localStorage.setItem("currentPage", val));
 export const otherUser = writable(localStorage.getItem("otherUser") || '');
 otherUser.subscribe((val) => localStorage.setItem("otherUser", val));
 
+export const invitedPlayer = writable(localStorage.getItem("invitedPlayer") || '');
+invitedPlayer.subscribe((val) => localStorage.setItem("invitedPlayer", val));
+
+export const invitation = writable(localStorage.getItem("invitation") || 'false');
+invitation.subscribe((val) => localStorage.setItem("invitation", val));

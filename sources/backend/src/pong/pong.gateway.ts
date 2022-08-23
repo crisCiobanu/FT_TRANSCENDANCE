@@ -42,9 +42,11 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
         }
         await this.server.to(winner).emit('winByDisconnect');
       }
-      else 
-        await this.gameService.removeFromQueue(client);
-    }
+      else {
+        this.gameService.removeFromQueue(client);
+        this.gameService.abortInviteGame(client);
+      }
+      }
   }
 
   
@@ -64,7 +66,10 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       this.logger.log(`User ${user.userName42} is connected`);
 
       client.data.user = user;
-      await this.userService.changeUserStatus(user, UserState.GAMING)
+      await this.userService.changeUserStatus(user, UserState.GAMING);
+      const hostGameName = await this.gameService.findInviteGame(client);
+      if (hostGameName)
+        await this.server.to(client.id).emit('invitationRequest', hostGameName);
 
     } catch (error) {
       
@@ -119,6 +124,40 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     if (pongGame){
       this.server.to(pongGame.leftPaddle.socket).emit('foundPeer', {game: pongGame, opponentId: pongGame.rightPaddle.userId});
       this.server.to(pongGame.rightPaddle.socket).emit('foundPeer', {game: pongGame, opponentId: pongGame.leftPaddle.userId});
+    }
+  }
+
+  @SubscribeMessage('inviteToGame')
+  async onInvite(client: Socket, payload: any){
+    console.log("LOG FROM INVITE TO GAME")
+    console.log(payload);
+    const pongGame = await this.gameService.createInviteGame(client, payload.userName42);
+
+  }
+
+  @SubscribeMessage('cancelInvite')
+  async onAbortInvite(client: Socket, payload: any){
+    await this.gameService.abortInviteGame(client);
+    
+  }
+
+  @SubscribeMessage('declineInvite')
+  async onCancelInvite(client: Socket, payload: any){
+    const socket = await this.gameService.cancelInviteGame(client)
+    if (socket){
+      this.server.to(socket).emit('declinedResponse', client.data.user.userName42);
+    }
+  }
+
+  @SubscribeMessage('acceptInvite')
+  async onAcceptInvite(client: Socket, payload: any){
+    const game = await this.gameService.getInviteGame(client);
+    if (!game){
+      this.server.to(client.id).emit('acceptInviteResponse', 'noGame');
+    }
+    else {
+      this.server.to(game.leftPaddle.socket).emit('foundPeer', {game: game, opponentId: game.rightPaddle.userId});
+      this.server.to(game.rightPaddle.socket).emit('foundPeer', {game: game, opponentId: game.leftPaddle.userId});
     }
   }
 

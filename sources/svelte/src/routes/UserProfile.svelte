@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { otherUser, logged, cookie, id } from '../stores.js';
+  import { otherUser, logged, cookie, id, invitedPlayer,invitation } from '../stores.js';
 
    let user;
    let level: number;
@@ -25,6 +25,12 @@
 import App from '../App.svelte';
 
    export let socket = null;
+
+   async function sendInvitation() {
+   invitedPlayer.update(n => username42);
+   invitation.update(n => 'true');
+   window.location.replace("http://localhost:8080/#/pong");
+  }
 
   async function blockUser() {
     let result = await fetch('http://localhost:3000/users/block', {
@@ -177,21 +183,22 @@ import App from '../App.svelte';
         <button on:click={blockUser} class="block">Block user</button>
         {/if}
       </div>
-
-      {#if myFriends.indexOf(userId) != -1}
-      <div class="tb1">
-        <h1
-          style="text-align: center;width: 400px;background-color: darkgrey; color:white;text-decoration-line: underline;text-underline-offset: 20px;"
-        >
-          SCORES
-        </h1>
-        <h1 style='text-transform: uppercase;'>
-          <p><span class="sp1">wins</span> <span class="sp2">{wins}</span
-            > <span style='font-weight:300;'> | </span><span class="sp1">losses</span> <span class="sp2">{losses}</span
-            > <span style='font-weight:300;'> | </span><span class="sp1">level</span> <span class="sp2">{level}</span
-            ></p>
-        </h1>
-      </div>
+      <button on:click={sendInvitation}>Invite to play</button>
+          <!-- {#if myFriends.indexOf(userId) != -1} -->
+          <div class="tb1">
+            <h1
+              style="text-align: center;width: 400px;background-color: darkgrey; color:white;text-decoration-line: underline;text-underline-offset: 20px;"
+            >
+              SCORES
+            </h1>
+            <h1 style='text-transform: uppercase;'>
+              <p><span class="sp1">wins</span> <span class="sp2">{wins}</span
+                > <span style='font-weight:300;'> | </span><span class="sp1">losses</span> <span class="sp2">{losses}</span
+                > <span style='font-weight:300;'> | </span><span class="sp1">level</span> <span class="sp2">{level}</span
+                ></p>
+            </h1>
+          </div>
+          <!-- {/if} -->
       <div style="width: 400px;margin: 0 auto; display: block">
         <h1 style="background-color: darkgrey; color:white; text-align:center;">
           MATCH HISTORY
@@ -223,7 +230,6 @@ import App from '../App.svelte';
           {/each}
         </div>
       </div>
-      {/if}
     {/if}
   {:else}
     <h1 style="text-align: center">ACCESS DENIED</h1>

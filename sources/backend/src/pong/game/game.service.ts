@@ -17,6 +17,8 @@ export class GameService {
 
 	private queue : Socket[] = [];
 	private games : Map<string, IGame> = new Map();
+	private invites : Map<string, Socket> = new Map();
+
 
 	constructor(
 		@Inject(forwardRef(() => PongService))
@@ -39,6 +41,55 @@ export class GameService {
 		this.games.set(newGame.id, newGame);
 		return newGame;
 	}
+
+	async createInviteGame(client: Socket, userName42: string){
+		this.invites.set(userName42, client);
+	}
+
+	async abortInviteGame(client: Socket){
+		console.log("LOG FROM ABORT INVITE");
+		this.invites.forEach((value, key) => {
+			if (value.id == client.id)
+				this.invites.delete(key);
+		});		
+	}
+
+	async cancelInviteGame(client: Socket){
+		console.log("LOG FROM CANCEL INVITE");
+		this.invites.forEach((value, key) => console.log(`${key} - ${client.data.user.userName42}`));
+		const hostGame = this.invites.get(client.data.user.userName42);
+		if (hostGame != undefined){
+			await this.invites.delete(client.data.user.userName42);
+			return hostGame.id;
+		}
+		return null;
+	}
+
+	async findInviteGame(client: Socket): Promise<string>{
+		const socket = this.invites.get(client.data.user.userName42);
+		if (socket == undefined)
+			return null;
+		return socket.data.user.userName42;
+	}
+
+	async getInviteGame(client: Socket){
+		const firstSocket = this.invites.get(client.data.user.userName42);
+		if (firstSocket == undefined)
+			return null;
+		const newGame: IGame = await this.pongService.createGame(firstSocket, client);
+		this.invites.delete(client.data.user.userName42);
+		this.games.set(newGame.id, newGame);
+		return newGame;
+	}
+
+	// async startInviteGame(gameId: string){
+	// 	let game = this.games.get(gameId);
+	// 	game.state = State.INPROGRESS;
+	// 	this.games.set(game.id, game);
+	// 	if (game.state == State.INPROGRESS)
+	// 		return game;
+	// 	return null;
+	// }
 
 	async removeFromQueue(client: Socket){
 		//this.queue.shift();

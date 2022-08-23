@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { PongService } from './pong.service';
 import { GameService } from './game/game.service';
 
@@ -17,4 +17,6 @@ export class PongController {
 		const games = await this.gameService.getAllGames();
 		return games;
     }
+
+
 }

@@ -5,6 +5,8 @@
     id,
     cookie,
     currentPage,
+    invitedPlayer,
+    invitation,
   } from '../stores.js';
 
   import io, { Manager } from 'socket.io-client';
@@ -21,8 +23,9 @@
   let scoreLeft: number;
   let myPaddle: string = '';
   let theme = 1;
+  let invitingPlayer: string;
+  let invited: string = 'false';
   let allGames: any;
-
 
   const canvasWidth: number = 500;
   const canvasHeight: number = 320;
@@ -62,6 +65,7 @@
     },
   });
 
+
   let canvas: any, context: any;
   let playing: boolean, animationId: any;
 
@@ -84,8 +88,7 @@
       context.strokeStyle = 'hsl(0, 0%,50%)';
     } else if (theme == 2) {
       context.strokeStyle = 'white';
-    }
-    else {
+    } else {
       context.strokeStyle = 'white';
     }
     context.lineWidth = border * 2;
@@ -110,7 +113,7 @@
     context.fillStyle = 'white';
     puckshow(context, puck);
     if (theme == 1) {
-    context.fillStyle = 'white';
+      context.fillStyle = 'white';
     } else if (theme == 2) {
       context.fillStyle = 'white';
     } else {
@@ -162,13 +165,20 @@
   };
 
   function changeTheme() {
-    theme == 3 ? theme = 1 : theme += 1;
+    theme == 3 ? (theme = 1) : (theme += 1);
     draw();
   }
 
   function cancelGame() {
     ingame = 'false';
-    socket.emit('cancelGame')
+    socket.emit('cancelGame');
+  }
+
+  function cancelGameInvitation() {
+    ingame = 'false';
+    socket.emit('cancelInvite');
+    invitation.update((n) => '');
+    invitedPlayer.update((n) => '');
   }
 
   function initGame(game) {
@@ -179,16 +189,33 @@
     scoreRight = game.rightPaddle.score;
   }
 
+  function declinedResponse(message) {
+    alert(message + ' has declined your invitation to play');
+      ingame = 'false';
+      invited = 'false';
+      invitation.update(n => '')
+  }
+
   async function gameRequest() {
     ingame = 'waiting';
     socket.emit('waiting');
   }
 
+  function acceptInvite() {
+    socket.emit('acceptInvite');
+    invited = 'false';
+  }
+
+  function declineInvite() {
+    socket.emit('declineInvite');
+    invited = 'false';
+  }
+
   async function watchGame(currentGame) {
-    socket.emit('watchGame', {gameId: currentGame.id});
+    socket.emit('watchGame', { gameId: currentGame.id });
     await socket.on('watchGameResponse', (message) => {
       if (message == 'noGame') {
-        alert('Ne game is no more available')
+        alert('Ne game is no more available');
         games.filter((t) => t != currentGame);
       }
       if (message == 'goWatchGame') {
@@ -196,7 +223,7 @@
         draw();
         playing = true;
       }
-    } )
+    });
   }
 
   function forfeit() {
@@ -208,11 +235,17 @@
   }
 
   onMount(async () => {
-    currentPage.update(n=> 'pong')
+    currentPage.update((n) => 'pong');
     socket = io('http://localhost:3000/pong', {
       auth: { token: $cookie },
     });
 
+    socket.on('invitationRequest', (player) => {
+      invitingPlayer = player;
+      invited = 'true';
+      alert('You received a new invitation to play Pong!');
+    });
+    
     socket.on('foundPeer', async (game) => {
       gameId = game.game.id;
       gameName = game.game.name;
@@ -244,12 +277,12 @@
         scoreLeft = game.leftPaddle.score;
         scoreRight = game.rightPaddle.score;
         if (scoreLeft >= 3 || scoreRight >= 3) {
-          scoreLeft >= 3 ? scoreLeft = scoreLeft += 1 : scoreRight += 1;
+          scoreLeft >= 3 ? (scoreLeft = scoreLeft += 1) : (scoreRight += 1);
           playing = false;
           context.clearRect(0, 0, width, height);
           if (ingame == 'watch') {
-            alert("Match is over, you will be redirected to the lobby");
-            window.location.replace("http://localhost:8080/#/pong");
+            alert('Match is over, you will be redirected to the lobby');
+            window.location.replace('http://localhost:8080/#/pong');
             return;
           }
           ingame = 'endgame';
@@ -268,41 +301,64 @@
           scoreRight = 0;
         }
       }
-    })
-    allGames = await fetch('http://localhost:3000/pong/games',
-    {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
-            Authorization: 'Bearer ' + $cookie,
-            'Content-type': 'application/json; charset=UTF-8',
-          },
-      }).then((response) => allGames = response.json());
+    });
+
+
+    allGames = await fetch('http://localhost:3000/pong/games', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        Authorization: 'Bearer ' + $cookie,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    }).then((response) => (allGames = response.json()));
     games = allGames;
+
     socket.on('winByForfeit', () => {
       ingame = 'endgame';
       playing = false;
       alert('Your opponent forfeited the game. You are the winner');
       context.clearRect(0, 0, width, height);
     });
+
     socket.on('winByDisconnect', () => {
       ingame = 'endgame';
       playing = false;
-      alert('Your opponnent disconnected. You are the winner')
+      alert('Your opponnent disconnected. You are the winner');
       context.clearRect(0, 0, width, height);
+    });
+
+    socket.on('declinedResponse', (message) => {
+      declinedResponse(message);
     })
+
+    if ($invitation == 'true') {
+      socket.emit('inviteToGame', { userName42: $invitedPlayer });
+      ingame = 'waiting';
+    }
   });
 </script>
 
 <svelte:body on:keydown={handleKeydown} on:keyup={handleKeyup} />
 {#if ingame == 'watch'}
-<h2 style='color: black text-align: center; font-style:italic'>Watching Live</h2>
-{#if gameName}
-<h4 style='color: black text-align: center;'>{gameName}</h4>
-{/if}
+  <h2 style="color: black text-align: center; font-style:italic">
+    Watching Live
+  </h2>
+  {#if gameName}
+    <h4 style="color: black text-align: center;">{gameName}</h4>
+  {/if}
 {/if}
 {#if ingame == 'false'}
   <div class="homescreen">
+    {#if invited == 'true'}
+      <div style="text-align:center; color:white; display: block;padding-top: 100px;">
+        <h2><span style='color: rgb(224, 62, 62);'>{invitingPlayer}</span> would like to play pong</h2>
+        <div class="my-buttons">
+          <button on:click={acceptInvite} id="accept">Accept</button>
+          <button on:click={declineInvite} id="decline">Decline</button>
+        </div>
+      </div>
+    {:else}
     <img
       on:click={gameRequest}
       class="play_svg"
@@ -310,22 +366,24 @@
       alt="play_logo"
     /><br /><br />
     <button on:click={gameRequest} class="play">▶︎</button>
-    <button
-      style="margin:0 auto; display:block;"
-      on:click={() => {
-        ingame = 'endgame';
-      }}>test</button
-    >
+    {/if}
   </div>
 {:else if ingame == 'waiting'}
   <div class="homescreen">
-    <h2 style="color:white; text-align: center; padding-top:150px;">
-      Waiting for other players...
-    </h2>
-    <button
-      on:click={cancelGame}
-      class="cancel_button">Cancel</button
-    >
+    {#if $invitation == 'true'}
+      <h2 style="color:white; text-align: center; padding-top:150px;">
+        Waiting for <span style="color:dodgerblue">{$invitedPlayer}</span>'s
+        response...
+      </h2>
+      <button on:click={cancelGameInvitation} class="cancel_button"
+        >Cancel invitation</button
+      >
+    {:else}
+      <h2 style="color:white; text-align: center; padding-top:150px;">
+        Waiting for other players...
+      </h2>
+      <button on:click={cancelGame} class="cancel_button">Cancel</button>
+    {/if}
   </div>
 {:else if ingame == 'endgame'}
   <div class="endgame">
@@ -362,11 +420,11 @@
 {#if ingame == 'true'}
   <div style="display: flex; margin: 0 auto; width: 400px;">
     {#if theme == 1}
-    <button on:click={changeTheme} class='theme_button1'>Change theme</button>
+      <button on:click={changeTheme} class="theme_button1">Change theme</button>
     {:else if theme == 2}
-    <button on:click={changeTheme} class='theme_button2'>Change theme</button>
+      <button on:click={changeTheme} class="theme_button2">Change theme</button>
     {:else}
-    <button on:click={changeTheme} class='theme_button3'>Change theme</button>
+      <button on:click={changeTheme} class="theme_button3">Change theme</button>
     {/if}
     <button on:click={forfeit} class="forfeit_button">Forfeit the game</button>
   </div>
@@ -428,7 +486,7 @@
       </div>
     {/if}
   </div>
-{:else if ingame == 'false'}
+{:else if ingame == 'false' && invited == 'false'}
   <h1 style="margin-top: -450px;color:black; text-align:center">
     Watch live games
   </h1>
@@ -502,7 +560,6 @@
   button {
     font-weight: 700;
     font-family: sans-serif;
-    /* text-transform: uppercase; */
     font-size: 0.9rem;
     padding: 0.3rem 0.8rem;
     border-radius: 0.25rem;
@@ -659,5 +716,47 @@
     padding: 10px;
     cursor: pointer;
     border-radius: 10px;
+  }
+
+  .my-buttons {
+    cursor: pointer;
+    display: flex;
+    /* flex-direction: row; */
+    /* margin-right: 10px; */
+    text-align: centers;
+    width: 400px;
+    margin: 0 auto;
+  }
+
+  #accept {
+    cursor: pointer;
+    display: flex;
+    margin: 0 auto;
+    border-radius: 5px;
+    text-align: center;
+    color: black;
+    width: 100px;
+    background-color: white;
+    transition: transform 0.1s;
+  }
+
+  #decline {
+    cursor: pointer;
+    display: flex;
+    margin: 0 auto;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    width: 100px;
+    background-color: black;
+    transition: transform 0.1s;
+  }
+
+  #accept:hover {
+    transform: scale(1.1);
+  }
+
+  #decline:hover {
+    transform: scale(1.1);
   }
 </style>
