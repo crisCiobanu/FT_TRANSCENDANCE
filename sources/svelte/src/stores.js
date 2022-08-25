@@ -62,3 +62,4 @@ invitedPlayer.subscribe((val) => localStorage.setItem("invitedPlayer", val));
 
 export const invitation = writable(localStorage.getItem("invitation") || 'false');
 invitation.subscribe((val) => localStorage.setItem("invitation", val));
+

@@ -11,7 +11,8 @@
     cookie,
     currentChat,
     currentProfile,
-    invitation
+    invitation,
+    logged,
   } from '../stores.js';
 
   export let Oname = $username;
@@ -431,7 +432,9 @@ async function sendInvitation() {
   }
 
   onMount(async () => {
-    block = await fetch('http://localhost:3000/users/' + $id, {
+    if ($logged == 'true') 
+    {
+      block = await fetch('http://localhost:3000/users/' + $id, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -510,10 +513,12 @@ async function sendInvitation() {
         }
       }
     });
+    }
   });
 </script>
 
 <main>
+  {#if $logged == 'true'}
   {#if creation == true}
     <!--CREATION FORM-->
     <div id="creation">
@@ -926,6 +931,9 @@ async function sendInvitation() {
         {/if}
       </div>
     </div>
+  {/if}
+  {:else}
+  <h1 style='text-align:center; color: black'>ACCESS DENIED</h1>
   {/if}
 </main>
 

@@ -34,6 +34,7 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     this.logger.log(`Client disconnected : ${client.id}`);
     if (client.data.user){
       await this.userService.changeUserStatus(client.data.user, UserState.OFFLINE);
+      await this.gameService.removeConnection(client.id);
       const game = await this.gameService.getUserGame(client.data.user.id);
       if (game){
         const winner = await this.gameService.forfeitGame(game.id, client.data.user);
@@ -67,6 +68,7 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
       client.data.user = user;
       await this.userService.changeUserStatus(user, UserState.GAMING);
+      await this.gameService.addConnection(user.id, client.id);
       const hostGameName = await this.gameService.findInviteGame(client);
       if (hostGameName)
         await this.server.to(client.id).emit('invitationRequest', hostGameName);
@@ -111,9 +113,12 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   async onWatchFame(client: Socket, payload: any){
     const game = await this.gameService.addWatcher(payload.gameId, client.id);
     if (!game){
+      console.log("LOG FROM WATCH gAME : NO  GAME")
       this.server.to(client.id).emit('watchGameResponse', 'noGame');
       return;
     }
+    console.log("LOG FROM WATCH gAME : GO WATCH GAME")
+
     this.server.to(client.id).emit('watchGameResponse', 'goWatchGame');
   }
 
@@ -132,6 +137,12 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     console.log("LOG FROM INVITE TO GAME")
     console.log(payload);
     const pongGame = await this.gameService.createInviteGame(client, payload.userName42);
+    const invitedUser = await this.userService.getByLogin42(payload.userName42);
+    if (invitedUser.state == UserState.GAMING){
+      const userSocket = await this.gameService.getConnectionByUserId(invitedUser.id);
+      if (userSocket != undefined)
+        await this.server.to(userSocket).emit('liveInvitationRequest', client.data.user.userName42);
+    }
 
   }
 

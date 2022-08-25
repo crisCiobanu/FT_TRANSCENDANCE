@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { onDestroy } from 'svelte';
   import {
     level,
     logged,
@@ -36,6 +37,18 @@
   let opponent: any;
   let matches = [];
 
+  function validateMailAddress() {
+    if ((mail.indexOf('@') == -1) || (mail.indexOf('.') == -1) || mail.indexOf(';') || mail.indexOf('/')) {
+      alert('❌ Enter a valid mail adress');
+    }
+    else if (mail.indexOf('.') == -1) {
+      alert('❌ Enter a valid mail adress');
+    }
+    else {
+      changeMailAddress();
+    }
+  }
+
   async function changeMailAddress() {
     if ($TWOFA == 'false') {
       await fetch('http://localhost:3000/users/twofa', {
@@ -64,6 +77,18 @@
     }
   }
 
+  function validateUserName() {
+    if (user.length < 3) {
+      alert('❌ New username must be at least 3 characters long')
+    }
+    else if ( user.length > 6) {
+      alert('❌ New username must not be longet than 6 characters long')
+    }
+    else {
+      changeUserName();
+    }
+  }
+
   async function changeUserName() {
     username.update((n) => user);
     await fetch('http://localhost:3000/users/updateusername/', {
@@ -74,7 +99,7 @@
         'Content-type': 'application/json; charset=UTF-8',
       },
     });
-    alert('Your username has beem changed to ' + user);
+    alert('✅ Your username has beem changed to ' + user);
     newUserName = 'false';
   }
 
@@ -183,12 +208,16 @@
         <div>
           <input
             style="width: 150px;"
-            aria-label="Enter new username"
+            placeholder="Enter new username"
+            type="text"
+            minlength="3"
+            maxlength="6"
+            required
             bind:value={user}
           />
           <div>
             <button
-              on:click={changeUserName}
+              on:click={validateMailAddress}
               type="submit"
               value="Submit"
               style="cursor: pointer">Change</button
@@ -211,12 +240,14 @@
         <div>
           <input
             style="width: 150px;"
-            aria-label="Mail address"
+            type="email"
+            required
+            placeholder="Mail address"
             bind:value={mail}
           />
           <div>
             <button
-              on:click={changeMailAddress}
+              on:click={validateMailAddress}
               type="submit"
               value="Submit"
               style="cursor: pointer">Change</button
@@ -361,6 +392,9 @@
           {/if}
           {#if friends.length > 0}
           <p><span style ='text-transform: uppercase; font-weight: 600;'>🤹‍♀️ Social guy 🤹‍♀️</span><br><span style='font-weight: 400;font-style: italic; color:grey'>You added one person as a friend!</span></p>
+          {/if}
+          {#if $ownmail == 'true'}
+          <p><span style ='text-transform: uppercase; font-weight: 600;'>🛡 Secure guy 🛡</span><br><span style='font-weight: 400;font-style: italic; color:grey'>You added one person as a friend!</span></p>
           {/if}
         </div>
       </div>

@@ -7,13 +7,19 @@
     currentPage,
     invitedPlayer,
     invitation,
+    logged
   } from '../stores.js';
 
   import io, { Manager } from 'socket.io-client';
   import { onMount } from 'svelte';
+  import { onDestroy } from 'svelte';
+  import {beforeUpdate} from 'svelte'
+  import {afterUpdate} from 'svelte'
   import { Puck, Paddle } from '../utils.js';
 
   export let socket: any = null;
+  let invitedPlayer_two;
+  let invitation_two;
   let games: any = [];
   let otherPlayer: any;
   let ingame = 'false';
@@ -26,6 +32,7 @@
   let invitingPlayer: string;
   let invited: string = 'false';
   let allGames: any;
+  let newInvite = 'false';
 
   const canvasWidth: number = 500;
   const canvasHeight: number = 320;
@@ -201,9 +208,14 @@
     socket.emit('waiting');
   }
 
-  function acceptInvite() {
+  async function acceptInvite() {
     socket.emit('acceptInvite');
     invited = 'false';
+    socket.on('acceptInviteResponse', (message) => {
+      if (message == 'noGame') {
+        alert('This game has been canceled');
+      }
+    })
   }
 
   function declineInvite() {
@@ -212,6 +224,7 @@
   }
 
   async function watchGame(currentGame) {
+    console.log('watch');
     socket.emit('watchGame', { gameId: currentGame.id });
     await socket.on('watchGameResponse', (message) => {
       if (message == 'noGame') {
@@ -236,14 +249,23 @@
 
   onMount(async () => {
     currentPage.update((n) => 'pong');
-    socket = io('http://localhost:3000/pong', {
+
+    if ($logged == 'true') {
+      socket = io('http://localhost:3000/pong', {
       auth: { token: $cookie },
     });
+    }
 
     socket.on('invitationRequest', (player) => {
       invitingPlayer = player;
       invited = 'true';
       alert('You received a new invitation to play Pong!');
+    });
+
+    socket.on('liveInvitationRequest', (player) => {
+      invitingPlayer = player;
+      // invited = 'true';
+      newInvite = 'true';
     });
     
     socket.on('foundPeer', async (game) => {
@@ -334,18 +356,24 @@
 
     if ($invitation == 'true') {
       socket.emit('inviteToGame', { userName42: $invitedPlayer });
+      invitation_two = $invitation;
+      invitedPlayer_two = $invitedPlayer
+      invitation.update(n => 'false');
+      invitedPlayer.update(n => '');
       ingame = 'waiting';
     }
   });
+  
 </script>
 
 <svelte:body on:keydown={handleKeydown} on:keyup={handleKeyup} />
+{#if $logged == 'true'}
 {#if ingame == 'watch'}
-  <h2 style="color: black text-align: center; font-style:italic">
+  <h2 style="color: black; text-align: center; font-style:italic">
     Watching Live
   </h2>
   {#if gameName}
-    <h4 style="color: black text-align: center;">{gameName}</h4>
+    <h4 style="color: black; text-align: center;">{gameName}</h4>
   {/if}
 {/if}
 {#if ingame == 'false'}
@@ -370,9 +398,9 @@
   </div>
 {:else if ingame == 'waiting'}
   <div class="homescreen">
-    {#if $invitation == 'true'}
+    {#if invitation_two == 'true'}
       <h2 style="color:white; text-align: center; padding-top:150px;">
-        Waiting for <span style="color:dodgerblue">{$invitedPlayer}</span>'s
+        Waiting for <span style="color:dodgerblue">{invitedPlayer_two}</span>'s
         response...
       </h2>
       <button on:click={cancelGameInvitation} class="cancel_button"
@@ -502,6 +530,12 @@
     {/each}
   {/if}
 {/if}
+{#if newInvite == 'true'}
+<h3 style='color:red; text-align: center'>You received a new invitation to play !!<br>Refresh the page to see who is challenging you</h3>
+{/if}
+{:else}
+<h1 style="color: black; text-align: center">ACCESS DENIED</h1>
+  {/if}
 
 <style>
   :global(body) {

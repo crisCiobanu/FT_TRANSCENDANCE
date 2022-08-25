@@ -18,6 +18,7 @@ export class GameService {
 	private queue : Socket[] = [];
 	private games : Map<string, IGame> = new Map();
 	private invites : Map<string, Socket> = new Map();
+	private connectedUsers : Map<number, string> = new Map();
 
 
 	constructor(
@@ -27,6 +28,22 @@ export class GameService {
 		private readonly matchService: MatchService
 	  ){}
 
+
+	async addConnection(userId: number, socket: string){
+		this.connectedUsers.set(userId, socket);
+	}
+
+	async removeConnection(socket: string){
+		this.connectedUsers.forEach((value, key) => {
+			if (value == socket)
+				this.connectedUsers.delete(key);
+		});		
+	}
+
+	async getConnectionByUserId(userId: number){
+		return this.connectedUsers.get(userId);
+	}
+	
 	async addToQueue(client: Socket): Promise<IGame>{
 		this.queue.push(client);
 		console.log("LOG FROM ADD TO QUEUE")
@@ -53,6 +70,10 @@ export class GameService {
 				this.invites.delete(key);
 		});		
 	}
+
+	// async getMyInvites(socketId: string){
+
+	// }
 
 	async cancelInviteGame(client: Socket){
 		console.log("LOG FROM CANCEL INVITE");
