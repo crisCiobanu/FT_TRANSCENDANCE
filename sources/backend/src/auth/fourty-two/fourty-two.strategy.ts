@@ -40,6 +40,8 @@ export class FourtyTwoStrategy extends PassportStrategy(Strategy) {
             password: '',
             imageURL: user['photos'][0]['value'],
             activationLink: activLink,
+            blocked: [],
+            friends: []
           };
 
         return this.authService.validateUser(newUser);

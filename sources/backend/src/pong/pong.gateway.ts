@@ -37,11 +37,18 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       await this.gameService.removeConnection(client.id);
       const game = await this.gameService.getUserGame(client.data.user.id);
       if (game){
-        const winner = await this.gameService.forfeitGame(game.id, client.data.user);
-        if (!winner){
+        game.state = State.PAUSED;
+        console.log("LOG FOR PAUSE GAME AT DISCONNECT");
+      
+        await this.gameService.saveGame(game);
+        const oponnentSocket = await this.gameService.getOpponentSocket(game.id, client.data.user);
+        await this.sendToOpponnentAndSpectators(game, oponnentSocket, 'pausedGame', null);
+        // await this.sleep(10000);
+        // const winner = await this.gameService.forfeitGame(game.id, client.data.user);
+        // if (!winner){
 
-        }
-        await this.server.to(winner).emit('winByDisconnect');
+        // }
+        // await this.server.to(winner).emit('winByDisconnect');
       }
       else {
         this.gameService.removeFromQueue(client);
@@ -49,6 +56,10 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       }
       }
   }
+
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
   
   async afterInit(server: Server) {
@@ -69,10 +80,22 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       client.data.user = user;
       await this.userService.changeUserStatus(user, UserState.GAMING);
       await this.gameService.addConnection(user.id, client.id);
-      const hostGameName = await this.gameService.findInviteGame(client);
-      if (hostGameName)
-        await this.server.to(client.id).emit('invitationRequest', hostGameName);
 
+      const pausedGame = await this.gameService.findPausedGame(client);
+      console.log("LOG FOR PAUSED GAME");
+      console.log(pausedGame);
+      if (pausedGame){     
+        pausedGame.state = State.INPROGRESS;
+        const opponentId = pausedGame.leftPaddle.userId == client.data.user.id ? pausedGame.rightPaddle.userId : pausedGame.leftPaddle.userId;
+        await this.server.to(client.id).emit('comeBack', {game: pausedGame, opponentId: opponentId});
+        await this.sendToAll(pausedGame, 'resumeGame', null);
+        await this.gameService.saveGame(pausedGame);
+      }
+      else {
+        const hostGameName = await this.gameService.findInviteGame(client);
+        if (hostGameName)
+          await this.server.to(client.id).emit('invitationRequest', hostGameName);
+      }
     } catch (error) {
       
     }
@@ -100,6 +123,15 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
         
     }
     this.server.to(winner).emit('winByForfeit');
+  }
+
+  @SubscribeMessage('wonByTimeOut')
+  async onWonByTimeOut(client: Socket, payload: any){
+    const winner = await this.gameService.winGame(payload.gameId, client.data.user);
+    if (!winner){
+        
+    }
+    this.server.to(winner).emit('wonByTimeOutResponse');
   }
 
   @SubscribeMessage('cancelGame')
@@ -189,6 +221,15 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   async sendToAll(game: IGame, event: string, message){
     this.server.to(game.leftPaddle.socket).emit(event, message);
     this.server.to(game.rightPaddle.socket).emit(event, message);
+    if (game.spectators){
+      for (const socket of game.spectators){
+        this.server.to(socket).emit(event, message);
+      }
+    }
+  }
+
+  async sendToOpponnentAndSpectators(game: IGame, opponent: string, event: string, message){
+    this.server.to(opponent).emit(event, message);
     if (game.spectators){
       for (const socket of game.spectators){
         this.server.to(socket).emit(event, message);

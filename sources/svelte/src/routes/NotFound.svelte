@@ -1,7 +1,7 @@
 <script>
 
 import { currentPage } from "../stores";
-    import { onMount } from 'svelte';
+import { onMount } from 'svelte';
     onMount(() => {
         currentPage.update(n => '');
     })

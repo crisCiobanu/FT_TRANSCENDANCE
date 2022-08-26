@@ -104,6 +104,22 @@ export class PongService {
 		return game;
 	}
 
+	async niceResetPaddles(game: IGame){
+		if (game.leftPaddle.y > 121)
+			game.leftPaddle.dy = -1;
+		else if (game.leftPaddle.y < 119)
+			game.leftPaddle.dy = 1;
+		else
+			game.leftPaddle.dy = 0;
+		if (game.rightPaddle.y > 121)
+			game.rightPaddle.dy = -1;
+		else if (game.rightPaddle.y < 119)
+			game.rightPaddle.dy = 1;
+		else
+			game.rightPaddle.dy = 0;
+		return game;
+	}
+
 	async updateLeftPaddle(dy: number){
 
 	}
@@ -204,7 +220,7 @@ export class PongService {
 		  }
 		}
 	
-		// ball exceeds horizontal constraints
+		//ball exceeds horizontal constraints
 		if (game.ball.x < -game.ball.r || game.ball.x > width + game.ball.r) {
 		  if (game.ball.x < width / 2) {
 			game.rightPaddle.score += 1;

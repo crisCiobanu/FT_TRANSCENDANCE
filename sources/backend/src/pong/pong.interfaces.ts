@@ -4,7 +4,8 @@ export enum State{
 	WAITING,
 	STARTING,
 	INPROGRESS,
-	FINISHED
+	FINISHED,
+	PAUSED
 }
 
 export interface IBall{

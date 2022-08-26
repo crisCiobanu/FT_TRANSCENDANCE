@@ -7,5 +7,6 @@ export class CreateUserDto{
     password : string;
     imageURL: string;
     activationLink: string;
-
+    blocked: string[];
+    friends: string[];
 }

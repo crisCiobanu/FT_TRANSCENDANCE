@@ -119,13 +119,23 @@ export class User {
     })
     public muteExpiration: Date;
 
-    @Column('simple-array', {
-        default: []
+    // @Column('simple-array', {
+    //     default: []
+    // })
+    // blocked: string[]
+
+    // @Column('simple-array', {
+    //     default: []
+    // })
+    // friends: string[]
+
+    @Column('text', {
+        array: true
     })
     blocked: string[]
 
-    @Column('simple-array', {
-        default: []
+    @Column('text', {
+        array: true
     })
     friends: string[]
 

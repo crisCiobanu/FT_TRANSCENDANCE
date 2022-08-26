@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Res, Header, HttpCode, HttpStatus, Param, Post, Redirect, Req, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { runInThisContext } from 'vm';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -21,45 +21,75 @@ export class UsersController {
 
     @Post('updateusername')
     @UseGuards(JwtGuard)
-    updateUser(@Body() updateUser : UpdateUserNameDto){
-        return this.userService.changeUserName(updateUser.id, updateUser.username);
+    async updateUser(@Res({passthrough: true}) res: Response, @Req() req: any){
+    //console.log("LOG FROM UPDATE USERNAME");
+    //console.log(req.body);
+    const user = await this.userService.getByUserName(req.body.username);
+    //console.log(user);
+        if (user){
+            //console.log("LOG FROM UPDATE USERNAME    KO ");
+            res.status(HttpStatus.OK).send({status: 'KO'});
+        } else {
+            //console.log("LOG FROM UPDATE USERNAME    ok");
+            await this.userService.changeUserName(req.user.id, req.body.username);
+            res.status(HttpStatus.OK).send({status: 'OK'});
+        }
+
     }
 
     @Post('updatemail')
     @UseGuards(JwtGuard)
-    updateEmail(@Res({passthrough: true}) res: Response, @Req() req: any){
+    async updateEmail(@Res({passthrough: true}) res: Response, @Req() req: any){
         return this.userService.changeUserEmail(req.user.userName42, req.body.email);
     }
 
-    @Post('ban')
-    banUser(){
-
+    @Post('logout')
+    @UseGuards(JwtGuard)
+    onLogout(@Res({passthrough: true}) res: Response, @Req() req: any){
+        return this.userService.logOut(req.user.userName42);
     }
 
-    @Post('unban')
-    unbanUser(){
+    // @Post('ban')
+    // banUser(){
 
-    }
+    // }
+
+    // @Post('unban')
+    // unbanUser(){
+
+    // }
 
     
     @Post('updateimage')
-    //@UseGuards(JwtGuard)
+    @UseGuards(JwtGuard)
     @UseInterceptors(FileInterceptor('file', {
       storage: diskStorage({
         destination: './public',
         filename: function(req, file, cb){
           cb(null, file.originalname)
         }
-      })
+      }),
+      fileFilter: function(req, file, cb){
+        if (file.mimetype === "image/png" ||
+            file.mimetype === "image/jpg" ||
+            file.mimetype === "image/jpeg"){
+                cb(null, true);
+            }
+        else {
+                cb(null, false);
+        }
+      }
     }))
-    uploadFile(@Req() request: UpdateUserImageDto, @UploadedFile() file: Express.Multer.File, @Res() res ){
-    console.log(file);
-    this.userService.changeUserImage(request.id, `http://localhost:3000/public/${file.filename}`);
+    uploadFile(@Req() request, @UploadedFile() file: Express.Multer.File, @Res() res ){
+    // console.log(file);
+    // console.log("LOG FROM UPDATE IMAGE")
+    // console.log(request.user);
+    this.userService.changeUserImage(request.user.userName42, `http://localhost:3000/public/${file.filename}`);
     return (res.status(HttpStatus.OK).send(JSON.stringify({url: `http://localhost:3000/public/${file.filename}`})));
 
     }
 
-    //@UseGuards(JwtGuard)
+    @UseGuards(JwtGuard)
     @Get()
     findAll() : Promise<User[]>{
         return this.userService.getAll();
@@ -76,7 +106,9 @@ export class UsersController {
     @Post('block')
     @UseGuards(JwtGuard)
     block(@Res({passthrough: true}) res: Response, @Req() req: any) : Promise<User>{
-        return this.userService.blockUser(req.user.email, req.body.id);
+        console.log("LOG FROM BLOCK USER");
+        console.log(req.body);
+        return this.userService.blockUser(req.user.userName42, req.body.id);
     }
 
     @Post('unblock')
@@ -100,8 +132,8 @@ export class UsersController {
 
     @Get(':id')
     async findById(@Param('id') parameter : number) : Promise<User>{
-        console.log('HERE');
-        console.log(parameter);
+        // console.log('HERE');
+        // console.log(parameter);
         const user: User = await this.userService.getById(parameter);
         //console.log(user.matches);
         return user;
@@ -109,7 +141,7 @@ export class UsersController {
 
     @Delete(':id')
     deleteById(@Param('id') parameter: number) : Promise<void>{
-        console.log('Trying to delete : ' + parameter);
+        // console.log('Trying to delete : ' + parameter);
         return this.userService.delete(parameter);
     }
 

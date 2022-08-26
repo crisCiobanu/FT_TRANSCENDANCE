@@ -5,7 +5,7 @@ import { PongService } from '../pong.service'
 import { UsersService } from '../../users/users.service';
 import { User } from '../../users/user.entity';
 import { Paddle } from '../pong.utils';
-import { IGame, State } from '../pong.interfaces';
+import { IGame, IPaddle,  State } from '../pong.interfaces';
 import { Interval } from '@nestjs/schedule';
 import { IMatch } from '../match/match.interface';
 import { MatchService } from '../match/match.service';
@@ -93,6 +93,31 @@ export class GameService {
 		return socket.data.user.userName42;
 	}
 
+	async findPausedGame(client: Socket): Promise<IGame>{
+		const userId = client.data.user.id;
+		let game: IGame = null;
+		await this.games.forEach((value, key) => {
+
+			if (value.state == State.PAUSED){
+
+				if(value.leftPaddle.userId == userId){
+					console.log("LOG  FROM FIND PAUSED GAME    LEFT");
+					console.log(value.name);
+					value.leftPaddle.socket = client.id;
+					game = value;
+				}
+					
+				else if (value.rightPaddle.userId == userId){
+					console.log("LOG  FROM FIND PAUSED GAME    RIGHT");
+					console.log(value.name);
+					value.rightPaddle.socket = client.id;
+					game = value;
+				}
+			}
+		});	
+		return game;	
+	}
+	
 	async getInviteGame(client: Socket){
 		const firstSocket = this.invites.get(client.data.user.userName42);
 		if (firstSocket == undefined)
@@ -119,13 +144,14 @@ export class GameService {
 
 	async startGame(gameId: string){
 		let game = this.games.get(gameId);
+		if (!game)
+			return null;
 		game.accepted++;
 		if (game.accepted == 2)
 			game.state = State.INPROGRESS;
 		this.games.set(game.id, game);
 		if (game.state == State.INPROGRESS)
 			return game;
-		return null;
 	}
 
 	async getAllGames(){
@@ -138,6 +164,31 @@ export class GameService {
 			return null;
 		game.spectators.push(socketId);
 		return this.games.set(game.id, game);
+	}
+
+	async getOpponentSocket(gameId : string, user: User){
+		const tempGame = this.games.get(gameId);
+		if (!tempGame)
+			return null;
+		if (tempGame.leftPaddle.userId != user.id && tempGame.rightPaddle.userId != user.id)
+			return null;
+		if(tempGame.leftPaddle.userId == user.id)
+			return tempGame.rightPaddle.socket;
+		else
+			return tempGame.leftPaddle.socket;
+	}
+
+	async saveMatch(game: IGame, winnerId: number, loserId: number){
+		let match: IMatch = { score: `${game.leftPaddle.score} - ${game.rightPaddle.score}`,
+		winner: await this.userService.getById(winnerId),
+		loser: await this.userService.getById(loserId)};
+		await this.matchService.createMatch(match);
+		await this.userService.updateScore(match);
+
+
+		this.saveGame(game);
+		this.games.delete(game.id);
+
 	}
 
 	async forfeitGame(gameId: string, user: User): Promise<string>{
@@ -157,17 +208,29 @@ export class GameService {
 				res = tempGame.leftPaddle.socket;
 
 		}
-
-			let match: IMatch = { score: `${tempGame.leftPaddle.score} - ${tempGame.rightPaddle.score}`,
-			winner: await this.userService.getById(winner),
-			loser: await this.userService.getById(loser)};
-			await this.matchService.createMatch(match);
-			await this.userService.updateScore(match);
-
-
-			this.saveGame(tempGame);
-			this.games.delete(tempGame.id);
+		await this.saveMatch(tempGame, winner, loser);
 			return res;
+	}
+
+	async winGame(gameId: string, user: User){
+		const tempGame = this.games.get(gameId);
+		let winner, loser, res;
+		if (!tempGame)
+			return null;
+		if (tempGame.leftPaddle.userId != user.id && tempGame.rightPaddle.userId != user.id)
+			return null;
+		if (tempGame.leftPaddle.userId == user.id){
+				winner = tempGame.leftPaddle.userId;
+				loser = tempGame.rightPaddle.userId;
+				res = tempGame.leftPaddle.socket;
+		} else{
+				winner = tempGame.rightPaddle.userId;
+				loser = tempGame.leftPaddle.userId;
+				res = tempGame.rightPaddle.socket;
+
+		}
+		await this.saveMatch(tempGame, winner, loser);
+		return res;
 	}
 
 	async startBall(game: IGame){

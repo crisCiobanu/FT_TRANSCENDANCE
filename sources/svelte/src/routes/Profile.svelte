@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { onDestroy } from 'svelte';
   import {
     level,
     logged,
@@ -19,33 +18,37 @@
     currentPage,
     username42,
   } from '../stores.js';
-  import tab from '../App.svelte';
   import io, { Manager } from 'socket.io-client';
 
-  let socket = null;
-  let mail;
+  let socket: any = null;
+  let mail: string;
   let user;
-  let newUserName = 'false';
-  let newMail = 'false';
+  let newUserName: string = 'false';
+  let newMail: string = 'false';
   let fileinput: any;
   let newImage: any;
-  let friendArray = [];
+  let friendArray: any = [];
   let myFriends: any;
   let friends = [];
-  let newFriend;
-  let myMatches;
-  let opponent: any;
+  let newFriend: any;
+  let myMatches: any;
   let matches = [];
+  let userResponse;
+
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      );
+  };
 
   function validateMailAddress() {
-    if ((mail.indexOf('@') == -1) || (mail.indexOf('.') == -1) || mail.indexOf(';') || mail.indexOf('/')) {
-      alert('❌ Enter a valid mail adress');
-    }
-    else if (mail.indexOf('.') == -1) {
-      alert('❌ Enter a valid mail adress');
-    }
-    else {
+    if (validateEmail(mail)) {
       changeMailAddress();
+    } else {
+      alert('❌ Please enter a valid email address');
+      mail = '';
     }
   }
 
@@ -79,29 +82,38 @@
 
   function validateUserName() {
     if (user.length < 3) {
-      alert('❌ New username must be at least 3 characters long')
-    }
-    else if ( user.length > 6) {
-      alert('❌ New username must not be longet than 6 characters long')
-    }
+      alert('❌ New username must be at least 3 characters long');
+    } else if (user.length > 6) {
+      alert('❌ New username must not be longet than 6 characters long');
+    } 
+    // else if {
+    //   user == $username 
+    // }
     else {
       changeUserName();
     }
   }
 
   async function changeUserName() {
-    username.update((n) => user);
-    await fetch('http://localhost:3000/users/updateusername/', {
+    userResponse = await fetch('http://localhost:3000/users/updateusername/', {
       method: 'POST',
       body: JSON.stringify({ username: user, id: $id }),
       headers: {
         Authorization: 'Bearer ' + $cookie,
         'Content-type': 'application/json; charset=UTF-8',
       },
-    });
-    alert('✅ Your username has beem changed to ' + user);
-    newUserName = 'false';
-  }
+    }).then((response) => (userResponse = response.json()))
+      console.log(userResponse);
+      if (userResponse.status == 'OK') {
+        alert('✅ Your username has beem changed to ' + user);
+        username.update((n) => user);
+        newUserName = 'false';
+        user = '';
+      } else if (userResponse.status == 'KO') {
+        alert('⚠️ user name has already been  chosen ! Pick another one');
+        user = '';
+      }
+    };
 
   async function TWOFAon() {
     if ($TWOFA == 'false') {
@@ -166,20 +178,22 @@
       },
     }).then((response) => (myFriends = response.json()));
     friendArray = myFriends.friends;
-   for( let i = 0; i < friendArray.length; i++) {
-    if (parseInt(friendArray[i])) {
-      newFriend = await fetch('http://localhost:3000/users/' + friendArray[i], {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        Authorization: 'Bearer ' + $cookie,
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    }).then((response) => (newFriend = response.json()));
-      friends = [...friends, newFriend];
-  }
-}
-  console.log(friends);
+    for (let i = 0; i < friendArray.length; i++) {
+      if (parseInt(friendArray[i])) {
+        newFriend = await fetch(
+          'http://localhost:3000/users/' + friendArray[i],
+          {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+              Authorization: 'Bearer ' + $cookie,
+              'Content-type': 'application/json; charset=UTF-8',
+            },
+          },
+        ).then((response) => (newFriend = response.json()));
+        friends = [...friends, newFriend];
+      }
+    }
     wins.update((n) => myFriends.wins);
     losses.update((n) => myFriends.losses);
     level.update((n) => myFriends.level.toFixed(1));
@@ -217,7 +231,7 @@
           />
           <div>
             <button
-              on:click={validateMailAddress}
+              on:click|preventDefault={validateUserName}
               type="submit"
               value="Submit"
               style="cursor: pointer">Change</button
@@ -227,7 +241,7 @@
           <div>
             <button
               style="cursor: pointer; font-size: 50px; border: none; background-color: transparent;"
-              on:click={() => {
+              on:click|preventDefault={() => {
                 newUserName = 'false';
               }}>🔙</button
             >
@@ -247,7 +261,7 @@
           />
           <div>
             <button
-              on:click={validateMailAddress}
+              on:click|preventDefault={validateMailAddress}
               type="submit"
               value="Submit"
               style="cursor: pointer">Change</button
@@ -257,7 +271,7 @@
           <div>
             <button
               style="cursor: pointer;font-size: 50px; border: none; background-color: transparent;"
-              on:click={() => (newMail = 'false')}>🔙</button
+              on:click|preventDefault={() => (newMail = 'false')}>🔙</button
             >
           </div>
         </div>
@@ -274,7 +288,7 @@
         <button
           class="bt1"
           style="cursor: pointer"
-          on:click={() => {
+          on:click|preventDefault={() => {
             fileinput.click();
           }}>Change profile picture</button
         >
@@ -298,14 +312,14 @@
         <button
           class="bt2"
           style="cursor: pointer"
-          on:click={() => {
+          on:click|preventDefault={() => {
             newUserName = 'true';
             newMail = 'false';
           }}>Change user name</button
         >
         {#if $TWOFA == 'false' && $ownmail == 'true'}
           <button
-            on:click={TWOFAon}
+            on:click|preventDefault={TWOFAon}
             class="TWOFA"
             style="cursor: pointer; margin: 0 auto;padding: 10px;width: 200px;color: white; background-color:lightslategrey;border-radius: 5px"
             >Enable 2FA</button
@@ -313,13 +327,13 @@
         {:else if $TWOFA == 'false'}
           <button
             class="TWOFA"
-            on:click={() => (newMail = 'true')}
+            on:click|preventDefault={() => (newMail = 'true')}
             style="cursor: pointer; margin: 0 auto;padding: 10px;width: 200px;color: white; background-color:lightslategrey;border-radius: 5px"
             >Enable 2FA</button
           >
         {:else}
           <button
-            on:click={TWOFAoff}
+            on:click|preventDefault={TWOFAoff}
             class="TWOFA"
             style="cursor: pointer; margin: 0 auto;padding: 10px; width: 200px; background-color: dimgrey; color: white; border-radius:5px;"
             >Disable 2FA</button
@@ -334,11 +348,16 @@
             SCORES
           </h1>
         </div>
-        <h1 style='text-transform: uppercase;'>
-          <p><span class="sp1">wins</span> <span class="sp2">{$wins}</span
-            > <span style='font-weight:300;'> | </span><span class="sp1">losses</span> <span class="sp2">{$losses}</span
-            > <span style='font-weight:300;'> | </span><span class="sp1">level</span> <span class="sp2">{$level}</span
-            ></p>
+        <h1 style="text-transform: uppercase;">
+          <p>
+            <span class="sp1">wins</span> <span class="sp2">{$wins}</span>
+            <span style="font-weight:300;"> | </span><span class="sp1"
+              >losses</span
+            > <span class="sp2">{$losses}</span>
+            <span style="font-weight:300;"> | </span><span class="sp1"
+              >level</span
+            > <span class="sp2">{$level}</span>
+          </p>
         </h1>
       </div>
       <div style="width: 400px;margin: 0 auto; display: block">
@@ -346,12 +365,19 @@
           MATCH HISTORY
         </h1>
         <div style="display:block; margin: 0 auto; text-align: center">
+          {#if matches.length == 0}
+            <h4
+              style="text-align:center; display: block; margin: 0 auto; color:dimgrey; font-style: italic"
+            >
+              No match history to display yet
+            </h4>
+          {/if}
           <div
             class="row"
             id="history"
             style="max-height: 150px; overflow-y: scroll; margin: 0 auto; display:block;  align-content: center; text-align: center"
           >
-            {#each [...matches].reverse()  as match}
+            {#each [...matches].reverse() as match}
               {#if match.winner.userName42 == $username42}
                 <div
                   class="column"
@@ -385,16 +411,41 @@
           ACHIEVEMENTS
         </h1>
         <div class="achievements">
-          {#if $wins == 0}
-          <p style='tex-align: center'>No achivements yet</p>
+          {#if $wins == 0 && friends.length == 0 && $ownmail == 'false'}
+            <h4
+              style="text-align:center; display: block; margin: 0 auto; color:dimgrey; font-style: italic"
+            >
+              No friends to display yet
+            </h4>
           {:else}
-          <p><span style ='text-transform: uppercase; font-weight: 600;'>🥇 One first win 🥇</span><br><span style='font-weight: 400;font-style: italic; color:grey'>You defeated aother player on match!</span></p>
+            <p>
+              <span style="text-transform: uppercase; font-weight: 600;"
+                >🥇 One first win 🥇</span
+              ><br /><span
+                style="font-weight: 400;font-style: italic; color:grey"
+                >You defeated aother player on match!</span
+              >
+            </p>
           {/if}
           {#if friends.length > 0}
-          <p><span style ='text-transform: uppercase; font-weight: 600;'>🤹‍♀️ Social guy 🤹‍♀️</span><br><span style='font-weight: 400;font-style: italic; color:grey'>You added one person as a friend!</span></p>
+            <p>
+              <span style="text-transform: uppercase; font-weight: 600;"
+                >🤹‍♀️ Social guy 🤹‍♀️</span
+              ><br /><span
+                style="font-weight: 400;font-style: italic; color:grey"
+                >You added one person as a friend!</span
+              >
+            </p>
           {/if}
           {#if $ownmail == 'true'}
-          <p><span style ='text-transform: uppercase; font-weight: 600;'>🛡 Secure guy 🛡</span><br><span style='font-weight: 400;font-style: italic; color:grey'>You added one person as a friend!</span></p>
+            <p>
+              <span style="text-transform: uppercase; font-weight: 600;"
+                >🛡 Secure guy 🛡</span
+              ><br /><span
+                style="font-weight: 400;font-style: italic; color:grey"
+                >You enabled two factor authentication!</span
+              >
+            </p>
           {/if}
         </div>
       </div>
@@ -403,12 +454,19 @@
           FRIENDS
         </h1>
         <div class="friends">
+          {#if friends.length == 0}
+            <h4
+              style="text-align:center; display: block; margin: 0 auto; color:dimgrey; font-style: italic"
+            >
+              No friends to display yet
+            </h4>
+          {/if}
           {#each friends as friend}
             <div class="oneFriend">
               <a
                 class="profileLink"
                 href="#/userprofile"
-                on:click={() => {
+                on:click|preventDefault={() => {
                   otherUser.update((n) => friend.id);
                 }}
               >
@@ -464,7 +522,7 @@
   .friends {
     display: flex;
     align-items: center;
-    /* margin-bottom: 50px; */
+    margin-bottom: 50px;
     text-align: center;
   }
 

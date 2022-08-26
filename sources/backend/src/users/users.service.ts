@@ -21,8 +21,8 @@ export class UsersService {
     ) {}  
 
     async create(createUserDto : CreateUserDto): Promise<User>{
-        const newUser = await this.userRepository.create(createUserDto);
-        await this.userRepository.save(newUser);
+        let newUser = await this.userRepository.create(createUserDto);
+        newUser = await this.userRepository.save(newUser);
         return newUser;
     }
 
@@ -31,6 +31,7 @@ export class UsersService {
     }
 
     async getById(id : number) : Promise<User>{
+        
         return this.userRepository.findOneBy( {id} );
     }
 
@@ -39,7 +40,28 @@ export class UsersService {
     }
 
     async getByLogin42(userName42 : string) : Promise<User>{
-        return this.userRepository.findOneBy( {userName42} );
+        
+        //const user = await this.userRepository.findOneBy( {userName42} );
+        const user = await this.userRepository.findOne({
+            where: {
+                userName42: userName42
+            }
+        })
+        console.log("LOG FROM GET BY USERNAME42");
+        console.log(user);
+        return user;
+    }
+
+    async getByUserName(userName : string) : Promise<User>{
+        return this.userRepository.findOneBy( {userName} );
+    }
+
+    async logOut(userName42: string): Promise<User>{
+        let user = await this.userRepository.findOneBy({userName42});
+        if (!user)
+            return null;
+        user.state = UserState.OFFLINE;
+        return this.userRepository.save(user); 
     }
 
     async changeUserName(id: number, userName: string): Promise<User>{
@@ -57,28 +79,33 @@ export class UsersService {
         return newUser;
     }
 
-    async changeUserImage(id: number, imageURL: string): Promise<User>{
-        const newUser = await this.userRepository.findOneBy({ id });
+    async changeUserImage(userName42: string, imageURL: string): Promise<User>{
+        let newUser = await this.userRepository.findOneBy({ userName42 });
+        // console.log("LOG FROM CHANGE USER IMAGE")
+        // console.log(imageURL);
         newUser.imageURL = imageURL;
-        await this.userRepository.save(newUser);
+        newUser = await this.userRepository.save(newUser);
+        // console.log(newUser.imageURL);
         return newUser;
     }
 
-    async blockUser(email: string, id: string): Promise<User>{
-        const newUser = await this.userRepository.findOneBy({ email });
+    async blockUser(userName42: string, id: string): Promise<User>{
+        let newUser = await this.userRepository.findOneBy({ userName42 });
         newUser.blocked.push(id);
-        await this.userRepository.save(newUser);
+        console.log("LOG FROM BLOCK USER");
+        console.log(newUser.blocked);
+        newUser = await this.userRepository.save(newUser);
         return newUser;
     }
 
     async unBlockUser(userName42: string, id: string): Promise<User>{
-        const newUser = await this.userRepository.findOneBy({ userName42 });
+        let newUser = await this.userRepository.findOneBy({ userName42 });
         let index = newUser.blocked.indexOf(id);
         // newUser.blocked.length = 0;
         if (index != -1) {
             newUser.blocked.splice(index, 1);
         }
-        await this.userRepository.save(newUser);
+        newUser = await this.userRepository.save(newUser);
         return newUser;
     }
 
@@ -101,23 +128,19 @@ export class UsersService {
     }
 
     async changeTWOFA(userName42: string): Promise<User>{
-
-
-        const newUser = await this.userRepository.findOneBy({ userName42 });
-        console.log(`LOG FROM TWOFA : ${userName42} - ${newUser.TWOFA}`)
-
-        //newUser.TWOFA = !(newUser.TWOFA);
+        let newUser = await this.userRepository.findOneBy({ userName42 });
+        //console.log(`LOG FROM TWOFA : ${userName42} - ${newUser.TWOFA}`)
         newUser.TWOFA = newUser.TWOFA == true ? false : true;
-
-        await this.userRepository.save(newUser);
+        newUser = await this.userRepository.save(newUser);
+        //console.log(`LOG FROM TWOFA : ${userName42} - ${newUser.TWOFA}`)
         return newUser;
     }
 
     async updateScore(match : IMatch){
         ++match.loser.losses;
         ++match.winner.wins;
-        console.log("LOG FROM UODATE SCORE");
-        console.log(`LOSSES : ${match.loser.losses} and WINS: ${match.winner.wins}`)
+        // console.log("LOG FROM UODATE SCORE");
+        // console.log(`LOSSES : ${match.loser.losses} and WINS: ${match.winner.wins}`)
         await this.userRepository.save(match.loser);
         await this.userRepository.save(match.winner);
         await this.updateUserLevel(match);
@@ -126,8 +149,8 @@ export class UsersService {
     async updateUserLevel(match: IMatch){
         const newLevel = match.winner.level + 0.42 / (Math.floor(match.winner.level));
         match.winner.level = newLevel;
-        console.log("LOG FROM UODATE USER LEVEL");
-        console.log(`${match.winner.userName42} LEVEL : ${match.winner.level}`)
+        // console.log("LOG FROM UODATE USER LEVEL");
+        // console.log(`${match.winner.userName42} LEVEL : ${match.winner.level}`)
         await this.userRepository.save(match.winner);
     }
 
