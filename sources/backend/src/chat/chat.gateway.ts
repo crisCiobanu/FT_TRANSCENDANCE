@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Logger, UsePipes, ValidationPipe } from '@nestjs/common';
 import { OnGatewayConnection, 
           OnGatewayDisconnect, 
           OnGatewayInit, 
@@ -19,6 +19,7 @@ import { Channel } from './channel/channel.entity';
 import { UsersService } from 'src/users/users.service';
 import { GameService } from '../pong/game/game.service';
 import { UserState } from 'src/users/user.entity';
+import { KickDto, BanDto, ChangePassDto } from './chat.dto';
 
 @WebSocketGateway({
   cors: {
@@ -165,14 +166,17 @@ async handleConnection(client: Socket, ...args: any[]) {
   }
 
   @SubscribeMessage('createRoom')
-  async createChannel(client: Socket, payload: IChannel) {
-
+  async createChannel(client: Socket, payload: IChannel) { 
     const newChannel = await this.channnelService.createChannel(payload, client.data.user);
-
     if (newChannel)
+    {
+      this.server.to(client.id).emit('createRoomResponse', 'OK');
       this.sendCreatedRoom(client, newChannel)
-    else
-      throw new WsException('Problem while creating the new room');
+    }
+    else{
+      console.log("LOG FROM CREATE CHANNEL");
+      this.server.to(client.id).emit('createRoomResponse', 'exists');
+    }
   }
 
   @SubscribeMessage('createPrivateMessage')
@@ -202,7 +206,7 @@ async handleConnection(client: Socket, ...args: any[]) {
   }
 
   @SubscribeMessage('changePass')
-  async changePassword(client: Socket, payload: any){
+  async changePassword(client: Socket, payload: ChangePassDto){
     await this.channnelService.changePassword(payload.room, payload.pass);
   }
 
@@ -257,9 +261,7 @@ async handleConnection(client: Socket, ...args: any[]) {
     if (!otherUser)
       return;
     await this.sendAllert(otherUser.id, channel.name, 'privateMessageDeleted'); 
-    //
-    //   TO DO DEMAIN MATIN
-    //
+
     await this.channnelService.deleteChannel(payload, client.data.user);
     this.sendUpdatePrivateMessages(client, channel);
   }
@@ -319,8 +321,12 @@ async handleConnection(client: Socket, ...args: any[]) {
       
   // }
 
+
+  @UsePipes(new ValidationPipe({
+    transform: true,
+  }))  
   @SubscribeMessage('muteUser')
-  async muteUser(client: Socket, payload){
+  async muteUser(client: Socket, payload: BanDto){
     const admin = client.data.user;
     const channel = await this.channnelService.getChannelByName(payload.channel);
     const user = await this.userService.getByLogin42(payload.userName42);
@@ -342,8 +348,12 @@ async handleConnection(client: Socket, ...args: any[]) {
       this.server.to(client.id).emit('muteUserResponse', 'false');
   }
 
+
+  @UsePipes(new ValidationPipe({
+    transform: true,
+  }))  
   @SubscribeMessage('banUser')
-  async banUser(client: Socket, payload){
+  async banUser(client: Socket, payload: BanDto){
     const admin = client.data.user;
     const channel = await this.channnelService.getChannelByName(payload.channel);
     const user = await this.userService.getByLogin42(payload.userName42);
@@ -368,8 +378,8 @@ async handleConnection(client: Socket, ...args: any[]) {
   }
 /////////
 
-  @SubscribeMessage('kickUser')
-  async kickUser(client: Socket, payload){
+@SubscribeMessage('kickUser')
+  async kickUser(client: Socket, payload: KickDto){
     const admin = client.data.user;
     const channel = await this.channnelService.getChannelByName(payload.channel);
     const user = await this.userService.getByLogin42(payload.userName42);
@@ -380,7 +390,7 @@ async handleConnection(client: Socket, ...args: any[]) {
     }
 
     if ((admin.id === channel.channelOwnerId) || (channel.channelAdminsId.find(nbr => nbr === admin.id) !== undefined)){
-      const tmpKick = await this.channnelService.kickUser(channel, user, payload.minutes);
+      const tmpKick = await this.channnelService.kickUser(channel, user);
       if (!tmpKick){
         this.server.to(client.id).emit('kickUserResponse', 'banned');
         return;
