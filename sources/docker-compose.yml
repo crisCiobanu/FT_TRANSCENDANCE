@@ -4,11 +4,11 @@ services:
   svelte:
     container_name: svelte
     depends_on:
-    - postgres
     - backend
     ports:
     - "8080:8080"
     build: ./svelte
+    restart: always
     networks:
     - postgres
 
@@ -18,9 +18,10 @@ services:
     ports:
     - "5432:5432"
     volumes:
-    - /data/postgres:/data/postgres
+    - /goinfre/dhaliti/data/postgres:/data/postgres
     env_file:
     - docker.env
+    restart: always
     networks:
     - postgres
   
@@ -32,9 +33,10 @@ services:
     ports:
     - "5050:80"
     volumes:
-    - /data/pgadmin:/root/.pgadmin
+    - /goinfre/dhaliti/data/pgadmin:/root/.pgadmin
     env_file:
     - docker.env
+    restart: always
     networks:
     - postgres
   
@@ -45,6 +47,7 @@ services:
     ports:
     - "3000:3000"
     build: ./backend
+    restart: always
     networks:
     - postgres
 

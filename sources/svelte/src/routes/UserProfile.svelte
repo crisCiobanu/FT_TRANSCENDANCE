@@ -8,6 +8,7 @@
     invitedPlayer,
     invitation,
     currentPage,
+    refresh,
   } from '../stores.js';
 
   let user;
@@ -31,7 +32,6 @@
   let myMatches;
 
   import io, { Manager } from 'socket.io-client';
-  import App from '../App.svelte';
 import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
 
   export let socket = null;
@@ -82,7 +82,7 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
   }
 
   async function unFriend() {
-    result = await fetch('http://localhost:3000/users/unfriend', {
+    result = await fetch('localhost:3000/users/unfriend', {
       method: 'POST',
       headers: {
         Authorization: 'Bearer ' + $cookie,
@@ -95,9 +95,12 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
 
   onMount(async () => {
     currentPage.update(n => '');
-    socket = io('http://localhost:3000/online', {
+    // if ($refresh != 'true') {
+      socket = io('http://localhost:3000/online', {
       auth: { token: $cookie },
     });
+    // }
+    refresh.update(n => 'true');
     user = await fetch('http://localhost:3000/users/' + $otherUser, {
       method: 'GET',
       credentials: 'include',
@@ -138,6 +141,10 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
     }).then((response) => (myMatches = response.json()));
     matches = myMatches;
   });
+
+  onDestroy(async () => {
+    refresh.update(n => 'false');
+  })
 </script>
 
 <main>
@@ -148,7 +155,11 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
       </h1>
     {:else}
       <div style="margin: 0 auto; display: block">
+        {#if myFriends.indexOf(userId) != -1}
+        <h1 class="name" style="color: rgb(119, 158, 204)">{username}</h1>
+        {:else}
         <h1 class="name" style="color:black">{username}</h1>
+        {/if}
         <img
           class="profile"
           src={image_url}
@@ -189,22 +200,22 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
           <button
             on:click|preventDefault={unFriend}
             style="width: 200px; color: white;text-align: center; background-color: dimgrey;"
-            class="friend">Unfriend</button
+            class="friend">💨 Unfriend</button
           >
         {:else}
           <button
             on:click|preventDefault={friendRequest}
-            style="width: 200px;text-align: center;color: white; background-color: slategrey;"
-            class="friend">Add as friend</button
+            style="width: 200px;text-align: center;color: black;border:none; background-color: rgb(221, 240, 247);"
+            class="friend">👍 Add as friend</button
           >
         {/if}
         {#if myBlocked.indexOf(userId) != -1}
-          <button on:click|preventDefault={unBlockUser} class="block2">Unblock user</button>
+          <button on:click|preventDefault={unBlockUser} class="block2">Unblock user 🔐</button>
         {:else}
-          <button on:click|preventDefault={blockUser} class="block">Block user</button>
+          <button on:click|preventDefault={blockUser} class="block">Block user ☢</button>
         {/if}
       </div>
-      <button style='width: 200px; background-color: dodgerblue; padding: 10px; margin:0 auto; display: block;text-align: center; color: white' on:click|preventDefault={sendInvitation}>Invite to play 🏓</button>
+      <button style='width: 200px; background-color: dodgerblue; padding: 10px; margin:0 auto; display: block; text-align: center; color: white' on:click|preventDefault={sendInvitation}>Invite to play 🏓</button>
       <!-- {#if myFriends.indexOf(userId) != -1} -->
       <div class="tb1">
         <h1
@@ -229,6 +240,13 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
         <h1 style="background-color: darkgrey; color:white; text-align:center;">
           MATCH HISTORY
         </h1>
+        {#if matches.length == 0}
+        <h4
+        style="text-align:center; display: block; margin: 0 auto; color:dimgrey; font-style: italic"
+      >
+        No match history to display yet
+      </h4>
+      {/if}
         <!-- <div style='display:block; margin: 0 auto; text-align: center'> -->
         <div
           class="row"
@@ -276,6 +294,7 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
     align-items: center;
     margin: 0 auto;
     color: black;
+
   }
   h1 {
     font-weight: 700;
@@ -328,7 +347,7 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
     flex-direction: column;
     align-items: center;
     text-align: center;
-    color: white;
+    color: darkgreen;
     padding: 10px;
     display: flex;
   }

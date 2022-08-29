@@ -258,7 +258,7 @@ export class ChannelService {
         }
     }
 
-    async kickUser(channel: Channel, bannedUser: User, minutes: number){
+    async kickUser(channel: Channel, bannedUser: User){
         channel.users = channel.users.filter(user => user.id != bannedUser.id);
         return this.channelRepository.save(channel);
         }
@@ -285,10 +285,5 @@ export class ChannelService {
         console.log("Users channels are : ");
         console.log(channels);
     }
-
-
-
-
-
 
 }

@@ -37,17 +37,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }})
       } 
     ),
-    MailerModule.forRoot({
-      transport: {
-        host: 'smtp.zoho.eu',
-        port: 465,
-        secure: true,
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS
-        }
-      }
-    }),
     TypeOrmModule.forFeature([User])
   ],
   exports: [

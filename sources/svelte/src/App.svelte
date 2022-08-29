@@ -39,6 +39,9 @@
       localStorage.removeItem('currentChat');
       localStorage.removeItem('currentPage');
       localStorage.removeItem('invitedPlayer');
+      for(let key in localStorage) {
+        delete localStorage[key];
+    }
       var cookies = document.cookie.split(';');
 
       for (var i = 0; i < cookies.length; i++) {

@@ -72,12 +72,19 @@
   }
 
   async function createRoom() {
+    if (title.indexOf(' ') != -1 || title.indexOf('\t') != -1) {
+      alert('❌ Room name cannot contain white spaces');
+      title = '';
+      return;
+    }
     if (!title || !free) {
       alert('❌ Missing information !');
     } else if (free != 'true' && !pass) {
       alert('❌ Missing information !');
-    } else if (title.length < 4) {
+    } else if (title.length < 3) {
         alert('Room title must be at least 3 characters long')
+    } else if (free != 'true' && (pass.length < 4 || pass.length > 16)) {
+      alert('❌ Your password must be between 4 and 16 characters long!');
     } else {
       newRoom.name = title;
       newRoom.password = pass;
@@ -87,15 +94,26 @@
         newRoom.isPublic = false;
       }
       socket.emit('createRoom', newRoom);
-      alert(`✅ Chatroom ${title} has been created`);
-      creation = false;
-      pass = '';
-      title = '';
-      free = '';
+      socket.on('createRoomResponse', (message) => {
+        console.log('message');
+        if (message == 'exists') {
+          alert ('❌ a Room of that name already exists. Please choose another name');
+        }
+        else {
+          alert(`✅ Chatroom ${title} has been created`);
+          creation = false;
+          pass = '';
+          title = '';
+          free = '';
+        }
+      });
     }
   }
 
   async function muteUser() {
+    if (!muteTime) {
+      return;
+    }
     let time = muteTime;
     socket.emit('muteUser', {
       channel: currentRoom.name,
@@ -124,8 +142,9 @@
   }
 
   function changeRoomPass() {
-    if (newPass.length < 4 || newPass.length > 10) {
-      alert('❌ Your password must be contain between 4 and 10 characters')
+    if (newPass.length < 4 || newPass.length > 16) {
+      alert('❌ Your password must be between 4 and 16 characters long!');
+      newPass = '';
     }
     else {
       socket.emit('changePass', { room: currentRoom.name, pass: newPass });
@@ -140,6 +159,9 @@
   }
 
   async function banUser() {
+    if (!banTime) {
+      return;
+    }
     let time = banTime;
     socket.emit('banUser', {
       channel: currentRoom.name,
@@ -557,15 +579,15 @@
         <br />
         <div>
           {#if password == 'true'}
-            <input bind:value={pass} placeholder="Enter channel password..." />
+            <input bind:value={pass} type='password' placeholder="Enter channel password..." />
           {/if}
           <div>
-            <button class="create" on:click={createRoom}>Create new room</button
+            <button class="create" on:click|preventDefault={createRoom}>Create new room</button
             >
           </div>
           <button
             style="border: none; background-color: transparent; font-size: 36px;"
-            on:click={() => (creation = false)}>🔙</button
+            on:click|preventDefault={() => {creation = false; pass = ''; title =''; free = '';  password = 'false';}}>🔙</button
           >
         </div>
       </div>
@@ -598,32 +620,32 @@
                 <button
                   style="color: slategrey; padding: 5px 10px;background-color: lightblue"
                   id="selectMyOwnRoom"
-                  on:click={() => changeConv(room)}
+                  on:click|preventDefault={() => changeConv(room)}
                   >#{room.name.toUpperCase()}</button
                 ><br />
               {:else if room.channelOwnerId == $id}
                 <button
                   style="color: lightblue;"
                   id="selectMyOwnRoom"
-                  on:click={() => changeConv(room)}
+                  on:click|preventDefault={() => changeConv(room)}
                   >#{room.name.toUpperCase()}</button
                 ><br />
               {:else if myChannels.indexOf(room.name) != -1 && room == currentRoom}
                 <button
                   style="color: slategrey; padding: 5px 10px;background-color: lightgreen"
                   id="selectMyRoom"
-                  on:click={() => changeConv(room)}
+                  on:click|preventDefault={() => changeConv(room)}
                   >#{room.name.toUpperCase()}</button
                 ><br />
               {:else if myChannels.indexOf(room.name) != -1}
                 <button
                   style="color:lightgreen"
                   id="selectMyRoom"
-                  on:click={() => changeConv(room)}
+                  on:click|preventDefault={() => changeConv(room)}
                   >#{room.name.toUpperCase()}</button
                 ><br />
               {:else}
-                <button id="selectRoom" on:click={() => changeConv(room)}
+                <button id="selectRoom" on:click|preventDefault={() => changeConv(room)}
                   >#{room.name.toUpperCase()}</button
                 ><br />
               {/if}
@@ -637,7 +659,7 @@
                 <button
                   style="color: white; background-color: darkslategrey"
                   id="selectPrivMsg"
-                  on:click={() => changeConvMessages(privateMessage)}
+                  on:click|preventDefault={() => changeConvMessages(privateMessage)}
                 >
                   {privateMessage.users[0].id == $id
                     ? privateMessage.users[1].userName42.toUpperCase()
@@ -646,7 +668,7 @@
               {:else}
                 <button
                   id="selectPrivMsg"
-                  on:click={() => changeConvMessages(privateMessage)}
+                  on:click|preventDefault={() => changeConvMessages(privateMessage)}
                 >
                   {privateMessage.users[0].id == $id
                     ? privateMessage.users[1].userName42.toUpperCase()
@@ -669,7 +691,7 @@
                 {/if}
               </div>
               {#if myChannels.indexOf(currentRoom.name) == -1 && currentRoom.isPublic == true && currentRoom.isDirectMessage != true}
-                <button class="joinButton" on:click={() => joinRoom()}
+                <button class="joinButton" on:click|preventDefault={() => joinRoom()}
                   >Join room</button
                 >
               {:else if currentRoom.isPublic == false && myChannels.indexOf(currentRoom.name) == -1}
@@ -713,24 +735,24 @@
             <form class="form-control" on:submit|preventDefault={sendMessage}>
               <input bind:value={Otext} placeholder="Enter message..." />
             </form>
-            <button class="sendButton" on:click={sendMessage}>⏎</button>
+            <button class="sendButton" on:click|preventDefault={sendMessage}>⏎</button>
           </div>
           <div class="my-buttons">
-            <button id="createRoom" on:click={() => (creation = true)}
+            <button id="createRoom" on:click|preventDefault={() => (creation = true)}
               >Create new room</button
             >
             {#if currentRoom && currentRoom.isDirectMessage == true}
               <button
                 id="leaveRoom"
-                on:click={() => deletePrivateMessage(currentRoom)}
+                on:click|preventDefault={() => deletePrivateMessage(currentRoom)}
                 >Delete Private Conversation</button
               >
             {:else if currentRoom && currentRoom.channelOwnerId == $id}
-              <button id="leaveRoom" on:click={() => deleteRoom(currentRoom)}
+              <button id="leaveRoom" on:click|preventDefault={() => deleteRoom(currentRoom)}
                 >Delete Room</button
               >
             {:else if currentRoom && myChannels.indexOf(currentRoom.name) != -1}
-              <button id="leaveRoom" on:click={() => leaveRoom(currentRoom)}
+              <button id="leaveRoom" on:click|preventDefault={() => leaveRoom(currentRoom)}
                 >Leave Room</button
               >
             {/if}
@@ -739,7 +761,7 @@
             <div style="margin-top: 5px;" class="my-buttons">
               <button
                 id="createRoom2"
-                on:click={() => {
+                on:click|preventDefault={() => {
                   changeRemove = 'true';
                 }}>Change password</button
               >
@@ -757,7 +779,7 @@
                   placeholder="Enter new password..."
                 />
               </form>
-              <button on:click={changeRoomPass}>Submit</button>
+              <button on:click|preventDefault={changeRoomPass}>Submit</button>
             {/if}
           {/if}
         </div>
@@ -769,7 +791,7 @@
             <div style="margin-top: 15px;">
               {#each currentRoom.users as user}
                 <button
-                  on:click={() => {
+                  on:click|preventDefault={() => {
                     updateCurrentUser(user);
                   }}
                   id="selectUser"
@@ -788,7 +810,7 @@
             {#if currentRoom.isDirectMessage == false}
               <button
                 style="cursor: pointer;display: block; text-align: right; border: none; margin-bottom: -10px; color: black"
-                on:click={() => {
+                on:click|preventDefault={() => {
                   currentUser = '';
                   currentProfile.update((n) => '');
                 }}>X</button
@@ -796,7 +818,7 @@
             {/if}
             {#if currentUser.id == $id}
               <a
-                href="#/profile"
+                href="http://localhost/#/profile"
                 class="profileLink"
                 style="color: black; font-size:16px;"
                 ><img
@@ -807,7 +829,7 @@
               >
             {:else if currentRoom.isDirectMessage == true}
               <a
-                href="#/userprofile"
+                href="http://localhost/#/userprofile"
                 class="profileLink"
                 style="color: darkred; font-size:16px;"
                 ><img
@@ -817,14 +839,14 @@
                 /><b>{currentUser.userName}</b></a
               >
               <button
-                on:click={sendInvitation}
+                on:click|preventDefault={sendInvitation}
                 class="profileButton"
                 style="background-color: dodgerblue; color: white"
                 >Invite to play 🏓</button
               >
             {:else}
               <a
-                href="#/userprofile"
+                href="http://localhost/#/userprofile"
                 on:click={() => {
                   otherUser.update((n) => currentUser.id);
                 }}
@@ -838,13 +860,13 @@
                 /><b>{currentUser.userName}</b></a
               >
               <button
-                on:click={createPrivateMessage}
+                on:click|preventDefault={createPrivateMessage}
                 class="profileButton"
                 style="color: white; background-color: rgb(224, 62, 62)"
                 >Send PM ✉️</button
               >
               <button
-                on:click={sendInvitation}
+                on:click|preventDefault={sendInvitation}
                 class="profileButton"
                 style="background-color: dodgerblue; color: white"
                 >Invite to play 🏓</button
@@ -872,7 +894,7 @@
                 {#if muteOptions == 'true'}
                   <div>
                     <label>
-                      <input type="radio" bind:group={muteTime} value="5" />
+                      <input type="radio" default bind:group={muteTime} value="5" />
                       5 min.
                     </label>
 
@@ -885,7 +907,7 @@
                       <input type="radio" bind:group={muteTime} value="4320" />
                       3 days
                     </label>
-                    <button on:click={muteUser}>Mute User</button>
+                    <button on:click|preventDefault={muteUser}>Mute User</button>
                   </div>
                 {/if}
 
@@ -920,12 +942,12 @@
                       <input type="radio" bind:group={banTime} value="4320" />
                       3 days
                     </label>
-                    <button on:click={banUser}>Ban User</button>
+                    <button on:click|preventDefault={banUser}>Ban User</button>
                   </div>
                 {/if}
                 {#if currentUser.id != currentRoom.channelOwnerId}
                   <button
-                    on:click={kickUser}
+                    on:click|preventDefault={kickUser}
                     class="profileButton"
                     style="background-color: slategrey; color: white"
                     >Kick</button
@@ -935,13 +957,13 @@
               {#if currentRoom.channelOwnerId == $id && currentRoom.channelAdminsId.indexOf(currentUser.id.toString()) == -1}
                 <button
                   style="background-color: gold"
-                  on:click={makeAdmin}
+                  on:click|preventDefault={makeAdmin}
                   class="profileButton">Upgrade status</button
                 >
               {:else if currentRoom.channelOwnerId == $id && currentRoom.channelAdminsId.indexOf(currentUser.id.toString()) != -1}
                 <button
                   style="border: solid 1px brown; color: brown; background-color: transparent"
-                  on:click={removeAdmin}
+                  on:click|preventDefault={removeAdmin}
                   class="profileButton">Downgrade status</button
                 >
               {/if}

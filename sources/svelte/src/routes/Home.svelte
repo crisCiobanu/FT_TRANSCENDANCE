@@ -14,7 +14,7 @@ let friends;
 let error = false;
 
 async function sendCode() {
-    await fetch('http://localhost:3000/auth/activation/' + code, {
+    await fetch('http://locahlost:3000/auth/activation/' + code, {
       method: 'GET',
       headers: 
         {
@@ -60,7 +60,7 @@ onMount(async () => {
   if ($intra == 'false')
   {
             cookie.update(n =>cookies.split('=')[1]);
-          isAuth = await fetch("http://127.0.0.1:3000/auth/currentuser", 
+          isAuth = await fetch('http://localhost:3000/auth/currentuser', 
           {
               method: 'GET',
               credentials: 'include',
@@ -115,7 +115,7 @@ onMount(async () => {
     <button on:click={sendCode} type="submit" value="Submit" style="display: block;margin: 0 auto;">Send</button>
     </div>
     {:else}
-    <a href="http://localhost:3000/auth/42" class="api" style="color: rgb(255, 255, 255);
+    <a href='http://localhost:3000/auth/42' class="api" style="color: rgb(255, 255, 255);
       text-align: center;
       width: 100px;
       padding: 5px;
@@ -152,7 +152,7 @@ onMount(async () => {
       }
     .about {
       color: balck;
-      width: 50%;
+      width: 600px;
       margin-top: 30px;;
       margin-left: auto;
       margin-right: auto;

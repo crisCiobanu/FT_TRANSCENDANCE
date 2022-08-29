@@ -43,12 +43,6 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
         await this.gameService.saveGame(game);
         const oponnentSocket = await this.gameService.getOpponentSocket(game.id, client.data.user);
         await this.sendToOpponnentAndSpectators(game, oponnentSocket, 'pausedGame', null);
-        // await this.sleep(10000);
-        // const winner = await this.gameService.forfeitGame(game.id, client.data.user);
-        // if (!winner){
-
-        // }
-        // await this.server.to(winner).emit('winByDisconnect');
       }
       else {
         this.gameService.removeFromQueue(client);
@@ -216,6 +210,14 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     const res = await this.gameService.updatePaddle(payload.gameId, payload.pos, 0);
     if (!res)
       throw new WsException('UPDATE PADDLE FAILED');
+  }
+
+  @SubscribeMessage('byebye')
+  async onByeBye(client: Socket){
+    console.log("FROM BYE BYE")
+    await this.gameService.removeFromQueue(client);
+    await this.gameService.abortInviteGame(client);
+    this.server.to(client.id).emit('declineResponse');
   }
 
   async sendToAll(game: IGame, event: string, message){

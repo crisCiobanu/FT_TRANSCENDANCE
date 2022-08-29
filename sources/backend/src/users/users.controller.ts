@@ -36,7 +36,7 @@ export class UsersController {
             res.status(HttpStatus.OK).send({status: 'KO'});
         } else {
             //console.log("LOG FROM UPDATE USERNAME    ok");
-            await this.userService.changeUserName(req.user.id, body.username);
+            await this.userService.changeUserName(req.user.userName42, body.username);
             res.status(HttpStatus.OK).send({status: 'OK'});
         }
 
@@ -45,6 +45,8 @@ export class UsersController {
     @Post('updatemail')
     @UseGuards(JwtGuard)
     async updateEmail(@Req() req: any, @Body() body : UpdateUserEmailDto){
+        console.log("LOG FROM UPDATE MAIL CONTROLLER")
+        console.log(body);
         return this.userService.changeUserEmail(req.user.userName42, body.email);
     }
 

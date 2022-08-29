@@ -199,8 +199,8 @@
     scoreRight = game.rightPaddle.score;
   }
 
-  function declinedResponse(message) {
-    alert(message + ' has declined your invitation to play');
+  function declinedResponse() {
+    alert('Your invitaton has been declined');
     ingame = 'false';
     invited = 'false';
     invitation.update((n) => '');
@@ -230,15 +230,19 @@
     console.log('watch');
     currentGame = game;
     socket.emit('watchGame', { gameId: game.id });
-    await socket.on('watchGameResponse', (message) => {
+    await socket.on('watchGameResponse', async (message) => {
       if (message == 'noGame') {
         alert('Ne game is no more available');
-        for (let i = 0; i < games.length; i++) {
-          if (games[i].name == game.name) {
-            games.splice(i, 1);
-          }
+        allGames = await fetch('http://localhost:3000/pong/games', {
+              method: 'GET',
+              credentials: 'include',
+              headers: {
+                Authorization: 'Bearer ' + $cookie,
+                'Content-type': 'application/json; charset=UTF-8',
+              },
+            }).then((response) => (allGames = response.json()));
+            games = allGames;
         }
-      }
       if (message == 'goWatchGame') {
         ingame = 'watch';
         draw();
@@ -483,8 +487,8 @@ function countdownTimer() {
       context.clearRect(0, 0, width, height);
     });
 
-    socket.on('declinedResponse', (message) => {
-      declinedResponse(message);
+    socket.on('declinedResponse', () => {
+      declinedResponse();
     });
 
     if ($invitation == 'true') {
@@ -496,9 +500,21 @@ function countdownTimer() {
       ingame = 'waiting';
     }
   });
+
+  onDestroy(async () => {
+    socket.emit('byebye');
+  })
 </script>
 
 <svelte:body on:keydown={handleKeydown} on:keyup={handleKeyup} />
+{#if newInvite == 'true'}
+  {#if ingame != 'true'}
+    <h3 style="color:slategrey; text-align: center;">
+      You received a new invitation to play !!<br />Refresh the page to see who
+      is challenging you
+    </h3>
+    {/if}
+  {/if}
 {#if pause == 'true'}
   <h2 id="countdown" style="text-align: center; color: darkred">{time}</h2>
 {/if}
@@ -676,12 +692,6 @@ function countdownTimer() {
         </button>
       {/each}
     {/if}
-  {/if}
-  {#if newInvite == 'true'}
-    <h3 style="color:red; text-align: center">
-      You received a new invitation to play !!<br />Refresh the page to see who
-      is challenging you
-    </h3>
   {/if}
 {:else}
   <h1 style="color: black; text-align: center">ACCESS DENIED</h1>

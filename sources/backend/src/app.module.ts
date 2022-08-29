@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
 import { UsersModule } from './users/users.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { ChatGateway } from './chat/chat.gateway';
 import { AuthModule } from './auth/auth.module';
@@ -38,17 +38,21 @@ import { JoinAttribute } from 'typeorm/query-builder/JoinAttribute';
     }),
   }
   ), 
-  // MailerModule.forRoot({
-  //   transport: {
-  //     host: 'smtp.zoho.eu',
-  //     port: 465,
-  //     secure: true,
-  //     auth: {
-  //       user: 'fourtytwotranscendence@zohomail.eu',
-  //       pass: 'Fourtytwo42.'
-  //     }
-  //   }
-  // }),
+  MailerModule.forRootAsync({
+    imports: [ConfigModule],
+    inject: [ConfigService],
+    useFactory: (configService: ConfigService) => ({
+      transport: {
+        host: 'smtp.zoho.eu',
+        port: 465,
+        secure: true,
+        auth: {
+          user: configService.get('EMAIL_USER'),
+          pass: configService.get('EMAIL_PASS')
+        }
+      }
+    }),
+  }),
   DatabaseModule, AuthModule, ChatModule, PongModule, OnlineModule],
   controllers: [AppController],
   providers: [AppService],

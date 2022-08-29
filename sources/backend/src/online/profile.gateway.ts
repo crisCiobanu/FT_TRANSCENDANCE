@@ -25,8 +25,8 @@ export class ProfileGateway implements OnGatewayInit, OnGatewayConnection, OnGat
 
     async handleDisconnect(client: Socket){
       this.logger.log(`Client disconnected : ${client.id}`);
-      //if (client.data.user)
-        //await this.userService.changeUserStatus(client.data.user, UserState.OFFLINE)
+      if (client.data.user)
+        await this.userService.changeUserStatus(client.data.user, UserState.OFFLINE)
     }
 
     async handleConnection(client: Socket){

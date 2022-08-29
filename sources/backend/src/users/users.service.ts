@@ -47,8 +47,8 @@ export class UsersService {
                 userName42: userName42
             }
         })
-        console.log("LOG FROM GET BY USERNAME42");
-        console.log(user);
+        // console.log("LOG FROM GET BY USERNAME42");
+        // console.log(user);
         return user;
     }
 
@@ -64,8 +64,8 @@ export class UsersService {
         return this.userRepository.save(user); 
     }
 
-    async changeUserName(id: number, userName: string): Promise<User>{
-        const newUser = await this.userRepository.findOneBy({ id });
+    async changeUserName(userName42: string, userName: string): Promise<User>{
+        const newUser = await this.userRepository.findOneBy({ userName42 });
         newUser.userName = userName;
         await this.userRepository.save(newUser);
         return newUser;
@@ -155,8 +155,9 @@ export class UsersService {
     }
 
     async changeUserStatus(user: User, state: UserState){
-        user.state = state;
-        await this.userRepository.save(user);
+        const tmpUser = await this.getByLogin42(user.userName42);
+        tmpUser.state = state;
+        await this.userRepository.save(tmpUser);
     }
 
     async uploadFile(id : number, uploadImageDto: UploadImageDto) {

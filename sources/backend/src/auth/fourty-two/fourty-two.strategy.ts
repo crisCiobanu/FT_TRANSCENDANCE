@@ -1,3 +1,4 @@
+
 import { Inject } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Strategy, Profile } from 'passport-42'
@@ -32,6 +33,7 @@ export class FourtyTwoStrategy extends PassportStrategy(Strategy) {
 
     async validate(access_token: string, refresh_token: string, user: Profile) : Promise<User>{
         const activLink = uuidv4();
+        console.log("LOG FROM VALIDATE FUNCTION")
         const newUser: CreateUserDto = { email: user['emails'][0]['value'] , 
             userName: user.username,
             userName42: user.username,

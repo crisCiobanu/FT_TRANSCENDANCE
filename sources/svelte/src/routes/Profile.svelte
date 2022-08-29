@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import {
     level,
     logged,
@@ -17,8 +17,10 @@
     otherUser,
     currentPage,
     username42,
+    refresh,
   } from '../stores.js';
   import io, { Manager } from 'socket.io-client';
+
 
   let socket: any = null;
   let mail: string;
@@ -60,7 +62,7 @@
           Authorization: 'Bearer ' + $cookie,
         },
       });
-      await fetch('http://localhost:3000/users/updatemail/', {
+      await fetch('http://localhost/users/updatemail/', {
         method: 'POST',
 
         body: JSON.stringify({ id: $id, email: mail }),
@@ -165,11 +167,13 @@
   }
 
   onMount(async () => {
-    socket = io('http://localhost:3000/profile', {
+      console.log('profile');
+      console.log($refresh);
+      socket = io(`$:3000/profile`, {
       auth: { token: $cookie },
     });
     currentPage.update((n) => 'profile');
-    myFriends = await fetch('http://127.0.0.1:3000/auth/currentuser', {
+    myFriends = await fetch('http://localhost:3000/auth/currentuser', {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -181,7 +185,7 @@
     for (let i = 0; i < friendArray.length; i++) {
       if (parseInt(friendArray[i])) {
         newFriend = await fetch(
-          'http://localhost:3000/users/' + friendArray[i],
+          'http://localhost.0.1:3000/users/' + friendArray[i],
           {
             method: 'GET',
             credentials: 'include',
@@ -207,7 +211,12 @@
       },
     }).then((response) => (myMatches = response.json()));
     matches = myMatches;
+    refresh.update(n => 'true')
   });
+
+  onDestroy(async () => {
+    refresh.update( n => 'false')
+  })
 
   function redirect(arg0: string) {
     throw new Error('Function not implemented.');
@@ -458,15 +467,15 @@
             <h4
               style="text-align:center; display: block; margin: 0 auto; color:dimgrey; font-style: italic"
             >
-              No friends to display yet
+              No friends yet to display
             </h4>
           {/if}
           {#each friends as friend}
             <div class="oneFriend">
               <a
                 class="profileLink"
-                href="#/userprofile"
-                on:click|preventDefault={() => {
+                href="http://localhost/#/userprofile"
+                on:click={() => {
                   otherUser.update((n) => friend.id);
                 }}
               >
