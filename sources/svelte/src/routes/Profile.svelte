@@ -165,7 +165,7 @@
   }
 
   onMount(async () => {
-    socket = io('http://localhost:3000/online', {
+    socket = io('http://localhost:3000/profile', {
       auth: { token: $cookie },
     });
     currentPage.update((n) => 'profile');

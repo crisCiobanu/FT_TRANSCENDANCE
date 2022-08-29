@@ -10,6 +10,7 @@ import { JwtGuard } from './jwt/jwt.guard';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { MyMailService } from './mail.service';
 import { MailerModule } from '@nestjs-modules/mailer'
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 
 @Module({
@@ -24,14 +25,29 @@ import { MailerModule } from '@nestjs-modules/mailer'
               }
             ],
   imports: [
+    ConfigModule,
     forwardRef(() => UsersModule),
-    JwtModule.register({
-      secret: 'asdfgh',
-      signOptions: {
-        expiresIn: '7d'
-      }
-    }  
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get('JWT_ACCESS_SECRET'),
+        signOptions: {
+          expiresIn: configService.get('JWT_EXPIRATION')
+      }})
+      } 
     ),
+    MailerModule.forRoot({
+      transport: {
+        host: 'smtp.zoho.eu',
+        port: 465,
+        secure: true,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+        }
+      }
+    }),
     TypeOrmModule.forFeature([User])
   ],
   exports: [

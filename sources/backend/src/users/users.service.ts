@@ -2,7 +2,7 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UploadImageDto } from './dto/image-upload.dto';
+import { UploadImageDto } from './dto/update-image.dto';
 import { Profile } from 'passport-42';
 import { ChannelService } from '../chat/channel/channel.service'
 import { IMatch } from '../pong/match/match.interface';

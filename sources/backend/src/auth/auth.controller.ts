@@ -8,6 +8,7 @@ import { JwtGuard } from './jwt/jwt.guard';
 import { UsersService } from 'src/users/users.service';
 import { MyMailService } from './mail.service';
 import { User } from 'src/users/user.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {
@@ -15,6 +16,7 @@ export class AuthController {
     constructor (private authService: AuthService, 
                 private userService: UsersService,
                 private mailService: MyMailService,
+                private configService: ConfigService
             ) {}
 
     @Get('42')
@@ -36,7 +38,7 @@ export class AuthController {
             path: "/",
             httpOnly: false,
           });
-		res.status(HttpStatus.FOUND).redirect(process.env.FRONTEND_URL);
+		res.status(HttpStatus.FOUND).redirect(this.configService.get('FRONTEND_URL'));
 	}   
     
     @Get('activation/:code')

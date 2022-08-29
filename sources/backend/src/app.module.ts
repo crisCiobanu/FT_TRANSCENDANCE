@@ -16,9 +16,11 @@ import { ChannelService } from './chat/channel/channel.service';
 import { PongGateway } from './pong/pong.gateway';
 import { PongModule } from './pong/pong.module';
 import { OnlineModule } from './online/online.module';
+import { JoinAttribute } from 'typeorm/query-builder/JoinAttribute';
 
 @Module({
-  imports: [UsersModule, ConfigModule.forRoot({
+  imports: [UsersModule, 
+    ConfigModule.forRoot({
     validationSchema: Joi.object({
       POSTGRES_HOST: Joi.string().required(),
       POSTGRES_PORT: Joi.number().required(),
@@ -26,20 +28,27 @@ import { OnlineModule } from './online/online.module';
       POSTGRES_PASSWORD: Joi.string().required(),
       POSTGRES_DB: Joi.string().required(),
       PORT: Joi.number(),
+      BACKEND_URL: Joi.string().required(),
+      FRONTEND_URL: Joi.string().required(),
+      JWT_ACCESS_SECRET: Joi.string().required(),
+      JWT_EXPIRATION: Joi.string().required(),
+      EMAIL_ADRESS: Joi.string().email().required(),
+      EMAIL_USER: Joi.string().required(),
+      EMAIL_PASS: Joi.string().required(),
     }),
   }
   ), 
-  MailerModule.forRoot({
-    transport: {
-      host: 'smtp.zoho.eu',
-      port: 465,
-      secure: true,
-      auth: {
-        user: 'fourtytwotranscendence@zohomail.eu',
-        pass: 'Fourtytwo42.'
-      }
-    }
-  }),
+  // MailerModule.forRoot({
+  //   transport: {
+  //     host: 'smtp.zoho.eu',
+  //     port: 465,
+  //     secure: true,
+  //     auth: {
+  //       user: 'fourtytwotranscendence@zohomail.eu',
+  //       pass: 'Fourtytwo42.'
+  //     }
+  //   }
+  // }),
   DatabaseModule, AuthModule, ChatModule, PongModule, OnlineModule],
   controllers: [AppController],
   providers: [AppService],

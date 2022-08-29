@@ -75,13 +75,13 @@ onMount(async () => {
             if ($TWOFA == 'false')
             {
               logged.update(n => 'true');
-              socket = io('http://localhost:3000/online', {
+              socket = io('http://localhost:3000/home', {
               auth: { token: $cookie },
     });
             }
     }
     if ($logged == 'true') {
-      socket = io('http://localhost:3000/online', {
+      socket = io('http://localhost:3000/home', {
       auth: { token: $cookie },
     });
     }

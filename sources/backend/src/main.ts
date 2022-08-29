@@ -2,7 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { join } from 'path';
-import * as cookieParser from 'cookie-parser'
+import * as cookieParser from 'cookie-parser';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -21,6 +22,7 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'static'), {
     prefix: '/chat',
   });
+  app.useGlobalPipes(new ValidationPipe());
   await app.listen(process.env.BACKEND_PORT || 3000);
 
 }

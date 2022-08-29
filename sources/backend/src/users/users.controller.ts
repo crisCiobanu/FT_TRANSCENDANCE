@@ -12,26 +12,31 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import {diskStorage} from 'multer';
 import {v4 as uuidv4} from 'uuid'
 import { MyMailService } from 'src/auth/mail.service';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('users')
 export class UsersController {
 
-    constructor (private userService : UsersService, private mailService: MyMailService) {
+    constructor (private readonly userService : UsersService, 
+                private readonly mailService: MyMailService,
+                private readonly configService: ConfigService) {
     }
 
     @Post('updateusername')
     @UseGuards(JwtGuard)
-    async updateUser(@Res({passthrough: true}) res: Response, @Req() req: any){
+    async updateUser(@Res({passthrough: true}) res: Response, 
+                    @Req() req: any,
+                    @Body() body: UpdateUserNameDto){
     //console.log("LOG FROM UPDATE USERNAME");
     //console.log(req.body);
-    const user = await this.userService.getByUserName(req.body.username);
+    const user = await this.userService.getByUserName(body.username);
     //console.log(user);
         if (user){
             //console.log("LOG FROM UPDATE USERNAME    KO ");
             res.status(HttpStatus.OK).send({status: 'KO'});
         } else {
             //console.log("LOG FROM UPDATE USERNAME    ok");
-            await this.userService.changeUserName(req.user.id, req.body.username);
+            await this.userService.changeUserName(req.user.id, body.username);
             res.status(HttpStatus.OK).send({status: 'OK'});
         }
 
@@ -39,13 +44,13 @@ export class UsersController {
 
     @Post('updatemail')
     @UseGuards(JwtGuard)
-    async updateEmail(@Res({passthrough: true}) res: Response, @Req() req: any){
-        return this.userService.changeUserEmail(req.user.userName42, req.body.email);
+    async updateEmail(@Req() req: any, @Body() body : UpdateUserEmailDto){
+        return this.userService.changeUserEmail(req.user.userName42, body.email);
     }
 
     @Post('logout')
     @UseGuards(JwtGuard)
-    onLogout(@Res({passthrough: true}) res: Response, @Req() req: any){
+    onLogout(@Req() req: any){
         return this.userService.logOut(req.user.userName42);
     }
 
@@ -84,20 +89,21 @@ export class UsersController {
     // console.log(file);
     // console.log("LOG FROM UPDATE IMAGE")
     // console.log(request.user);
-    this.userService.changeUserImage(request.user.userName42, `http://localhost:3000/public/${file.filename}`);
-    return (res.status(HttpStatus.OK).send(JSON.stringify({url: `http://localhost:3000/public/${file.filename}`})));
+    this.userService.changeUserImage(request.user.userName42, `${this.configService.get('BACKEND_URL')}/public/${file.filename}`);
+    return (res.status(HttpStatus.OK).send(JSON.stringify({url: `${this.configService.get('BACKEND_URL')}/public/${file.filename}`})));
 
     }
 
-    @UseGuards(JwtGuard)
+    
     @Get()
+    @UseGuards(JwtGuard)
     findAll() : Promise<User[]>{
         return this.userService.getAll();
     }
 
     @Post('twofa')
     @UseGuards(JwtGuard)
-    twofa(@Res({passthrough: true}) res: Response, @Req() req: any) : Promise<User>{
+    twofa(@Req() req: any) : Promise<User>{
         console.log(`LOG FROM TWOFA CONTROLLER : `);
         console.log(req.user);
         return this.userService.changeTWOFA(req.user.userName42);
@@ -105,7 +111,7 @@ export class UsersController {
 
     @Post('block')
     @UseGuards(JwtGuard)
-    block(@Res({passthrough: true}) res: Response, @Req() req: any) : Promise<User>{
+    block(@Req() req: any) : Promise<User>{
         console.log("LOG FROM BLOCK USER");
         console.log(req.body);
         return this.userService.blockUser(req.user.userName42, req.body.id);

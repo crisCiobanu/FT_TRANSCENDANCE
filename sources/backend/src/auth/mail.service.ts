@@ -1,17 +1,19 @@
 import { Injectable } from "@nestjs/common";
 import { MailerService } from '@nestjs-modules/mailer';
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class MyMailService {
 
-    constructor(private readonly mailerService: MailerService){}
+    constructor(private readonly mailerService: MailerService,
+                private readonly configService: ConfigService){}
 
     async sendActivationMail(to, link) {
         this.mailerService.sendMail({
-            from: 'fourtytwotranscendence@zohomail.eu',
+            from: this.configService.get('EMAIL_ADRESS'),
             to,
-            replyTo: 'fourtytwotranscendence@zohomail.eu',
-            subject: "Account activation from " + process.env.BACKEND_URL,
+            replyTo: this.configService.get('EMAIL_ADRESS'),
+            subject: "Account activation from " + this.configService.get('BACKEND_URL'),
             text: '',
             html: 
                 `
