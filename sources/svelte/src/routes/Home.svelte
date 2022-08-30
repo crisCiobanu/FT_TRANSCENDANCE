@@ -22,7 +22,6 @@ async function sendCode() {
          "Content-type": "application/json; charset=UTF-8"
         },
     }).then(response => {
-      console.log(response);
       if (response.status === 200) {
         logged.update(n => 'true');
       }
@@ -34,7 +33,6 @@ async function sendCode() {
 }
 
 function updateAll (isAuth: any) {
-        console.log(isAuth);
       id.update(n => isAuth.id);
       username.update(n => isAuth.userName);
       username42.update(n => isAuth.userName42)
@@ -115,7 +113,7 @@ onMount(async () => {
     <button on:click={sendCode} type="submit" value="Submit" style="display: block;margin: 0 auto;">Send</button>
     </div>
     {:else}
-    <a href='http://localhost:3000/auth/42' class="api" style="color: rgb(255, 255, 255);
+    <a href='http://127.0.0.1:3000/auth/42' class="api" style="color: rgb(255, 255, 255);
       text-align: center;
       width: 100px;
       padding: 5px;

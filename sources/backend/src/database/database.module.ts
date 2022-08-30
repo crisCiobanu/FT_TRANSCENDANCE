@@ -21,7 +21,7 @@ import {Match} from '../pong/match/match.entity'
                 password: configService.get('POSTGRES_PASSWORD'),
                 database: configService.get('POSTGRES_DB'),
                 entities: [User, Channel, Message, Connection, PunishedUser, Match],
-                synchronize: true,
+                // synchronize: true,
             })
         })
     ],

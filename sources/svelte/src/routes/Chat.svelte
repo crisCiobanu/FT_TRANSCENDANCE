@@ -95,7 +95,6 @@
       }
       socket.emit('createRoom', newRoom);
       socket.on('createRoomResponse', (message) => {
-        console.log('message');
         if (message == 'exists') {
           alert ('❌ a Room of that name already exists. Please choose another name');
         }
@@ -142,7 +141,7 @@
   }
 
   function changeRoomPass() {
-    if (newPass.length < 4 || newPass.length > 16) {
+    if (newPass?.length < 4 || newPass?.length > 16) {
       alert('❌ Your password must be between 4 and 16 characters long!');
       newPass = '';
     }
@@ -469,7 +468,7 @@
           Authorization: 'Bearer ' + $cookie,
           'Content-type': 'application/json; charset=UTF-8',
         },
-      }).then((response) => (block = response.json()));
+      }).then((response) => block = response.json());
       blocked = block.blocked;
 
       socket = io('http://localhost:3000/chat', {
@@ -818,7 +817,7 @@
             {/if}
             {#if currentUser.id == $id}
               <a
-                href="http://localhost/#/profile"
+                href="http://localhost:8080/#/profile"
                 class="profileLink"
                 style="color: black; font-size:16px;"
                 ><img
@@ -829,7 +828,10 @@
               >
             {:else if currentRoom.isDirectMessage == true}
               <a
-                href="http://localhost/#/userprofile"
+                href="http://localhost:8080/#/userprofile"
+                on:click={() => {
+                  otherUser.update((n) => currentUser.id);
+                }}
                 class="profileLink"
                 style="color: darkred; font-size:16px;"
                 ><img
@@ -846,7 +848,7 @@
               >
             {:else}
               <a
-                href="http://localhost/#/userprofile"
+                href="http://localhost:8080/#/userprofile"
                 on:click={() => {
                   otherUser.update((n) => currentUser.id);
                 }}

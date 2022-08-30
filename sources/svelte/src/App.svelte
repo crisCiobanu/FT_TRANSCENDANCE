@@ -27,13 +27,6 @@
 
   async function logOut() {
     if ($intra == 'true') {
-      await fetch('http://localhost:3000/users/logout', {
-        method: 'POST',
-        headers: {
-          Authorization: 'Bearer ' + kuki,
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      });
       logged.update((n) => 'false');
       intra.update((n) => 'false');
       localStorage.removeItem('currentChat');
@@ -50,6 +43,14 @@
         var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
         document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
       }
+      await fetch('http://localhost:3000/users/logout', {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + kuki,
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      });
+      location.reload();
       alert('✅ You successfully logged out');
     }
   }

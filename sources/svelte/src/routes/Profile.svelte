@@ -62,7 +62,7 @@
           Authorization: 'Bearer ' + $cookie,
         },
       });
-      await fetch('http://localhost/users/updatemail/', {
+      await fetch('http://localhost:3000/users/updatemail/', {
         method: 'POST',
 
         body: JSON.stringify({ id: $id, email: mail }),
@@ -88,9 +88,9 @@
     } else if (user.length > 6) {
       alert('❌ New username must not be longet than 6 characters long');
     } 
-    // else if {
-    //   user == $username 
-    // }
+    else if (user == $username ) {
+      alert(user + ' is already your username');
+    }
     else {
       changeUserName();
     }
@@ -105,7 +105,6 @@
         'Content-type': 'application/json; charset=UTF-8',
       },
     }).then((response) => (userResponse = response.json()))
-      console.log(userResponse);
       if (userResponse.status == 'OK') {
         alert('✅ Your username has beem changed to ' + user);
         username.update((n) => user);
@@ -163,13 +162,13 @@
         Authorization: 'Bearer ' + $cookie,
       },
     }).then((response) => (newImage = response.json()));
-    image_url.update((n) => newImage.url);
+    if (newImage.url){
+      image_url.update((n) => newImage.url);
+    }
   }
 
   onMount(async () => {
-      console.log('profile');
-      console.log($refresh);
-      socket = io(`$:3000/profile`, {
+      socket = io(`http://localhost:3000/profile`, {
       auth: { token: $cookie },
     });
     currentPage.update((n) => 'profile');
@@ -185,7 +184,7 @@
     for (let i = 0; i < friendArray.length; i++) {
       if (parseInt(friendArray[i])) {
         newFriend = await fetch(
-          'http://localhost.0.1:3000/users/' + friendArray[i],
+          'http://localhost:3000/users/' + friendArray[i],
           {
             method: 'GET',
             credentials: 'include',
@@ -424,15 +423,15 @@
             <h4
               style="text-align:center; display: block; margin: 0 auto; color:dimgrey; font-style: italic"
             >
-              No friends to display yet
+              No achievements to display yet
             </h4>
-          {:else}
+          {:else if $wins != 0}
             <p>
               <span style="text-transform: uppercase; font-weight: 600;"
                 >🥇 One first win 🥇</span
               ><br /><span
                 style="font-weight: 400;font-style: italic; color:grey"
-                >You defeated aother player on match!</span
+                >You defeated another player on match!</span
               >
             </p>
           {/if}
@@ -474,7 +473,7 @@
             <div class="oneFriend">
               <a
                 class="profileLink"
-                href="http://localhost/#/userprofile"
+                href="http://localhost:8080/#/userprofile"
                 on:click={() => {
                   otherUser.update((n) => friend.id);
                 }}

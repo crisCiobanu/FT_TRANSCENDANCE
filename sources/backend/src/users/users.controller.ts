@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Res, Header, HttpCode, HttpStatus, Param, Post, Redirect, Req, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Res, Header, HttpCode, HttpStatus, Param, Post, Redirect, Req, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { runInThisContext } from 'vm';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
@@ -83,7 +83,7 @@ export class UsersController {
                 cb(null, true);
             }
         else {
-                cb(null, false);
+                cb(new BadRequestException('Provide a valid image'), false);
         }
       }
     }))

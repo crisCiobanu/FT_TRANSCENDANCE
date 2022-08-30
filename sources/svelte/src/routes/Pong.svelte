@@ -227,7 +227,6 @@
   }
 
   async function watchGame(game) {
-    console.log('watch');
     currentGame = game;
     socket.emit('watchGame', { gameId: game.id });
     await socket.on('watchGameResponse', async (message) => {
@@ -419,18 +418,15 @@ function countdownTimer() {
     });
 
     socket.on('pausedGame', () => {
-      console.log('paused');
       pause = 'true';
       countdownTimer();
     });
 
     socket.on('comeBack', async (game) => {
-      console.log('coneback');
       retour = 'true';
       gameId = game.game.id;
       myPaddle =
         game.game.leftPaddle.userId == $id ? 'leftpaddle' : 'rightpaddle';
-      console.log(myPaddle);
       otherPlayer = await fetch(
         'http://localhost:3000/users/' + game.opponentId,
         {
@@ -457,7 +453,6 @@ function countdownTimer() {
     });
 
     socket.on('resumeGame', () => {
-      console.log('resume');
       pause = 'false';
       retour = 'true';
       time = '10';
@@ -476,8 +471,8 @@ function countdownTimer() {
     socket.on('winByForfeit', () => {
       ingame = 'endgame';
       playing = false;
-      alert('Your opponent forfeited the game. You are the winner');
       context.clearRect(0, 0, width, height);
+      alert('Your opponent forfeited the game. You are the winner');
     });
 
     socket.on('winByDisconnect', () => {
