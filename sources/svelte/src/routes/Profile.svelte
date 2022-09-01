@@ -20,6 +20,8 @@
     refresh,
   } from '../stores.js';
   import io, { Manager } from 'socket.io-client';
+  const FRONTEND_URL = 'http://localhost:8080';
+  const BACKEND_URL  = 'http://localhost:3000';
 
   let socket: any = null;
   let mail: string;
@@ -55,13 +57,13 @@
 
   async function changeMailAddress() {
     if ($TWOFA == 'false') {
-      await fetch('http://localhost:3000/users/twofa', {
+      await fetch(`${BACKEND_URL}/users/twofa`, {
         method: 'POST',
         headers: {
           Authorization: 'Bearer ' + $cookie,
         },
       });
-      await fetch('http://localhost:3000/users/updatemail/', {
+      await fetch(`${BACKEND_URL}/users/updatemail/`, {
         method: 'POST',
 
         body: JSON.stringify({ id: $id, email: mail }),
@@ -94,7 +96,7 @@
   }
 
   async function changeUserName() {
-    userResponse = await fetch('http://localhost:3000/users/updateusername/', {
+    userResponse = await fetch(`${BACKEND_URL}/users/updateusername/`, {
       method: 'POST',
       body: JSON.stringify({ username: user, id: $id }),
       headers: {
@@ -115,7 +117,7 @@
 
   async function TWOFAon() {
     if ($TWOFA == 'false') {
-      await fetch('http://localhost:3000/users/twofa', {
+      await fetch(`${BACKEND_URL}/users/twofa`, {
         method: 'POST',
         headers: {
           Authorization: 'Bearer ' + $cookie,
@@ -134,7 +136,7 @@
 
   async function TWOFAoff() {
     if ($TWOFA == 'true') {
-      await fetch('http://localhost:3000/users/twofa', {
+      await fetch(`${BACKEND_URL}/users/twofa`, {
         method: 'POST',
         headers: {
           Authorization: 'Bearer ' + $cookie,
@@ -152,7 +154,7 @@
     var data = new FormData();
     data.append('file', image);
     data.append('id', $id.toString());
-    newImage = await fetch('http://localhost:3000/users/updateimage/', {
+    newImage = await fetch(`${BACKEND_URL}/users/updateimage/`, {
       method: 'post',
       body: data,
       headers: {
@@ -165,11 +167,11 @@
   }
 
   onMount(async () => {
-    socket = io(`http://localhost:3000/profile`, {
+    socket = io(`${BACKEND_URL}/profile`, {
       auth: { token: $cookie },
     });
     currentPage.update((n) => 'profile');
-    myFriends = await fetch('http://localhost:3000/auth/currentuser', {
+    myFriends = await fetch(`${BACKEND_URL}/auth/currentuser`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -181,7 +183,7 @@
     for (let i = 0; i < friendArray.length; i++) {
       if (parseInt(friendArray[i])) {
         newFriend = await fetch(
-          'http://localhost:3000/users/' + friendArray[i],
+          `${BACKEND_URL}/users/` + friendArray[i],
           {
             method: 'GET',
             credentials: 'include',
@@ -197,7 +199,7 @@
     wins.update((n) => myFriends.wins);
     losses.update((n) => myFriends.losses);
     level.update((n) => myFriends.level.toFixed(1));
-    myMatches = await fetch('http://localhost:3000/matches/getForUser', {
+    myMatches = await fetch(`${BACKEND_URL}/matches/getForUser`, {
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify({ id: $id }),
@@ -463,7 +465,7 @@
             <div class="oneFriend">
               <a
                 class="profileLink"
-                href="http://localhost:8080/#/userprofile"
+                href="{`${FRONTEND_URL}/#/userprofile`}"
                 on:click={() => {
                   otherUser.update((n) => friend.id);
                 }}

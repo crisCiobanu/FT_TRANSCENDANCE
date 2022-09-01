@@ -14,6 +14,9 @@
 
   let socket = null;
 
+ export const FRONTEND_URL: string = 'http://localhost:8080';
+ export const BACKEND_URL: string  = 'http://localhost:3000';
+
   export let name: string;
 
   let kuki = $cookie;

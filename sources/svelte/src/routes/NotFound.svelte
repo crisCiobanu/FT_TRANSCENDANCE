@@ -2,6 +2,8 @@
 
 import { currentPage } from "../stores";
 import { onMount } from 'svelte';
+const FRONTEND_URL = 'http://localhost:8080';
+const BACKEND_URL  = 'http://localhost:3000';
     onMount(() => {
         currentPage.update(n => '');
     })
@@ -13,7 +15,7 @@ import { onMount } from 'svelte';
         <p>ERROR 404</p>
     </div>
     <div>
-       <a href="http://localhost:8080/#/">🔙</a>
+       <a href="{`${FRONTEND_URL}/#/`}">🔙</a>
     </div>
 </section>
 

@@ -34,16 +34,19 @@
   import io, { Manager } from 'socket.io-client';
 import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
 
+  const FRONTEND_URL = 'http://localhost:8080';
+  const BACKEND_URL  = 'http://localhost:3000';
+
   export let socket = null;
 
   async function sendInvitation() {
     invitedPlayer.update((n) => username42);
     invitation.update((n) => 'true');
-    window.location.replace('http://localhost:8080/#/pong');
+    window.location.replace(`${FRONTEND_URL}/#/pong`);
   }
 
   async function blockUser() {
-    result = await fetch('http://localhost:3000/users/block', {
+    result = await fetch(`${BACKEND_URL}/users/block`, {
       method: 'POST',
       headers: {
         Authorization: 'Bearer ' + $cookie,
@@ -56,7 +59,7 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
   }
 
   async function unBlockUser() {
-    result = await fetch('http://localhost:3000/users/unblock', {
+    result = await fetch(`${BACKEND_URL}/users/unblock`, {
       method: 'POST',
       headers: {
         Authorization: 'Bearer ' + $cookie,
@@ -66,11 +69,11 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
     }).then((response) => (result = response.json()));
     alert(username + ' has been unblocked ❎ ❎ ❎');
     myBlocked = myBlocked.filter((t) => t != userId);
-    window.location.replace('http://localhost:8080/#/userprofile');
+    window.location.replace(`${FRONTEND_URL}/#/userprofile`);
   }
 
   async function friendRequest() {
-    result = await fetch('http://localhost:3000/users/friends', {
+    result = await fetch(`${BACKEND_URL}/users/friends`, {
       method: 'POST',
       headers: {
         Authorization: 'Bearer ' + $cookie,
@@ -82,7 +85,7 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
   }
 
   async function unFriend() {
-    result = await fetch('localhost:3000/users/unfriend', {
+    result = await fetch(`${BACKEND_URL}/users/unfriend`, {
       method: 'POST',
       headers: {
         Authorization: 'Bearer ' + $cookie,
@@ -96,12 +99,12 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
   onMount(async () => {
     currentPage.update(n => '');
     // if ($refresh != 'true') {
-      socket = io('http://localhost:3000/online', {
+      socket = io(`${BACKEND_URL}/online`, {
       auth: { token: $cookie },
     });
     // }
     refresh.update(n => 'true');
-    user = await fetch('http://localhost:3000/users/' + $otherUser, {
+    user = await fetch(`${BACKEND_URL}/users/` + $otherUser, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -120,7 +123,7 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
     status = user.state;
     blocked = user.blocked;
     username42 = user.userName42;
-    mySelf = await fetch('http://localhost:3000/auth/currentuser', {
+    mySelf = await fetch(`${BACKEND_URL}/auth/currentuser`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -130,7 +133,7 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
     }).then((response) => (mySelf = response.json()));
     myBlocked = mySelf.blocked;
     myFriends = mySelf.friends;
-    myMatches = await fetch('http://localhost:3000/matches/getForUser', {
+    myMatches = await fetch(`${BACKEND_URL}/matches/getForUser`, {
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify({ id: userId }),

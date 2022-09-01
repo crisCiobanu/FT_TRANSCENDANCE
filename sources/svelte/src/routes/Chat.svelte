@@ -15,6 +15,9 @@
     logged,
   } from '../stores.js';
 
+  const FRONTEND_URL: string = 'http://localhost:8080';
+  const BACKEND_URL: string  = 'http://localhost:3000';
+
   let Oname: string = $username;
   let Otext: string = '';
   let messages = [];
@@ -50,7 +53,7 @@
   async function sendInvitation() {
     invitedPlayer.update((n) => currentUser.userName42);
     invitation.update((n) => 'true');
-    window.location.replace('http://localhost:8080/#/pong');
+    window.location.replace(`${FRONTEND_URL}/#/pong`);
   }
 
   function kickUser() {
@@ -330,7 +333,7 @@
 
   onMount(async () => {
     if ($logged == 'true') {
-      block = await fetch('http://localhost:3000/users/' + $id, {
+      block = await fetch(`${BACKEND_URL}/users/${$id}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -340,7 +343,7 @@
       }).then((response) => (block = response.json()));
       blocked = block.blocked;
 
-      socket = io('http://localhost:3000/chat', {
+      socket = io(`${BACKEND_URL}/chat`, {
         auth: { token: $cookie },
       });
 
@@ -865,7 +868,7 @@
             {/if}
             {#if currentUser.id == $id}
               <a
-                href="http://localhost:8080/#/profile"
+                href="{`${FRONTEND_URL}/#/profile`}"
                 class="profileLink"
                 style="color: black; font-size:16px;"
                 ><img
@@ -876,7 +879,7 @@
               >
             {:else if currentRoom.isDirectMessage == true}
               <a
-                href="http://localhost:8080/#/userprofile"
+                href="{`${FRONTEND_URL}/#/userprofile`}"
                 on:click={() => {
                   otherUser.update((n) => currentUser.id);
                 }}
@@ -896,7 +899,7 @@
               >
             {:else}
               <a
-                href="http://localhost:8080/#/userprofile"
+                href="{`${FRONTEND_URL}/#/userprofile`}"
                 on:click={() => {
                   otherUser.update((n) => currentUser.id);
                 }}

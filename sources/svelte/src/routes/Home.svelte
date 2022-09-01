@@ -13,8 +13,11 @@ let code;
 let friends;
 let error = false;
 
+const FRONTEND_URL = 'http://localhost:8080';
+const BACKEND_URL  = 'http://localhost:3000';
+
 async function sendCode() {
-    await fetch('http://localhost:3000/auth/activation/' + code, {
+    await fetch(`${BACKEND_URL}/auth/activation/` + code, {
       method: 'GET',
       headers: 
         {
@@ -58,7 +61,7 @@ onMount(async () => {
   if ($intra == 'false')
   {
             cookie.update(n =>cookies.split('=')[1]);
-          isAuth = await fetch('http://localhost:3000/auth/currentuser', 
+          isAuth = await fetch(`${BACKEND_URL}/auth/currentuser`, 
           {
               method: 'GET',
               credentials: 'include',
@@ -73,13 +76,13 @@ onMount(async () => {
             if ($TWOFA == 'false')
             {
               logged.update(n => 'true');
-              socket = io('http://localhost:3000/home', {
+              socket = io(`${BACKEND_URL}/home`, {
               auth: { token: $cookie },
     });
             }
     }
     if ($logged == 'true') {
-      socket = io('http://localhost:3000/home', {
+      socket = io(`${BACKEND_URL}/home`, {
       auth: { token: $cookie },
     });
     }
@@ -113,7 +116,7 @@ onMount(async () => {
     <button on:click={sendCode} type="submit" value="Submit" style="display: block;margin: 0 auto;">Send</button>
     </div>
     {:else}
-    <a href='http://127.0.0.1:3000/auth/42' class="api" style="color: rgb(255, 255, 255);
+    <a href={`${BACKEND_URL}/auth/42`} class="api" style="color: rgb(255, 255, 255);
       text-align: center;
       width: 15vw;
       max-width: 90px;

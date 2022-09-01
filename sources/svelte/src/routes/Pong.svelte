@@ -15,9 +15,62 @@
   import { onDestroy } from 'svelte';
   import { beforeUpdate } from 'svelte';
   import { afterUpdate } from 'svelte';
-  import { Puck, Paddle } from '../utils.js';
+  // import { Puck, Paddle } from '../utils.js';
   import socketGlobal from '../App.svelte'
 import App from '../App.svelte';
+
+const FRONTEND_URL = 'http://localhost:8080';
+const BACKEND_URL  = 'http://localhost:3000';
+
+class Puck {
+    x:any;
+    x0:any;
+    y:any
+    y0: any;
+    r: any;
+    startAngle: any;
+    endAngle: any;
+    dx: any;
+    dy: any;
+    initialSpeed: any;
+    speed: any;
+	constructor({ x, y, r, speed = 3 }) {
+		this.x = x;
+		this.x0 = x;
+		this.y = y;
+		this.y0 = y;
+		this.r = r;
+		this.startAngle = 0;
+		this.endAngle = Math.PI * 2;
+		this.dx = 0;
+		this.dy = 0;
+		this.initialSpeed = speed;
+		this.speed = speed;
+	}
+}
+
+class Paddle {
+  x:any;
+		y:any;
+		w:any;
+		h:any;
+		y0:any;
+		dy:any;
+		speed:any;
+		keys:any;
+		score:any;
+	constructor({ x, y, w, h, keys, speed = 3.5, score = 0 }) {
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+		this.y0 = y;
+		this.dy = 0;
+		this.speed = speed;
+		this.keys = keys;
+		this.score = score;
+	}
+}
 
   export let socket: any = null;
   let invitedPlayer_two;
@@ -48,8 +101,6 @@ import App from '../App.svelte';
 
   const width: number = canvasWidth - margin * 2;
   const height: number = canvasHeight - margin * 2;
-  // const width: number = (canvasWidth - margin * 2) * window.innerWidth * 0.9;
-  // const height: number = (canvasHeight - margin * 2) * window.innerWidth *0.9;
 
   const puckRadius: number = 7;
 
@@ -257,7 +308,7 @@ function countdownTimer() {
         }
         if (!myPaddle) {
           alert('Match is over because one of the two players disconnected');
-            allGames = await fetch('http://localhost:3000/pong/games', {
+            allGames = await fetch(`${BACKEND_URL}/pong/games`, {
               method: 'GET',
               credentials: 'include',
               headers: {
@@ -269,7 +320,7 @@ function countdownTimer() {
             context.clearRect(0, 0, width, height);
             ingame = 'false';
             playing = false;
-            window.location.replace('http://localhost:8080/#/pong');
+            window.location.replace(`${FRONTEND_URL}/#/pong`);
         }
         return;
       } else {
@@ -284,7 +335,7 @@ function countdownTimer() {
     currentPage.update((n) => 'pong');
 
     if ($logged == 'true') {
-      socket = io('http://localhost:3000/pong', {
+      socket = io(`${BACKEND_URL}/pong`, {
         auth: { token: $cookie },
       });
     }
@@ -306,7 +357,7 @@ function countdownTimer() {
       myPaddle =
         game.game.leftPaddle.userId == $id ? 'leftpaddle' : 'rightpaddle';
       otherPlayer = await fetch(
-        'http://localhost:3000/users/' + game.opponentId,
+        `${BACKEND_URL}/users/` + game.opponentId,
         {
           method: 'GET',
           credentials: 'include',
@@ -337,7 +388,7 @@ function countdownTimer() {
           if (ingame == 'watch') {
             alert('Match is over, you will be redirected to the lobby');
             context.clearRect(0, 0, width, height);
-            allGames = await fetch('http://localhost:3000/pong/games', {
+            allGames = await fetch(`${BACKEND_URL}/pong/games`, {
               method: 'GET',
               credentials: 'include',
               headers: {
@@ -348,7 +399,7 @@ function countdownTimer() {
             games = allGames;
             ingame = 'false';
             playing = false;
-            window.location.replace('http://localhost:8080/#/pong');
+            window.location.replace(`${FRONTEND_URL}/#/pong`);
             return;
           }
           ingame = 'endgame';
@@ -356,7 +407,7 @@ function countdownTimer() {
             alert(
               '🍾 Congratulations for you victory, your level is now higher!',
             );
-            allGames = await fetch('http://localhost:3000/pong/games', {
+            allGames = await fetch(`${BACKEND_URL}/pong/games`, {
               method: 'GET',
               credentials: 'include',
               headers: {
@@ -369,7 +420,7 @@ function countdownTimer() {
             alert(
               '🍾 Congratulations for you victory, your level is now higher!',
             );
-            allGames = await fetch('http://localhost:3000/pong/games', {
+            allGames = await fetch(`${BACKEND_URL}/pong/games`, {
               method: 'GET',
               credentials: 'include',
               headers: {
@@ -380,7 +431,7 @@ function countdownTimer() {
             games = allGames;
           } else {
             alert("🦆 Too bad! You'll play better next time!");
-            allGames = await fetch('http://localhost:3000/pong/games', {
+            allGames = await fetch(`${BACKEND_URL}/pong/games`, {
               method: 'GET',
               credentials: 'include',
               headers: {
@@ -413,7 +464,7 @@ function countdownTimer() {
       myPaddle =
         game.game.leftPaddle.userId == $id ? 'leftpaddle' : 'rightpaddle';
       otherPlayer = await fetch(
-        'http://localhost:3000/users/' + game.opponentId,
+        `${BACKEND_URL}/users/` + game.opponentId,
         {
           method: 'GET',
           credentials: 'include',
@@ -443,7 +494,7 @@ function countdownTimer() {
       time = '10';
     });
 
-    allGames = await fetch('http://localhost:3000/pong/games', {
+    allGames = await fetch(`${BACKEND_URL}/pong/games`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -474,7 +525,7 @@ function countdownTimer() {
     socket.on('watchGameResponse', async (message) => {
       if (message == 'noGame') {
         alert('Ne game is no more available');
-        allGames = await fetch('http://localhost:3000/pong/games', {
+        allGames = await fetch(`${BACKEND_URL}/pong/games`, {
               method: 'GET',
               credentials: 'include',
               headers: {
