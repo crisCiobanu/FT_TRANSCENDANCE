@@ -14,7 +14,7 @@ let friends;
 let error = false;
 
 async function sendCode() {
-    await fetch('http://locahlost:3000/auth/activation/' + code, {
+    await fetch('http://localhost:3000/auth/activation/' + code, {
       method: 'GET',
       headers: 
         {
@@ -51,8 +51,8 @@ function updateAll (isAuth: any) {
 
 onMount(async () => {
   currentPage.update(n=> 'home')
-  let cookies = document.cookie.split(';').find(n => n.startsWith('access_token'));
-  if (cookies == "") {
+  let cookies = document.cookie?.split(';').find(n => n.startsWith('access_token'));
+  if (!cookies) {
     return;
   }
   if ($intra == 'false')
@@ -91,7 +91,7 @@ onMount(async () => {
   {#if $logged == 'true'}
   <h1 style="text-align: center; font-weight: 700; margin-top: 50px;">Just a bit of history...</h1>
     <div class="about">
-      <p>Pong is a table tennis–themed twitch arcade sports video game,
+      <p style='text-align:center'>Pong is a table tennis–themed twitch arcade sports video game,
         featuring simple two-dimensional graphics, manufactured by Atari 
         and originally released in 1972. It was one of the earliest arcade 
         video games; it was created by Allan Alcorn as a training exercise 
@@ -115,19 +115,22 @@ onMount(async () => {
     {:else}
     <a href='http://127.0.0.1:3000/auth/42' class="api" style="color: rgb(255, 255, 255);
       text-align: center;
-      width: 100px;
-      padding: 5px;
-      padding-left:40px;
-      padding-right: 40px;
+      width: 15vw;
+      max-width: 90px;
+      min:width:50px;
+      padding: 2vw;
+      padding-left:8vw;
+      padding-right: 8vw;
       margin: 0 auto;
       align-items: center;
       align-content: center;
+      font-size: clamp(13px, 2vw, 16px);
       display: block;
       margin-top: 30px;
       background-color: rgb(25, 184, 173);
       line-height: 2;
       font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
-      Connect with<br><img src="img/42_logo.png" width="40px" alt="42 logo"/>
+      Connect with<br><img src="img/42_logo.png" style='width: 5vw' alt="42 logo"/>
       </a>
     {/if}
 </main>
@@ -142,27 +145,24 @@ onMount(async () => {
           margin: 0 auto;
           margin-top: 30px;
           color: black;
+          min-width: 360px;
           font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     }
-    @media (min-width: 1024px) {
-      .about {
-        align-items: center;
-      }
+
     .about {
       color: balck;
-      width: 600px;
-      margin-top: 30px;;
-      margin-left: auto;
-      margin-right: auto;
-      font-size: 18px;
+      width: 60vw;
+      margin-top: 5vw;
+      margin: 0 auto;
+      font-size: calc(0.8em + 1vmin);
       font-style: italic;
       font-weight: 300;
       line-height: 1.7;
+      text-align: center;
     }
     .api {
       color: rgb(255, 255, 255);
       text-align: center;
-      width: 100px;
       padding: 5px;
       padding-left:40px;
       padding-right: 40px;
@@ -170,7 +170,7 @@ onMount(async () => {
       align-items: center;
       align-content: center;
       display: block;
-      margin-top: 30px;
+      margin-top: 10vw;
       background-color: rgb(25, 184, 173);
       line-height: 2;
       font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -181,5 +181,4 @@ onMount(async () => {
       :-moz-placeholder {
         text-align: center;
       }
-    }
   </style>

@@ -55,17 +55,6 @@ export class UsersController {
     onLogout(@Req() req: any){
         return this.userService.logOut(req.user.userName42);
     }
-
-    // @Post('ban')
-    // banUser(){
-
-    // }
-
-    // @Post('unban')
-    // unbanUser(){
-
-    // }
-
     
     @Post('updateimage')
     @UseGuards(JwtGuard)
@@ -93,7 +82,6 @@ export class UsersController {
     // console.log(request.user);
     this.userService.changeUserImage(request.user.userName42, `${this.configService.get('BACKEND_URL')}/public/${file.filename}`);
     return (res.status(HttpStatus.OK).send(JSON.stringify({url: `${this.configService.get('BACKEND_URL')}/public/${file.filename}`})));
-
     }
 
     

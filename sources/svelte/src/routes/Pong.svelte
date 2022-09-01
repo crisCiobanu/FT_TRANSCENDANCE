@@ -16,6 +16,8 @@
   import { beforeUpdate } from 'svelte';
   import { afterUpdate } from 'svelte';
   import { Puck, Paddle } from '../utils.js';
+  import socketGlobal from '../App.svelte'
+import App from '../App.svelte';
 
   export let socket: any = null;
   let invitedPlayer_two;
@@ -46,6 +48,8 @@
 
   const width: number = canvasWidth - margin * 2;
   const height: number = canvasHeight - margin * 2;
+  // const width: number = (canvasWidth - margin * 2) * window.innerWidth * 0.9;
+  // const height: number = (canvasHeight - margin * 2) * window.innerWidth *0.9;
 
   const puckRadius: number = 7;
 
@@ -214,11 +218,6 @@
   async function acceptInvite() {
     socket.emit('acceptInvite');
     invited = 'false';
-    socket.on('acceptInviteResponse', (message) => {
-      if (message == 'noGame') {
-        alert('This game has been canceled');
-      }
-    });
   }
 
   function declineInvite() {
@@ -229,25 +228,6 @@
   async function watchGame(game) {
     currentGame = game;
     socket.emit('watchGame', { gameId: game.id });
-    await socket.on('watchGameResponse', async (message) => {
-      if (message == 'noGame') {
-        alert('Ne game is no more available');
-        allGames = await fetch('http://localhost:3000/pong/games', {
-              method: 'GET',
-              credentials: 'include',
-              headers: {
-                Authorization: 'Bearer ' + $cookie,
-                'Content-type': 'application/json; charset=UTF-8',
-              },
-            }).then((response) => (allGames = response.json()));
-            games = allGames;
-        }
-      if (message == 'goWatchGame') {
-        ingame = 'watch';
-        draw();
-        playing = true;
-      }
-    });
   }
 
   function forfeit() {
@@ -317,7 +297,6 @@ function countdownTimer() {
 
     socket.on('liveInvitationRequest', (player) => {
       invitingPlayer = player;
-      // invited = 'true';
       newInvite = 'true';
     });
 
@@ -417,6 +396,12 @@ function countdownTimer() {
       }
     });
 
+    socket.on('acceptInviteResponse', (message) => {
+      if (message == 'noGame') {
+        alert('This game has been canceled');
+      }
+    });
+
     socket.on('pausedGame', () => {
       pause = 'true';
       countdownTimer();
@@ -486,6 +471,26 @@ function countdownTimer() {
       declinedResponse();
     });
 
+    socket.on('watchGameResponse', async (message) => {
+      if (message == 'noGame') {
+        alert('Ne game is no more available');
+        allGames = await fetch('http://localhost:3000/pong/games', {
+              method: 'GET',
+              credentials: 'include',
+              headers: {
+                Authorization: 'Bearer ' + $cookie,
+                'Content-type': 'application/json; charset=UTF-8',
+              },
+            }).then((response) => (allGames = response.json()));
+            games = allGames;
+        }
+      if (message == 'goWatchGame') {
+        ingame = 'watch';
+        draw();
+        playing = true;
+      }
+    });
+
     if ($invitation == 'true') {
       socket.emit('inviteToGame', { userName42: $invitedPlayer });
       invitation_two = $invitation;
@@ -494,6 +499,11 @@ function countdownTimer() {
       invitedPlayer.update((n) => '');
       ingame = 'waiting';
     }
+
+    socket.on('samePlayer', () => {
+      ingame = 'false';
+      alert("⚠️ You are already logged on another device. You can't play Pong on two devices at once");
+    })
   });
 
   onDestroy(async () => {
@@ -526,9 +536,9 @@ function countdownTimer() {
     <div class="homescreen">
       {#if invited == 'true'}
         <div
-          style="text-align:center; color:white; display: block;padding-top: 100px;"
+          style="text-align:center; color:white; display: block;padding-top: 10vw;"
         >
-          <h2>
+          <h2 style='font-size:3vw'>
             <span style="color: rgb(224, 62, 62);">{invitingPlayer}</span> would
             like to play pong
           </h2>
@@ -550,15 +560,15 @@ function countdownTimer() {
   {:else if ingame == 'waiting'}
     <div class="homescreen">
       {#if invitation_two == 'true'}
-        <h2 style="color:white; text-align: center; padding-top:150px;">
+        <h2 style="color:white; text-align: center; padding-top:15vw;font-size:3vw;">
           Waiting for <span style="color:dodgerblue">{invitedPlayer_two}</span
           >'s response...
         </h2>
-        <button on:click|preventDefault={cancelGameInvitation} class="cancel_button"
+        <button on:click|preventDefault={cancelGameInvitation} class="cancel_game_button"
           >Cancel invitation</button
         >
       {:else}
-        <h2 style="color:white; text-align: center; padding-top:150px;">
+        <h2 style="color:white; text-align: center; padding-top:15vw;font-size: 3vw">
           Waiting for other players...
         </h2>
         <button on:click|preventDefault={cancelGame} class="cancel_button">Cancel</button>
@@ -566,7 +576,7 @@ function countdownTimer() {
     </div>
   {:else if ingame == 'endgame'}
     <div class="endgame">
-      <h2 style="padding-top: 150px;">
+      <h2 style="padding-top: 15vw; color: white;font-size: 3vw;">
         Match is over<br />Thank you for participating
       </h2>
       <button on:click|preventDefault={() => (ingame = 'false')} class="play_again"
@@ -576,8 +586,8 @@ function countdownTimer() {
   {:else}
     <div class="game">
       <article>
-        <div style="margin-top: 200px">
-          <strong>
+        <div style='margin-top: 15vw;'>
+          <strong style='font-size:7vw'>
             {paddleLeft.score}
           </strong>
           {#if !playing}
@@ -588,7 +598,7 @@ function countdownTimer() {
               on:click|preventDefault={handleStart}
             />
           {/if}
-          <strong>
+          <strong style='font-size:7vw'>
             {paddleRight.score}
           </strong>
         </div>
@@ -621,8 +631,8 @@ function countdownTimer() {
     margin-top:50px;
     margin-bottom: 50px;
     text-align: center;
-    width: 700px;
-    height: 200px;
+    width: 90vw;
+    height: 20vw;
     border-top: 2px dotted black;
     border-bottom: 2px dotted black;"
     >
@@ -673,11 +683,11 @@ function countdownTimer() {
       {/if}
     </div>
   {:else if ingame == 'false' && invited == 'false'}
-    <h1 style="margin-top: -450px;color:black; text-align:center">
+    <h1 class='watchLive'>
       Watch live games
     </h1>
     {#if games.length == 0}
-      <h3 style="color:dimgrey; font-style:italic; text-align:center">
+      <h3 id='noLiveGames'>
         No live games to watch at the moment
       </h3>
     {:else}
@@ -694,14 +704,18 @@ function countdownTimer() {
 
 <style>
   :global(body) {
-    color: hsl(210, 0%, 96%);
+    /* background-color: red; */
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
       sans-serif;
+    display: block;
+    margin: 0 auto;
+    /* align-items:center; */
   }
 
   .game {
     display: block;
     margin: 0 auto;
+    min-width: 500px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
       sans-serif;
   }
@@ -715,7 +729,7 @@ function countdownTimer() {
     margin-left: auto;
     margin-right: auto;
     display: block;
-    width: 800px;
+    width: 50vw;
   }
 
   article > div {
@@ -736,10 +750,12 @@ function countdownTimer() {
   canvas {
     padding-left: 0;
     padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
     display: block;
-    width: 800px;
+    width: 90vw;
+    max-width: 1024px;
+    min-width: 320px;
+    object-fit: contain;
   }
 
   strong {
@@ -761,11 +777,14 @@ function countdownTimer() {
 
   .homescreen {
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 5vw;
     display: block;
-    height: 450px;
-    width: 800px;
     background-color: black;
+    aspect-ratio: 500/320;
+    width: 90vw;
+    max-width: 1024px;
+    min-width: 320px;
+    object-fit: contain;
   }
   .play {
     cursor: pointer;
@@ -774,7 +793,7 @@ function countdownTimer() {
     background-color: transparent;
     border: none;
     color: white;
-    font-size: 100px;
+    font-size: calc(4em + 5vmin);
     transition: transform 0.1s;
   }
   .play:hover {
@@ -783,8 +802,9 @@ function countdownTimer() {
 
   .play_svg {
     cursor: pointer;
-    width: 200px;
-    padding-top: 100px;
+    width: 25vw;
+    max-width: 200px;
+    padding-top: 8vw;
     display: block;
     margin: 0 auto;
   }
@@ -795,8 +815,31 @@ function countdownTimer() {
     color: white;
     display: block;
     margin: 0 auto;
-    margin-top: 30px;
+    margin-top: 5vw;
+    width: 10vw;
+    text-align: center;
+    font-size: 1.5vw;
     transition: transform 0.1s;
+  }
+
+  .cancel_game_button {
+    background-color: transparent;
+    border: solid 1px white;
+    color: white;
+    display: block;
+    margin: 0 auto;
+    margin-top: 5vw;
+    width: 20vw;
+    text-align: center;
+    font-size: 1.5vw;
+    transition: transform 0.1s;
+  }
+
+  .cancel_game_button:hover {
+    transform: scale(1.2);
+    color: white;
+    background-color: darkred;
+    border: none;
   }
 
   .cancel_button:hover {
@@ -807,9 +850,11 @@ function countdownTimer() {
   }
 
   .player1_picture {
-    width: 100px;
+    width: 12vw;
+    height: 12vw;
+    max-height: 150px;
+    max-width: 150px;
     border: solid 3px black;
-    height: 100px;
     margin-bottom: 10px;
     border-radius: 50%;
     display: block;
@@ -846,10 +891,13 @@ function countdownTimer() {
 
   .endgame {
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 10vw;
     display: block;
-    height: 450px;
-    width: 800px;
+    aspect-ratio: 500/320;
+    width: 90vw;
+    max-width: 1024px;
+    min-width: 320px;
+    object-fit: contain;
     text-align: center;
     background-color: black;
   }
@@ -857,12 +905,14 @@ function countdownTimer() {
   .play_again {
     background-color: transparent;
     border: solid 1px white;
+    border-radius: 5%;
     color: white;
     display: block;
     margin: 0 auto;
-    margin-top: 30px;
+    font-size:2vw;
+    margin-top: 5vw;
     transition: transform 0.1s;
-    padding: 10px;
+    padding: 2vw;
   }
 
   .forfeit_button {
@@ -910,8 +960,6 @@ function countdownTimer() {
   .my-buttons {
     cursor: pointer;
     display: flex;
-    /* flex-direction: row; */
-    /* margin-right: 10px; */
     text-align: centers;
     width: 400px;
     margin: 0 auto;
@@ -924,7 +972,8 @@ function countdownTimer() {
     border-radius: 5px;
     text-align: center;
     color: black;
-    width: 100px;
+    width: 9vw;
+    font-size:1.5vw;
     background-color: white;
     transition: transform 0.1s;
   }
@@ -936,9 +985,17 @@ function countdownTimer() {
     border-radius: 5px;
     text-align: center;
     color: white;
-    width: 100px;
+    width: 9vw;
+    font-size:1.5vw;
     background-color: black;
     transition: transform 0.1s;
+  }
+
+  .watchLive {
+    margin-top: -50vw;
+    color:black;
+    text-align:center;
+    font-size: 3vw
   }
 
   #accept:hover {
@@ -948,4 +1005,25 @@ function countdownTimer() {
   #decline:hover {
     transform: scale(1.1);
   }
+
+  #noLiveGames {
+    color:dimgrey; 
+    font-style:italic; 
+    text-align:center; 
+    font-size: 2vw;
+  }
+
+  @media only screen and (min-width: 1000px) {
+    .watchLive {
+    margin-top: -45vh;
+    color: black;
+    text-align:center;
+    font-size: calc(1.5em + 1vmin);
+  }
+
+  #noLiveGames {
+    font-size: calc(1em + 1vmin);
+  }
+}
+
 </style>

@@ -31,14 +31,14 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     
   async handleDisconnect(client: Socket) {
 
-    this.logger.log(`Client disconnected : ${client.id}`);
+    // this.logger.log(`Client disconnected : ${client.id}`);
     if (client.data.user){
       await this.userService.changeUserStatus(client.data.user, UserState.OFFLINE);
       await this.gameService.removeConnection(client.id);
       const game = await this.gameService.getUserGame(client.data.user.id);
       if (game){
         game.state = State.PAUSED;
-        console.log("LOG FOR PAUSE GAME AT DISCONNECT");
+        // console.log("LOG FOR PAUSE GAME AT DISCONNECT");
       
         await this.gameService.saveGame(game);
         const oponnentSocket = await this.gameService.getOpponentSocket(game.id, client.data.user);
@@ -50,11 +50,6 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       }
       }
   }
-
-  sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
   
   async afterInit(server: Server) {
     this.logger.log('Initiated');
@@ -76,8 +71,8 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       await this.gameService.addConnection(user.id, client.id);
 
       const pausedGame = await this.gameService.findPausedGame(client);
-      console.log("LOG FOR PAUSED GAME");
-      console.log(pausedGame);
+      // console.log("LOG FOR PAUSED GAME");
+      // console.log(pausedGame);
       if (pausedGame){     
         pausedGame.state = State.INPROGRESS;
         const opponentId = pausedGame.leftPaddle.userId == client.data.user.id ? pausedGame.rightPaddle.userId : pausedGame.leftPaddle.userId;
@@ -96,18 +91,13 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   }
   @SubscribeMessage('ready')
   async onReady(client: Socket, payload: any){
-    console.log("LOG FROM READY EVENT FUNCTION");
-    console.log(payload);
+    // console.log("LOG FROM READY EVENT FUNCTION");
+    // console.log(payload);
     const game = await this.gameService.startGame(payload.gameId);
     if (game){
-      console.log(" CONDITION IS TRUE IN READY ")
+      // console.log(" CONDITION IS TRUE IN READY ")
       this.gameService.startBall(game);
     }
-  }
-
-  @SubscribeMessage('message')
-  handleMessage(client: Socket, payload: any): string {
-    return 'Hello world!';
   }
 
   @SubscribeMessage('forfeit')
@@ -130,8 +120,6 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   @SubscribeMessage('cancelGame')
   async cancelGame(client: Socket, payload: any){
-    console.log("LOG FROM CANCEL FUNCTION");
-    console.log(payload);
     await this.gameService.removeFromQueue(client);
   }
 
@@ -139,18 +127,19 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   async onWatchFame(client: Socket, payload: any){
     const game = await this.gameService.addWatcher(payload.gameId, client.id);
     if (!game){
-      console.log("LOG FROM WATCH gAME : NO  GAME")
       this.server.to(client.id).emit('watchGameResponse', 'noGame');
       return;
     }
-    console.log("LOG FROM WATCH gAME : GO WATCH GAME")
-
     this.server.to(client.id).emit('watchGameResponse', 'goWatchGame');
   }
 
-
   @SubscribeMessage('waiting')
   async onWainting(client: Socket, payload: any){
+    const isInGmae = await this.gameService.checkQueue(client);
+    if (isInGmae == true){
+      this.server.to(client.id).emit('samePlayer');
+      return;
+    }
     const pongGame = await this.gameService.addToQueue(client);
     if (pongGame){
       this.server.to(pongGame.leftPaddle.socket).emit('foundPeer', {game: pongGame, opponentId: pongGame.rightPaddle.userId});
@@ -160,8 +149,6 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   @SubscribeMessage('inviteToGame')
   async onInvite(client: Socket, payload: any){
-    console.log("LOG FROM INVITE TO GAME")
-    console.log(payload);
     const pongGame = await this.gameService.createInviteGame(client, payload.userName42);
     const invitedUser = await this.userService.getByLogin42(payload.userName42);
     if (invitedUser.state == UserState.GAMING){
@@ -169,13 +156,11 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       if (userSocket != undefined)
         await this.server.to(userSocket).emit('liveInvitationRequest', client.data.user.userName42);
     }
-
   }
 
   @SubscribeMessage('cancelInvite')
   async onAbortInvite(client: Socket, payload: any){
-    await this.gameService.abortInviteGame(client);
-    
+    await this.gameService.abortInviteGame(client);    
   }
 
   @SubscribeMessage('declineInvite')
@@ -214,7 +199,6 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   @SubscribeMessage('byebye')
   async onByeBye(client: Socket){
-    console.log("FROM BYE BYE")
     await this.gameService.removeFromQueue(client);
     await this.gameService.abortInviteGame(client);
     this.server.to(client.id).emit('declineResponse');
@@ -247,8 +231,6 @@ export class PongGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				const tempGame = await this.pongService.update(game);
         await this.gameService.saveGame(tempGame);
         this.sendToAll(game, 'updateGame', game);
-        // console.log("LOG FROM SEND UPDATE")
-        // console.log(game.leftPaddle.y + ' : ' + game.rightPaddle.y)
       }
 		}
 	}

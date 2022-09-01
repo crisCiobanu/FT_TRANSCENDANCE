@@ -31,8 +31,10 @@ export class AuthController {
 
         console.log(accessToken);
 
-        if (req.user.TWOFA)
-            await this.mailService.sendActivationMail(req.user.email, req.user.activationLink);
+        if (req.user.TWOFA){
+            const newUser = await this.userService.refreshActivationCode(req.user.userName42)
+            await this.mailService.sendActivationMail(newUser.email, newUser.activationLink);
+        }
 
         res.cookie('access_token', accessToken, {
             path: "/",

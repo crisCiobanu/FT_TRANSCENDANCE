@@ -13,7 +13,7 @@ import { onMount } from 'svelte';
         <p>ERROR 404</p>
     </div>
     <div>
-       <a href="http://localhost/#/">🔙</a>
+       <a href="http://localhost:8080/#/">🔙</a>
     </div>
 </section>
 

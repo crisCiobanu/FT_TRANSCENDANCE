@@ -5,6 +5,7 @@ import { HomeGateway } from './home.gateway';
 import { OnlineGateway } from './online.gateway';
 import { ProfileGateway } from './profile.gateway';
 
+
 @Module({
   imports: [UsersModule, AuthModule],
   providers: [OnlineGateway, ProfileGateway, HomeGateway]

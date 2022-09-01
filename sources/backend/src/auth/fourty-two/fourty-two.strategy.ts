@@ -32,7 +32,7 @@ export class FourtyTwoStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(access_token: string, refresh_token: string, user: Profile) : Promise<User>{
-        const activLink = uuidv4();
+        const activLink = uuidv4().slice(0, 6);
         console.log("LOG FROM VALIDATE FUNCTION")
         const newUser: CreateUserDto = { email: user['emails'][0]['value'] , 
             userName: user.username,

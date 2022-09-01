@@ -47,7 +47,7 @@ services:
     ports:
     - "3000:3000"
     env_file:
-      - backend.env
+      - docker.env
     build: ./backend
     restart: always
     networks:

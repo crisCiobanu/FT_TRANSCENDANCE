@@ -8,11 +8,13 @@
   import UserProfile from './routes/UserProfile.svelte';
   import Pong from './routes/Pong.svelte';
   import { writable } from 'svelte/store';
-  import { onMount } from 'svelte';
+  import { onMount, beforeUpdate } from 'svelte';
   import { Socket } from 'socket.io-client';
   import io from 'socket.io-client';
 
   let socket = null;
+
+  export let name: string;
 
   let kuki = $cookie;
 
@@ -35,13 +37,13 @@
       for(let key in localStorage) {
         delete localStorage[key];
     }
-      var cookies = document.cookie.split(';');
+      var cookies = document.cookie?.split(';');
 
       for (var i = 0; i < cookies.length; i++) {
         var cookie = cookies[i];
         var eqPos = cookie.indexOf('=');
-        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        var name_cookie = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name_cookie + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
       }
       await fetch('http://localhost:3000/users/logout', {
         method: 'POST',
@@ -55,9 +57,11 @@
     }
   }
 
-  onMount(() => {});
+  onMount(() => {
+  });
 </script>
 
+<svelte:body />
 <main>
   <img src="img/pong.svg" style="width: 300px;" alt="Pong icon" />
   <nav class="menu">
@@ -147,12 +151,25 @@
 <Router {routes} />
 
 <style>
+:global(body) {
+  position: relative;
+margin: 0, auto;
+padding: 0px;
+width: auto;
+height: 100%;
+display: block;
+min-width: 500px;
+    }
+
   main {
     text-align: center;
     padding: 1em;
-    min-width: auto;
+    min-width: 500px;
     margin: 0 auto;
+    display: block;
+    min-width: 500px;
     align-items: center;
+    align-content: center;
     justify-content: center;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
       sans-serif;
@@ -186,11 +203,4 @@
     background-color: darkslategray;
   }
 
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-      align-items: center;
-      margin: 0 auto;
-    }
-  }
 </style>

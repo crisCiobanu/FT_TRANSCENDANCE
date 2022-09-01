@@ -65,17 +65,17 @@ export class UsersService {
     }
 
     async changeUserName(userName42: string, userName: string): Promise<User>{
-        const newUser = await this.userRepository.findOneBy({ userName42 });
+        let newUser = await this.userRepository.findOneBy({ userName42 });
         newUser.userName = userName;
-        await this.userRepository.save(newUser);
+        newUser = await this.userRepository.save(newUser);
         return newUser;
     }
 
     async changeUserEmail(userName42: string, email: string): Promise<User>{
-        const newUser = await this.userRepository.findOneBy({ userName42 });
+        let newUser = await this.userRepository.findOneBy({ userName42 });
         newUser.email = email;
         newUser.ownMail = true;
-        await this.userRepository.save(newUser);
+        newUser = await this.userRepository.save(newUser);
         return newUser;
     }
 
@@ -92,8 +92,8 @@ export class UsersService {
     async blockUser(userName42: string, id: string): Promise<User>{
         let newUser = await this.userRepository.findOneBy({ userName42 });
         newUser.blocked.push(id);
-        console.log("LOG FROM BLOCK USER");
-        console.log(newUser.blocked);
+        // console.log("LOG FROM BLOCK USER");
+        // console.log(newUser.blocked);
         newUser = await this.userRepository.save(newUser);
         return newUser;
     }
@@ -124,6 +124,13 @@ export class UsersService {
             newUser.friends.splice(index, 1);
         }
         await this.userRepository.save(newUser);
+        return newUser;
+    }
+
+    async refreshActivationCode(userName42: string): Promise<User>{
+        let newUser = await this.userRepository.findOneBy({ userName42 });
+        newUser.activationLink = uuidv4().slice(0, 6);
+        newUser = await this.userRepository.save(newUser);
         return newUser;
     }
 

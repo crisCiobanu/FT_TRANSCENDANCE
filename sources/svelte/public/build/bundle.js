@@ -5098,29 +5098,29 @@ var app = (function () {
 
     function get_each_context$3(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[93] = list[i];
+    	child_ctx[94] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[96] = list[i];
+    	child_ctx[97] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[99] = list[i];
+    	child_ctx[100] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_3(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[102] = list[i];
+    	child_ctx[103] = list[i];
     	return child_ctx;
     }
 
-    // (934:2) {:else}
+    // (977:2) {:else}
     function create_else_block_8(ctx) {
     	let h1;
 
@@ -5130,7 +5130,7 @@ var app = (function () {
     			h1.textContent = "ACCESS DENIED";
     			set_style(h1, "text-align", "center");
     			set_style(h1, "color", "black");
-    			add_location(h1, file$6, 934, 4, 34532);
+    			add_location(h1, file$6, 977, 4, 35377);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -5145,14 +5145,14 @@ var app = (function () {
     		block: block_1,
     		id: create_else_block_8.name,
     		type: "else",
-    		source: "(934:2) {:else}",
+    		source: "(977:2) {:else}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (505:2) {#if $logged == 'true'}
+    // (517:2) {#if $logged == 'true'}
     function create_if_block$5(ctx) {
     	let if_block_anchor;
 
@@ -5196,14 +5196,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block$5.name,
     		type: "if",
-    		source: "(505:2) {#if $logged == 'true'}",
+    		source: "(517:2) {#if $logged == 'true'}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (550:4) {:else}
+    // (573:4) {:else}
     function create_else_block$5(ctx) {
     	let div0;
     	let h1;
@@ -5270,14 +5270,14 @@ var app = (function () {
     	function select_block_type_8(ctx, dirty) {
     		if (dirty[0] & /*currentRoom, myChannels*/ 262160) show_if_1 = null;
     		if (/*currentRoom*/ ctx[4] && /*currentRoom*/ ctx[4].isDirectMessage == true) return create_if_block_19$1;
-    		if (/*currentRoom*/ ctx[4] && /*currentRoom*/ ctx[4].channelOwnerId == /*$id*/ ctx[21]) return create_if_block_20$1;
+    		if (/*currentRoom*/ ctx[4] && /*currentRoom*/ ctx[4].channelOwnerId == /*$id*/ ctx[22]) return create_if_block_20$1;
     		if (show_if_1 == null) show_if_1 = !!(/*currentRoom*/ ctx[4] && /*myChannels*/ ctx[18].indexOf(/*currentRoom*/ ctx[4].name) != -1);
     		if (show_if_1) return create_if_block_21;
     	}
 
     	let current_block_type_1 = select_block_type_8(ctx, [-1, -1, -1, -1]);
     	let if_block2 = current_block_type_1 && current_block_type_1(ctx);
-    	let if_block3 = /*currentRoom*/ ctx[4] && /*currentRoom*/ ctx[4].channelOwnerId == /*$id*/ ctx[21] && /*currentRoom*/ ctx[4].isPublic == false && create_if_block_17$1(ctx);
+    	let if_block3 = /*currentRoom*/ ctx[4] && /*currentRoom*/ ctx[4].channelOwnerId == /*$id*/ ctx[22] && /*currentRoom*/ ctx[4].isPublic == false && create_if_block_17$1(ctx);
     	let if_block4 = show_if && create_if_block_16$1(ctx);
     	let if_block5 = /*currentUser*/ ctx[6] && create_if_block_3$4(ctx);
 
@@ -5339,44 +5339,44 @@ var app = (function () {
     			if (if_block5) if_block5.c();
     			set_style(h1, "text-align", "center");
     			attr_dev(h1, "class", "text-center");
-    			add_location(h1, file$6, 552, 8, 19190);
+    			add_location(h1, file$6, 575, 8, 19663);
     			attr_dev(div0, "class", "header");
-    			add_location(div0, file$6, 551, 6, 19161);
+    			add_location(div0, file$6, 574, 6, 19634);
     			attr_dev(h40, "class", "sectionTitle svelte-qd64xz");
-    			add_location(h40, file$6, 570, 10, 19794);
+    			add_location(h40, file$6, 593, 10, 20267);
     			attr_dev(div1, "class", "rooms svelte-qd64xz");
-    			add_location(div1, file$6, 572, 10, 19863);
+    			add_location(div1, file$6, 595, 10, 20336);
     			attr_dev(h41, "class", "sectionTitle svelte-qd64xz");
-    			add_location(h41, file$6, 611, 12, 21610);
+    			add_location(h41, file$6, 636, 12, 22119);
     			attr_dev(div2, "class", "privateMessages svelte-qd64xz");
-    			add_location(div2, file$6, 610, 10, 21568);
+    			add_location(div2, file$6, 635, 10, 22077);
     			attr_dev(div3, "class", "column1 svelte-qd64xz");
-    			add_location(div3, file$6, 569, 8, 19762);
+    			add_location(div3, file$6, 592, 8, 20235);
     			attr_dev(div4, "id", "messages");
     			attr_dev(div4, "class", "svelte-qd64xz");
-    			add_location(div4, file$6, 639, 10, 22778);
+    			add_location(div4, file$6, 666, 10, 23327);
     			attr_dev(input, "placeholder", "Enter message...");
-    			add_location(input, file$6, 691, 14, 24950);
+    			add_location(input, file$6, 719, 14, 25516);
     			attr_dev(form, "class", "form-control svelte-qd64xz");
-    			add_location(form, file$6, 690, 12, 24869);
+    			add_location(form, file$6, 718, 12, 25435);
     			attr_dev(button0, "class", "sendButton svelte-qd64xz");
-    			add_location(button0, file$6, 693, 12, 25042);
+    			add_location(button0, file$6, 721, 12, 25608);
     			attr_dev(div5, "class", "my-buttons svelte-qd64xz");
-    			add_location(div5, file$6, 689, 10, 24832);
+    			add_location(div5, file$6, 717, 10, 25398);
     			attr_dev(button1, "id", "createRoom");
     			attr_dev(button1, "class", "svelte-qd64xz");
-    			add_location(button1, file$6, 696, 12, 25182);
+    			add_location(button1, file$6, 726, 12, 25776);
     			attr_dev(div6, "class", "my-buttons svelte-qd64xz");
-    			add_location(div6, file$6, 695, 10, 25145);
+    			add_location(div6, file$6, 725, 10, 25739);
     			attr_dev(div7, "id", "chat");
     			attr_dev(div7, "class", "column2 svelte-qd64xz");
-    			add_location(div7, file$6, 638, 8, 22736);
+    			add_location(div7, file$6, 665, 8, 23285);
     			attr_dev(h42, "class", "sectionTitle2 svelte-qd64xz");
-    			add_location(h42, file$6, 744, 10, 27152);
+    			add_location(h42, file$6, 781, 10, 27856);
     			attr_dev(div8, "class", "column3 svelte-qd64xz");
-    			add_location(div8, file$6, 743, 8, 27120);
+    			add_location(div8, file$6, 780, 8, 27824);
     			attr_dev(div9, "class", "row svelte-qd64xz");
-    			add_location(div9, file$6, 567, 6, 19712);
+    			add_location(div9, file$6, 590, 6, 20185);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -5453,7 +5453,7 @@ var app = (function () {
     				}
     			}
 
-    			if (dirty[0] & /*rooms, $id, currentRoom, myChannels*/ 2359320 | dirty[1] & /*changeConv*/ 1024) {
+    			if (dirty[0] & /*rooms, $id, currentRoom, myChannels*/ 4456472 | dirty[1] & /*changeConv*/ 1024) {
     				each_value_3 = /*rooms*/ ctx[3];
     				validate_each_argument(each_value_3);
     				let i;
@@ -5477,7 +5477,7 @@ var app = (function () {
     				each_blocks_1.length = each_value_3.length;
     			}
 
-    			if (dirty[0] & /*privateMessages, $id, currentRoom*/ 2097172 | dirty[1] & /*changeConvMessages*/ 2048) {
+    			if (dirty[0] & /*privateMessages, $id, currentRoom*/ 4194324 | dirty[1] & /*changeConvMessages*/ 2048) {
     				each_value_2 = /*privateMessages*/ ctx[2];
     				validate_each_argument(each_value_2);
     				let i;
@@ -5530,7 +5530,7 @@ var app = (function () {
     				}
     			}
 
-    			if (/*currentRoom*/ ctx[4] && /*currentRoom*/ ctx[4].channelOwnerId == /*$id*/ ctx[21] && /*currentRoom*/ ctx[4].isPublic == false) {
+    			if (/*currentRoom*/ ctx[4] && /*currentRoom*/ ctx[4].channelOwnerId == /*$id*/ ctx[22] && /*currentRoom*/ ctx[4].isPublic == false) {
     				if (if_block3) {
     					if_block3.p(ctx, dirty);
     				} else {
@@ -5596,14 +5596,14 @@ var app = (function () {
     		block: block_1,
     		id: create_else_block$5.name,
     		type: "else",
-    		source: "(550:4) {:else}",
+    		source: "(573:4) {:else}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (506:4) {#if creation == true}
+    // (518:4) {#if creation == true}
     function create_if_block_1$5(ctx) {
     	let div4;
     	let h2;
@@ -5665,35 +5665,35 @@ var app = (function () {
     			t11 = space();
     			button1 = element("button");
     			button1.textContent = "🔙";
-    			add_location(h2, file$6, 508, 8, 17927);
+    			add_location(h2, file$6, 520, 8, 18253);
     			attr_dev(input0, "placeholder", "Chat room's name");
-    			add_location(input0, file$6, 510, 10, 17974);
-    			add_location(div0, file$6, 509, 8, 17958);
-    			add_location(br0, file$6, 512, 8, 18057);
+    			add_location(input0, file$6, 522, 10, 18300);
+    			add_location(div0, file$6, 521, 8, 18284);
+    			add_location(br0, file$6, 524, 8, 18383);
     			attr_dev(input1, "type", "radio");
     			input1.__value = "true";
     			input1.value = input1.__value;
     			/*$$binding_groups*/ ctx[47][0].push(input1);
-    			add_location(input1, file$6, 515, 12, 18108);
-    			add_location(label0, file$6, 514, 10, 18088);
+    			add_location(input1, file$6, 527, 12, 18434);
+    			add_location(label0, file$6, 526, 10, 18414);
     			attr_dev(input2, "type", "radio");
     			input2.__value = "false";
     			input2.value = input2.__value;
     			/*$$binding_groups*/ ctx[47][0].push(input2);
-    			add_location(input2, file$6, 525, 12, 18325);
-    			add_location(label1, file$6, 524, 10, 18305);
-    			add_location(div1, file$6, 513, 8, 18072);
-    			add_location(br1, file$6, 534, 8, 18533);
+    			add_location(input2, file$6, 537, 12, 18651);
+    			add_location(label1, file$6, 536, 10, 18631);
+    			add_location(div1, file$6, 525, 8, 18398);
+    			add_location(br1, file$6, 546, 8, 18859);
     			attr_dev(button0, "class", "create svelte-qd64xz");
-    			add_location(button0, file$6, 540, 12, 18729);
-    			add_location(div2, file$6, 539, 10, 18711);
+    			add_location(button0, file$6, 556, 10, 19107);
+    			add_location(div2, file$6, 555, 10, 19091);
     			set_style(button1, "border", "none");
     			set_style(button1, "background-color", "transparent");
     			set_style(button1, "font-size", "36px");
-    			add_location(button1, file$6, 543, 10, 18854);
-    			add_location(div3, file$6, 535, 8, 18548);
+    			add_location(button1, file$6, 560, 10, 19243);
+    			add_location(div3, file$6, 547, 8, 18874);
     			attr_dev(div4, "id", "creation");
-    			add_location(div4, file$6, 507, 6, 17899);
+    			add_location(div4, file$6, 519, 6, 18225);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div4, anchor);
@@ -5780,14 +5780,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_1$5.name,
     		type: "if",
-    		source: "(506:4) {#if creation == true}",
+    		source: "(518:4) {#if creation == true}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (562:8) {:else}
+    // (585:8) {:else}
     function create_else_block_7(ctx) {
     	let h3;
 
@@ -5798,7 +5798,7 @@ var app = (function () {
     			set_style(h3, "font-style", "italic");
     			attr_dev(h3, "id", "roomTitle");
     			attr_dev(h3, "class", "svelte-qd64xz");
-    			add_location(h3, file$6, 562, 10, 19564);
+    			add_location(h3, file$6, 585, 10, 20037);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -5813,14 +5813,14 @@ var app = (function () {
     		block: block_1,
     		id: create_else_block_7.name,
     		type: "else",
-    		source: "(562:8) {:else}",
+    		source: "(585:8) {:else}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (554:8) {#if currentRoom}
+    // (577:8) {#if currentRoom}
     function create_if_block_34(ctx) {
     	let if_block_anchor;
 
@@ -5864,14 +5864,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_34.name,
     		type: "if",
-    		source: "(554:8) {#if currentRoom}",
+    		source: "(577:8) {#if currentRoom}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (557:10) {:else}
+    // (580:10) {:else}
     function create_else_block_6$1(ctx) {
     	let h3;
     	let t0;
@@ -5885,7 +5885,7 @@ var app = (function () {
     			t1 = text(t1_value);
     			attr_dev(h3, "id", "roomTitle");
     			attr_dev(h3, "class", "svelte-qd64xz");
-    			add_location(h3, file$6, 557, 12, 19438);
+    			add_location(h3, file$6, 580, 12, 19911);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -5904,14 +5904,14 @@ var app = (function () {
     		block: block_1,
     		id: create_else_block_6$1.name,
     		type: "else",
-    		source: "(557:10) {:else}",
+    		source: "(580:10) {:else}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (555:10) {#if currentRoom.isDirectMessage != true}
+    // (578:10) {#if currentRoom.isDirectMessage != true}
     function create_if_block_35(ctx) {
     	let h3;
     	let t0;
@@ -5925,7 +5925,7 @@ var app = (function () {
     			t1 = text(t1_value);
     			attr_dev(h3, "id", "roomTitle");
     			attr_dev(h3, "class", "svelte-qd64xz");
-    			add_location(h3, file$6, 555, 12, 19345);
+    			add_location(h3, file$6, 578, 12, 19818);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -5944,25 +5944,25 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_35.name,
     		type: "if",
-    		source: "(555:10) {#if currentRoom.isDirectMessage != true}",
+    		source: "(578:10) {#if currentRoom.isDirectMessage != true}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (603:14) {:else}
+    // (626:14) {:else}
     function create_else_block_5$2(ctx) {
     	let button;
     	let t0;
-    	let t1_value = /*room*/ ctx[102].name.toUpperCase() + "";
+    	let t1_value = /*room*/ ctx[103].name.toUpperCase() + "";
     	let t1;
     	let br;
     	let mounted;
     	let dispose;
 
     	function click_handler_5() {
-    		return /*click_handler_5*/ ctx[55](/*room*/ ctx[102]);
+    		return /*click_handler_5*/ ctx[55](/*room*/ ctx[103]);
     	}
 
     	const block_1 = {
@@ -5973,8 +5973,8 @@ var app = (function () {
     			br = element("br");
     			attr_dev(button, "id", "selectRoom");
     			attr_dev(button, "class", "svelte-qd64xz");
-    			add_location(button, file$6, 603, 16, 21316);
-    			add_location(br, file$6, 605, 17, 21460);
+    			add_location(button, file$6, 626, 16, 21789);
+    			add_location(br, file$6, 630, 17, 21969);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -5989,7 +5989,7 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty[0] & /*rooms*/ 8 && t1_value !== (t1_value = /*room*/ ctx[102].name.toUpperCase() + "")) set_data_dev(t1, t1_value);
+    			if (dirty[0] & /*rooms*/ 8 && t1_value !== (t1_value = /*room*/ ctx[103].name.toUpperCase() + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(button);
@@ -6003,25 +6003,25 @@ var app = (function () {
     		block: block_1,
     		id: create_else_block_5$2.name,
     		type: "else",
-    		source: "(603:14) {:else}",
+    		source: "(626:14) {:else}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (596:60) 
+    // (619:60) 
     function create_if_block_33(ctx) {
     	let button;
     	let t0;
-    	let t1_value = /*room*/ ctx[102].name.toUpperCase() + "";
+    	let t1_value = /*room*/ ctx[103].name.toUpperCase() + "";
     	let t1;
     	let br;
     	let mounted;
     	let dispose;
 
     	function click_handler_4() {
-    		return /*click_handler_4*/ ctx[54](/*room*/ ctx[102]);
+    		return /*click_handler_4*/ ctx[54](/*room*/ ctx[103]);
     	}
 
     	const block_1 = {
@@ -6033,8 +6033,8 @@ var app = (function () {
     			set_style(button, "color", "lightgreen");
     			attr_dev(button, "id", "selectMyRoom");
     			attr_dev(button, "class", "svelte-qd64xz");
-    			add_location(button, file$6, 596, 16, 21046);
-    			add_location(br, file$6, 601, 17, 21271);
+    			add_location(button, file$6, 619, 16, 21519);
+    			add_location(br, file$6, 624, 17, 21744);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -6049,7 +6049,7 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty[0] & /*rooms*/ 8 && t1_value !== (t1_value = /*room*/ ctx[102].name.toUpperCase() + "")) set_data_dev(t1, t1_value);
+    			if (dirty[0] & /*rooms*/ 8 && t1_value !== (t1_value = /*room*/ ctx[103].name.toUpperCase() + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(button);
@@ -6063,25 +6063,25 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_33.name,
     		type: "if",
-    		source: "(596:60) ",
+    		source: "(619:60) ",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (589:83) 
+    // (612:83) 
     function create_if_block_32(ctx) {
     	let button;
     	let t0;
-    	let t1_value = /*room*/ ctx[102].name.toUpperCase() + "";
+    	let t1_value = /*room*/ ctx[103].name.toUpperCase() + "";
     	let t1;
     	let br;
     	let mounted;
     	let dispose;
 
     	function click_handler_3() {
-    		return /*click_handler_3*/ ctx[53](/*room*/ ctx[102]);
+    		return /*click_handler_3*/ ctx[53](/*room*/ ctx[103]);
     	}
 
     	const block_1 = {
@@ -6095,8 +6095,8 @@ var app = (function () {
     			set_style(button, "background-color", "lightgreen");
     			attr_dev(button, "id", "selectMyRoom");
     			attr_dev(button, "class", "svelte-qd64xz");
-    			add_location(button, file$6, 589, 16, 20689);
-    			add_location(br, file$6, 594, 17, 20962);
+    			add_location(button, file$6, 612, 16, 21162);
+    			add_location(br, file$6, 617, 17, 21435);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -6111,7 +6111,7 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty[0] & /*rooms*/ 8 && t1_value !== (t1_value = /*room*/ ctx[102].name.toUpperCase() + "")) set_data_dev(t1, t1_value);
+    			if (dirty[0] & /*rooms*/ 8 && t1_value !== (t1_value = /*room*/ ctx[103].name.toUpperCase() + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(button);
@@ -6125,25 +6125,25 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_32.name,
     		type: "if",
-    		source: "(589:83) ",
+    		source: "(612:83) ",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (582:51) 
+    // (605:51) 
     function create_if_block_31(ctx) {
     	let button;
     	let t0;
-    	let t1_value = /*room*/ ctx[102].name.toUpperCase() + "";
+    	let t1_value = /*room*/ ctx[103].name.toUpperCase() + "";
     	let t1;
     	let br;
     	let mounted;
     	let dispose;
 
     	function click_handler_2() {
-    		return /*click_handler_2*/ ctx[52](/*room*/ ctx[102]);
+    		return /*click_handler_2*/ ctx[52](/*room*/ ctx[103]);
     	}
 
     	const block_1 = {
@@ -6155,8 +6155,8 @@ var app = (function () {
     			set_style(button, "color", "lightblue");
     			attr_dev(button, "id", "selectMyOwnRoom");
     			attr_dev(button, "class", "svelte-qd64xz");
-    			add_location(button, file$6, 582, 16, 20353);
-    			add_location(br, file$6, 587, 17, 20582);
+    			add_location(button, file$6, 605, 16, 20826);
+    			add_location(br, file$6, 610, 17, 21055);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -6171,7 +6171,7 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty[0] & /*rooms*/ 8 && t1_value !== (t1_value = /*room*/ ctx[102].name.toUpperCase() + "")) set_data_dev(t1, t1_value);
+    			if (dirty[0] & /*rooms*/ 8 && t1_value !== (t1_value = /*room*/ ctx[103].name.toUpperCase() + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(button);
@@ -6185,25 +6185,25 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_31.name,
     		type: "if",
-    		source: "(582:51) ",
+    		source: "(605:51) ",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (575:14) {#if room.channelOwnerId == $id && room == currentRoom}
+    // (598:14) {#if room.channelOwnerId == $id && room == currentRoom}
     function create_if_block_30(ctx) {
     	let button;
     	let t0;
-    	let t1_value = /*room*/ ctx[102].name.toUpperCase() + "";
+    	let t1_value = /*room*/ ctx[103].name.toUpperCase() + "";
     	let t1;
     	let br;
     	let mounted;
     	let dispose;
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[51](/*room*/ ctx[102]);
+    		return /*click_handler_1*/ ctx[51](/*room*/ ctx[103]);
     	}
 
     	const block_1 = {
@@ -6217,8 +6217,8 @@ var app = (function () {
     			set_style(button, "background-color", "lightblue");
     			attr_dev(button, "id", "selectMyOwnRoom");
     			attr_dev(button, "class", "svelte-qd64xz");
-    			add_location(button, file$6, 575, 16, 20003);
-    			add_location(br, file$6, 580, 17, 20278);
+    			add_location(button, file$6, 598, 16, 20476);
+    			add_location(br, file$6, 603, 17, 20751);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -6233,7 +6233,7 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty[0] & /*rooms*/ 8 && t1_value !== (t1_value = /*room*/ ctx[102].name.toUpperCase() + "")) set_data_dev(t1, t1_value);
+    			if (dirty[0] & /*rooms*/ 8 && t1_value !== (t1_value = /*room*/ ctx[103].name.toUpperCase() + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(button);
@@ -6247,14 +6247,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_30.name,
     		type: "if",
-    		source: "(575:14) {#if room.channelOwnerId == $id && room == currentRoom}",
+    		source: "(598:14) {#if room.channelOwnerId == $id && room == currentRoom}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (574:12) {#each rooms as room}
+    // (597:12) {#each rooms as room}
     function create_each_block_3(ctx) {
     	let show_if;
     	let show_if_1;
@@ -6263,11 +6263,11 @@ var app = (function () {
     	function select_block_type_4(ctx, dirty) {
     		if (dirty[0] & /*myChannels, rooms, currentRoom*/ 262168) show_if = null;
     		if (dirty[0] & /*myChannels, rooms*/ 262152) show_if_1 = null;
-    		if (/*room*/ ctx[102].channelOwnerId == /*$id*/ ctx[21] && /*room*/ ctx[102] == /*currentRoom*/ ctx[4]) return create_if_block_30;
-    		if (/*room*/ ctx[102].channelOwnerId == /*$id*/ ctx[21]) return create_if_block_31;
-    		if (show_if == null) show_if = !!(/*myChannels*/ ctx[18].indexOf(/*room*/ ctx[102].name) != -1 && /*room*/ ctx[102] == /*currentRoom*/ ctx[4]);
+    		if (/*room*/ ctx[103].channelOwnerId == /*$id*/ ctx[22] && /*room*/ ctx[103] == /*currentRoom*/ ctx[4]) return create_if_block_30;
+    		if (/*room*/ ctx[103].channelOwnerId == /*$id*/ ctx[22]) return create_if_block_31;
+    		if (show_if == null) show_if = !!(/*myChannels*/ ctx[18].indexOf(/*room*/ ctx[103].name) != -1 && /*room*/ ctx[103] == /*currentRoom*/ ctx[4]);
     		if (show_if) return create_if_block_32;
-    		if (show_if_1 == null) show_if_1 = !!(/*myChannels*/ ctx[18].indexOf(/*room*/ ctx[102].name) != -1);
+    		if (show_if_1 == null) show_if_1 = !!(/*myChannels*/ ctx[18].indexOf(/*room*/ ctx[103].name) != -1);
     		if (show_if_1) return create_if_block_33;
     		return create_else_block_5$2;
     	}
@@ -6307,20 +6307,20 @@ var app = (function () {
     		block: block_1,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(574:12) {#each rooms as room}",
+    		source: "(597:12) {#each rooms as room}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (624:14) {:else}
+    // (650:14) {:else}
     function create_else_block_4$3(ctx) {
     	let button;
 
-    	let t0_value = (/*privateMessage*/ ctx[99].users[0].id == /*$id*/ ctx[21]
-    	? /*privateMessage*/ ctx[99].users[1].userName42.toUpperCase()
-    	: /*privateMessage*/ ctx[99].users[0].userName42.toUpperCase()) + "";
+    	let t0_value = (/*privateMessage*/ ctx[100].users[0].id == /*$id*/ ctx[22]
+    	? /*privateMessage*/ ctx[100].users[1].userName42.toUpperCase()
+    	: /*privateMessage*/ ctx[100].users[0].userName42.toUpperCase()) + "";
 
     	let t0;
     	let t1;
@@ -6329,7 +6329,7 @@ var app = (function () {
     	let dispose;
 
     	function click_handler_7() {
-    		return /*click_handler_7*/ ctx[57](/*privateMessage*/ ctx[99]);
+    		return /*click_handler_7*/ ctx[57](/*privateMessage*/ ctx[100]);
     	}
 
     	const block_1 = {
@@ -6340,8 +6340,8 @@ var app = (function () {
     			br = element("br");
     			attr_dev(button, "id", "selectPrivMsg");
     			attr_dev(button, "class", "svelte-qd64xz");
-    			add_location(button, file$6, 624, 16, 22255);
-    			add_location(br, file$6, 631, 25, 22624);
+    			add_location(button, file$6, 650, 16, 22784);
+    			add_location(br, file$6, 658, 25, 23173);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -6357,9 +6357,9 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (dirty[0] & /*privateMessages, $id*/ 2097156 && t0_value !== (t0_value = (/*privateMessage*/ ctx[99].users[0].id == /*$id*/ ctx[21]
-    			? /*privateMessage*/ ctx[99].users[1].userName42.toUpperCase()
-    			: /*privateMessage*/ ctx[99].users[0].userName42.toUpperCase()) + "")) set_data_dev(t0, t0_value);
+    			if (dirty[0] & /*privateMessages, $id*/ 4194308 && t0_value !== (t0_value = (/*privateMessage*/ ctx[100].users[0].id == /*$id*/ ctx[22]
+    			? /*privateMessage*/ ctx[100].users[1].userName42.toUpperCase()
+    			: /*privateMessage*/ ctx[100].users[0].userName42.toUpperCase()) + "")) set_data_dev(t0, t0_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(button);
@@ -6373,20 +6373,20 @@ var app = (function () {
     		block: block_1,
     		id: create_else_block_4$3.name,
     		type: "else",
-    		source: "(624:14) {:else}",
+    		source: "(650:14) {:else}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (614:14) {#if privateMessage == currentRoom}
+    // (639:14) {#if privateMessage == currentRoom}
     function create_if_block_29(ctx) {
     	let button;
 
-    	let t0_value = (/*privateMessage*/ ctx[99].users[0].id == /*$id*/ ctx[21]
-    	? /*privateMessage*/ ctx[99].users[1].userName42.toUpperCase()
-    	: /*privateMessage*/ ctx[99].users[0].userName42.toUpperCase()) + "";
+    	let t0_value = (/*privateMessage*/ ctx[100].users[0].id == /*$id*/ ctx[22]
+    	? /*privateMessage*/ ctx[100].users[1].userName42.toUpperCase()
+    	: /*privateMessage*/ ctx[100].users[0].userName42.toUpperCase()) + "";
 
     	let t0;
     	let t1;
@@ -6395,7 +6395,7 @@ var app = (function () {
     	let dispose;
 
     	function click_handler_6() {
-    		return /*click_handler_6*/ ctx[56](/*privateMessage*/ ctx[99]);
+    		return /*click_handler_6*/ ctx[56](/*privateMessage*/ ctx[100]);
     	}
 
     	const block_1 = {
@@ -6408,8 +6408,8 @@ var app = (function () {
     			set_style(button, "background-color", "darkslategrey");
     			attr_dev(button, "id", "selectPrivMsg");
     			attr_dev(button, "class", "svelte-qd64xz");
-    			add_location(button, file$6, 614, 16, 21769);
-    			add_location(br, file$6, 622, 25, 22210);
+    			add_location(button, file$6, 639, 16, 22278);
+    			add_location(br, file$6, 648, 25, 22739);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -6425,9 +6425,9 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (dirty[0] & /*privateMessages, $id*/ 2097156 && t0_value !== (t0_value = (/*privateMessage*/ ctx[99].users[0].id == /*$id*/ ctx[21]
-    			? /*privateMessage*/ ctx[99].users[1].userName42.toUpperCase()
-    			: /*privateMessage*/ ctx[99].users[0].userName42.toUpperCase()) + "")) set_data_dev(t0, t0_value);
+    			if (dirty[0] & /*privateMessages, $id*/ 4194308 && t0_value !== (t0_value = (/*privateMessage*/ ctx[100].users[0].id == /*$id*/ ctx[22]
+    			? /*privateMessage*/ ctx[100].users[1].userName42.toUpperCase()
+    			: /*privateMessage*/ ctx[100].users[0].userName42.toUpperCase()) + "")) set_data_dev(t0, t0_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(button);
@@ -6441,19 +6441,19 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_29.name,
     		type: "if",
-    		source: "(614:14) {#if privateMessage == currentRoom}",
+    		source: "(639:14) {#if privateMessage == currentRoom}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (613:12) {#each privateMessages as privateMessage}
+    // (638:12) {#each privateMessages as privateMessage}
     function create_each_block_2(ctx) {
     	let if_block_anchor;
 
     	function select_block_type_5(ctx, dirty) {
-    		if (/*privateMessage*/ ctx[99] == /*currentRoom*/ ctx[4]) return create_if_block_29;
+    		if (/*privateMessage*/ ctx[100] == /*currentRoom*/ ctx[4]) return create_if_block_29;
     		return create_else_block_4$3;
     	}
 
@@ -6492,14 +6492,14 @@ var app = (function () {
     		block: block_1,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(613:12) {#each privateMessages as privateMessage}",
+    		source: "(638:12) {#each privateMessages as privateMessage}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (641:12) {#if currentRoom}
+    // (668:12) {#if currentRoom}
     function create_if_block_22(ctx) {
     	let div;
     	let show_if_2 = /*Mutes*/ ctx[15] && /*Mutes*/ ctx[15].indexOf(/*currentRoom*/ ctx[4].name) != -1;
@@ -6529,7 +6529,7 @@ var app = (function () {
     			t = space();
     			if_block1.c();
     			if_block1_anchor = empty$1();
-    			add_location(div, file$6, 641, 14, 22842);
+    			add_location(div, file$6, 668, 14, 23391);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -6577,14 +6577,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_22.name,
     		type: "if",
-    		source: "(641:12) {#if currentRoom}",
+    		source: "(668:12) {#if currentRoom}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (643:16) {#if Mutes && Mutes.indexOf(currentRoom.name) != -1}
+    // (670:16) {#if Mutes && Mutes.indexOf(currentRoom.name) != -1}
     function create_if_block_28(ctx) {
     	let p;
 
@@ -6594,7 +6594,7 @@ var app = (function () {
     			p.textContent = "You are muted on this channel";
     			set_style(p, "text-align", "center");
     			set_style(p, "color", "red");
-    			add_location(p, file$6, 643, 18, 22935);
+    			add_location(p, file$6, 670, 18, 23484);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -6608,14 +6608,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_28.name,
     		type: "if",
-    		source: "(643:16) {#if Mutes && Mutes.indexOf(currentRoom.name) != -1}",
+    		source: "(670:16) {#if Mutes && Mutes.indexOf(currentRoom.name) != -1}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (666:14) {:else}
+    // (694:14) {:else}
     function create_else_block_2$4(ctx) {
     	let each_1_anchor;
     	let each_value_1 = /*messages*/ ctx[1];
@@ -6642,7 +6642,7 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*messages, $username, currentRoom, blocked*/ 9437202) {
+    			if (dirty[0] & /*messages, $username, currentRoom, blocked*/ 3145746) {
     				each_value_1 = /*messages*/ ctx[1];
     				validate_each_argument(each_value_1);
     				let i;
@@ -6676,14 +6676,14 @@ var app = (function () {
     		block: block_1,
     		id: create_else_block_2$4.name,
     		type: "else",
-    		source: "(666:14) {:else}",
+    		source: "(694:14) {:else}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (653:100) 
+    // (681:100) 
     function create_if_block_24(ctx) {
     	let h3;
     	let t1;
@@ -6700,13 +6700,13 @@ var app = (function () {
     			form = element("form");
     			input = element("input");
     			set_style(h3, "margin-top", "30px");
-    			add_location(h3, file$6, 653, 16, 23485);
+    			add_location(h3, file$6, 681, 16, 24051);
     			set_style(input, "width", "100%");
     			attr_dev(input, "class", "form-control svelte-qd64xz");
     			attr_dev(input, "type", "password");
     			attr_dev(input, "placeholder", "Enter room password...");
-    			add_location(input, file$6, 657, 18, 23665);
-    			add_location(form, file$6, 656, 16, 23604);
+    			add_location(input, file$6, 685, 18, 24231);
+    			add_location(form, file$6, 684, 16, 24170);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -6742,14 +6742,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_24.name,
     		type: "if",
-    		source: "(653:100) ",
+    		source: "(681:100) ",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (649:14) {#if myChannels.indexOf(currentRoom.name) == -1 && currentRoom.isPublic == true && currentRoom.isDirectMessage != true}
+    // (676:14) {#if myChannels.indexOf(currentRoom.name) == -1 && currentRoom.isPublic == true && currentRoom.isDirectMessage != true}
     function create_if_block_23(ctx) {
     	let button;
     	let mounted;
@@ -6760,7 +6760,7 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "Join room";
     			attr_dev(button, "class", "joinButton svelte-qd64xz");
-    			add_location(button, file$6, 649, 16, 23243);
+    			add_location(button, file$6, 676, 16, 23792);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -6782,19 +6782,19 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_23.name,
     		type: "if",
-    		source: "(649:14) {#if myChannels.indexOf(currentRoom.name) == -1 && currentRoom.isPublic == true && currentRoom.isDirectMessage != true}",
+    		source: "(676:14) {#if myChannels.indexOf(currentRoom.name) == -1 && currentRoom.isPublic == true && currentRoom.isDirectMessage != true}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (668:18) {#if blocked.indexOf(msg.user.id.toString()) == -1}
+    // (696:18) {#if blocked.indexOf(msg.user.id.toString()) == -1}
     function create_if_block_25(ctx) {
     	let if_block_anchor;
 
     	function select_block_type_7(ctx, dirty) {
-    		if (/*msg*/ ctx[96].user.userName == /*$username*/ ctx[23]) return create_if_block_26;
+    		if (/*msg*/ ctx[97].user.userName == /*$username*/ ctx[21]) return create_if_block_26;
     		if (/*currentRoom*/ ctx[4].isDirectMessage == true) return create_if_block_27;
     		return create_else_block_3$4;
     	}
@@ -6834,22 +6834,22 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_25.name,
     		type: "if",
-    		source: "(668:18) {#if blocked.indexOf(msg.user.id.toString()) == -1}",
+    		source: "(696:18) {#if blocked.indexOf(msg.user.id.toString()) == -1}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (677:20) {:else}
+    // (705:20) {:else}
     function create_else_block_3$4(ctx) {
     	let p;
     	let span;
-    	let t0_value = /*msg*/ ctx[96].user.userName + "";
+    	let t0_value = /*msg*/ ctx[97].user.userName + "";
     	let t0;
     	let br;
     	let t1;
-    	let t2_value = /*msg*/ ctx[96].text + "";
+    	let t2_value = /*msg*/ ctx[97].text + "";
     	let t2;
     	let t3;
 
@@ -6864,10 +6864,10 @@ var app = (function () {
     			t3 = space();
     			set_style(span, "font-weight", "700");
     			set_style(span, "color", "darkgreen");
-    			add_location(span, file$6, 678, 24, 24497);
-    			add_location(br, file$6, 680, 25, 24624);
+    			add_location(span, file$6, 706, 24, 25063);
+    			add_location(br, file$6, 708, 25, 25190);
     			attr_dev(p, "class", "othermsg svelte-qd64xz");
-    			add_location(p, file$6, 677, 22, 24452);
+    			add_location(p, file$6, 705, 22, 25018);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -6879,8 +6879,8 @@ var app = (function () {
     			append_dev(p, t3);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*messages*/ 2 && t0_value !== (t0_value = /*msg*/ ctx[96].user.userName + "")) set_data_dev(t0, t0_value);
-    			if (dirty[0] & /*messages*/ 2 && t2_value !== (t2_value = /*msg*/ ctx[96].text + "")) set_data_dev(t2, t2_value);
+    			if (dirty[0] & /*messages*/ 2 && t0_value !== (t0_value = /*msg*/ ctx[97].user.userName + "")) set_data_dev(t0, t0_value);
+    			if (dirty[0] & /*messages*/ 2 && t2_value !== (t2_value = /*msg*/ ctx[97].text + "")) set_data_dev(t2, t2_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(p);
@@ -6891,17 +6891,17 @@ var app = (function () {
     		block: block_1,
     		id: create_else_block_3$4.name,
     		type: "else",
-    		source: "(677:20) {:else}",
+    		source: "(705:20) {:else}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (673:66) 
+    // (701:66) 
     function create_if_block_27(ctx) {
     	let p;
-    	let t0_value = /*msg*/ ctx[96].text + "";
+    	let t0_value = /*msg*/ ctx[97].text + "";
     	let t0;
     	let t1;
 
@@ -6911,7 +6911,7 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = space();
     			attr_dev(p, "class", "othermsg svelte-qd64xz");
-    			add_location(p, file$6, 673, 22, 24319);
+    			add_location(p, file$6, 701, 22, 24885);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -6919,7 +6919,7 @@ var app = (function () {
     			append_dev(p, t1);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*messages*/ 2 && t0_value !== (t0_value = /*msg*/ ctx[96].text + "")) set_data_dev(t0, t0_value);
+    			if (dirty[0] & /*messages*/ 2 && t0_value !== (t0_value = /*msg*/ ctx[97].text + "")) set_data_dev(t0, t0_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(p);
@@ -6930,17 +6930,17 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_27.name,
     		type: "if",
-    		source: "(673:66) ",
+    		source: "(701:66) ",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (669:20) {#if msg.user.userName == $username}
+    // (697:20) {#if msg.user.userName == $username}
     function create_if_block_26(ctx) {
     	let p;
-    	let t0_value = /*msg*/ ctx[96].text + "";
+    	let t0_value = /*msg*/ ctx[97].text + "";
     	let t0;
     	let t1;
 
@@ -6950,7 +6950,7 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = space();
     			attr_dev(p, "class", "selfmsg svelte-qd64xz");
-    			add_location(p, file$6, 669, 22, 24148);
+    			add_location(p, file$6, 697, 22, 24714);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -6958,7 +6958,7 @@ var app = (function () {
     			append_dev(p, t1);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*messages*/ 2 && t0_value !== (t0_value = /*msg*/ ctx[96].text + "")) set_data_dev(t0, t0_value);
+    			if (dirty[0] & /*messages*/ 2 && t0_value !== (t0_value = /*msg*/ ctx[97].text + "")) set_data_dev(t0, t0_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(p);
@@ -6969,16 +6969,16 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_26.name,
     		type: "if",
-    		source: "(669:20) {#if msg.user.userName == $username}",
+    		source: "(697:20) {#if msg.user.userName == $username}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (667:16) {#each messages as msg}
+    // (695:16) {#each messages as msg}
     function create_each_block_1$1(ctx) {
-    	let show_if = /*blocked*/ ctx[20].indexOf(/*msg*/ ctx[96].user.id.toString()) == -1;
+    	let show_if = /*blocked*/ ctx[20].indexOf(/*msg*/ ctx[97].user.id.toString()) == -1;
     	let if_block_anchor;
     	let if_block = show_if && create_if_block_25(ctx);
 
@@ -6992,7 +6992,7 @@ var app = (function () {
     			insert_dev(target, if_block_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*blocked, messages*/ 1048578) show_if = /*blocked*/ ctx[20].indexOf(/*msg*/ ctx[96].user.id.toString()) == -1;
+    			if (dirty[0] & /*blocked, messages*/ 1048578) show_if = /*blocked*/ ctx[20].indexOf(/*msg*/ ctx[97].user.id.toString()) == -1;
 
     			if (show_if) {
     				if (if_block) {
@@ -7017,14 +7017,14 @@ var app = (function () {
     		block: block_1,
     		id: create_each_block_1$1.name,
     		type: "each",
-    		source: "(667:16) {#each messages as msg}",
+    		source: "(695:16) {#each messages as msg}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (710:80) 
+    // (745:80) 
     function create_if_block_21(ctx) {
     	let button;
     	let mounted;
@@ -7036,7 +7036,7 @@ var app = (function () {
     			button.textContent = "Leave Room";
     			attr_dev(button, "id", "leaveRoom");
     			attr_dev(button, "class", "svelte-qd64xz");
-    			add_location(button, file$6, 710, 14, 25895);
+    			add_location(button, file$6, 745, 14, 26567);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -7058,14 +7058,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_21.name,
     		type: "if",
-    		source: "(710:80) ",
+    		source: "(745:80) ",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (706:71) 
+    // (739:71) 
     function create_if_block_20$1(ctx) {
     	let button;
     	let mounted;
@@ -7077,7 +7077,7 @@ var app = (function () {
     			button.textContent = "Delete Room";
     			attr_dev(button, "id", "leaveRoom");
     			attr_dev(button, "class", "svelte-qd64xz");
-    			add_location(button, file$6, 706, 14, 25668);
+    			add_location(button, file$6, 739, 14, 26308);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -7099,14 +7099,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_20$1.name,
     		type: "if",
-    		source: "(706:71) ",
+    		source: "(739:71) ",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (700:12) {#if currentRoom && currentRoom.isDirectMessage == true}
+    // (732:12) {#if currentRoom && currentRoom.isDirectMessage == true}
     function create_if_block_19$1(ctx) {
     	let button;
     	let mounted;
@@ -7118,7 +7118,7 @@ var app = (function () {
     			button.textContent = "Delete Private Conversation";
     			attr_dev(button, "id", "leaveRoom");
     			attr_dev(button, "class", "svelte-qd64xz");
-    			add_location(button, file$6, 700, 14, 25392);
+    			add_location(button, file$6, 732, 14, 26014);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -7140,14 +7140,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_19$1.name,
     		type: "if",
-    		source: "(700:12) {#if currentRoom && currentRoom.isDirectMessage == true}",
+    		source: "(732:12) {#if currentRoom && currentRoom.isDirectMessage == true}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (716:10) {#if currentRoom && currentRoom.channelOwnerId == $id && currentRoom.isPublic == false}
+    // (753:10) {#if currentRoom && currentRoom.channelOwnerId == $id && currentRoom.isPublic == false}
     function create_if_block_17$1(ctx) {
     	let div;
     	let button0;
@@ -7172,13 +7172,13 @@ var app = (function () {
     			if_block_anchor = empty$1();
     			attr_dev(button0, "id", "createRoom2");
     			attr_dev(button0, "class", "svelte-qd64xz");
-    			add_location(button0, file$6, 717, 14, 26234);
+    			add_location(button0, file$6, 754, 14, 26938);
     			attr_dev(button1, "id", "leaveRoom2");
     			attr_dev(button1, "class", "svelte-qd64xz");
-    			add_location(button1, file$6, 723, 14, 26438);
+    			add_location(button1, file$6, 760, 14, 27142);
     			set_style(div, "margin-top", "5px");
     			attr_dev(div, "class", "my-buttons svelte-qd64xz");
-    			add_location(div, file$6, 716, 12, 26170);
+    			add_location(div, file$6, 753, 12, 26874);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -7226,14 +7226,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_17$1.name,
     		type: "if",
-    		source: "(716:10) {#if currentRoom && currentRoom.channelOwnerId == $id && currentRoom.isPublic == false}",
+    		source: "(753:10) {#if currentRoom && currentRoom.channelOwnerId == $id && currentRoom.isPublic == false}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (728:12) {#if changeRemove == 'true'}
+    // (765:12) {#if changeRemove == 'true'}
     function create_if_block_18$1(ctx) {
     	let form;
     	let input;
@@ -7254,9 +7254,9 @@ var app = (function () {
     			attr_dev(input, "class", "form-control svelte-qd64xz");
     			attr_dev(input, "type", "password");
     			attr_dev(input, "placeholder", "Enter new password...");
-    			add_location(input, file$6, 729, 16, 26690);
-    			add_location(form, file$6, 728, 14, 26619);
-    			add_location(button, file$6, 737, 14, 26974);
+    			add_location(input, file$6, 766, 16, 27394);
+    			add_location(form, file$6, 765, 14, 27323);
+    			add_location(button, file$6, 774, 14, 27678);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, form, anchor);
@@ -7293,14 +7293,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_18$1.name,
     		type: "if",
-    		source: "(728:12) {#if changeRemove == 'true'}",
+    		source: "(765:12) {#if changeRemove == 'true'}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (746:10) {#if currentRoom && myChannels.indexOf(currentRoom.name) != -1 && !currentUser}
+    // (783:10) {#if currentRoom && myChannels.indexOf(currentRoom.name) != -1 && !currentUser}
     function create_if_block_16$1(ctx) {
     	let div;
     	let each_value = /*currentRoom*/ ctx[4].users;
@@ -7320,7 +7320,7 @@ var app = (function () {
     			}
 
     			set_style(div, "margin-top", "15px");
-    			add_location(div, file$6, 746, 12, 27291);
+    			add_location(div, file$6, 783, 12, 27995);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -7364,26 +7364,26 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_16$1.name,
     		type: "if",
-    		source: "(746:10) {#if currentRoom && myChannels.indexOf(currentRoom.name) != -1 && !currentUser}",
+    		source: "(783:10) {#if currentRoom && myChannels.indexOf(currentRoom.name) != -1 && !currentUser}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (748:14) {#each currentRoom.users as user}
+    // (785:14) {#each currentRoom.users as user}
     function create_each_block$3(ctx) {
     	let button;
     	let img;
     	let img_src_value;
     	let t0;
-    	let t1_value = /*user*/ ctx[93].userName + "";
+    	let t1_value = /*user*/ ctx[94].userName + "";
     	let t1;
     	let mounted;
     	let dispose;
 
     	function click_handler_14() {
-    		return /*click_handler_14*/ ctx[68](/*user*/ ctx[93]);
+    		return /*click_handler_14*/ ctx[68](/*user*/ ctx[94]);
     	}
 
     	const block_1 = {
@@ -7393,12 +7393,12 @@ var app = (function () {
     			t0 = space();
     			t1 = text(t1_value);
     			attr_dev(img, "class", "listAvatar svelte-qd64xz");
-    			if (!src_url_equal(img.src, img_src_value = /*user*/ ctx[93].imageURL)) attr_dev(img, "src", img_src_value);
+    			if (!src_url_equal(img.src, img_src_value = /*user*/ ctx[94].imageURL)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "profilePic");
-    			add_location(img, file$6, 754, 18, 27582);
+    			add_location(img, file$6, 791, 18, 28286);
     			attr_dev(button, "id", "selectUser");
     			attr_dev(button, "class", "svelte-qd64xz");
-    			add_location(button, file$6, 748, 16, 27387);
+    			add_location(button, file$6, 785, 16, 28091);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -7414,11 +7414,11 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (dirty[0] & /*currentRoom*/ 16 && !src_url_equal(img.src, img_src_value = /*user*/ ctx[93].imageURL)) {
+    			if (dirty[0] & /*currentRoom*/ 16 && !src_url_equal(img.src, img_src_value = /*user*/ ctx[94].imageURL)) {
     				attr_dev(img, "src", img_src_value);
     			}
 
-    			if (dirty[0] & /*currentRoom*/ 16 && t1_value !== (t1_value = /*user*/ ctx[93].userName + "")) set_data_dev(t1, t1_value);
+    			if (dirty[0] & /*currentRoom*/ 16 && t1_value !== (t1_value = /*user*/ ctx[94].userName + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(button);
@@ -7431,21 +7431,21 @@ var app = (function () {
     		block: block_1,
     		id: create_each_block$3.name,
     		type: "each",
-    		source: "(748:14) {#each currentRoom.users as user}",
+    		source: "(785:14) {#each currentRoom.users as user}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (765:10) {#if currentUser}
+    // (802:10) {#if currentUser}
     function create_if_block_3$4(ctx) {
     	let t;
     	let if_block1_anchor;
     	let if_block0 = /*currentRoom*/ ctx[4].isDirectMessage == false && create_if_block_15$1(ctx);
 
     	function select_block_type_9(ctx, dirty) {
-    		if (/*currentUser*/ ctx[6].id == /*$id*/ ctx[21]) return create_if_block_4$4;
+    		if (/*currentUser*/ ctx[6].id == /*$id*/ ctx[22]) return create_if_block_4$4;
     		if (/*currentRoom*/ ctx[4].isDirectMessage == true) return create_if_block_5$3;
     		return create_else_block_1$4;
     	}
@@ -7504,14 +7504,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_3$4.name,
     		type: "if",
-    		source: "(765:10) {#if currentUser}",
+    		source: "(802:10) {#if currentUser}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (766:12) {#if currentRoom.isDirectMessage == false}
+    // (803:12) {#if currentRoom.isDirectMessage == false}
     function create_if_block_15$1(ctx) {
     	let button;
     	let mounted;
@@ -7527,7 +7527,7 @@ var app = (function () {
     			set_style(button, "border", "none");
     			set_style(button, "margin-bottom", "-10px");
     			set_style(button, "color", "black");
-    			add_location(button, file$6, 766, 14, 27938);
+    			add_location(button, file$6, 803, 14, 28642);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -7549,14 +7549,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_15$1.name,
     		type: "if",
-    		source: "(766:12) {#if currentRoom.isDirectMessage == false}",
+    		source: "(803:12) {#if currentRoom.isDirectMessage == false}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (806:12) {:else}
+    // (843:12) {:else}
     function create_else_block_1$4(ctx) {
     	let a;
     	let img;
@@ -7569,7 +7569,7 @@ var app = (function () {
     	let t3;
     	let button1;
     	let t5;
-    	let show_if_2 = /*currentRoom*/ ctx[4] && /*currentRoom*/ ctx[4].channelOwnerId != /*currentUser*/ ctx[6].id && (/*currentRoom*/ ctx[4].channelOwnerId == /*$id*/ ctx[21] || /*currentRoom*/ ctx[4].channelAdminsId.indexOf(/*$id*/ ctx[21]) != -1);
+    	let show_if_2 = /*currentRoom*/ ctx[4] && /*currentRoom*/ ctx[4].channelOwnerId != /*currentUser*/ ctx[6].id && (/*currentRoom*/ ctx[4].channelOwnerId == /*$id*/ ctx[22] || /*currentRoom*/ ctx[4].channelAdminsId.indexOf(/*$id*/ ctx[22]) != -1);
     	let t6;
     	let show_if;
     	let show_if_1;
@@ -7579,11 +7579,11 @@ var app = (function () {
     	let if_block0 = show_if_2 && create_if_block_8$3(ctx);
 
     	function select_block_type_11(ctx, dirty) {
-    		if (dirty[0] & /*currentRoom, $id, currentUser*/ 2097232) show_if = null;
-    		if (dirty[0] & /*currentRoom, $id, currentUser*/ 2097232) show_if_1 = null;
-    		if (show_if == null) show_if = !!(/*currentRoom*/ ctx[4].channelOwnerId == /*$id*/ ctx[21] && /*currentRoom*/ ctx[4].channelAdminsId.indexOf(/*currentUser*/ ctx[6].id.toString()) == -1);
+    		if (dirty[0] & /*currentRoom, $id, currentUser*/ 4194384) show_if = null;
+    		if (dirty[0] & /*currentRoom, $id, currentUser*/ 4194384) show_if_1 = null;
+    		if (show_if == null) show_if = !!(/*currentRoom*/ ctx[4].channelOwnerId == /*$id*/ ctx[22] && /*currentRoom*/ ctx[4].channelAdminsId.indexOf(/*currentUser*/ ctx[6].id.toString()) == -1);
     		if (show_if) return create_if_block_6$3;
-    		if (show_if_1 == null) show_if_1 = !!(/*currentRoom*/ ctx[4].channelOwnerId == /*$id*/ ctx[21] && /*currentRoom*/ ctx[4].channelAdminsId.indexOf(/*currentUser*/ ctx[6].id.toString()) != -1);
+    		if (show_if_1 == null) show_if_1 = !!(/*currentRoom*/ ctx[4].channelOwnerId == /*$id*/ ctx[22] && /*currentRoom*/ ctx[4].channelAdminsId.indexOf(/*currentUser*/ ctx[6].id.toString()) != -1);
     		if (show_if_1) return create_if_block_7$3;
     	}
 
@@ -7610,21 +7610,21 @@ var app = (function () {
     			attr_dev(img, "class", "profile svelte-qd64xz");
     			if (!src_url_equal(img.src, img_src_value = /*currentUser*/ ctx[6].imageURL)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "profile");
-    			add_location(img, file$6, 814, 16, 29769);
-    			add_location(b, file$6, 818, 18, 29903);
+    			add_location(img, file$6, 851, 16, 30473);
+    			add_location(b, file$6, 855, 18, 30607);
     			attr_dev(a, "href", "http://localhost:8080/#/userprofile");
     			attr_dev(a, "class", "profileLink svelte-qd64xz");
     			set_style(a, "color", "darkred");
     			set_style(a, "font-size", "16px");
-    			add_location(a, file$6, 806, 14, 29471);
+    			add_location(a, file$6, 843, 14, 30175);
     			attr_dev(button0, "class", "profileButton svelte-qd64xz");
     			set_style(button0, "color", "white");
     			set_style(button0, "background-color", "rgb(224, 62, 62)");
-    			add_location(button0, file$6, 820, 14, 29966);
+    			add_location(button0, file$6, 857, 14, 30670);
     			attr_dev(button1, "class", "profileButton svelte-qd64xz");
     			set_style(button1, "background-color", "dodgerblue");
     			set_style(button1, "color", "white");
-    			add_location(button1, file$6, 826, 14, 30214);
+    			add_location(button1, file$6, 863, 14, 30918);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -7657,7 +7657,7 @@ var app = (function () {
     			}
 
     			if (dirty[0] & /*currentUser*/ 64 && t0_value !== (t0_value = /*currentUser*/ ctx[6].userName + "")) set_data_dev(t0, t0_value);
-    			if (dirty[0] & /*currentRoom, currentUser, $id*/ 2097232) show_if_2 = /*currentRoom*/ ctx[4] && /*currentRoom*/ ctx[4].channelOwnerId != /*currentUser*/ ctx[6].id && (/*currentRoom*/ ctx[4].channelOwnerId == /*$id*/ ctx[21] || /*currentRoom*/ ctx[4].channelAdminsId.indexOf(/*$id*/ ctx[21]) != -1);
+    			if (dirty[0] & /*currentRoom, currentUser, $id*/ 4194384) show_if_2 = /*currentRoom*/ ctx[4] && /*currentRoom*/ ctx[4].channelOwnerId != /*currentUser*/ ctx[6].id && (/*currentRoom*/ ctx[4].channelOwnerId == /*$id*/ ctx[22] || /*currentRoom*/ ctx[4].channelAdminsId.indexOf(/*$id*/ ctx[22]) != -1);
 
     			if (show_if_2) {
     				if (if_block0) {
@@ -7708,14 +7708,14 @@ var app = (function () {
     		block: block_1,
     		id: create_else_block_1$4.name,
     		type: "else",
-    		source: "(806:12) {:else}",
+    		source: "(843:12) {:else}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (786:58) 
+    // (823:58) 
     function create_if_block_5$3(ctx) {
     	let a;
     	let img;
@@ -7740,17 +7740,17 @@ var app = (function () {
     			attr_dev(img, "class", "profile svelte-qd64xz");
     			if (!src_url_equal(img.src, img_src_value = /*currentUser*/ ctx[6].imageURL)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "profile");
-    			add_location(img, file$6, 793, 17, 29011);
-    			add_location(b, file$6, 797, 18, 29145);
+    			add_location(img, file$6, 830, 17, 29715);
+    			add_location(b, file$6, 834, 18, 29849);
     			attr_dev(a, "href", "http://localhost:8080/#/userprofile");
     			attr_dev(a, "class", "profileLink svelte-qd64xz");
     			set_style(a, "color", "darkred");
     			set_style(a, "font-size", "16px");
-    			add_location(a, file$6, 786, 14, 28728);
+    			add_location(a, file$6, 823, 14, 29432);
     			attr_dev(button, "class", "profileButton svelte-qd64xz");
     			set_style(button, "background-color", "dodgerblue");
     			set_style(button, "color", "white");
-    			add_location(button, file$6, 799, 14, 29208);
+    			add_location(button, file$6, 836, 14, 29912);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -7789,14 +7789,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_5$3.name,
     		type: "if",
-    		source: "(786:58) ",
+    		source: "(823:58) ",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (775:12) {#if currentUser.id == $id}
+    // (812:12) {#if currentUser.id == $id}
     function create_if_block_4$4(ctx) {
     	let a;
     	let img;
@@ -7812,12 +7812,12 @@ var app = (function () {
     			attr_dev(img, "class", "profile svelte-qd64xz");
     			if (!src_url_equal(img.src, img_src_value = /*$image_url*/ ctx[24])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "profile");
-    			add_location(img, file$6, 779, 17, 28489);
+    			add_location(img, file$6, 816, 17, 29193);
     			attr_dev(a, "href", "http://localhost:8080/#/profile");
     			attr_dev(a, "class", "profileLink svelte-qd64xz");
     			set_style(a, "color", "black");
     			set_style(a, "font-size", "16px");
-    			add_location(a, file$6, 775, 14, 28324);
+    			add_location(a, file$6, 812, 14, 29028);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -7840,14 +7840,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_4$4.name,
     		type: "if",
-    		source: "(775:12) {#if currentUser.id == $id}",
+    		source: "(812:12) {#if currentUser.id == $id}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (833:14) {#if currentRoom && currentRoom.channelOwnerId != currentUser.id && (currentRoom.channelOwnerId == $id || currentRoom.channelAdminsId.indexOf($id) != -1)}
+    // (870:14) {#if currentRoom && (currentRoom.channelOwnerId != currentUser.id) && (currentRoom.channelOwnerId == $id || currentRoom.channelAdminsId.indexOf($id) != -1)}
     function create_if_block_8$3(ctx) {
     	let h4;
     	let t1;
@@ -7868,7 +7868,7 @@ var app = (function () {
     	let current_block_type = select_block_type_10(ctx, [-1, -1, -1, -1]);
     	let if_block0 = current_block_type && current_block_type(ctx);
     	let if_block1 = /*muteOptions*/ ctx[11] == 'true' && create_if_block_12$2(ctx);
-    	let if_block2 = /*currentRoom*/ ctx[4].channelOwnerId != /*currentUser*/ ctx[6].id && create_if_block_11$3(ctx);
+    	let if_block2 = /*currentRoom*/ ctx[4].channelOwnerId != /*currentUser*/ ctx[6].id && create_if_block_11$2(ctx);
     	let if_block3 = /*banOptions*/ ctx[13] == 'true' && create_if_block_10$3(ctx);
     	let if_block4 = /*currentUser*/ ctx[6].id != /*currentRoom*/ ctx[4].channelOwnerId && create_if_block_9$3(ctx);
 
@@ -7887,7 +7887,7 @@ var app = (function () {
     			t5 = space();
     			if (if_block4) if_block4.c();
     			if_block4_anchor = empty$1();
-    			add_location(h4, file$6, 833, 16, 30628);
+    			add_location(h4, file$6, 870, 16, 31334);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h4, anchor);
@@ -7933,7 +7933,7 @@ var app = (function () {
     				if (if_block2) {
     					if_block2.p(ctx, dirty);
     				} else {
-    					if_block2 = create_if_block_11$3(ctx);
+    					if_block2 = create_if_block_11$2(ctx);
     					if_block2.c();
     					if_block2.m(t4.parentNode, t4);
     				}
@@ -7992,14 +7992,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_8$3.name,
     		type: "if",
-    		source: "(833:14) {#if currentRoom && currentRoom.channelOwnerId != currentUser.id && (currentRoom.channelOwnerId == $id || currentRoom.channelAdminsId.indexOf($id) != -1)}",
+    		source: "(870:14) {#if currentRoom && (currentRoom.channelOwnerId != currentUser.id) && (currentRoom.channelOwnerId == $id || currentRoom.channelAdminsId.indexOf($id) != -1)}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (838:71) 
+    // (875:71) 
     function create_if_block_14$1(ctx) {
     	let button;
     	let mounted;
@@ -8012,7 +8012,7 @@ var app = (function () {
     			attr_dev(button, "class", "profileButton svelte-qd64xz");
     			set_style(button, "background-color", "slategrey");
     			set_style(button, "color", "white");
-    			add_location(button, file$6, 838, 18, 30874);
+    			add_location(button, file$6, 875, 18, 31580);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -8034,14 +8034,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_14$1.name,
     		type: "if",
-    		source: "(838:71) ",
+    		source: "(875:71) ",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (836:16) {#if Mutes.indexOf(currentRoom.name) != -1}
+    // (873:16) {#if Mutes.indexOf(currentRoom.name) != -1}
     function create_if_block_13$1(ctx) {
     	let button;
 
@@ -8051,7 +8051,7 @@ var app = (function () {
     			button.textContent = "Muted";
     			set_style(button, "color", "white");
     			set_style(button, "background", "red");
-    			add_location(button, file$6, 836, 18, 30722);
+    			add_location(button, file$6, 873, 18, 31428);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -8066,14 +8066,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_13$1.name,
     		type: "if",
-    		source: "(836:16) {#if Mutes.indexOf(currentRoom.name) != -1}",
+    		source: "(873:16) {#if Mutes.indexOf(currentRoom.name) != -1}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (853:16) {#if muteOptions == 'true'}
+    // (890:16) {#if muteOptions == 'true'}
     function create_if_block_12$2(ctx) {
     	let div;
     	let label0;
@@ -8114,22 +8114,22 @@ var app = (function () {
     			input0.__value = "5";
     			input0.value = input0.__value;
     			/*$$binding_groups*/ ctx[47][1].push(input0);
-    			add_location(input0, file$6, 855, 22, 31493);
-    			add_location(label0, file$6, 854, 20, 31463);
+    			add_location(input0, file$6, 892, 22, 32199);
+    			add_location(label0, file$6, 891, 20, 32169);
     			attr_dev(input1, "type", "radio");
     			input1.__value = "1440";
     			input1.value = input1.__value;
     			/*$$binding_groups*/ ctx[47][1].push(input1);
-    			add_location(input1, file$6, 860, 22, 31665);
-    			add_location(label1, file$6, 859, 20, 31635);
+    			add_location(input1, file$6, 902, 22, 32489);
+    			add_location(label1, file$6, 901, 20, 32459);
     			attr_dev(input2, "type", "radio");
     			input2.__value = "4320";
     			input2.value = input2.__value;
     			/*$$binding_groups*/ ctx[47][1].push(input2);
-    			add_location(input2, file$6, 865, 22, 31831);
-    			add_location(label2, file$6, 864, 20, 31801);
-    			add_location(button, file$6, 868, 20, 31967);
-    			add_location(div, file$6, 853, 18, 31437);
+    			add_location(input2, file$6, 907, 22, 32655);
+    			add_location(label2, file$6, 906, 20, 32625);
+    			add_location(button, file$6, 910, 20, 32791);
+    			add_location(div, file$6, 890, 18, 32143);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -8188,15 +8188,15 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_12$2.name,
     		type: "if",
-    		source: "(853:16) {#if muteOptions == 'true'}",
+    		source: "(890:16) {#if muteOptions == 'true'}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (873:16) {#if currentRoom.channelOwnerId != currentUser.id}
-    function create_if_block_11$3(ctx) {
+    // (916:16) {#if currentRoom.channelOwnerId != currentUser.id}
+    function create_if_block_11$2(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -8208,7 +8208,7 @@ var app = (function () {
     			attr_dev(button, "class", "profileButton svelte-qd64xz");
     			set_style(button, "background-color", "slategrey");
     			set_style(button, "color", "white");
-    			add_location(button, file$6, 873, 18, 32162);
+    			add_location(button, file$6, 916, 18, 33007);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -8228,16 +8228,16 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block: block_1,
-    		id: create_if_block_11$3.name,
+    		id: create_if_block_11$2.name,
     		type: "if",
-    		source: "(873:16) {#if currentRoom.channelOwnerId != currentUser.id}",
+    		source: "(916:16) {#if currentRoom.channelOwnerId != currentUser.id}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (888:16) {#if banOptions == 'true'}
+    // (931:16) {#if banOptions == 'true'}
     function create_if_block_10$3(ctx) {
     	let div;
     	let label0;
@@ -8277,22 +8277,22 @@ var app = (function () {
     			input0.__value = "5";
     			input0.value = input0.__value;
     			/*$$binding_groups*/ ctx[47][2].push(input0);
-    			add_location(input0, file$6, 890, 22, 32777);
-    			add_location(label0, file$6, 889, 20, 32747);
+    			add_location(input0, file$6, 933, 22, 33622);
+    			add_location(label0, file$6, 932, 20, 33592);
     			attr_dev(input1, "type", "radio");
     			input1.__value = "1440";
     			input1.value = input1.__value;
     			/*$$binding_groups*/ ctx[47][2].push(input1);
-    			add_location(input1, file$6, 895, 22, 32940);
-    			add_location(label1, file$6, 894, 20, 32910);
+    			add_location(input1, file$6, 938, 22, 33785);
+    			add_location(label1, file$6, 937, 20, 33755);
     			attr_dev(input2, "type", "radio");
     			input2.__value = "4320";
     			input2.value = input2.__value;
     			/*$$binding_groups*/ ctx[47][2].push(input2);
-    			add_location(input2, file$6, 900, 22, 33105);
-    			add_location(label2, file$6, 899, 20, 33075);
-    			add_location(button, file$6, 903, 20, 33240);
-    			add_location(div, file$6, 888, 18, 32721);
+    			add_location(input2, file$6, 943, 22, 33950);
+    			add_location(label2, file$6, 942, 20, 33920);
+    			add_location(button, file$6, 946, 20, 34085);
+    			add_location(div, file$6, 931, 18, 33566);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -8351,14 +8351,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_10$3.name,
     		type: "if",
-    		source: "(888:16) {#if banOptions == 'true'}",
+    		source: "(931:16) {#if banOptions == 'true'}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (907:16) {#if currentUser.id != currentRoom.channelOwnerId}
+    // (950:16) {#if currentUser.id != currentRoom.channelOwnerId}
     function create_if_block_9$3(ctx) {
     	let button;
     	let mounted;
@@ -8371,7 +8371,7 @@ var app = (function () {
     			attr_dev(button, "class", "profileButton svelte-qd64xz");
     			set_style(button, "background-color", "slategrey");
     			set_style(button, "color", "white");
-    			add_location(button, file$6, 907, 18, 33432);
+    			add_location(button, file$6, 950, 18, 34277);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -8393,14 +8393,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_9$3.name,
     		type: "if",
-    		source: "(907:16) {#if currentUser.id != currentRoom.channelOwnerId}",
+    		source: "(950:16) {#if currentUser.id != currentRoom.channelOwnerId}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (922:130) 
+    // (965:130) 
     function create_if_block_7$3(ctx) {
     	let button;
     	let mounted;
@@ -8414,7 +8414,7 @@ var app = (function () {
     			set_style(button, "color", "brown");
     			set_style(button, "background-color", "transparent");
     			attr_dev(button, "class", "profileButton svelte-qd64xz");
-    			add_location(button, file$6, 922, 16, 34184);
+    			add_location(button, file$6, 965, 16, 35029);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -8436,14 +8436,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_7$3.name,
     		type: "if",
-    		source: "(922:130) ",
+    		source: "(965:130) ",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (916:14) {#if currentRoom.channelOwnerId == $id && currentRoom.channelAdminsId.indexOf(currentUser.id.toString()) == -1}
+    // (959:14) {#if currentRoom.channelOwnerId == $id && currentRoom.channelAdminsId.indexOf(currentUser.id.toString()) == -1}
     function create_if_block_6$3(ctx) {
     	let button;
     	let mounted;
@@ -8455,7 +8455,7 @@ var app = (function () {
     			button.textContent = "Upgrade status";
     			set_style(button, "background-color", "gold");
     			attr_dev(button, "class", "profileButton svelte-qd64xz");
-    			add_location(button, file$6, 916, 16, 33845);
+    			add_location(button, file$6, 959, 16, 34690);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -8477,14 +8477,14 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_6$3.name,
     		type: "if",
-    		source: "(916:14) {#if currentRoom.channelOwnerId == $id && currentRoom.channelAdminsId.indexOf(currentUser.id.toString()) == -1}",
+    		source: "(959:14) {#if currentRoom.channelOwnerId == $id && currentRoom.channelAdminsId.indexOf(currentUser.id.toString()) == -1}",
     		ctx
     	});
 
     	return block_1;
     }
 
-    // (537:10) {#if password == 'true'}
+    // (549:10) {#if password == 'true'}
     function create_if_block_2$5(ctx) {
     	let input;
     	let mounted;
@@ -8495,7 +8495,7 @@ var app = (function () {
     			input = element("input");
     			attr_dev(input, "type", "password");
     			attr_dev(input, "placeholder", "Enter channel password...");
-    			add_location(input, file$6, 537, 12, 18601);
+    			add_location(input, file$6, 549, 12, 18927);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input, anchor);
@@ -8522,7 +8522,7 @@ var app = (function () {
     		block: block_1,
     		id: create_if_block_2$5.name,
     		type: "if",
-    		source: "(537:10) {#if password == 'true'}",
+    		source: "(549:10) {#if password == 'true'}",
     		ctx
     	});
 
@@ -8533,7 +8533,7 @@ var app = (function () {
     	let main;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*$logged*/ ctx[22] == 'true') return create_if_block$5;
+    		if (/*$logged*/ ctx[23] == 'true') return create_if_block$5;
     		return create_else_block_8;
     	}
 
@@ -8545,7 +8545,7 @@ var app = (function () {
     			main = element("main");
     			if_block.c();
     			attr_dev(main, "class", "svelte-qd64xz");
-    			add_location(main, file$6, 503, 0, 17806);
+    			add_location(main, file$6, 515, 0, 18132);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -8587,22 +8587,22 @@ var app = (function () {
     }
 
     function instance$6($$self, $$props, $$invalidate) {
+    	let $username;
+    	let $currentChat;
     	let $cookie;
     	let $id;
     	let $logged;
-    	let $username;
-    	let $currentChat;
     	let $image_url;
-    	validate_store(cookie, 'cookie');
-    	component_subscribe($$self, cookie, $$value => $$invalidate(84, $cookie = $$value));
-    	validate_store(id, 'id');
-    	component_subscribe($$self, id, $$value => $$invalidate(21, $id = $$value));
-    	validate_store(logged, 'logged');
-    	component_subscribe($$self, logged, $$value => $$invalidate(22, $logged = $$value));
     	validate_store(username, 'username');
-    	component_subscribe($$self, username, $$value => $$invalidate(23, $username = $$value));
+    	component_subscribe($$self, username, $$value => $$invalidate(21, $username = $$value));
     	validate_store(currentChat, 'currentChat');
-    	component_subscribe($$self, currentChat, $$value => $$invalidate(85, $currentChat = $$value));
+    	component_subscribe($$self, currentChat, $$value => $$invalidate(84, $currentChat = $$value));
+    	validate_store(cookie, 'cookie');
+    	component_subscribe($$self, cookie, $$value => $$invalidate(85, $cookie = $$value));
+    	validate_store(id, 'id');
+    	component_subscribe($$self, id, $$value => $$invalidate(22, $id = $$value));
+    	validate_store(logged, 'logged');
+    	component_subscribe($$self, logged, $$value => $$invalidate(23, $logged = $$value));
     	validate_store(image_url, 'image_url');
     	component_subscribe($$self, image_url, $$value => $$invalidate(24, $image_url = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
@@ -8670,6 +8670,7 @@ var app = (function () {
     	let password = 'false';
     	let blocked = [];
     	let block;
+    	let i = 0;
 
     	function sendInvitation() {
     		return __awaiter(this, void 0, void 0, function* () {
@@ -8685,18 +8686,13 @@ var app = (function () {
     			userName42: currentUser.userName42,
     			minutes: banTime
     		});
-
-    		socket.on('kickUserResponse', response => {
-    			if (response == 'true') {
-    				alert(currentUser.userName + ' has been kicked from room #' + currentRoom.name.toUpperCase());
-    				$$invalidate(6, currentUser = '');
-    				currentProfile.update(n => '');
-    			}
-    		});
     	}
 
-    	function createRoom() {
+    	function createRoom(e) {
     		return __awaiter(this, void 0, void 0, function* () {
+    			e.stopImmediatePropagation();
+    			e.stopPropagation();
+
     			if (title.indexOf(' ') != -1 || title.indexOf('\t') != -1) {
     				alert('❌ Room name cannot contain white spaces');
     				$$invalidate(10, title = '');
@@ -8705,12 +8701,16 @@ var app = (function () {
 
     			if (!title || !free) {
     				alert('❌ Missing information !');
+    				return;
     			} else if (free != 'true' && !pass) {
     				alert('❌ Missing information !');
-    			} else if (title.length < 3) {
-    				alert('Room title must be at least 3 characters long');
+    				return;
+    			} else if (title.length < 3 || title.length > 10) {
+    				alert('❌ Room title must be between 3 and 10 characters long');
+    				return;
     			} else if (free != 'true' && (pass.length < 4 || pass.length > 16)) {
     				alert('❌ Your password must be between 4 and 16 characters long!');
+    				return;
     			} else {
     				newRoom.name = title;
     				newRoom.password = pass;
@@ -8722,18 +8722,6 @@ var app = (function () {
     				}
 
     				socket.emit('createRoom', newRoom);
-
-    				socket.on('createRoomResponse', message => {
-    					if (message == 'exists') {
-    						alert('❌ a Room of that name already exists. Please choose another name');
-    					} else {
-    						alert(`✅ Chatroom ${title} has been created`);
-    						$$invalidate(7, creation = false);
-    						$$invalidate(8, pass = '');
-    						$$invalidate(10, title = '');
-    						$$invalidate(9, free = '');
-    					}
-    				});
     			}
     		});
     	}
@@ -8744,26 +8732,11 @@ var app = (function () {
     				return;
     			}
 
-    			let time = muteTime;
-
     			socket.emit('muteUser', {
     				channel: currentRoom.name,
     				userName42: currentUser.userName42,
     				minutes: muteTime
     			});
-
-    			yield socket.on('muteUserResponse', response => {
-    				if (response == 'true') {
-    					alert(currentUser.userName + 'has been muted for ' + time + ' minutes');
-    				} else if (response == 'muted') {
-    					alert(currentUser.userName + `has already been muted for a longer period`);
-    				} else {
-    					alert('User ' + currentUser.userName + ' could not be muted');
-    				}
-    			});
-
-    			$$invalidate(11, muteOptions = 'false');
-    			$$invalidate(12, muteTime = 0);
     		});
     	}
 
@@ -8795,26 +8768,11 @@ var app = (function () {
     				return;
     			}
 
-    			let time = banTime;
-
     			socket.emit('banUser', {
     				channel: currentRoom.name,
     				userName42: currentUser.userName42,
     				minutes: banTime
     			});
-
-    			yield socket.on('banUserResponse', response => {
-    				if (response == 'true') {
-    					alert(currentUser.userName + ' has been banned for ' + time + ' minutes 👹 👹 👹');
-    				} else if (response == 'banned') {
-    					alert(currentUser.name + ' has already been banned by another administrator');
-    				} else {
-    					alert('User ' + currentUser.userName + ' could not be banned');
-    				}
-    			});
-
-    			$$invalidate(13, banOptions = 'false');
-    			$$invalidate(14, banTime = 0);
     		});
     	}
 
@@ -8824,19 +8782,6 @@ var app = (function () {
     				channel: currentRoom,
     				userName42: currentUser.userName42
     			});
-
-    			yield socket.on('makeAdminResponse', response => {
-    				if (response == 'false') {
-    					alert('😱 😱 😱 Operation failed');
-    				} else if (response == 'alreadyAdmin') {
-    					alert(currentUser.userName + ' is already an administrator on this channel');
-    				} else if (response == 'true') {
-    					alert(currentUser.userName + ' is now an administrator of channel #' + currentRoom.name.toUpperCase());
-    				}
-
-    				$$invalidate(13, banOptions = 'false');
-    				$$invalidate(11, muteOptions = 'false');
-    			});
     		});
     	}
 
@@ -8845,16 +8790,6 @@ var app = (function () {
     			socket.emit('removeAdmin', {
     				channel: currentRoom,
     				userName42: currentUser.userName42
-    			});
-
-    			yield socket.on('removeAdminResponse', response => {
-    				if (response == 'notAdmin') {
-    					alert(currentUser.userName + ' is not an administrator on channel #' + currentRoom.name);
-    				}
-
-    				if (response == 'true') {
-    					alert(currentUser.userName + ' is no longer an administrator of channel #' + currentRoom.name.toUpperCase());
-    				}
     			});
     		});
     	}
@@ -8950,23 +8885,6 @@ var app = (function () {
     			socket.emit('joinRoom', {
     				name: currentRoom.name,
     				password: roomPassword
-    			});
-
-    			yield socket.on('joinRoomResponse', response => {
-    				if (response == 'true') {
-    					alert('😎 😎 😎 You successfully joined Room #' + currentRoom.name.toUpperCase());
-    					$$invalidate(18, myChannels = [...myChannels, currentRoom.name]);
-    					$$invalidate(4, currentRoom);
-    					set_store_value(currentChat, $currentChat = currentRoom.name, $currentChat);
-    				}
-
-    				if (response == 'false') {
-    					alert('❌ ❌ ❌ Wrong passsword');
-    				}
-
-    				if (response == 'ban') {
-    					alert('🤬 🤬 🤬 You have been banned from this room');
-    				}
     			});
 
     			$$invalidate(5, roomPassword = '');
@@ -9072,35 +8990,6 @@ var app = (function () {
     	function createPrivateMessage() {
     		return __awaiter(this, void 0, void 0, function* () {
     			yield socket.emit('createPrivateMessage', currentUser.userName42);
-
-    			socket.on('createPrivateMessageResponse', newPM => {
-    				if (newPM == 'blocked') {
-    					alert('This user has made impossible for you to start a new conversation 😢 😢 😢');
-    				}
-
-    				if (newPM == 'true') {
-    					socket.emit('changePrivateConv');
-    					let DMname = $username + ' - ' + currentUser.userName;
-    					let inverseDMname = currentUser.userName + ' - ' + $username;
-
-    					for (let i = 0; i < privateMessages.length; i++) {
-    						if (DMname == privateMessages[i].name || inverseDMname == privateMessages[i].name) {
-    							changeConvMessages(privateMessages[i]);
-    						}
-    					}
-    				}
-
-    				if (newPM == 'exist') {
-    					let DMname = $username + ' - ' + currentUser.userName;
-    					let inverseDMname = currentUser.userName + ' - ' + $username;
-
-    					for (let i = 0; i < privateMessages.length; i++) {
-    						if (DMname == privateMessages[i].name || inverseDMname == privateMessages[i].name) {
-    							changeConvMessages(privateMessages[i]);
-    						}
-    					}
-    				}
-    			});
     		});
     	}
 
@@ -9148,7 +9037,7 @@ var app = (function () {
     			});
 
     			socket.on('youHaveBeenKicked', message => {
-    				alert('You have been banned from channel ' + message);
+    				alert('You have been banned from channel #' + message.toUpperCase());
     				$$invalidate(4, currentRoom = '');
     				$$invalidate(6, currentUser = '');
     				currentProfile.update(n => '');
@@ -9158,6 +9047,7 @@ var app = (function () {
 
     			socket.on('youAreNowAdmin', message => {
     				alert('You are now an administator on channel #' + message);
+    				location.reload();
     			});
 
     			socket.on('youAreNoMoreAdmin', message => {
@@ -9175,6 +9065,18 @@ var app = (function () {
     				}
     			});
 
+    			socket.on('createRoomResponse', message => {
+    				if (message == 'exists') {
+    					alert('❌ a Room of that name already exists. Please choose another name');
+    				} else {
+    					alert(`✅ Chatroom ${title} has been created`);
+    					$$invalidate(7, creation = false);
+    					$$invalidate(8, pass = '');
+    					$$invalidate(10, title = '');
+    					$$invalidate(9, free = '');
+    				}
+    			});
+
     			socket.on('updatePrivateMessages', message => {
     				$$invalidate(2, privateMessages = message);
     				$$invalidate(2, privateMessages = [...privateMessages]);
@@ -9183,6 +9085,114 @@ var app = (function () {
     					if (privateMessages[i].name == currentRoom.name) {
     						$$invalidate(4, currentRoom = privateMessages[i]);
     						$$invalidate(1, messages = currentRoom.messages);
+    					}
+    				}
+    			});
+
+    			socket.on('kickUserResponse', response => {
+    				if (response == 'true') {
+    					alert(currentUser.userName + ' has been kicked from room #' + currentRoom.name.toUpperCase());
+    					$$invalidate(6, currentUser = '');
+    					currentProfile.update(n => '');
+    				}
+    			});
+
+    			socket.on('muteUserResponse', response => {
+    				let time = muteTime;
+
+    				if (response == 'true') {
+    					alert(currentUser.userName + 'has been muted for ' + time + ' minutes');
+    				} else if (response == 'muted') {
+    					alert(currentUser.userName + `has already been muted for a longer period`);
+    				} else {
+    					alert('User ' + currentUser.userName + ' could not be muted');
+    				}
+
+    				$$invalidate(11, muteOptions = 'false');
+    				$$invalidate(12, muteTime = 0);
+    			});
+
+    			socket.on('banUserResponse', response => {
+    				let time = banTime;
+
+    				if (response == 'true') {
+    					alert(currentUser.userName + ' has been banned for ' + time + ' minutes 👹 👹 👹');
+    				} else if (response == 'banned') {
+    					alert(currentUser.name + ' has already been banned by another administrator');
+    				} else {
+    					alert('User ' + currentUser.userName + ' could not be banned');
+    				}
+
+    				$$invalidate(13, banOptions = 'false');
+    				$$invalidate(14, banTime = 0);
+    			});
+
+    			socket.on('joinRoomResponse', response => {
+    				if (response == 'true') {
+    					alert('😎 😎 😎 You successfully joined Room #' + currentRoom.name.toUpperCase());
+    					$$invalidate(18, myChannels = [...myChannels, currentRoom.name]);
+    					$$invalidate(4, currentRoom);
+    					set_store_value(currentChat, $currentChat = currentRoom.name, $currentChat);
+    				}
+
+    				if (response == 'false') {
+    					alert('❌ ❌ ❌ Wrong passsword');
+    				}
+
+    				if (response == 'ban') {
+    					alert('🤬 🤬 🤬 You have been banned from this room');
+    				}
+    			});
+
+    			socket.on('makeAdminResponse', response => {
+    				if (response == 'false') {
+    					alert('😱 😱 😱 Operation failed');
+    				} else if (response == 'alreadyAdmin') {
+    					alert(currentUser.userName + ' is already an administrator on this channel');
+    				} else if (response == 'true') {
+    					alert(currentUser.userName + ' is now an administrator of channel #' + currentRoom.name.toUpperCase());
+    				}
+
+    				$$invalidate(13, banOptions = 'false');
+    				$$invalidate(11, muteOptions = 'false');
+    				location.reload();
+    			});
+
+    			socket.on('removeAdminResponse', response => {
+    				if (response == 'notAdmin') {
+    					alert(currentUser.userName + ' is not an administrator on channel #' + currentRoom.name);
+    				}
+
+    				if (response == 'true') {
+    					alert(currentUser.userName + ' is no longer an administrator of channel #' + currentRoom.name.toUpperCase());
+    				}
+    			});
+
+    			socket.on('createPrivateMessageResponse', newPM => {
+    				if (newPM == 'blocked') {
+    					alert('This user has made impossible for you to start a new conversation 😢 😢 😢');
+    				}
+
+    				if (newPM == 'true') {
+    					socket.emit('changePrivateConv');
+    					let DMname = $username + ' - ' + currentUser.userName;
+    					let inverseDMname = currentUser.userName + ' - ' + $username;
+
+    					for (let i = 0; i < privateMessages.length; i++) {
+    						if (DMname == privateMessages[i].name || inverseDMname == privateMessages[i].name) {
+    							changeConvMessages(privateMessages[i]);
+    						}
+    					}
+    				}
+
+    				if (newPM == 'exist') {
+    					let DMname = $username + ' - ' + currentUser.userName;
+    					let inverseDMname = currentUser.userName + ' - ' + $username;
+
+    					for (let i = 0; i < privateMessages.length; i++) {
+    						if (DMname == privateMessages[i].name || inverseDMname == privateMessages[i].name) {
+    							changeConvMessages(privateMessages[i]);
+    						}
     					}
     				}
     			});
@@ -9367,6 +9377,7 @@ var app = (function () {
     		password,
     		blocked,
     		block,
+    		i,
     		sendInvitation,
     		kickUser,
     		createRoom,
@@ -9392,11 +9403,11 @@ var app = (function () {
     		validateInput,
     		updateChannels,
     		createPrivateMessage,
+    		$username,
+    		$currentChat,
     		$cookie,
     		$id,
     		$logged,
-    		$username,
-    		$currentChat,
     		$image_url
     	});
 
@@ -9428,6 +9439,7 @@ var app = (function () {
     		if ('password' in $$props) $$invalidate(19, password = $$props.password);
     		if ('blocked' in $$props) $$invalidate(20, blocked = $$props.blocked);
     		if ('block' in $$props) block = $$props.block;
+    		if ('i' in $$props) i = $$props.i;
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -9456,9 +9468,9 @@ var app = (function () {
     		myChannels,
     		password,
     		blocked,
+    		$username,
     		$id,
     		$logged,
-    		$username,
     		$image_url,
     		sendInvitation,
     		kickUser,
@@ -11549,7 +11561,7 @@ var app = (function () {
     /* src/routes/Home.svelte generated by Svelte v3.49.0 */
     const file$5 = "src/routes/Home.svelte";
 
-    // (113:4) {:else}
+    // (114:4) {:else}
     function create_else_block$4(ctx) {
     	let a;
     	let t;
@@ -11563,30 +11575,33 @@ var app = (function () {
     			t = text("Connect with");
     			br = element("br");
     			img = element("img");
-    			attr_dev(br, "class", "svelte-1b6wyvd");
-    			add_location(br, file$5, 127, 18, 5456);
+    			attr_dev(br, "class", "svelte-yicb4b");
+    			add_location(br, file$5, 131, 18, 5619);
     			if (!src_url_equal(img.src, img_src_value = "img/42_logo.png")) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "width", "40px");
+    			set_style(img, "width", "5vw");
     			attr_dev(img, "alt", "42 logo");
-    			attr_dev(img, "class", "svelte-1b6wyvd");
-    			add_location(img, file$5, 127, 22, 5460);
+    			attr_dev(img, "class", "svelte-yicb4b");
+    			add_location(img, file$5, 131, 22, 5623);
     			attr_dev(a, "href", "http://127.0.0.1:3000/auth/42");
-    			attr_dev(a, "class", "api svelte-1b6wyvd");
+    			attr_dev(a, "class", "api svelte-yicb4b");
     			set_style(a, "color", "rgb(255, 255, 255)");
     			set_style(a, "text-align", "center");
-    			set_style(a, "width", "100px");
-    			set_style(a, "padding", "5px");
-    			set_style(a, "padding-left", "40px");
-    			set_style(a, "padding-right", "40px");
+    			set_style(a, "width", "15vw");
+    			set_style(a, "max-width", "90px");
+    			set_style(a, "min", "width:50px");
+    			set_style(a, "padding", "2vw");
+    			set_style(a, "padding-left", "8vw");
+    			set_style(a, "padding-right", "8vw");
     			set_style(a, "margin", "0 auto");
     			set_style(a, "align-items", "center");
     			set_style(a, "align-content", "center");
+    			set_style(a, "font-size", "clamp(13px, 2vw, 16px)");
     			set_style(a, "display", "block");
     			set_style(a, "margin-top", "30px");
     			set_style(a, "background-color", "rgb(25, 184, 173)");
     			set_style(a, "line-height", "2");
     			set_style(a, "font-family", "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif");
-    			add_location(a, file$5, 113, 4, 4958);
+    			add_location(a, file$5, 114, 4, 5038);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -11604,14 +11619,14 @@ var app = (function () {
     		block,
     		id: create_else_block$4.name,
     		type: "else",
-    		source: "(113:4) {:else}",
+    		source: "(114:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (104:31) 
+    // (105:31) 
     function create_if_block_1$4(ctx) {
     	let div;
     	let h2;
@@ -11637,8 +11652,8 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "Send";
     			set_style(h2, "text-align", "center");
-    			attr_dev(h2, "class", "svelte-1b6wyvd");
-    			add_location(h2, file$5, 105, 4, 4468);
+    			attr_dev(h2, "class", "svelte-yicb4b");
+    			add_location(h2, file$5, 106, 4, 4548);
     			set_style(input, "width", "150px");
     			set_style(input, "display", "block");
     			set_style(input, "margin", "0 auto");
@@ -11646,18 +11661,18 @@ var app = (function () {
     			set_style(input, "text-align", "center");
     			attr_dev(input, "type", "password");
     			attr_dev(input, "placeholder", "2FA code");
-    			attr_dev(input, "class", "svelte-1b6wyvd");
-    			add_location(input, file$5, 106, 4, 4555);
+    			attr_dev(input, "class", "svelte-yicb4b");
+    			add_location(input, file$5, 107, 4, 4635);
     			attr_dev(button, "type", "submit");
     			button.value = "Submit";
     			set_style(button, "display", "block");
     			set_style(button, "margin", "0 auto");
-    			attr_dev(button, "class", "svelte-1b6wyvd");
-    			add_location(button, file$5, 110, 4, 4821);
+    			attr_dev(button, "class", "svelte-yicb4b");
+    			add_location(button, file$5, 111, 4, 4901);
     			set_style(div, "margin", "0 auto");
     			set_style(div, "display", "block");
-    			attr_dev(div, "class", "svelte-1b6wyvd");
-    			add_location(div, file$5, 104, 4, 4419);
+    			attr_dev(div, "class", "svelte-yicb4b");
+    			add_location(div, file$5, 105, 4, 4499);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -11707,14 +11722,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$4.name,
     		type: "if",
-    		source: "(104:31) ",
+    		source: "(105:31) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (89:2) {#if $logged == 'true'}
+    // (90:2) {#if $logged == 'true'}
     function create_if_block$4(ctx) {
     	let h1;
     	let t1;
@@ -11737,20 +11752,21 @@ var app = (function () {
     			set_style(h1, "text-align", "center");
     			set_style(h1, "font-weight", "700");
     			set_style(h1, "margin-top", "50px");
-    			attr_dev(h1, "class", "svelte-1b6wyvd");
-    			add_location(h1, file$5, 89, 2, 3373);
-    			attr_dev(p, "class", "svelte-1b6wyvd");
-    			add_location(p, file$5, 91, 6, 3501);
+    			attr_dev(h1, "class", "svelte-yicb4b");
+    			add_location(h1, file$5, 90, 2, 3427);
+    			set_style(p, "text-align", "center");
+    			attr_dev(p, "class", "svelte-yicb4b");
+    			add_location(p, file$5, 92, 6, 3555);
     			if (!src_url_equal(img.src, img_src_value = "img/console.png")) attr_dev(img, "src", img_src_value);
     			set_style(img, "margin", "0px auto");
     			set_style(img, "display", "block");
     			set_style(img, "width", "250px");
     			set_style(img, "padding-top", "20px");
     			attr_dev(img, "alt", "First Pong Game console");
-    			attr_dev(img, "class", "svelte-1b6wyvd");
-    			add_location(img, file$5, 101, 8, 4238);
-    			attr_dev(div, "class", "about svelte-1b6wyvd");
-    			add_location(div, file$5, 90, 4, 3475);
+    			attr_dev(img, "class", "svelte-yicb4b");
+    			add_location(img, file$5, 102, 8, 4318);
+    			attr_dev(div, "class", "about svelte-yicb4b");
+    			add_location(div, file$5, 91, 4, 3529);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -11772,14 +11788,14 @@ var app = (function () {
     		block,
     		id: create_if_block$4.name,
     		type: "if",
-    		source: "(89:2) {#if $logged == 'true'}",
+    		source: "(90:2) {#if $logged == 'true'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (108:4) {#if error == true}
+    // (109:4) {#if error == true}
     function create_if_block_2$4(ctx) {
     	let p;
 
@@ -11789,8 +11805,8 @@ var app = (function () {
     			p.textContent = "Wrong code number";
     			set_style(p, "color", "red");
     			set_style(p, "text-align", "center");
-    			attr_dev(p, "class", "svelte-1b6wyvd");
-    			add_location(p, file$5, 108, 4, 4744);
+    			attr_dev(p, "class", "svelte-yicb4b");
+    			add_location(p, file$5, 109, 4, 4824);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -11804,7 +11820,7 @@ var app = (function () {
     		block,
     		id: create_if_block_2$4.name,
     		type: "if",
-    		source: "(108:4) {#if error == true}",
+    		source: "(109:4) {#if error == true}",
     		ctx
     	});
 
@@ -11827,8 +11843,8 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			if_block.c();
-    			attr_dev(main, "class", "svelte-1b6wyvd");
-    			add_location(main, file$5, 87, 0, 3338);
+    			attr_dev(main, "class", "svelte-yicb4b");
+    			add_location(main, file$5, 88, 0, 3392);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -11930,7 +11946,7 @@ var app = (function () {
 
     	function sendCode() {
     		return __awaiter(this, void 0, void 0, function* () {
-    			yield fetch('http://locahlost:3000/auth/activation/' + code, {
+    			yield fetch('http://localhost:3000/auth/activation/' + code, {
     				method: 'GET',
     				headers: {
     					'Authorization': 'Bearer ' + $cookie,
@@ -11965,10 +11981,14 @@ var app = (function () {
     	}
 
     	onMount(() => __awaiter(void 0, void 0, void 0, function* () {
+    		var _a;
     		currentPage.update(n => 'home');
-    		let cookies = document.cookie.split(';').find(n => n.startsWith('access_token'));
 
-    		if (cookies == "") {
+    		let cookies = (_a = document.cookie) === null || _a === void 0
+    		? void 0
+    		: _a.split(';').find(n => n.startsWith('access_token'));
+
+    		if (!cookies) {
     			return;
     		}
 
@@ -12116,7 +12136,7 @@ var app = (function () {
     			add_location(h1, file$4, 11, 8, 188);
     			add_location(p, file$4, 12, 8, 220);
     			add_location(div0, file$4, 10, 4, 174);
-    			attr_dev(a, "href", "http://localhost/#/");
+    			attr_dev(a, "href", "http://localhost:8080/#/");
     			attr_dev(a, "class", "svelte-15564nd");
     			add_location(a, file$4, 15, 7, 265);
     			add_location(div1, file$4, 14, 4, 252);
@@ -12204,7 +12224,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (479:2) {:else}
+    // (471:2) {:else}
     function create_else_block_3$3(ctx) {
     	let h1;
 
@@ -12213,8 +12233,8 @@ var app = (function () {
     			h1 = element("h1");
     			h1.textContent = "ACCESS DENIED";
     			set_style(h1, "text-align", "center");
-    			attr_dev(h1, "class", "svelte-5mi8rh");
-    			add_location(h1, file$3, 479, 4, 16931);
+    			attr_dev(h1, "class", "svelte-11lp3j4");
+    			add_location(h1, file$3, 471, 4, 16593);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -12229,14 +12249,14 @@ var app = (function () {
     		block,
     		id: create_else_block_3$3.name,
     		type: "else",
-    		source: "(479:2) {:else}",
+    		source: "(471:2) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (213:2) {#if $logged == 'true'}
+    // (212:2) {#if $logged == 'true'}
     function create_if_block$3(ctx) {
     	let if_block_anchor;
 
@@ -12281,14 +12301,14 @@ var app = (function () {
     		block,
     		id: create_if_block$3.name,
     		type: "if",
-    		source: "(213:2) {#if $logged == 'true'}",
+    		source: "(212:2) {#if $logged == 'true'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (274:4) {:else}
+    // (273:4) {:else}
     function create_else_block$3(ctx) {
     	let div0;
     	let h10;
@@ -12359,8 +12379,7 @@ var app = (function () {
     	let dispose;
 
     	function select_block_type_2(ctx, dirty) {
-    		if (/*$TWOFA*/ ctx[7] == 'false' && /*$ownmail*/ ctx[14] == 'true') return create_if_block_10$2;
-    		if (/*$TWOFA*/ ctx[7] == 'false') return create_if_block_11$2;
+    		if (/*$TWOFA*/ ctx[7] == 'false') return create_if_block_10$2;
     		return create_else_block_2$3;
     	}
 
@@ -12376,14 +12395,14 @@ var app = (function () {
     	}
 
     	function select_block_type_4(ctx, dirty) {
-    		if (/*$wins*/ ctx[15] == 0 && /*friends*/ ctx[5].length == 0 && /*$ownmail*/ ctx[14] == 'false') return create_if_block_6$2;
-    		if (/*$wins*/ ctx[15] != 0) return create_if_block_7$2;
+    		if (/*$wins*/ ctx[14] == 0 && /*friends*/ ctx[5].length == 0 && /*$ownmail*/ ctx[18] == 'false') return create_if_block_6$2;
+    		if (/*$wins*/ ctx[14] != 0) return create_if_block_7$2;
     	}
 
     	let current_block_type_1 = select_block_type_4(ctx);
     	let if_block2 = current_block_type_1 && current_block_type_1(ctx);
     	let if_block3 = /*friends*/ ctx[5].length > 0 && create_if_block_5$2(ctx);
-    	let if_block4 = /*$ownmail*/ ctx[14] == 'true' && create_if_block_4$3(ctx);
+    	let if_block4 = /*$ownmail*/ ctx[18] == 'true' && create_if_block_4$3(ctx);
     	let if_block5 = /*friends*/ ctx[5].length == 0 && create_if_block_3$3(ctx);
     	let each_value = /*friends*/ ctx[5];
     	validate_each_argument(each_value);
@@ -12431,7 +12450,7 @@ var app = (function () {
     			span0.textContent = "wins";
     			t17 = space();
     			span1 = element("span");
-    			t18 = text(/*$wins*/ ctx[15]);
+    			t18 = text(/*$wins*/ ctx[14]);
     			t19 = space();
     			span2 = element("span");
     			span2.textContent = "| ";
@@ -12439,7 +12458,7 @@ var app = (function () {
     			span3.textContent = "losses";
     			t22 = space();
     			span4 = element("span");
-    			t23 = text(/*$losses*/ ctx[16]);
+    			t23 = text(/*$losses*/ ctx[15]);
     			t24 = space();
     			span5 = element("span");
     			span5.textContent = "| ";
@@ -12447,7 +12466,7 @@ var app = (function () {
     			span6.textContent = "level";
     			t27 = space();
     			span7 = element("span");
-    			t28 = text(/*$level*/ ctx[17]);
+    			t28 = text(/*$level*/ ctx[16]);
     			t29 = space();
     			div7 = element("div");
     			h13 = element("h1");
@@ -12486,76 +12505,76 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(h10, "class", "name svelte-5mi8rh");
+    			attr_dev(h10, "class", "name svelte-11lp3j4");
     			set_style(h10, "color", "darkred");
-    			add_location(h10, file$3, 275, 8, 9513);
-    			attr_dev(img, "class", "profile svelte-5mi8rh");
+    			add_location(h10, file$3, 274, 8, 9515);
+    			attr_dev(img, "class", "profile svelte-11lp3j4");
     			if (!src_url_equal(img.src, img_src_value = /*$image_url*/ ctx[10])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "width", "200px");
     			attr_dev(img, "alt", "Default Profile");
-    			add_location(img, file$3, 276, 8, 9577);
-    			attr_dev(button0, "class", "bt1 svelte-5mi8rh");
+    			add_location(img, file$3, 275, 8, 9579);
+    			attr_dev(button0, "class", "bt1 svelte-11lp3j4");
     			set_style(button0, "cursor", "pointer");
-    			add_location(button0, file$3, 282, 8, 9710);
+    			add_location(button0, file$3, 281, 8, 9712);
     			set_style(input, "display", "none");
     			attr_dev(input, "type", "file");
     			attr_dev(input, "accept", ".jpg, .jpeg, .png");
-    			add_location(input, file$3, 289, 8, 9910);
+    			add_location(input, file$3, 288, 8, 9912);
     			set_style(div0, "margin", "0 auto");
     			set_style(div0, "display", "block");
-    			add_location(div0, file$3, 274, 6, 9460);
-    			add_location(br, file$3, 302, 21, 10272);
+    			add_location(div0, file$3, 273, 6, 9462);
+    			add_location(br, file$3, 301, 21, 10274);
     			set_style(p0, "text-align", "center");
     			set_style(p0, "color", "grey");
     			set_style(p0, "font-weight", "500");
     			set_style(p0, "font-style", "italic");
-    			add_location(p0, file$3, 298, 8, 10130);
-    			add_location(div1, file$3, 297, 6, 10116);
-    			attr_dev(button1, "class", "bt2 svelte-5mi8rh");
+    			add_location(p0, file$3, 297, 8, 10132);
+    			add_location(div1, file$3, 296, 6, 10118);
+    			attr_dev(button1, "class", "bt2 svelte-11lp3j4");
     			set_style(button1, "cursor", "pointer");
-    			add_location(button1, file$3, 306, 8, 10358);
+    			add_location(button1, file$3, 305, 8, 10360);
     			set_style(div2, "margin", "0 auto");
-    			add_location(div2, file$3, 305, 6, 10319);
+    			add_location(div2, file$3, 304, 6, 10321);
     			set_style(h11, "text-align", "center");
     			set_style(h11, "width", "400px");
     			set_style(h11, "background-color", "darkgrey");
     			set_style(h11, "color", "white");
     			set_style(h11, "text-decoration-line", "underline");
     			set_style(h11, "text-underline-offset", "20px");
-    			attr_dev(h11, "class", "svelte-5mi8rh");
-    			add_location(h11, file$3, 339, 10, 11662);
+    			attr_dev(h11, "class", "svelte-11lp3j4");
+    			add_location(h11, file$3, 331, 10, 11327);
     			set_style(div3, "width", "400px");
     			set_style(div3, "margin", "0 auto");
     			set_style(div3, "display", "block");
-    			add_location(div3, file$3, 338, 8, 11594);
-    			attr_dev(span0, "class", "sp1 svelte-5mi8rh");
-    			add_location(span0, file$3, 347, 12, 11956);
-    			attr_dev(span1, "class", "sp2 svelte-5mi8rh");
-    			add_location(span1, file$3, 347, 42, 11986);
+    			add_location(div3, file$3, 330, 8, 11259);
+    			attr_dev(span0, "class", "sp1 svelte-11lp3j4");
+    			add_location(span0, file$3, 339, 12, 11621);
+    			attr_dev(span1, "class", "sp2 svelte-11lp3j4");
+    			add_location(span1, file$3, 339, 42, 11651);
     			set_style(span2, "font-weight", "300");
-    			add_location(span2, file$3, 348, 12, 12031);
-    			attr_dev(span3, "class", "sp1 svelte-5mi8rh");
-    			add_location(span3, file$3, 348, 53, 12072);
-    			attr_dev(span4, "class", "sp2 svelte-5mi8rh");
-    			add_location(span4, file$3, 350, 14, 12132);
+    			add_location(span2, file$3, 340, 12, 11696);
+    			attr_dev(span3, "class", "sp1 svelte-11lp3j4");
+    			add_location(span3, file$3, 340, 53, 11737);
+    			attr_dev(span4, "class", "sp2 svelte-11lp3j4");
+    			add_location(span4, file$3, 342, 14, 11797);
     			set_style(span5, "font-weight", "300");
-    			add_location(span5, file$3, 351, 12, 12179);
-    			attr_dev(span6, "class", "sp1 svelte-5mi8rh");
-    			add_location(span6, file$3, 351, 53, 12220);
-    			attr_dev(span7, "class", "sp2 svelte-5mi8rh");
-    			add_location(span7, file$3, 353, 14, 12279);
-    			add_location(p1, file$3, 346, 10, 11940);
+    			add_location(span5, file$3, 343, 12, 11844);
+    			attr_dev(span6, "class", "sp1 svelte-11lp3j4");
+    			add_location(span6, file$3, 343, 53, 11885);
+    			attr_dev(span7, "class", "sp2 svelte-11lp3j4");
+    			add_location(span7, file$3, 345, 14, 11944);
+    			add_location(p1, file$3, 338, 10, 11605);
     			set_style(h12, "text-transform", "uppercase");
-    			attr_dev(h12, "class", "svelte-5mi8rh");
-    			add_location(h12, file$3, 345, 8, 11890);
-    			attr_dev(div4, "class", "tb1 svelte-5mi8rh");
-    			add_location(div4, file$3, 337, 6, 11568);
+    			attr_dev(h12, "class", "svelte-11lp3j4");
+    			add_location(h12, file$3, 337, 8, 11555);
+    			attr_dev(div4, "class", "tb1 svelte-11lp3j4");
+    			add_location(div4, file$3, 329, 6, 11233);
     			set_style(h13, "background-color", "darkgrey");
     			set_style(h13, "color", "white");
     			set_style(h13, "text-align", "center");
-    			attr_dev(h13, "class", "svelte-5mi8rh");
-    			add_location(h13, file$3, 358, 8, 12427);
-    			attr_dev(div5, "class", "row svelte-5mi8rh");
+    			attr_dev(h13, "class", "svelte-11lp3j4");
+    			add_location(h13, file$3, 350, 8, 12092);
+    			attr_dev(div5, "class", "row svelte-11lp3j4");
     			attr_dev(div5, "id", "history");
     			set_style(div5, "max-height", "150px");
     			set_style(div5, "overflow-y", "scroll");
@@ -12563,37 +12582,37 @@ var app = (function () {
     			set_style(div5, "display", "block");
     			set_style(div5, "align-content", "center");
     			set_style(div5, "text-align", "center");
-    			add_location(div5, file$3, 369, 10, 12873);
+    			add_location(div5, file$3, 361, 10, 12538);
     			set_style(div6, "display", "block");
     			set_style(div6, "margin", "0 auto");
     			set_style(div6, "text-align", "center");
-    			add_location(div6, file$3, 361, 8, 12546);
+    			add_location(div6, file$3, 353, 8, 12211);
     			set_style(div7, "width", "400px");
     			set_style(div7, "margin", "0 auto");
     			set_style(div7, "display", "block");
-    			add_location(div7, file$3, 357, 6, 12361);
+    			add_location(div7, file$3, 349, 6, 12026);
     			set_style(h14, "background-color", "darkgrey");
     			set_style(h14, "color", "white");
     			set_style(h14, "text-align", "center");
-    			attr_dev(h14, "class", "svelte-5mi8rh");
-    			add_location(h14, file$3, 404, 8, 14325);
-    			attr_dev(div8, "class", "achievements svelte-5mi8rh");
-    			add_location(div8, file$3, 407, 8, 14443);
+    			attr_dev(h14, "class", "svelte-11lp3j4");
+    			add_location(h14, file$3, 396, 8, 13990);
+    			attr_dev(div8, "class", "achievements svelte-11lp3j4");
+    			add_location(div8, file$3, 399, 8, 14108);
     			set_style(div9, "width", "400px");
     			set_style(div9, "margin", "0 auto");
     			set_style(div9, "display", "block");
-    			add_location(div9, file$3, 403, 6, 14258);
+    			add_location(div9, file$3, 395, 6, 13923);
     			set_style(h15, "background-color", "darkgrey");
     			set_style(h15, "color", "white");
     			set_style(h15, "text-align", "center");
-    			attr_dev(h15, "class", "svelte-5mi8rh");
-    			add_location(h15, file$3, 447, 8, 15966);
-    			attr_dev(div10, "class", "friends svelte-5mi8rh");
-    			add_location(div10, file$3, 450, 8, 16079);
+    			attr_dev(h15, "class", "svelte-11lp3j4");
+    			add_location(h15, file$3, 439, 8, 15631);
+    			attr_dev(div10, "class", "friends svelte-11lp3j4");
+    			add_location(div10, file$3, 442, 8, 15744);
     			set_style(div11, "width", "400px");
     			set_style(div11, "margin", "0 auto");
     			set_style(div11, "display", "block");
-    			add_location(div11, file$3, 446, 6, 15899);
+    			add_location(div11, file$3, 438, 6, 15564);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -12605,7 +12624,7 @@ var app = (function () {
     			append_dev(div0, button0);
     			append_dev(div0, t4);
     			append_dev(div0, input);
-    			/*input_binding*/ ctx[30](input);
+    			/*input_binding*/ ctx[29](input);
     			insert_dev(target, t5, anchor);
     			insert_dev(target, div1, anchor);
     			append_dev(div1, p0);
@@ -12679,9 +12698,9 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button0, "click", prevent_default(/*click_handler_2*/ ctx[28]), false, true, false),
-    					listen_dev(input, "change", /*change_handler*/ ctx[29], false, false, false),
-    					listen_dev(button1, "click", prevent_default(/*click_handler_3*/ ctx[31]), false, true, false)
+    					listen_dev(button0, "click", prevent_default(/*click_handler_2*/ ctx[27]), false, true, false),
+    					listen_dev(input, "change", /*change_handler*/ ctx[28], false, false, false),
+    					listen_dev(button1, "click", prevent_default(/*click_handler_3*/ ctx[30]), false, true, false)
     				];
 
     				mounted = true;
@@ -12710,9 +12729,9 @@ var app = (function () {
     				}
     			}
 
-    			if (dirty[0] & /*$wins*/ 32768) set_data_dev(t18, /*$wins*/ ctx[15]);
-    			if (dirty[0] & /*$losses*/ 65536) set_data_dev(t23, /*$losses*/ ctx[16]);
-    			if (dirty[0] & /*$level*/ 131072) set_data_dev(t28, /*$level*/ ctx[17]);
+    			if (dirty[0] & /*$wins*/ 16384) set_data_dev(t18, /*$wins*/ ctx[14]);
+    			if (dirty[0] & /*$losses*/ 32768) set_data_dev(t23, /*$losses*/ ctx[15]);
+    			if (dirty[0] & /*$level*/ 65536) set_data_dev(t28, /*$level*/ ctx[16]);
 
     			if (/*matches*/ ctx[6].length == 0) {
     				if (if_block1) ; else {
@@ -12725,7 +12744,7 @@ var app = (function () {
     				if_block1 = null;
     			}
 
-    			if (dirty[0] & /*matches, $username42*/ 262208) {
+    			if (dirty[0] & /*matches, $username42*/ 131136) {
     				each_value_1 = [.../*matches*/ ctx[6]].reverse();
     				validate_each_argument(each_value_1);
     				let i;
@@ -12770,7 +12789,7 @@ var app = (function () {
     				if_block3 = null;
     			}
 
-    			if (/*$ownmail*/ ctx[14] == 'true') {
+    			if (/*$ownmail*/ ctx[18] == 'true') {
     				if (if_block4) ; else {
     					if_block4 = create_if_block_4$3(ctx);
     					if_block4.c();
@@ -12818,7 +12837,7 @@ var app = (function () {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div0);
-    			/*input_binding*/ ctx[30](null);
+    			/*input_binding*/ ctx[29](null);
     			if (detaching) detach_dev(t5);
     			if (detaching) detach_dev(div1);
     			if (detaching) detach_dev(t10);
@@ -12852,14 +12871,14 @@ var app = (function () {
     		block,
     		id: create_else_block$3.name,
     		type: "else",
-    		source: "(274:4) {:else}",
+    		source: "(273:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (246:32) 
+    // (245:32) 
     function create_if_block_2$3(ctx) {
     	let div4;
     	let h2;
@@ -12895,27 +12914,27 @@ var app = (function () {
     			div2 = element("div");
     			button1 = element("button");
     			button1.textContent = "🔙";
-    			add_location(h2, file$3, 247, 8, 8684);
+    			add_location(h2, file$3, 246, 8, 8686);
     			set_style(input, "width", "150px");
     			attr_dev(input, "type", "email");
     			input.required = true;
     			attr_dev(input, "placeholder", "Mail address");
-    			add_location(input, file$3, 249, 10, 8746);
+    			add_location(input, file$3, 248, 10, 8748);
     			attr_dev(button0, "type", "submit");
     			button0.value = "Submit";
     			set_style(button0, "cursor", "pointer");
-    			add_location(button0, file$3, 257, 12, 8943);
-    			add_location(div0, file$3, 256, 10, 8925);
-    			add_location(div1, file$3, 264, 10, 9162);
+    			add_location(button0, file$3, 256, 12, 8945);
+    			add_location(div0, file$3, 255, 10, 8927);
+    			add_location(div1, file$3, 263, 10, 9164);
     			set_style(button1, "cursor", "pointer");
     			set_style(button1, "font-size", "50px");
     			set_style(button1, "border", "none");
     			set_style(button1, "background-color", "transparent");
-    			add_location(button1, file$3, 266, 12, 9198);
-    			add_location(div2, file$3, 265, 10, 9180);
-    			add_location(div3, file$3, 248, 8, 8730);
-    			attr_dev(div4, "class", "newMail svelte-5mi8rh");
-    			add_location(div4, file$3, 246, 6, 8654);
+    			add_location(button1, file$3, 265, 12, 9200);
+    			add_location(div2, file$3, 264, 10, 9182);
+    			add_location(div3, file$3, 247, 8, 8732);
+    			attr_dev(div4, "class", "newMail svelte-11lp3j4");
+    			add_location(div4, file$3, 245, 6, 8656);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div4, anchor);
@@ -12935,9 +12954,9 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(input, "input", /*input_input_handler_1*/ ctx[26]),
+    					listen_dev(input, "input", /*input_input_handler_1*/ ctx[25]),
     					listen_dev(button0, "click", prevent_default(/*validateMailAddress*/ ctx[19]), false, true, false),
-    					listen_dev(button1, "click", prevent_default(/*click_handler_1*/ ctx[27]), false, true, false)
+    					listen_dev(button1, "click", prevent_default(/*click_handler_1*/ ctx[26]), false, true, false)
     				];
 
     				mounted = true;
@@ -12959,14 +12978,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$3.name,
     		type: "if",
-    		source: "(246:32) ",
+    		source: "(245:32) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (214:4) {#if newUserName == 'true'}
+    // (213:4) {#if newUserName == 'true'}
     function create_if_block_1$3(ctx) {
     	let div4;
     	let h2;
@@ -13002,29 +13021,29 @@ var app = (function () {
     			div2 = element("div");
     			button1 = element("button");
     			button1.textContent = "🔙";
-    			add_location(h2, file$3, 215, 8, 7775);
+    			add_location(h2, file$3, 214, 8, 7777);
     			set_style(input, "width", "150px");
     			attr_dev(input, "placeholder", "Enter new username");
     			attr_dev(input, "type", "text");
     			attr_dev(input, "minlength", "3");
     			attr_dev(input, "maxlength", "6");
     			input.required = true;
-    			add_location(input, file$3, 217, 10, 7827);
+    			add_location(input, file$3, 216, 10, 7829);
     			attr_dev(button0, "type", "submit");
     			button0.value = "Submit";
     			set_style(button0, "cursor", "pointer");
-    			add_location(button0, file$3, 227, 12, 8081);
-    			add_location(div0, file$3, 226, 10, 8063);
-    			add_location(div1, file$3, 234, 10, 8297);
+    			add_location(button0, file$3, 226, 12, 8083);
+    			add_location(div0, file$3, 225, 10, 8065);
+    			add_location(div1, file$3, 233, 10, 8299);
     			set_style(button1, "cursor", "pointer");
     			set_style(button1, "font-size", "50px");
     			set_style(button1, "border", "none");
     			set_style(button1, "background-color", "transparent");
-    			add_location(button1, file$3, 236, 12, 8333);
-    			add_location(div2, file$3, 235, 10, 8315);
-    			add_location(div3, file$3, 216, 8, 7811);
-    			attr_dev(div4, "class", "newUserName svelte-5mi8rh");
-    			add_location(div4, file$3, 214, 6, 7741);
+    			add_location(button1, file$3, 235, 12, 8335);
+    			add_location(div2, file$3, 234, 10, 8317);
+    			add_location(div3, file$3, 215, 8, 7813);
+    			attr_dev(div4, "class", "newUserName svelte-11lp3j4");
+    			add_location(div4, file$3, 213, 6, 7743);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div4, anchor);
@@ -13044,9 +13063,9 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(input, "input", /*input_input_handler*/ ctx[24]),
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[23]),
     					listen_dev(button0, "click", prevent_default(/*validateUserName*/ ctx[20]), false, true, false),
-    					listen_dev(button1, "click", prevent_default(/*click_handler*/ ctx[25]), false, true, false)
+    					listen_dev(button1, "click", prevent_default(/*click_handler*/ ctx[24]), false, true, false)
     				];
 
     				mounted = true;
@@ -13068,14 +13087,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$3.name,
     		type: "if",
-    		source: "(214:4) {#if newUserName == 'true'}",
+    		source: "(213:4) {#if newUserName == 'true'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (329:8) {:else}
+    // (321:8) {:else}
     function create_else_block_2$3(ctx) {
     	let button;
     	let mounted;
@@ -13085,7 +13104,7 @@ var app = (function () {
     		c: function create() {
     			button = element("button");
     			button.textContent = "Disable 2FA";
-    			attr_dev(button, "class", "TWOFA svelte-5mi8rh");
+    			attr_dev(button, "class", "TWOFA svelte-11lp3j4");
     			set_style(button, "cursor", "pointer");
     			set_style(button, "margin", "0 auto");
     			set_style(button, "padding", "10px");
@@ -13093,13 +13112,13 @@ var app = (function () {
     			set_style(button, "background-color", "dimgrey");
     			set_style(button, "color", "white");
     			set_style(button, "border-radius", "5px");
-    			add_location(button, file$3, 329, 10, 11268);
+    			add_location(button, file$3, 321, 10, 10933);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", prevent_default(/*TWOFAoff*/ ctx[22]), false, true, false);
+    				dispose = listen_dev(button, "click", prevent_default(/*TWOFAoff*/ ctx[21]), false, true, false);
     				mounted = true;
     			}
     		},
@@ -13115,61 +13134,14 @@ var app = (function () {
     		block,
     		id: create_else_block_2$3.name,
     		type: "else",
-    		source: "(329:8) {:else}",
+    		source: "(321:8) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (322:36) 
-    function create_if_block_11$2(ctx) {
-    	let button;
-    	let mounted;
-    	let dispose;
-
-    	const block = {
-    		c: function create() {
-    			button = element("button");
-    			button.textContent = "Enable 2FA";
-    			attr_dev(button, "class", "TWOFA svelte-5mi8rh");
-    			set_style(button, "cursor", "pointer");
-    			set_style(button, "margin", "0 auto");
-    			set_style(button, "padding", "10px");
-    			set_style(button, "width", "200px");
-    			set_style(button, "color", "white");
-    			set_style(button, "background-color", "lightslategrey");
-    			set_style(button, "border-radius", "5px");
-    			add_location(button, file$3, 322, 10, 10957);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, button, anchor);
-
-    			if (!mounted) {
-    				dispose = listen_dev(button, "click", prevent_default(/*click_handler_4*/ ctx[32]), false, true, false);
-    				mounted = true;
-    			}
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(button);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_11$2.name,
-    		type: "if",
-    		source: "(322:36) ",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (315:8) {#if $TWOFA == 'false' && $ownmail == 'true'}
+    // (314:8) {#if $TWOFA == 'false'}
     function create_if_block_10$2(ctx) {
     	let button;
     	let mounted;
@@ -13179,7 +13151,7 @@ var app = (function () {
     		c: function create() {
     			button = element("button");
     			button.textContent = "Enable 2FA";
-    			attr_dev(button, "class", "TWOFA svelte-5mi8rh");
+    			attr_dev(button, "class", "TWOFA svelte-11lp3j4");
     			set_style(button, "cursor", "pointer");
     			set_style(button, "margin", "0 auto");
     			set_style(button, "padding", "10px");
@@ -13187,13 +13159,13 @@ var app = (function () {
     			set_style(button, "color", "white");
     			set_style(button, "background-color", "lightslategrey");
     			set_style(button, "border-radius", "5px");
-    			add_location(button, file$3, 315, 10, 10642);
+    			add_location(button, file$3, 314, 10, 10622);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", prevent_default(/*TWOFAon*/ ctx[21]), false, true, false);
+    				dispose = listen_dev(button, "click", prevent_default(/*click_handler_4*/ ctx[31]), false, true, false);
     				mounted = true;
     			}
     		},
@@ -13209,14 +13181,14 @@ var app = (function () {
     		block,
     		id: create_if_block_10$2.name,
     		type: "if",
-    		source: "(315:8) {#if $TWOFA == 'false' && $ownmail == 'true'}",
+    		source: "(314:8) {#if $TWOFA == 'false'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (363:10) {#if matches.length == 0}
+    // (355:10) {#if matches.length == 0}
     function create_if_block_9$2(ctx) {
     	let h4;
 
@@ -13229,7 +13201,7 @@ var app = (function () {
     			set_style(h4, "margin", "0 auto");
     			set_style(h4, "color", "dimgrey");
     			set_style(h4, "font-style", "italic");
-    			add_location(h4, file$3, 363, 12, 12658);
+    			add_location(h4, file$3, 355, 12, 12323);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h4, anchor);
@@ -13243,14 +13215,14 @@ var app = (function () {
     		block,
     		id: create_if_block_9$2.name,
     		type: "if",
-    		source: "(363:10) {#if matches.length == 0}",
+    		source: "(355:10) {#if matches.length == 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (389:14) {:else}
+    // (381:14) {:else}
     function create_else_block_1$3(ctx) {
     	let div0;
     	let p0;
@@ -13282,21 +13254,21 @@ var app = (function () {
     			t5 = space();
     			set_style(p0, "color", "red");
     			set_style(p0, "font-weight", "700");
-    			add_location(p0, file$3, 390, 18, 13816);
+    			add_location(p0, file$3, 382, 18, 13481);
     			attr_dev(div0, "class", "column");
     			set_style(div0, "float", "left");
     			set_style(div0, "width", "30%");
-    			add_location(div0, file$3, 389, 16, 13744);
-    			add_location(p1, file$3, 393, 18, 13979);
+    			add_location(div0, file$3, 381, 16, 13409);
+    			add_location(p1, file$3, 385, 18, 13644);
     			attr_dev(div1, "class", "column");
     			set_style(div1, "float", "left");
     			set_style(div1, "width", "30%");
-    			add_location(div1, file$3, 392, 16, 13907);
-    			add_location(p2, file$3, 396, 18, 14123);
+    			add_location(div1, file$3, 384, 16, 13572);
+    			add_location(p2, file$3, 388, 18, 13788);
     			attr_dev(div2, "class", "column");
     			set_style(div2, "float", "left");
     			set_style(div2, "width", "30%");
-    			add_location(div2, file$3, 395, 16, 14051);
+    			add_location(div2, file$3, 387, 16, 13716);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -13328,14 +13300,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1$3.name,
     		type: "else",
-    		source: "(389:14) {:else}",
+    		source: "(381:14) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (376:14) {#if match.winner.userName42 == $username42}
+    // (368:14) {#if match.winner.userName42 == $username42}
     function create_if_block_8$2(ctx) {
     	let div0;
     	let p0;
@@ -13367,23 +13339,23 @@ var app = (function () {
     			t5 = space();
     			set_style(p0, "color", "green");
     			set_style(p0, "font-weight", "700");
-    			add_location(p0, file$3, 380, 18, 13355);
+    			add_location(p0, file$3, 372, 18, 13020);
     			attr_dev(div0, "class", "column");
     			set_style(div0, "float", "left");
     			set_style(div0, "width", "30%");
     			set_style(div0, "display", "block");
     			set_style(div0, "margin", "0 auto");
-    			add_location(div0, file$3, 376, 16, 13199);
-    			add_location(p1, file$3, 383, 18, 13519);
+    			add_location(div0, file$3, 368, 16, 12864);
+    			add_location(p1, file$3, 375, 18, 13184);
     			attr_dev(div1, "class", "column");
     			set_style(div1, "float", "left");
     			set_style(div1, "width", "30%");
-    			add_location(div1, file$3, 382, 16, 13447);
-    			add_location(p2, file$3, 386, 18, 13662);
+    			add_location(div1, file$3, 374, 16, 13112);
+    			add_location(p2, file$3, 378, 18, 13327);
     			attr_dev(div2, "class", "column");
     			set_style(div2, "float", "left");
     			set_style(div2, "width", "30%");
-    			add_location(div2, file$3, 385, 16, 13590);
+    			add_location(div2, file$3, 377, 16, 13255);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -13415,19 +13387,19 @@ var app = (function () {
     		block,
     		id: create_if_block_8$2.name,
     		type: "if",
-    		source: "(376:14) {#if match.winner.userName42 == $username42}",
+    		source: "(368:14) {#if match.winner.userName42 == $username42}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (375:12) {#each [...matches].reverse() as match}
+    // (367:12) {#each [...matches].reverse() as match}
     function create_each_block_1(ctx) {
     	let if_block_anchor;
 
     	function select_block_type_3(ctx, dirty) {
-    		if (/*match*/ ctx[50].winner.userName42 == /*$username42*/ ctx[18]) return create_if_block_8$2;
+    		if (/*match*/ ctx[50].winner.userName42 == /*$username42*/ ctx[17]) return create_if_block_8$2;
     		return create_else_block_1$3;
     	}
 
@@ -13466,14 +13438,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(375:12) {#each [...matches].reverse() as match}",
+    		source: "(367:12) {#each [...matches].reverse() as match}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (415:31) 
+    // (407:31) 
     function create_if_block_7$2(ctx) {
     	let p;
     	let span0;
@@ -13490,13 +13462,13 @@ var app = (function () {
     			span1.textContent = "You defeated another player on match!";
     			set_style(span0, "text-transform", "uppercase");
     			set_style(span0, "font-weight", "600");
-    			add_location(span0, file$3, 416, 14, 14805);
-    			add_location(br, file$3, 418, 15, 14922);
+    			add_location(span0, file$3, 408, 14, 14470);
+    			add_location(br, file$3, 410, 15, 14587);
     			set_style(span1, "font-weight", "400");
     			set_style(span1, "font-style", "italic");
     			set_style(span1, "color", "grey");
-    			add_location(span1, file$3, 418, 21, 14928);
-    			add_location(p, file$3, 415, 12, 14787);
+    			add_location(span1, file$3, 410, 21, 14593);
+    			add_location(p, file$3, 407, 12, 14452);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -13513,14 +13485,14 @@ var app = (function () {
     		block,
     		id: create_if_block_7$2.name,
     		type: "if",
-    		source: "(415:31) ",
+    		source: "(407:31) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (409:10) {#if $wins == 0 && friends.length == 0 && $ownmail == 'false'}
+    // (401:10) {#if $wins == 0 && friends.length == 0 && $ownmail == 'false'}
     function create_if_block_6$2(ctx) {
     	let h4;
 
@@ -13533,7 +13505,7 @@ var app = (function () {
     			set_style(h4, "margin", "0 auto");
     			set_style(h4, "color", "dimgrey");
     			set_style(h4, "font-style", "italic");
-    			add_location(h4, file$3, 409, 12, 14555);
+    			add_location(h4, file$3, 401, 12, 14220);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h4, anchor);
@@ -13547,14 +13519,14 @@ var app = (function () {
     		block,
     		id: create_if_block_6$2.name,
     		type: "if",
-    		source: "(409:10) {#if $wins == 0 && friends.length == 0 && $ownmail == 'false'}",
+    		source: "(401:10) {#if $wins == 0 && friends.length == 0 && $ownmail == 'false'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (425:10) {#if friends.length > 0}
+    // (417:10) {#if friends.length > 0}
     function create_if_block_5$2(ctx) {
     	let p;
     	let span0;
@@ -13571,13 +13543,13 @@ var app = (function () {
     			span1.textContent = "You added one person as a friend!";
     			set_style(span0, "text-transform", "uppercase");
     			set_style(span0, "font-weight", "600");
-    			add_location(span0, file$3, 426, 14, 15181);
-    			add_location(br, file$3, 428, 15, 15301);
+    			add_location(span0, file$3, 418, 14, 14846);
+    			add_location(br, file$3, 420, 15, 14966);
     			set_style(span1, "font-weight", "400");
     			set_style(span1, "font-style", "italic");
     			set_style(span1, "color", "grey");
-    			add_location(span1, file$3, 428, 21, 15307);
-    			add_location(p, file$3, 425, 12, 15163);
+    			add_location(span1, file$3, 420, 21, 14972);
+    			add_location(p, file$3, 417, 12, 14828);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -13594,14 +13566,14 @@ var app = (function () {
     		block,
     		id: create_if_block_5$2.name,
     		type: "if",
-    		source: "(425:10) {#if friends.length > 0}",
+    		source: "(417:10) {#if friends.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (435:10) {#if $ownmail == 'true'}
+    // (427:10) {#if $ownmail == 'true'}
     function create_if_block_4$3(ctx) {
     	let p;
     	let span0;
@@ -13618,13 +13590,13 @@ var app = (function () {
     			span1.textContent = "You enabled two factor authentication!";
     			set_style(span0, "text-transform", "uppercase");
     			set_style(span0, "font-weight", "600");
-    			add_location(span0, file$3, 436, 14, 15556);
-    			add_location(br, file$3, 438, 15, 15670);
+    			add_location(span0, file$3, 428, 14, 15221);
+    			add_location(br, file$3, 430, 15, 15335);
     			set_style(span1, "font-weight", "400");
     			set_style(span1, "font-style", "italic");
     			set_style(span1, "color", "grey");
-    			add_location(span1, file$3, 438, 21, 15676);
-    			add_location(p, file$3, 435, 12, 15538);
+    			add_location(span1, file$3, 430, 21, 15341);
+    			add_location(p, file$3, 427, 12, 15203);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -13641,14 +13613,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4$3.name,
     		type: "if",
-    		source: "(435:10) {#if $ownmail == 'true'}",
+    		source: "(427:10) {#if $ownmail == 'true'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (452:10) {#if friends.length == 0}
+    // (444:10) {#if friends.length == 0}
     function create_if_block_3$3(ctx) {
     	let h4;
 
@@ -13661,7 +13633,7 @@ var app = (function () {
     			set_style(h4, "margin", "0 auto");
     			set_style(h4, "color", "dimgrey");
     			set_style(h4, "font-style", "italic");
-    			add_location(h4, file$3, 452, 12, 16149);
+    			add_location(h4, file$3, 444, 12, 15814);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h4, anchor);
@@ -13675,14 +13647,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3$3.name,
     		type: "if",
-    		source: "(452:10) {#if friends.length == 0}",
+    		source: "(444:10) {#if friends.length == 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (459:10) {#each friends as friend}
+    // (451:10) {#each friends as friend}
     function create_each_block$2(ctx) {
     	let div;
     	let a;
@@ -13695,7 +13667,7 @@ var app = (function () {
     	let dispose;
 
     	function click_handler_5() {
-    		return /*click_handler_5*/ ctx[33](/*friend*/ ctx[47]);
+    		return /*click_handler_5*/ ctx[32](/*friend*/ ctx[47]);
     	}
 
     	const block = {
@@ -13705,15 +13677,16 @@ var app = (function () {
     			img = element("img");
     			t0 = text(t0_value);
     			t1 = space();
-    			attr_dev(img, "class", "otherProfile svelte-5mi8rh");
+    			attr_dev(img, "id", "otherProfile");
     			if (!src_url_equal(img.src, img_src_value = /*friend*/ ctx[47].imageURL)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "profile");
-    			add_location(img, file$3, 467, 16, 16671);
-    			attr_dev(a, "class", "profileLink svelte-5mi8rh");
+    			attr_dev(img, "class", "svelte-11lp3j4");
+    			add_location(img, file$3, 459, 16, 16336);
+    			attr_dev(a, "class", "profileLink svelte-11lp3j4");
     			attr_dev(a, "href", "http://localhost:8080/#/userprofile");
-    			add_location(a, file$3, 460, 14, 16434);
-    			attr_dev(div, "class", "oneFriend svelte-5mi8rh");
-    			add_location(div, file$3, 459, 12, 16396);
+    			add_location(a, file$3, 452, 14, 16099);
+    			attr_dev(div, "class", "oneFriend svelte-11lp3j4");
+    			add_location(div, file$3, 451, 12, 16061);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -13747,7 +13720,7 @@ var app = (function () {
     		block,
     		id: create_each_block$2.name,
     		type: "each",
-    		source: "(459:10) {#each friends as friend}",
+    		source: "(451:10) {#each friends as friend}",
     		ctx
     	});
 
@@ -13769,8 +13742,8 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			if_block.c();
-    			attr_dev(main, "class", "svelte-5mi8rh");
-    			add_location(main, file$3, 211, 0, 7670);
+    			attr_dev(main, "class", "svelte-11lp3j4");
+    			add_location(main, file$3, 210, 0, 7672);
     		},
     		l: function claim(nodes) {
     			throw new Error_1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -13829,15 +13802,15 @@ var app = (function () {
     	let $firstname;
     	let $lastname;
     	let $email;
-    	let $ownmail;
     	let $wins;
     	let $losses;
     	let $level;
     	let $username42;
+    	let $ownmail;
     	validate_store(cookie, 'cookie');
-    	component_subscribe($$self, cookie, $$value => $$invalidate(41, $cookie = $$value));
+    	component_subscribe($$self, cookie, $$value => $$invalidate(40, $cookie = $$value));
     	validate_store(id, 'id');
-    	component_subscribe($$self, id, $$value => $$invalidate(42, $id = $$value));
+    	component_subscribe($$self, id, $$value => $$invalidate(41, $id = $$value));
     	validate_store(TWOFA, 'TWOFA');
     	component_subscribe($$self, TWOFA, $$value => $$invalidate(7, $TWOFA = $$value));
     	validate_store(username, 'username');
@@ -13852,16 +13825,16 @@ var app = (function () {
     	component_subscribe($$self, lastname, $$value => $$invalidate(12, $lastname = $$value));
     	validate_store(email, 'email');
     	component_subscribe($$self, email, $$value => $$invalidate(13, $email = $$value));
-    	validate_store(ownmail, 'ownmail');
-    	component_subscribe($$self, ownmail, $$value => $$invalidate(14, $ownmail = $$value));
     	validate_store(wins, 'wins');
-    	component_subscribe($$self, wins, $$value => $$invalidate(15, $wins = $$value));
+    	component_subscribe($$self, wins, $$value => $$invalidate(14, $wins = $$value));
     	validate_store(losses, 'losses');
-    	component_subscribe($$self, losses, $$value => $$invalidate(16, $losses = $$value));
+    	component_subscribe($$self, losses, $$value => $$invalidate(15, $losses = $$value));
     	validate_store(level, 'level');
-    	component_subscribe($$self, level, $$value => $$invalidate(17, $level = $$value));
+    	component_subscribe($$self, level, $$value => $$invalidate(16, $level = $$value));
     	validate_store(username42, 'username42');
-    	component_subscribe($$self, username42, $$value => $$invalidate(18, $username42 = $$value));
+    	component_subscribe($$self, username42, $$value => $$invalidate(17, $username42 = $$value));
+    	validate_store(ownmail, 'ownmail');
+    	component_subscribe($$self, ownmail, $$value => $$invalidate(18, $ownmail = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Profile', slots, []);
 
@@ -14197,11 +14170,11 @@ var app = (function () {
     		$firstname,
     		$lastname,
     		$email,
-    		$ownmail,
     		$wins,
     		$losses,
     		$level,
-    		$username42
+    		$username42,
+    		$ownmail
     	});
 
     	$$self.$inject_state = $$props => {
@@ -14241,14 +14214,13 @@ var app = (function () {
     		$firstname,
     		$lastname,
     		$email,
-    		$ownmail,
     		$wins,
     		$losses,
     		$level,
     		$username42,
+    		$ownmail,
     		validateMailAddress,
     		validateUserName,
-    		TWOFAon,
     		TWOFAoff,
     		onFileSelected,
     		input_input_handler,
@@ -15987,7 +15959,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (464:0) {#if newInvite == 'true'}
+    // (471:0) {#if newInvite == 'true'}
     function create_if_block_19(ctx) {
     	let if_block_anchor;
     	let if_block = /*ingame*/ ctx[4] != 'true' && create_if_block_20(ctx);
@@ -16023,14 +15995,14 @@ var app = (function () {
     		block,
     		id: create_if_block_19.name,
     		type: "if",
-    		source: "(464:0) {#if newInvite == 'true'}",
+    		source: "(471:0) {#if newInvite == 'true'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (465:2) {#if ingame != 'true'}
+    // (472:2) {#if ingame != 'true'}
     function create_if_block_20(ctx) {
     	let h3;
     	let t0;
@@ -16043,10 +16015,10 @@ var app = (function () {
     			t0 = text("You received a new invitation to play !!");
     			br = element("br");
     			t1 = text("Refresh the page to see who\n      is challenging you");
-    			add_location(br, file$1, 466, 46, 16155);
+    			add_location(br, file$1, 473, 46, 16409);
     			set_style(h3, "color", "slategrey");
     			set_style(h3, "text-align", "center");
-    			add_location(h3, file$1, 465, 4, 16059);
+    			add_location(h3, file$1, 472, 4, 16313);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -16063,14 +16035,14 @@ var app = (function () {
     		block,
     		id: create_if_block_20.name,
     		type: "if",
-    		source: "(465:2) {#if ingame != 'true'}",
+    		source: "(472:2) {#if ingame != 'true'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (472:0) {#if pause == 'true'}
+    // (479:0) {#if pause == 'true'}
     function create_if_block_18(ctx) {
     	let h2;
     	let t;
@@ -16082,7 +16054,7 @@ var app = (function () {
     			attr_dev(h2, "id", "countdown");
     			set_style(h2, "text-align", "center");
     			set_style(h2, "color", "darkred");
-    			add_location(h2, file$1, 472, 2, 16266);
+    			add_location(h2, file$1, 479, 2, 16520);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h2, anchor);
@@ -16100,14 +16072,14 @@ var app = (function () {
     		block,
     		id: create_if_block_18.name,
     		type: "if",
-    		source: "(472:0) {#if pause == 'true'}",
+    		source: "(479:0) {#if pause == 'true'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (650:0) {:else}
+    // (657:0) {:else}
     function create_else_block_6(ctx) {
     	let h1;
 
@@ -16117,7 +16089,7 @@ var app = (function () {
     			h1.textContent = "ACCESS DENIED";
     			set_style(h1, "color", "black");
     			set_style(h1, "text-align", "center");
-    			add_location(h1, file$1, 650, 2, 22086);
+    			add_location(h1, file$1, 657, 2, 22379);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -16132,14 +16104,14 @@ var app = (function () {
     		block,
     		id: create_else_block_6.name,
     		type: "else",
-    		source: "(650:0) {:else}",
+    		source: "(657:0) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (475:0) {#if $logged == 'true'}
+    // (482:0) {#if $logged == 'true'}
     function create_if_block$1(ctx) {
     	let t0;
     	let t1;
@@ -16178,8 +16150,8 @@ var app = (function () {
     			if_block2_anchor = empty$1();
     			attr_dev(canvas_1, "width", canvasWidth);
     			attr_dev(canvas_1, "height", canvasHeight);
-    			attr_dev(canvas_1, "class", "svelte-1ecnup4");
-    			add_location(canvas_1, file$1, 556, 2, 18995);
+    			attr_dev(canvas_1, "class", "svelte-1g0kr6r");
+    			add_location(canvas_1, file$1, 563, 2, 19373);
     		},
     		m: function mount(target, anchor) {
     			if (if_block0) if_block0.m(target, anchor);
@@ -16251,14 +16223,14 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(475:0) {#if $logged == 'true'}",
+    		source: "(482:0) {#if $logged == 'true'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (476:2) {#if ingame == 'watch'}
+    // (483:2) {#if ingame == 'watch'}
     function create_if_block_16(ctx) {
     	let h2;
     	let t1;
@@ -16275,7 +16247,7 @@ var app = (function () {
     			set_style(h2, "color", "black");
     			set_style(h2, "text-align", "center");
     			set_style(h2, "font-style", "italic");
-    			add_location(h2, file$1, 476, 4, 16400);
+    			add_location(h2, file$1, 483, 4, 16654);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h2, anchor);
@@ -16309,14 +16281,14 @@ var app = (function () {
     		block,
     		id: create_if_block_16.name,
     		type: "if",
-    		source: "(476:2) {#if ingame == 'watch'}",
+    		source: "(483:2) {#if ingame == 'watch'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (480:4) {#if gameName}
+    // (487:4) {#if gameName}
     function create_if_block_17(ctx) {
     	let h4;
     	let t;
@@ -16327,7 +16299,7 @@ var app = (function () {
     			t = text(/*gameName*/ ctx[5]);
     			set_style(h4, "color", "black");
     			set_style(h4, "text-align", "center");
-    			add_location(h4, file$1, 480, 6, 16520);
+    			add_location(h4, file$1, 487, 6, 16774);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h4, anchor);
@@ -16345,14 +16317,14 @@ var app = (function () {
     		block,
     		id: create_if_block_17.name,
     		type: "if",
-    		source: "(480:4) {#if gameName}",
+    		source: "(487:4) {#if gameName}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (535:2) {:else}
+    // (542:2) {:else}
     function create_else_block_4$1(ctx) {
     	let div1;
     	let article;
@@ -16386,17 +16358,19 @@ var app = (function () {
     			t2 = space();
     			strong1 = element("strong");
     			t3 = text(t3_value);
-    			attr_dev(strong0, "class", "svelte-1ecnup4");
-    			add_location(strong0, file$1, 538, 10, 18533);
-    			attr_dev(strong1, "class", "svelte-1ecnup4");
-    			add_location(strong1, file$1, 549, 10, 18881);
-    			set_style(div0, "margin-top", "200px");
-    			attr_dev(div0, "class", "svelte-1ecnup4");
-    			add_location(div0, file$1, 537, 8, 18491);
-    			attr_dev(article, "class", "svelte-1ecnup4");
-    			add_location(article, file$1, 536, 6, 18473);
-    			attr_dev(div1, "class", "game svelte-1ecnup4");
-    			add_location(div1, file$1, 535, 4, 18448);
+    			set_style(strong0, "font-size", "7vw");
+    			attr_dev(strong0, "class", "svelte-1g0kr6r");
+    			add_location(strong0, file$1, 545, 10, 18867);
+    			set_style(strong1, "font-size", "7vw");
+    			attr_dev(strong1, "class", "svelte-1g0kr6r");
+    			add_location(strong1, file$1, 556, 10, 19237);
+    			set_style(div0, "margin-top", "15vw");
+    			attr_dev(div0, "class", "svelte-1g0kr6r");
+    			add_location(div0, file$1, 544, 8, 18825);
+    			attr_dev(article, "class", "svelte-1g0kr6r");
+    			add_location(article, file$1, 543, 6, 18807);
+    			attr_dev(div1, "class", "game svelte-1g0kr6r");
+    			add_location(div1, file$1, 542, 4, 18782);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -16437,14 +16411,14 @@ var app = (function () {
     		block,
     		id: create_else_block_4$1.name,
     		type: "else",
-    		source: "(535:2) {:else}",
+    		source: "(542:2) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (526:32) 
+    // (533:32) 
     function create_if_block_14(ctx) {
     	let div;
     	let h2;
@@ -16466,13 +16440,15 @@ var app = (function () {
     			t2 = space();
     			button = element("button");
     			button.textContent = "Play again";
-    			add_location(br, file$1, 528, 21, 18257);
-    			set_style(h2, "padding-top", "150px");
-    			add_location(h2, file$1, 527, 6, 18203);
-    			attr_dev(button, "class", "play_again svelte-1ecnup4");
-    			add_location(button, file$1, 530, 6, 18309);
-    			attr_dev(div, "class", "endgame svelte-1ecnup4");
-    			add_location(div, file$1, 526, 4, 18175);
+    			add_location(br, file$1, 535, 21, 18591);
+    			set_style(h2, "padding-top", "15vw");
+    			set_style(h2, "color", "white");
+    			set_style(h2, "font-size", "3vw");
+    			add_location(h2, file$1, 534, 6, 18509);
+    			attr_dev(button, "class", "play_again svelte-1g0kr6r");
+    			add_location(button, file$1, 537, 6, 18643);
+    			attr_dev(div, "class", "endgame svelte-1g0kr6r");
+    			add_location(div, file$1, 533, 4, 18481);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -16500,14 +16476,14 @@ var app = (function () {
     		block,
     		id: create_if_block_14.name,
     		type: "if",
-    		source: "(526:32) ",
+    		source: "(533:32) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (509:32) 
+    // (516:32) 
     function create_if_block_12(ctx) {
     	let div;
 
@@ -16523,8 +16499,8 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			if_block.c();
-    			attr_dev(div, "class", "homescreen svelte-1ecnup4");
-    			add_location(div, file$1, 509, 4, 17498);
+    			attr_dev(div, "class", "homescreen svelte-1g0kr6r");
+    			add_location(div, file$1, 516, 4, 17773);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -16553,14 +16529,14 @@ var app = (function () {
     		block,
     		id: create_if_block_12.name,
     		type: "if",
-    		source: "(509:32) ",
+    		source: "(516:32) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (484:2) {#if ingame == 'false'}
+    // (491:2) {#if ingame == 'false'}
     function create_if_block_10(ctx) {
     	let div;
 
@@ -16576,8 +16552,8 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			if_block.c();
-    			attr_dev(div, "class", "homescreen svelte-1ecnup4");
-    			add_location(div, file$1, 484, 4, 16630);
+    			attr_dev(div, "class", "homescreen svelte-1g0kr6r");
+    			add_location(div, file$1, 491, 4, 16884);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -16606,14 +16582,14 @@ var app = (function () {
     		block,
     		id: create_if_block_10.name,
     		type: "if",
-    		source: "(484:2) {#if ingame == 'false'}",
+    		source: "(491:2) {#if ingame == 'false'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (544:10) {:else}
+    // (551:10) {:else}
     function create_else_block_5(ctx) {
     	let button;
     	let mounted;
@@ -16624,8 +16600,8 @@ var app = (function () {
     			button = element("button");
     			set_style(button, "border", "none");
     			set_style(button, "background", "transparent");
-    			attr_dev(button, "class", "svelte-1ecnup4");
-    			add_location(button, file$1, 544, 12, 18722);
+    			attr_dev(button, "class", "svelte-1g0kr6r");
+    			add_location(button, file$1, 551, 12, 19078);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -16647,14 +16623,14 @@ var app = (function () {
     		block,
     		id: create_else_block_5.name,
     		type: "else",
-    		source: "(544:10) {:else}",
+    		source: "(551:10) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (542:10) {#if !playing}
+    // (549:10) {#if !playing}
     function create_if_block_15(ctx) {
     	let button;
     	let mounted;
@@ -16664,8 +16640,8 @@ var app = (function () {
     		c: function create() {
     			button = element("button");
     			button.textContent = "Play";
-    			attr_dev(button, "class", "svelte-1ecnup4");
-    			add_location(button, file$1, 542, 12, 18630);
+    			attr_dev(button, "class", "svelte-1g0kr6r");
+    			add_location(button, file$1, 549, 12, 18986);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -16687,14 +16663,14 @@ var app = (function () {
     		block,
     		id: create_if_block_15.name,
     		type: "if",
-    		source: "(542:10) {#if !playing}",
+    		source: "(549:10) {#if !playing}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (519:6) {:else}
+    // (526:6) {:else}
     function create_else_block_3$1(ctx) {
     	let h2;
     	let t1;
@@ -16711,10 +16687,11 @@ var app = (function () {
     			button.textContent = "Cancel";
     			set_style(h2, "color", "white");
     			set_style(h2, "text-align", "center");
-    			set_style(h2, "padding-top", "150px");
-    			add_location(h2, file$1, 519, 8, 17906);
-    			attr_dev(button, "class", "cancel_button svelte-1ecnup4");
-    			add_location(button, file$1, 522, 8, 18032);
+    			set_style(h2, "padding-top", "15vw");
+    			set_style(h2, "font-size", "3vw");
+    			add_location(h2, file$1, 526, 8, 18199);
+    			attr_dev(button, "class", "cancel_button svelte-1g0kr6r");
+    			add_location(button, file$1, 529, 8, 18338);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h2, anchor);
@@ -16740,14 +16717,14 @@ var app = (function () {
     		block,
     		id: create_else_block_3$1.name,
     		type: "else",
-    		source: "(519:6) {:else}",
+    		source: "(526:6) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (511:6) {#if invitation_two == 'true'}
+    // (518:6) {#if invitation_two == 'true'}
     function create_if_block_13(ctx) {
     	let h2;
     	let t0;
@@ -16770,13 +16747,14 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "Cancel invitation";
     			set_style(span, "color", "dodgerblue");
-    			add_location(span, file$1, 512, 22, 17655);
+    			add_location(span, file$1, 519, 22, 17943);
     			set_style(h2, "color", "white");
     			set_style(h2, "text-align", "center");
-    			set_style(h2, "padding-top", "150px");
-    			add_location(h2, file$1, 511, 8, 17568);
-    			attr_dev(button, "class", "cancel_button svelte-1ecnup4");
-    			add_location(button, file$1, 515, 8, 17760);
+    			set_style(h2, "padding-top", "15vw");
+    			set_style(h2, "font-size", "3vw");
+    			add_location(h2, file$1, 518, 8, 17843);
+    			attr_dev(button, "class", "cancel_game_button svelte-1g0kr6r");
+    			add_location(button, file$1, 522, 8, 18048);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h2, anchor);
@@ -16808,14 +16786,14 @@ var app = (function () {
     		block,
     		id: create_if_block_13.name,
     		type: "if",
-    		source: "(511:6) {#if invitation_two == 'true'}",
+    		source: "(518:6) {#if invitation_two == 'true'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (499:6) {:else}
+    // (506:6) {:else}
     function create_else_block_2$1(ctx) {
     	let img;
     	let img_src_value;
@@ -16834,14 +16812,14 @@ var app = (function () {
     			t0 = space();
     			button = element("button");
     			button.textContent = "▶︎";
-    			attr_dev(img, "class", "play_svg svelte-1ecnup4");
+    			attr_dev(img, "class", "play_svg svelte-1g0kr6r");
     			if (!src_url_equal(img.src, img_src_value = "img/play.svg")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "play_logo");
-    			add_location(img, file$1, 499, 8, 17201);
-    			add_location(br0, file$1, 504, 10, 17346);
-    			add_location(br1, file$1, 504, 16, 17352);
-    			attr_dev(button, "class", "play svelte-1ecnup4");
-    			add_location(button, file$1, 505, 8, 17367);
+    			add_location(img, file$1, 506, 8, 17476);
+    			add_location(br0, file$1, 511, 10, 17621);
+    			add_location(br1, file$1, 511, 16, 17627);
+    			attr_dev(button, "class", "play svelte-1g0kr6r");
+    			add_location(button, file$1, 512, 8, 17642);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
@@ -16875,14 +16853,14 @@ var app = (function () {
     		block,
     		id: create_else_block_2$1.name,
     		type: "else",
-    		source: "(499:6) {:else}",
+    		source: "(506:6) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (486:6) {#if invited == 'true'}
+    // (493:6) {#if invited == 'true'}
     function create_if_block_11(ctx) {
     	let div1;
     	let h2;
@@ -16912,22 +16890,23 @@ var app = (function () {
     			button1 = element("button");
     			button1.textContent = "Decline";
     			set_style(span, "color", "rgb(224, 62, 62)");
-    			add_location(span, file$1, 490, 12, 16820);
-    			add_location(h2, file$1, 489, 10, 16803);
+    			add_location(span, file$1, 497, 12, 17095);
+    			set_style(h2, "font-size", "3vw");
+    			add_location(h2, file$1, 496, 10, 17056);
     			attr_dev(button0, "id", "accept");
-    			attr_dev(button0, "class", "svelte-1ecnup4");
-    			add_location(button0, file$1, 494, 12, 16982);
+    			attr_dev(button0, "class", "svelte-1g0kr6r");
+    			add_location(button0, file$1, 501, 12, 17257);
     			attr_dev(button1, "id", "decline");
-    			attr_dev(button1, "class", "svelte-1ecnup4");
-    			add_location(button1, file$1, 495, 12, 17069);
-    			attr_dev(div0, "class", "my-buttons svelte-1ecnup4");
-    			add_location(div0, file$1, 493, 10, 16945);
+    			attr_dev(button1, "class", "svelte-1g0kr6r");
+    			add_location(button1, file$1, 502, 12, 17344);
+    			attr_dev(div0, "class", "my-buttons svelte-1g0kr6r");
+    			add_location(div0, file$1, 500, 10, 17220);
     			set_style(div1, "text-align", "center");
     			set_style(div1, "color", "white");
     			set_style(div1, "display", "block");
-    			set_style(div1, "padding-top", "100px");
-    			attr_dev(div1, "class", "svelte-1ecnup4");
-    			add_location(div1, file$1, 486, 8, 16693);
+    			set_style(div1, "padding-top", "10vw");
+    			attr_dev(div1, "class", "svelte-1g0kr6r");
+    			add_location(div1, file$1, 493, 8, 16947);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -16964,14 +16943,14 @@ var app = (function () {
     		block,
     		id: create_if_block_11.name,
     		type: "if",
-    		source: "(486:6) {#if invited == 'true'}",
+    		source: "(493:6) {#if invited == 'true'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (634:52) 
+    // (641:52) 
     function create_if_block_8(ctx) {
     	let h1;
     	let t1;
@@ -16992,10 +16971,8 @@ var app = (function () {
     			t1 = space();
     			if_block.c();
     			if_block_anchor = empty$1();
-    			set_style(h1, "margin-top", "-450px");
-    			set_style(h1, "color", "black");
-    			set_style(h1, "text-align", "center");
-    			add_location(h1, file$1, 634, 4, 21610);
+    			attr_dev(h1, "class", "watchLive svelte-1g0kr6r");
+    			add_location(h1, file$1, 641, 4, 21986);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -17028,14 +17005,14 @@ var app = (function () {
     		block,
     		id: create_if_block_8.name,
     		type: "if",
-    		source: "(634:52) ",
+    		source: "(641:52) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (558:2) {#if ingame == 'true'}
+    // (565:2) {#if ingame == 'true'}
     function create_if_block_1$1(ctx) {
     	let div0;
     	let t0;
@@ -17072,13 +17049,13 @@ var app = (function () {
     			t2 = space();
     			div1 = element("div");
     			if (if_block1) if_block1.c();
-    			attr_dev(button, "class", "forfeit_button svelte-1ecnup4");
-    			add_location(button, file$1, 572, 6, 19592);
+    			attr_dev(button, "class", "forfeit_button svelte-1g0kr6r");
+    			add_location(button, file$1, 579, 6, 19970);
     			set_style(div0, "display", "flex");
     			set_style(div0, "margin", "0 auto");
     			set_style(div0, "width", "400px");
-    			attr_dev(div0, "class", "svelte-1ecnup4");
-    			add_location(div0, file$1, 558, 4, 19096);
+    			attr_dev(div0, "class", "svelte-1g0kr6r");
+    			add_location(div0, file$1, 565, 4, 19474);
     			set_style(div1, "display", "block");
     			set_style(div1, "margin", "0 auto");
     			set_style(div1, "align-items", "center");
@@ -17087,12 +17064,12 @@ var app = (function () {
     			set_style(div1, "margin-top", "50px");
     			set_style(div1, "margin-bottom", "50px");
     			set_style(div1, "text-align", "center");
-    			set_style(div1, "width", "700px");
-    			set_style(div1, "height", "200px");
+    			set_style(div1, "width", "90vw");
+    			set_style(div1, "height", "20vw");
     			set_style(div1, "border-top", "2px dotted black");
     			set_style(div1, "border-bottom", "2px dotted black");
-    			attr_dev(div1, "class", "svelte-1ecnup4");
-    			add_location(div1, file$1, 575, 4, 19705);
+    			attr_dev(div1, "class", "svelte-1g0kr6r");
+    			add_location(div1, file$1, 582, 4, 20083);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -17152,14 +17129,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(558:2) {#if ingame == 'true'}",
+    		source: "(565:2) {#if ingame == 'true'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (642:4) {:else}
+    // (649:4) {:else}
     function create_else_block_1$1(ctx) {
     	let each_1_anchor;
     	let each_value = /*games*/ ctx[2];
@@ -17220,14 +17197,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1$1.name,
     		type: "else",
-    		source: "(642:4) {:else}",
+    		source: "(649:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (638:4) {#if games.length == 0}
+    // (645:4) {#if games.length == 0}
     function create_if_block_9(ctx) {
     	let h3;
 
@@ -17235,10 +17212,9 @@ var app = (function () {
     		c: function create() {
     			h3 = element("h3");
     			h3.textContent = "No live games to watch at the moment";
-    			set_style(h3, "color", "dimgrey");
-    			set_style(h3, "font-style", "italic");
-    			set_style(h3, "text-align", "center");
-    			add_location(h3, file$1, 638, 6, 21740);
+    			attr_dev(h3, "id", "noLiveGames");
+    			attr_dev(h3, "class", "svelte-1g0kr6r");
+    			add_location(h3, file$1, 645, 6, 22076);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -17253,14 +17229,14 @@ var app = (function () {
     		block,
     		id: create_if_block_9.name,
     		type: "if",
-    		source: "(638:4) {#if games.length == 0}",
+    		source: "(645:4) {#if games.length == 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (643:6) {#each games as game}
+    // (650:6) {#each games as game}
     function create_each_block(ctx) {
     	let button;
     	let t0_value = /*game*/ ctx[55].name + "";
@@ -17282,10 +17258,10 @@ var app = (function () {
     			br0 = element("br");
     			br1 = element("br");
     			t1 = text("🏓 🏓 🏓\n        ");
-    			add_location(br0, file$1, 644, 21, 22005);
-    			add_location(br1, file$1, 644, 27, 22011);
-    			attr_dev(button, "class", "liveGame svelte-1ecnup4");
-    			add_location(button, file$1, 643, 8, 21910);
+    			add_location(br0, file$1, 651, 21, 22298);
+    			add_location(br1, file$1, 651, 27, 22304);
+    			attr_dev(button, "class", "liveGame svelte-1g0kr6r");
+    			add_location(button, file$1, 650, 8, 22203);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -17314,14 +17290,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(643:6) {#each games as game}",
+    		source: "(650:6) {#each games as game}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (568:6) {:else}
+    // (575:6) {:else}
     function create_else_block$1(ctx) {
     	let button;
     	let mounted;
@@ -17331,8 +17307,8 @@ var app = (function () {
     		c: function create() {
     			button = element("button");
     			button.textContent = "Change theme";
-    			attr_dev(button, "class", "theme_button3 svelte-1ecnup4");
-    			add_location(button, file$1, 568, 8, 19464);
+    			attr_dev(button, "class", "theme_button3 svelte-1g0kr6r");
+    			add_location(button, file$1, 575, 8, 19842);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -17354,14 +17330,14 @@ var app = (function () {
     		block,
     		id: create_else_block$1.name,
     		type: "else",
-    		source: "(568:6) {:else}",
+    		source: "(575:6) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (564:27) 
+    // (571:27) 
     function create_if_block_7(ctx) {
     	let button;
     	let mounted;
@@ -17371,8 +17347,8 @@ var app = (function () {
     		c: function create() {
     			button = element("button");
     			button.textContent = "Change theme";
-    			attr_dev(button, "class", "theme_button2 svelte-1ecnup4");
-    			add_location(button, file$1, 564, 8, 19332);
+    			attr_dev(button, "class", "theme_button2 svelte-1g0kr6r");
+    			add_location(button, file$1, 571, 8, 19710);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -17394,14 +17370,14 @@ var app = (function () {
     		block,
     		id: create_if_block_7.name,
     		type: "if",
-    		source: "(564:27) ",
+    		source: "(571:27) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (560:6) {#if theme == 1}
+    // (567:6) {#if theme == 1}
     function create_if_block_6(ctx) {
     	let button;
     	let mounted;
@@ -17411,8 +17387,8 @@ var app = (function () {
     		c: function create() {
     			button = element("button");
     			button.textContent = "Change theme";
-    			attr_dev(button, "class", "theme_button1 svelte-1ecnup4");
-    			add_location(button, file$1, 560, 8, 19186);
+    			attr_dev(button, "class", "theme_button1 svelte-1g0kr6r");
+    			add_location(button, file$1, 567, 8, 19564);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -17434,14 +17410,14 @@ var app = (function () {
     		block,
     		id: create_if_block_6.name,
     		type: "if",
-    		source: "(560:6) {#if theme == 1}",
+    		source: "(567:6) {#if theme == 1}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (610:42) 
+    // (617:42) 
     function create_if_block_4$1(ctx) {
     	let div0;
     	let img0;
@@ -17462,22 +17438,22 @@ var app = (function () {
     			t1 = space();
     			div1 = element("div");
     			img1 = element("img");
-    			attr_dev(img0, "class", "player1_picture svelte-1ecnup4");
+    			attr_dev(img0, "class", "player1_picture svelte-1g0kr6r");
     			if (!src_url_equal(img0.src, img0_src_value = /*otherPlayer*/ ctx[3].imageURL)) attr_dev(img0, "src", img0_src_value);
     			attr_dev(img0, "alt", "player1_profile_picture");
-    			add_location(img0, file$1, 611, 10, 20872);
+    			add_location(img0, file$1, 618, 10, 21248);
     			set_style(div0, "display", "block");
     			set_style(div0, "margin", "0 auto");
-    			attr_dev(div0, "class", "svelte-1ecnup4");
-    			add_location(div0, file$1, 610, 8, 20817);
-    			attr_dev(img1, "class", "player1_picture svelte-1ecnup4");
+    			attr_dev(div0, "class", "svelte-1g0kr6r");
+    			add_location(div0, file$1, 617, 8, 21193);
+    			attr_dev(img1, "class", "player1_picture svelte-1g0kr6r");
     			if (!src_url_equal(img1.src, img1_src_value = /*$image_url*/ ctx[18])) attr_dev(img1, "src", img1_src_value);
     			attr_dev(img1, "alt", "player1_profile_picture");
-    			add_location(img1, file$1, 625, 10, 21390);
+    			add_location(img1, file$1, 632, 10, 21766);
     			set_style(div1, "display", "block");
     			set_style(div1, "margin", "0 auto");
-    			attr_dev(div1, "class", "svelte-1ecnup4");
-    			add_location(div1, file$1, 624, 8, 21335);
+    			attr_dev(div1, "class", "svelte-1g0kr6r");
+    			add_location(div1, file$1, 631, 8, 21711);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -17523,14 +17499,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4$1.name,
     		type: "if",
-    		source: "(610:42) ",
+    		source: "(617:42) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (588:6) {#if myPaddle == 'leftpaddle'}
+    // (595:6) {#if myPaddle == 'leftpaddle'}
     function create_if_block_2$1(ctx) {
     	let div0;
     	let img0;
@@ -17551,22 +17527,22 @@ var app = (function () {
     			t1 = space();
     			div1 = element("div");
     			img1 = element("img");
-    			attr_dev(img0, "class", "player1_picture svelte-1ecnup4");
+    			attr_dev(img0, "class", "player1_picture svelte-1g0kr6r");
     			if (!src_url_equal(img0.src, img0_src_value = /*$image_url*/ ctx[18])) attr_dev(img0, "src", img0_src_value);
     			attr_dev(img0, "alt", "player1_profile_picture");
-    			add_location(img0, file$1, 589, 10, 20108);
+    			add_location(img0, file$1, 596, 10, 20484);
     			set_style(div0, "display", "block");
     			set_style(div0, "margin", "0 auto");
-    			attr_dev(div0, "class", "svelte-1ecnup4");
-    			add_location(div0, file$1, 588, 8, 20053);
-    			attr_dev(img1, "class", "player1_picture svelte-1ecnup4");
+    			attr_dev(div0, "class", "svelte-1g0kr6r");
+    			add_location(div0, file$1, 595, 8, 20429);
+    			attr_dev(img1, "class", "player1_picture svelte-1g0kr6r");
     			if (!src_url_equal(img1.src, img1_src_value = /*otherPlayer*/ ctx[3].imageURL)) attr_dev(img1, "src", img1_src_value);
     			attr_dev(img1, "alt", "player1_profile_picture");
-    			add_location(img1, file$1, 603, 10, 20616);
+    			add_location(img1, file$1, 610, 10, 20992);
     			set_style(div1, "display", "block");
     			set_style(div1, "margin", "0 auto");
-    			attr_dev(div1, "class", "svelte-1ecnup4");
-    			add_location(div1, file$1, 602, 8, 20561);
+    			attr_dev(div1, "class", "svelte-1g0kr6r");
+    			add_location(div1, file$1, 609, 8, 20937);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -17612,14 +17588,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$1.name,
     		type: "if",
-    		source: "(588:6) {#if myPaddle == 'leftpaddle'}",
+    		source: "(595:6) {#if myPaddle == 'leftpaddle'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (618:8) {#if gameName}
+    // (625:8) {#if gameName}
     function create_if_block_5(ctx) {
     	let h3;
 
@@ -17635,7 +17611,7 @@ var app = (function () {
     			t = text(t_value);
     			set_style(h3, "text-align", "center");
     			set_style(h3, "color", "black");
-    			add_location(h3, file$1, 618, 10, 21055);
+    			add_location(h3, file$1, 625, 10, 21431);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -17655,14 +17631,14 @@ var app = (function () {
     		block,
     		id: create_if_block_5.name,
     		type: "if",
-    		source: "(618:8) {#if gameName}",
+    		source: "(625:8) {#if gameName}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (596:8) {#if gameName}
+    // (603:8) {#if gameName}
     function create_if_block_3$1(ctx) {
     	let h3;
 
@@ -17678,7 +17654,7 @@ var app = (function () {
     			t = text(t_value);
     			set_style(h3, "text-align", "center");
     			set_style(h3, "color", "black");
-    			add_location(h3, file$1, 596, 10, 20281);
+    			add_location(h3, file$1, 603, 10, 20657);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -17698,7 +17674,7 @@ var app = (function () {
     		block,
     		id: create_if_block_3$1.name,
     		type: "if",
-    		source: "(596:8) {#if gameName}",
+    		source: "(603:8) {#if gameName}",
     		ctx
     	});
 
@@ -17824,7 +17800,11 @@ var app = (function () {
     const padding = 10;
     const margin = 5;
     const border = 5;
+
+    // const width: number = (canvasWidth - margin * 2) * window.innerWidth * 0.9;
+    // const height: number = (canvasHeight - margin * 2) * window.innerWidth *0.9;
     const puckRadius = 7;
+
     const paddleWidth = 15;
     const paddleHeight = 70;
 
@@ -18086,12 +18066,6 @@ var app = (function () {
     		return __awaiter(this, void 0, void 0, function* () {
     			socket.emit('acceptInvite');
     			$$invalidate(9, invited = 'false');
-
-    			socket.on('acceptInviteResponse', message => {
-    				if (message == 'noGame') {
-    					alert('This game has been canceled');
-    				}
-    			});
     		});
     	}
 
@@ -18104,29 +18078,6 @@ var app = (function () {
     		return __awaiter(this, void 0, void 0, function* () {
     			currentGame = game;
     			socket.emit('watchGame', { gameId: game.id });
-
-    			yield socket.on('watchGameResponse', message => __awaiter(this, void 0, void 0, function* () {
-    				if (message == 'noGame') {
-    					alert('Ne game is no more available');
-
-    					allGames = yield fetch('http://localhost:3000/pong/games', {
-    						method: 'GET',
-    						credentials: 'include',
-    						headers: {
-    							Authorization: 'Bearer ' + $cookie,
-    							'Content-type': 'application/json; charset=UTF-8'
-    						}
-    					}).then(response => allGames = response.json());
-
-    					$$invalidate(2, games = allGames);
-    				}
-
-    				if (message == 'goWatchGame') {
-    					$$invalidate(4, ingame = 'watch');
-    					draw();
-    					$$invalidate(16, playing = true);
-    				}
-    			}));
     		});
     	}
 
@@ -18208,8 +18159,6 @@ var app = (function () {
 
     		socket.on('liveInvitationRequest', player => {
     			$$invalidate(8, invitingPlayer = player);
-
-    			// invited = 'true';
     			$$invalidate(10, newInvite = 'true');
     		});
 
@@ -18322,6 +18271,12 @@ var app = (function () {
     			}
     		}));
 
+    		socket.on('acceptInviteResponse', message => {
+    			if (message == 'noGame') {
+    				alert('This game has been canceled');
+    			}
+    		});
+
     		socket.on('pausedGame', () => {
     			$$invalidate(11, pause = 'true');
     			countdownTimer();
@@ -18393,6 +18348,29 @@ var app = (function () {
     			declinedResponse();
     		});
 
+    		socket.on('watchGameResponse', message => __awaiter(void 0, void 0, void 0, function* () {
+    			if (message == 'noGame') {
+    				alert('Ne game is no more available');
+
+    				allGames = yield fetch('http://localhost:3000/pong/games', {
+    					method: 'GET',
+    					credentials: 'include',
+    					headers: {
+    						Authorization: 'Bearer ' + $cookie,
+    						'Content-type': 'application/json; charset=UTF-8'
+    					}
+    				}).then(response => allGames = response.json());
+
+    				$$invalidate(2, games = allGames);
+    			}
+
+    			if (message == 'goWatchGame') {
+    				$$invalidate(4, ingame = 'watch');
+    				draw();
+    				$$invalidate(16, playing = true);
+    			}
+    		}));
+
     		if ($invitation == 'true') {
     			socket.emit('inviteToGame', { userName42: $invitedPlayer });
     			$$invalidate(1, invitation_two = $invitation);
@@ -18401,6 +18379,11 @@ var app = (function () {
     			invitedPlayer.update(n => '');
     			$$invalidate(4, ingame = 'waiting');
     		}
+
+    		socket.on('samePlayer', () => {
+    			$$invalidate(4, ingame = 'false');
+    			alert("⚠️ You are already logged on another device. You can't play Pong on two devices at once");
+    		});
     	}));
 
     	onDestroy(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -18605,7 +18588,7 @@ var app = (function () {
     /* src/App.svelte generated by Svelte v3.49.0 */
     const file = "src/App.svelte";
 
-    // (142:4) {:else}
+    // (146:4) {:else}
     function create_else_block_4(ctx) {
     	let a0;
     	let t1;
@@ -18635,21 +18618,21 @@ var app = (function () {
     			t7 = space();
     			a4 = element("a");
     			a4.textContent = "LOGOUT";
-    			attr_dev(a0, "class", "item svelte-xmbetg");
+    			attr_dev(a0, "class", "item svelte-h6sqss");
     			attr_dev(a0, "href", "#/");
-    			add_location(a0, file, 142, 6, 4421);
-    			attr_dev(a1, "class", "item svelte-xmbetg");
+    			add_location(a0, file, 146, 6, 4527);
+    			attr_dev(a1, "class", "item svelte-h6sqss");
     			attr_dev(a1, "href", "#/");
-    			add_location(a1, file, 143, 6, 4462);
-    			attr_dev(a2, "class", "item svelte-xmbetg");
+    			add_location(a1, file, 147, 6, 4568);
+    			attr_dev(a2, "class", "item svelte-h6sqss");
     			attr_dev(a2, "href", "#/");
-    			add_location(a2, file, 144, 6, 4503);
-    			attr_dev(a3, "class", "item svelte-xmbetg");
+    			add_location(a2, file, 148, 6, 4609);
+    			attr_dev(a3, "class", "item svelte-h6sqss");
     			attr_dev(a3, "href", "#/");
-    			add_location(a3, file, 145, 6, 4547);
-    			attr_dev(a4, "class", "item svelte-xmbetg");
+    			add_location(a3, file, 149, 6, 4653);
+    			attr_dev(a4, "class", "item svelte-h6sqss");
     			attr_dev(a4, "href", "#/");
-    			add_location(a4, file, 146, 6, 4588);
+    			add_location(a4, file, 150, 6, 4694);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a0, anchor);
@@ -18687,14 +18670,14 @@ var app = (function () {
     		block,
     		id: create_else_block_4.name,
     		type: "else",
-    		source: "(142:4) {:else}",
+    		source: "(146:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (68:4) {#if $logged == 'true'}
+    // (72:4) {#if $logged == 'true'}
     function create_if_block(ctx) {
     	let t0;
     	let t1;
@@ -18748,9 +18731,9 @@ var app = (function () {
     			t3 = space();
     			a = element("a");
     			a.textContent = "LOGOUT";
-    			attr_dev(a, "class", "item svelte-xmbetg");
+    			attr_dev(a, "class", "item svelte-h6sqss");
     			attr_dev(a, "href", "#/");
-    			add_location(a, file, 140, 6, 4348);
+    			add_location(a, file, 144, 6, 4454);
     		},
     		m: function mount(target, anchor) {
     			if_block0.m(target, anchor);
@@ -18836,14 +18819,14 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(68:4) {#if $logged == 'true'}",
+    		source: "(72:4) {#if $logged == 'true'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (77:6) {:else}
+    // (81:6) {:else}
     function create_else_block_3(ctx) {
     	let a;
     	let mounted;
@@ -18853,15 +18836,15 @@ var app = (function () {
     		c: function create() {
     			a = element("a");
     			a.textContent = "HOME";
-    			attr_dev(a, "class", "item svelte-xmbetg");
+    			attr_dev(a, "class", "item svelte-h6sqss");
     			attr_dev(a, "href", "#/");
-    			add_location(a, file, 77, 8, 2965);
+    			add_location(a, file, 81, 8, 3071);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(a, "click", /*click_handler_1*/ ctx[5], false, false, false);
+    				dispose = listen_dev(a, "click", /*click_handler_1*/ ctx[6], false, false, false);
     				mounted = true;
     			}
     		},
@@ -18877,14 +18860,14 @@ var app = (function () {
     		block,
     		id: create_else_block_3.name,
     		type: "else",
-    		source: "(77:6) {:else}",
+    		source: "(81:6) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (69:6) {#if $currentPage == 'home'}
+    // (73:6) {#if $currentPage == 'home'}
     function create_if_block_4(ctx) {
     	let a;
     	let mounted;
@@ -18894,15 +18877,15 @@ var app = (function () {
     		c: function create() {
     			a = element("a");
     			a.textContent = "HOME";
-    			attr_dev(a, "class", "item_active svelte-xmbetg");
+    			attr_dev(a, "class", "item_active svelte-h6sqss");
     			attr_dev(a, "href", "#/");
-    			add_location(a, file, 69, 8, 2784);
+    			add_location(a, file, 73, 8, 2890);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(a, "click", /*click_handler*/ ctx[4], false, false, false);
+    				dispose = listen_dev(a, "click", /*click_handler*/ ctx[5], false, false, false);
     				mounted = true;
     			}
     		},
@@ -18918,14 +18901,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(69:6) {#if $currentPage == 'home'}",
+    		source: "(73:6) {#if $currentPage == 'home'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (95:6) {:else}
+    // (99:6) {:else}
     function create_else_block_2(ctx) {
     	let a;
     	let mounted;
@@ -18935,15 +18918,15 @@ var app = (function () {
     		c: function create() {
     			a = element("a");
     			a.textContent = "PROFILE";
-    			attr_dev(a, "class", "item svelte-xmbetg");
+    			attr_dev(a, "class", "item svelte-h6sqss");
     			attr_dev(a, "href", "#/profile");
-    			add_location(a, file, 95, 8, 3370);
+    			add_location(a, file, 99, 8, 3476);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(a, "click", /*click_handler_3*/ ctx[7], false, false, false);
+    				dispose = listen_dev(a, "click", /*click_handler_3*/ ctx[8], false, false, false);
     				mounted = true;
     			}
     		},
@@ -18959,14 +18942,14 @@ var app = (function () {
     		block,
     		id: create_else_block_2.name,
     		type: "else",
-    		source: "(95:6) {:else}",
+    		source: "(99:6) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (87:6) {#if $currentPage == 'profile'}
+    // (91:6) {#if $currentPage == 'profile'}
     function create_if_block_3(ctx) {
     	let a;
     	let mounted;
@@ -18976,15 +18959,15 @@ var app = (function () {
     		c: function create() {
     			a = element("a");
     			a.textContent = "PROFILE";
-    			attr_dev(a, "class", "item_active svelte-xmbetg");
+    			attr_dev(a, "class", "item_active svelte-h6sqss");
     			attr_dev(a, "href", "#/profile");
-    			add_location(a, file, 87, 8, 3176);
+    			add_location(a, file, 91, 8, 3282);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(a, "click", /*click_handler_2*/ ctx[6], false, false, false);
+    				dispose = listen_dev(a, "click", /*click_handler_2*/ ctx[7], false, false, false);
     				mounted = true;
     			}
     		},
@@ -19000,14 +18983,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3.name,
     		type: "if",
-    		source: "(87:6) {#if $currentPage == 'profile'}",
+    		source: "(91:6) {#if $currentPage == 'profile'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (113:6) {:else}
+    // (117:6) {:else}
     function create_else_block_1(ctx) {
     	let a;
     	let mounted;
@@ -19017,15 +19000,15 @@ var app = (function () {
     		c: function create() {
     			a = element("a");
     			a.textContent = "CHAT";
-    			attr_dev(a, "class", "item svelte-xmbetg");
+    			attr_dev(a, "class", "item svelte-h6sqss");
     			attr_dev(a, "href", "#/chat");
-    			add_location(a, file, 113, 8, 3776);
+    			add_location(a, file, 117, 8, 3882);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(a, "click", /*click_handler_5*/ ctx[9], false, false, false);
+    				dispose = listen_dev(a, "click", /*click_handler_5*/ ctx[10], false, false, false);
     				mounted = true;
     			}
     		},
@@ -19041,14 +19024,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1.name,
     		type: "else",
-    		source: "(113:6) {:else}",
+    		source: "(117:6) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (105:6) {#if $currentPage == 'chat'}
+    // (109:6) {#if $currentPage == 'chat'}
     function create_if_block_2(ctx) {
     	let a;
     	let mounted;
@@ -19058,15 +19041,15 @@ var app = (function () {
     		c: function create() {
     			a = element("a");
     			a.textContent = "CHAT";
-    			attr_dev(a, "class", "item_active svelte-xmbetg");
+    			attr_dev(a, "class", "item_active svelte-h6sqss");
     			attr_dev(a, "href", "#/chat");
-    			add_location(a, file, 105, 8, 3591);
+    			add_location(a, file, 109, 8, 3697);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(a, "click", /*click_handler_4*/ ctx[8], false, false, false);
+    				dispose = listen_dev(a, "click", /*click_handler_4*/ ctx[9], false, false, false);
     				mounted = true;
     			}
     		},
@@ -19082,14 +19065,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(105:6) {#if $currentPage == 'chat'}",
+    		source: "(109:6) {#if $currentPage == 'chat'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (131:6) {:else}
+    // (135:6) {:else}
     function create_else_block(ctx) {
     	let a;
     	let mounted;
@@ -19099,15 +19082,15 @@ var app = (function () {
     		c: function create() {
     			a = element("a");
     			a.textContent = "PONG";
-    			attr_dev(a, "class", "item svelte-xmbetg");
+    			attr_dev(a, "class", "item svelte-h6sqss");
     			attr_dev(a, "href", "#/pong");
-    			add_location(a, file, 131, 8, 4173);
+    			add_location(a, file, 135, 8, 4279);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(a, "click", /*click_handler_7*/ ctx[11], false, false, false);
+    				dispose = listen_dev(a, "click", /*click_handler_7*/ ctx[12], false, false, false);
     				mounted = true;
     			}
     		},
@@ -19123,14 +19106,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(131:6) {:else}",
+    		source: "(135:6) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (123:6) {#if $currentPage == 'pong'}
+    // (127:6) {#if $currentPage == 'pong'}
     function create_if_block_1(ctx) {
     	let a;
     	let mounted;
@@ -19140,15 +19123,15 @@ var app = (function () {
     		c: function create() {
     			a = element("a");
     			a.textContent = "PONG";
-    			attr_dev(a, "class", "item_active svelte-xmbetg");
+    			attr_dev(a, "class", "item_active svelte-h6sqss");
     			attr_dev(a, "href", "#/pong");
-    			add_location(a, file, 123, 8, 3988);
+    			add_location(a, file, 127, 8, 4094);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(a, "click", /*click_handler_6*/ ctx[10], false, false, false);
+    				dispose = listen_dev(a, "click", /*click_handler_6*/ ctx[11], false, false, false);
     				mounted = true;
     			}
     		},
@@ -19164,7 +19147,7 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(123:6) {#if $currentPage == 'pong'}",
+    		source: "(127:6) {#if $currentPage == 'pong'}",
     		ctx
     	});
 
@@ -19172,12 +19155,13 @@ var app = (function () {
     }
 
     function create_fragment(ctx) {
+    	let t0;
     	let main;
     	let img;
     	let img_src_value;
-    	let t0;
-    	let nav;
     	let t1;
+    	let nav;
+    	let t2;
     	let router;
     	let current;
 
@@ -19196,32 +19180,34 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			t0 = space();
     			main = element("main");
     			img = element("img");
-    			t0 = space();
+    			t1 = space();
     			nav = element("nav");
     			if_block.c();
-    			t1 = space();
+    			t2 = space();
     			create_component(router.$$.fragment);
     			if (!src_url_equal(img.src, img_src_value = "img/pong.svg")) attr_dev(img, "src", img_src_value);
     			set_style(img, "width", "300px");
     			attr_dev(img, "alt", "Pong icon");
-    			add_location(img, file, 65, 2, 2627);
-    			attr_dev(nav, "class", "menu svelte-xmbetg");
-    			add_location(nav, file, 66, 2, 2694);
-    			attr_dev(main, "class", "svelte-xmbetg");
-    			add_location(main, file, 64, 0, 2618);
+    			add_location(img, file, 69, 2, 2733);
+    			attr_dev(nav, "class", "menu svelte-h6sqss");
+    			add_location(nav, file, 70, 2, 2800);
+    			attr_dev(main, "class", "svelte-h6sqss");
+    			add_location(main, file, 68, 0, 2724);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, t0, anchor);
     			insert_dev(target, main, anchor);
     			append_dev(main, img);
-    			append_dev(main, t0);
+    			append_dev(main, t1);
     			append_dev(main, nav);
     			if_block.m(nav, null);
-    			insert_dev(target, t1, anchor);
+    			insert_dev(target, t2, anchor);
     			mount_component(router, target, anchor);
     			current = true;
     		},
@@ -19248,9 +19234,10 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t0);
     			if (detaching) detach_dev(main);
     			if_block.d();
-    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(t2);
     			destroy_component(router, detaching);
     		}
     	};
@@ -19272,9 +19259,9 @@ var app = (function () {
     	let $logged;
     	let $currentPage;
     	validate_store(intra, 'intra');
-    	component_subscribe($$self, intra, $$value => $$invalidate(12, $intra = $$value));
+    	component_subscribe($$self, intra, $$value => $$invalidate(13, $intra = $$value));
     	validate_store(cookie, 'cookie');
-    	component_subscribe($$self, cookie, $$value => $$invalidate(13, $cookie = $$value));
+    	component_subscribe($$self, cookie, $$value => $$invalidate(14, $cookie = $$value));
     	validate_store(logged, 'logged');
     	component_subscribe($$self, logged, $$value => $$invalidate(0, $logged = $$value));
     	validate_store(currentPage, 'currentPage');
@@ -19319,6 +19306,7 @@ var app = (function () {
     	};
 
     	let socket = null;
+    	let { name } = $$props;
     	let kuki = $cookie;
 
     	let routes = {
@@ -19331,6 +19319,8 @@ var app = (function () {
     	};
 
     	function logOut() {
+    		var _a;
+
     		return __awaiter(this, void 0, void 0, function* () {
     			if ($intra == 'true') {
     				logged.update(n => 'false');
@@ -19343,13 +19333,15 @@ var app = (function () {
     					delete localStorage[key];
     				}
 
-    				var cookies = document.cookie.split(';');
+    				var cookies = (_a = document.cookie) === null || _a === void 0
+    				? void 0
+    				: _a.split(';');
 
     				for (var i = 0; i < cookies.length; i++) {
     					var cookie = cookies[i];
     					var eqPos = cookie.indexOf('=');
-    					var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-    					document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    					var name_cookie = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    					document.cookie = name_cookie + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
     				}
 
     				yield fetch('http://localhost:3000/users/logout', {
@@ -19370,7 +19362,7 @@ var app = (function () {
     		
     	});
 
-    	const writable_props = [];
+    	const writable_props = ['name'];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<App> was created with unknown prop '${key}'`);
@@ -19408,6 +19400,10 @@ var app = (function () {
     		currentPage.update(n => 'pong');
     	};
 
+    	$$self.$$set = $$props => {
+    		if ('name' in $$props) $$invalidate(4, name = $$props.name);
+    	};
+
     	$$self.$capture_state = () => ({
     		__awaiter,
     		logged,
@@ -19423,6 +19419,7 @@ var app = (function () {
     		Pong,
     		onMount,
     		socket,
+    		name,
     		kuki,
     		routes,
     		logOut,
@@ -19435,6 +19432,7 @@ var app = (function () {
     	$$self.$inject_state = $$props => {
     		if ('__awaiter' in $$props) __awaiter = $$props.__awaiter;
     		if ('socket' in $$props) socket = $$props.socket;
+    		if ('name' in $$props) $$invalidate(4, name = $$props.name);
     		if ('kuki' in $$props) kuki = $$props.kuki;
     		if ('routes' in $$props) $$invalidate(2, routes = $$props.routes);
     	};
@@ -19448,6 +19446,7 @@ var app = (function () {
     		$currentPage,
     		routes,
     		logOut,
+    		name,
     		click_handler,
     		click_handler_1,
     		click_handler_2,
@@ -19462,7 +19461,7 @@ var app = (function () {
     class App extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance, create_fragment, safe_not_equal, {});
+    		init(this, options, instance, create_fragment, safe_not_equal, { name: 4 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -19470,13 +19469,28 @@ var app = (function () {
     			options,
     			id: create_fragment.name
     		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*name*/ ctx[4] === undefined && !('name' in props)) {
+    			console.warn("<App> was created without expected prop 'name'");
+    		}
+    	}
+
+    	get name() {
+    		throw new Error("<App>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set name(value) {
+    		throw new Error("<App>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
     var app = new App({
         target: document.body,
         props: {
-            name: 'world'
+            name: 'Transcendance'
         }
     });
 

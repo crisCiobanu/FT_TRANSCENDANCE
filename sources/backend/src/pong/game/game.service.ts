@@ -46,11 +46,11 @@ export class GameService {
 	
 	async addToQueue(client: Socket): Promise<IGame>{
 		this.queue.push(client);
-		console.log("LOG FROM ADD TO QUEUE")
-		console.log(client.data.user.userName42);
+		// console.log("LOG FROM ADD TO QUEUE")
+		// console.log(client.data.user.userName42);
 
 		if (this.queue.length < 2)
-			return;
+			return null;
 
 		const newGame: IGame = await this.pongService.createGame(this.queue[0], this.queue[1]);
 		this.queue.shift();
@@ -59,6 +59,13 @@ export class GameService {
 		return newGame;
 	}
 
+	async checkQueue(client: Socket): Promise<boolean>{
+		if (this.queue.length == 1 && this.queue[0].data.user.userName42 == client.data.user.userName42)
+			return true;
+		return false;
+	}
+		
+		
 	async createInviteGame(client: Socket, userName42: string){
 		this.invites.set(userName42, client);
 	}
@@ -128,17 +135,8 @@ export class GameService {
 		return newGame;
 	}
 
-	// async startInviteGame(gameId: string){
-	// 	let game = this.games.get(gameId);
-	// 	game.state = State.INPROGRESS;
-	// 	this.games.set(game.id, game);
-	// 	if (game.state == State.INPROGRESS)
-	// 		return game;
-	// 	return null;
-	// }
 
 	async removeFromQueue(client: Socket){
-		//this.queue.shift();
 		this.queue = this.queue.filter(socket => socket.id != client.id);
 	}
 
@@ -268,10 +266,6 @@ export class GameService {
 		return this.games.set(game.id, game);
 	}
 
-	// async sendToAll(game: IGame, event: string, message: string){
-
-	// }
-
 	async getGameById(gameId: string): Promise<IGame>{
 		return this.games.get(gameId);
 	}
@@ -290,25 +284,5 @@ export class GameService {
 	getGames(): Map<string, IGame>{
 		return this.games;
 	}
-
-
-
-	// async sendToAll(game: IGame, event: string, message){
-	// 	this.server.to(game.leftPaddle.socket).emit(event, message);
-	// 	this.server.to(game.rightPaddle.socket).emit(event, message);
-	// 	if (game.spectators){
-	// 	  for (const socket of game.spectators){
-	// 		this.server.to(socket).emit(event, message);
-	// 	  }
-	// 	}
-	//   }
-
-	// @Interval(1000/ 60)
-	// sendUpdate(){
-	// 	for (const game of this.games.values()){
-	// 		if (game.state == State.INPROGRESS)
-	// 			this.pongService.update(game);
-	// 	}
-	// }
 
 }

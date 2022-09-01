@@ -55,8 +55,8 @@ export class AuthService implements AuthenticationProvider{
 
 async validateUser(user: CreateUserDto){
         const tmpUser = await this.userService.getByLogin42(user.userName42);
-        console.log("LOG FROM VALIDATE USER");
-        console.log(tmpUser);
+        // console.log("LOG FROM VALIDATE USER");
+        // console.log(tmpUser);
         if (tmpUser) 
             return tmpUser;
         else{

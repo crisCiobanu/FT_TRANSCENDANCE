@@ -1,7 +1,4 @@
-all		:	build
-		cd sources/ && docker-compose up -d
-
-build	:
+all		:	
 		cd sources/ &&  docker-compose  up -d --build 
 
 down	:

@@ -45,6 +45,7 @@
   let password: string = 'false';
   let blocked: string[] = [];
   let block: any;
+  let i: number = 0;
 
   async function sendInvitation() {
     invitedPlayer.update((n) => currentUser.userName42);
@@ -58,20 +59,11 @@
       userName42: currentUser.userName42,
       minutes: banTime,
     });
-    socket.on('kickUserResponse', (response) => {
-      if (response == 'true') {
-        alert(
-          currentUser.userName +
-            ' has been kicked from room #' +
-            currentRoom.name.toUpperCase(),
-        );
-        currentUser = '';
-        currentProfile.update((n) => '');
-      }
-    });
   }
 
-  async function createRoom() {
+  async function createRoom(e) {
+    e.stopImmediatePropagation();
+    e.stopPropagation();
     if (title.indexOf(' ') != -1 || title.indexOf('\t') != -1) {
       alert('❌ Room name cannot contain white spaces');
       title = '';
@@ -79,12 +71,16 @@
     }
     if (!title || !free) {
       alert('❌ Missing information !');
+      return;
     } else if (free != 'true' && !pass) {
       alert('❌ Missing information !');
-    } else if (title.length < 3) {
-        alert('Room title must be at least 3 characters long')
+      return;
+    } else if (title.length < 3 || title.length > 10) {
+      alert('❌ Room title must be between 3 and 10 characters long');
+      return;
     } else if (free != 'true' && (pass.length < 4 || pass.length > 16)) {
       alert('❌ Your password must be between 4 and 16 characters long!');
+      return;
     } else {
       newRoom.name = title;
       newRoom.password = pass;
@@ -94,18 +90,6 @@
         newRoom.isPublic = false;
       }
       socket.emit('createRoom', newRoom);
-      socket.on('createRoomResponse', (message) => {
-        if (message == 'exists') {
-          alert ('❌ a Room of that name already exists. Please choose another name');
-        }
-        else {
-          alert(`✅ Chatroom ${title} has been created`);
-          creation = false;
-          pass = '';
-          title = '';
-          free = '';
-        }
-      });
     }
   }
 
@@ -119,19 +103,6 @@
       userName42: currentUser.userName42,
       minutes: muteTime,
     });
-    await socket.on('muteUserResponse', (response) => {
-      if (response == 'true') {
-        alert(currentUser.userName + 'has been muted for ' + time + ' minutes');
-      } else if (response == 'muted') {
-        alert(
-          currentUser.userName + `has already been muted for a longer period`,
-        );
-      } else {
-        alert('User ' + currentUser.userName + ' could not be muted');
-      }
-    });
-    muteOptions = 'false';
-    muteTime = 0;
   }
 
   function removeRoomPass() {
@@ -144,16 +115,15 @@
     if (newPass?.length < 4 || newPass?.length > 16) {
       alert('❌ Your password must be between 4 and 16 characters long!');
       newPass = '';
-    }
-    else {
+    } else {
       socket.emit('changePass', { room: currentRoom.name, pass: newPass });
-    newPass = '';
-    alert(
-      '#' +
-        currentRoom.name.toUpperCase() +
-        ' is now protected by a new password',
-    );
-    changeRemove = 'false';
+      newPass = '';
+      alert(
+        '#' +
+          currentRoom.name.toUpperCase() +
+          ' is now protected by a new password',
+      );
+      changeRemove = 'false';
     }
   }
 
@@ -167,25 +137,6 @@
       userName42: currentUser.userName42,
       minutes: banTime,
     });
-    await socket.on('banUserResponse', (response) => {
-      if (response == 'true') {
-        alert(
-          currentUser.userName +
-            ' has been banned for ' +
-            time +
-            ' minutes 👹 👹 👹',
-        );
-      } else if (response == 'banned') {
-        alert(
-          currentUser.name +
-            ' has already been banned by another administrator',
-        );
-      } else {
-        alert('User ' + currentUser.userName + ' could not be banned');
-      }
-    });
-    banOptions = 'false';
-    banTime = 0;
   }
 
   async function makeAdmin() {
@@ -193,45 +144,12 @@
       channel: currentRoom,
       userName42: currentUser.userName42,
     });
-    await socket.on('makeAdminResponse', (response) => {
-      if (response == 'false') {
-        alert('😱 😱 😱 Operation failed');
-      } else if (response == 'alreadyAdmin') {
-        alert(
-          currentUser.userName + ' is already an administrator on this channel',
-        );
-      } else if (response == 'true') {
-        alert(
-          currentUser.userName +
-            ' is now an administrator of channel #' +
-            currentRoom.name.toUpperCase(),
-        );
-      }
-      banOptions = 'false';
-      muteOptions = 'false';
-    });
   }
 
   async function removeAdmin() {
     socket.emit('removeAdmin', {
       channel: currentRoom,
       userName42: currentUser.userName42,
-    });
-    await socket.on('removeAdminResponse', (response) => {
-      if (response == 'notAdmin') {
-        alert(
-          currentUser.userName +
-            ' is not an administrator on channel #' +
-            currentRoom.name,
-        );
-      }
-      if (response == 'true') {
-        alert(
-          currentUser.userName +
-            ' is no longer an administrator of channel #' +
-            currentRoom.name.toUpperCase(),
-        );
-      }
     });
   }
 
@@ -317,23 +235,6 @@
 
   async function joinRoom() {
     socket.emit('joinRoom', { name: currentRoom.name, password: roomPassword });
-    await socket.on('joinRoomResponse', (response) => {
-      if (response == 'true') {
-        alert(
-          '😎 😎 😎 You successfully joined Room #' +
-            currentRoom.name.toUpperCase(),
-        );
-        myChannels = [...myChannels, currentRoom.name];
-        currentRoom = currentRoom;
-        $currentChat = currentRoom.name;
-      }
-      if (response == 'false') {
-        alert('❌ ❌ ❌ Wrong passsword');
-      }
-      if (response == 'ban') {
-        alert('🤬 🤬 🤬 You have been banned from this room');
-      }
-    });
     roomPassword = '';
   }
 
@@ -425,38 +326,6 @@
 
   async function createPrivateMessage() {
     await socket.emit('createPrivateMessage', currentUser.userName42);
-    socket.on('createPrivateMessageResponse', (newPM) => {
-      if (newPM == 'blocked') {
-        alert(
-          'This user has made impossible for you to start a new conversation 😢 😢 😢',
-        );
-      }
-      if (newPM == 'true') {
-        socket.emit('changePrivateConv');
-        let DMname = $username + ' - ' + currentUser.userName;
-        let inverseDMname = currentUser.userName + ' - ' + $username;
-        for (let i = 0; i < privateMessages.length; i++) {
-          if (
-            DMname == privateMessages[i].name ||
-            inverseDMname == privateMessages[i].name
-          ) {
-            changeConvMessages(privateMessages[i]);
-          }
-        }
-      }
-      if (newPM == 'exist') {
-        let DMname = $username + ' - ' + currentUser.userName;
-        let inverseDMname = currentUser.userName + ' - ' + $username;
-        for (let i = 0; i < privateMessages.length; i++) {
-          if (
-            DMname == privateMessages[i].name ||
-            inverseDMname == privateMessages[i].name
-          ) {
-            changeConvMessages(privateMessages[i]);
-          }
-        }
-      }
-    });
   }
 
   onMount(async () => {
@@ -468,7 +337,7 @@
           Authorization: 'Bearer ' + $cookie,
           'Content-type': 'application/json; charset=UTF-8',
         },
-      }).then((response) => block = response.json());
+      }).then((response) => (block = response.json()));
       blocked = block.blocked;
 
       socket = io('http://localhost:3000/chat', {
@@ -505,7 +374,7 @@
       });
 
       socket.on('youHaveBeenKicked', (message) => {
-        alert('You have been banned from channel ' + message);
+        alert('You have been banned from channel #' + message.toUpperCase());
         currentRoom = '';
         currentUser = '';
         currentProfile.update((n) => '');
@@ -515,6 +384,7 @@
 
       socket.on('youAreNowAdmin', (message) => {
         alert('You are now an administator on channel #' + message);
+        location.reload()
       });
 
       socket.on('youAreNoMoreAdmin', (message) => {
@@ -530,6 +400,21 @@
           currentProfile.update((n) => '');
         }
       });
+
+      socket.on('createRoomResponse', (message) => {
+        if (message == 'exists') {
+          alert(
+            '❌ a Room of that name already exists. Please choose another name',
+          );
+        } else {
+          alert(`✅ Chatroom ${title} has been created`);
+          creation = false;
+          pass = '';
+          title = '';
+          free = '';
+        }
+      });
+
       socket.on('updatePrivateMessages', (message) => {
         privateMessages = message;
         privateMessages = [...privateMessages];
@@ -537,6 +422,144 @@
           if (privateMessages[i].name == currentRoom.name) {
             currentRoom = privateMessages[i];
             messages = currentRoom.messages;
+          }
+        }
+      });
+
+      socket.on('kickUserResponse', (response) => {
+        if (response == 'true') {
+          alert(
+            currentUser.userName +
+              ' has been kicked from room #' +
+              currentRoom.name.toUpperCase(),
+          );
+          currentUser = '';
+          currentProfile.update((n) => '');
+        }
+      });
+
+      socket.on('muteUserResponse', (response) => {
+        let time = muteTime;
+        if (response == 'true') {
+          alert(
+            currentUser.userName + 'has been muted for ' + time + ' minutes',
+          );
+        } else if (response == 'muted') {
+          alert(
+            currentUser.userName + `has already been muted for a longer period`,
+          );
+        } else {
+          alert('User ' + currentUser.userName + ' could not be muted');
+        }
+        muteOptions = 'false';
+        muteTime = 0;
+      });
+
+      socket.on('banUserResponse', (response) => {
+        let time = banTime;
+        if (response == 'true') {
+          alert(
+            currentUser.userName +
+              ' has been banned for ' +
+              time +
+              ' minutes 👹 👹 👹',
+          );
+        } else if (response == 'banned') {
+          alert(
+            currentUser.name +
+              ' has already been banned by another administrator',
+          );
+        } else {
+          alert('User ' + currentUser.userName + ' could not be banned');
+        }
+        banOptions = 'false';
+        banTime = 0;
+      });
+
+      socket.on('joinRoomResponse', (response) => {
+        if (response == 'true') {
+          alert(
+            '😎 😎 😎 You successfully joined Room #' +
+              currentRoom.name.toUpperCase(),
+          );
+          myChannels = [...myChannels, currentRoom.name];
+          currentRoom = currentRoom;
+          $currentChat = currentRoom.name;
+        }
+        if (response == 'false') {
+          alert('❌ ❌ ❌ Wrong passsword');
+        }
+        if (response == 'ban') {
+          alert('🤬 🤬 🤬 You have been banned from this room');
+        }
+      });
+
+      socket.on('makeAdminResponse', (response) => {
+        if (response == 'false') {
+          alert('😱 😱 😱 Operation failed');
+        } else if (response == 'alreadyAdmin') {
+          alert(
+            currentUser.userName +
+              ' is already an administrator on this channel',
+          );
+        } else if (response == 'true') {
+          alert(
+            currentUser.userName +
+              ' is now an administrator of channel #' +
+              currentRoom.name.toUpperCase(),
+          );
+        }
+        banOptions = 'false';
+        muteOptions = 'false';
+        location.reload();
+      });
+
+      socket.on('removeAdminResponse', (response) => {
+        if (response == 'notAdmin') {
+          alert(
+            currentUser.userName +
+              ' is not an administrator on channel #' +
+              currentRoom.name,
+          );
+        }
+        if (response == 'true') {
+          alert(
+            currentUser.userName +
+              ' is no longer an administrator of channel #' +
+              currentRoom.name.toUpperCase(),
+          );
+        }
+      });
+
+      socket.on('createPrivateMessageResponse', (newPM) => {
+        if (newPM == 'blocked') {
+          alert(
+            'This user has made impossible for you to start a new conversation 😢 😢 😢',
+          );
+        }
+        if (newPM == 'true') {
+          socket.emit('changePrivateConv');
+          let DMname = $username + ' - ' + currentUser.userName;
+          let inverseDMname = currentUser.userName + ' - ' + $username;
+          for (let i = 0; i < privateMessages.length; i++) {
+            if (
+              DMname == privateMessages[i].name ||
+              inverseDMname == privateMessages[i].name
+            ) {
+              changeConvMessages(privateMessages[i]);
+            }
+          }
+        }
+        if (newPM == 'exist') {
+          let DMname = $username + ' - ' + currentUser.userName;
+          let inverseDMname = currentUser.userName + ' - ' + $username;
+          for (let i = 0; i < privateMessages.length; i++) {
+            if (
+              DMname == privateMessages[i].name ||
+              inverseDMname == privateMessages[i].name
+            ) {
+              changeConvMessages(privateMessages[i]);
+            }
           }
         }
       });
@@ -578,15 +601,26 @@
         <br />
         <div>
           {#if password == 'true'}
-            <input bind:value={pass} type='password' placeholder="Enter channel password..." />
+            <input
+              bind:value={pass}
+              type="password"
+              placeholder="Enter channel password..."
+            />
           {/if}
           <div>
-            <button class="create" on:click|preventDefault={createRoom}>Create new room</button
-            >
+          <button class="create" on:click|preventDefault={createRoom}
+            >Create new room</button
+          >
           </div>
           <button
             style="border: none; background-color: transparent; font-size: 36px;"
-            on:click|preventDefault={() => {creation = false; pass = ''; title =''; free = '';  password = 'false';}}>🔙</button
+            on:click|preventDefault={() => {
+              creation = false;
+              pass = '';
+              title = '';
+              free = '';
+              password = 'false';
+            }}>🔙</button
           >
         </div>
       </div>
@@ -644,7 +678,9 @@
                   >#{room.name.toUpperCase()}</button
                 ><br />
               {:else}
-                <button id="selectRoom" on:click|preventDefault={() => changeConv(room)}
+                <button
+                  id="selectRoom"
+                  on:click|preventDefault={() => changeConv(room)}
                   >#{room.name.toUpperCase()}</button
                 ><br />
               {/if}
@@ -658,7 +694,8 @@
                 <button
                   style="color: white; background-color: darkslategrey"
                   id="selectPrivMsg"
-                  on:click|preventDefault={() => changeConvMessages(privateMessage)}
+                  on:click|preventDefault={() =>
+                    changeConvMessages(privateMessage)}
                 >
                   {privateMessage.users[0].id == $id
                     ? privateMessage.users[1].userName42.toUpperCase()
@@ -667,7 +704,8 @@
               {:else}
                 <button
                   id="selectPrivMsg"
-                  on:click|preventDefault={() => changeConvMessages(privateMessage)}
+                  on:click|preventDefault={() =>
+                    changeConvMessages(privateMessage)}
                 >
                   {privateMessage.users[0].id == $id
                     ? privateMessage.users[1].userName42.toUpperCase()
@@ -690,8 +728,9 @@
                 {/if}
               </div>
               {#if myChannels.indexOf(currentRoom.name) == -1 && currentRoom.isPublic == true && currentRoom.isDirectMessage != true}
-                <button class="joinButton" on:click|preventDefault={() => joinRoom()}
-                  >Join room</button
+                <button
+                  class="joinButton"
+                  on:click|preventDefault={() => joinRoom()}>Join room</button
                 >
               {:else if currentRoom.isPublic == false && myChannels.indexOf(currentRoom.name) == -1}
                 <h3 style="margin-top: 30px;">
@@ -734,24 +773,33 @@
             <form class="form-control" on:submit|preventDefault={sendMessage}>
               <input bind:value={Otext} placeholder="Enter message..." />
             </form>
-            <button class="sendButton" on:click|preventDefault={sendMessage}>⏎</button>
+            <button class="sendButton" on:click|preventDefault={sendMessage}
+              >⏎</button
+            >
           </div>
           <div class="my-buttons">
-            <button id="createRoom" on:click|preventDefault={() => (creation = true)}
+            <button
+              id="createRoom"
+              on:click|preventDefault={() => (creation = true)}
               >Create new room</button
             >
             {#if currentRoom && currentRoom.isDirectMessage == true}
               <button
                 id="leaveRoom"
-                on:click|preventDefault={() => deletePrivateMessage(currentRoom)}
+                on:click|preventDefault={() =>
+                  deletePrivateMessage(currentRoom)}
                 >Delete Private Conversation</button
               >
             {:else if currentRoom && currentRoom.channelOwnerId == $id}
-              <button id="leaveRoom" on:click|preventDefault={() => deleteRoom(currentRoom)}
+              <button
+                id="leaveRoom"
+                on:click|preventDefault={() => deleteRoom(currentRoom)}
                 >Delete Room</button
               >
             {:else if currentRoom && myChannels.indexOf(currentRoom.name) != -1}
-              <button id="leaveRoom" on:click|preventDefault={() => leaveRoom(currentRoom)}
+              <button
+                id="leaveRoom"
+                on:click|preventDefault={() => leaveRoom(currentRoom)}
                 >Leave Room</button
               >
             {/if}
@@ -873,7 +921,7 @@
                 style="background-color: dodgerblue; color: white"
                 >Invite to play 🏓</button
               >
-              {#if currentRoom && currentRoom.channelOwnerId != currentUser.id && (currentRoom.channelOwnerId == $id || currentRoom.channelAdminsId.indexOf($id) != -1)}
+              {#if currentRoom && (currentRoom.channelOwnerId != currentUser.id) && (currentRoom.channelOwnerId == $id || currentRoom.channelAdminsId.indexOf($id) != -1)}
                 <h4>Admin</h4>
 
                 {#if Mutes.indexOf(currentRoom.name) != -1}
@@ -896,7 +944,12 @@
                 {#if muteOptions == 'true'}
                   <div>
                     <label>
-                      <input type="radio" default bind:group={muteTime} value="5" />
+                      <input
+                        type="radio"
+                        default
+                        bind:group={muteTime}
+                        value="5"
+                      />
                       5 min.
                     </label>
 
@@ -909,7 +962,8 @@
                       <input type="radio" bind:group={muteTime} value="4320" />
                       3 days
                     </label>
-                    <button on:click|preventDefault={muteUser}>Mute User</button>
+                    <button on:click|preventDefault={muteUser}>Mute User</button
+                    >
                   </div>
                 {/if}
 

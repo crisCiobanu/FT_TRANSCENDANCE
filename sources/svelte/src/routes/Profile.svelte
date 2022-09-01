@@ -21,7 +21,6 @@
   } from '../stores.js';
   import io, { Manager } from 'socket.io-client';
 
-
   let socket: any = null;
   let mail: string;
   let user;
@@ -87,11 +86,9 @@
       alert('❌ New username must be at least 3 characters long');
     } else if (user.length > 6) {
       alert('❌ New username must not be longet than 6 characters long');
-    } 
-    else if (user == $username ) {
+    } else if (user == $username) {
       alert(user + ' is already your username');
-    }
-    else {
+    } else {
       changeUserName();
     }
   }
@@ -104,17 +101,17 @@
         Authorization: 'Bearer ' + $cookie,
         'Content-type': 'application/json; charset=UTF-8',
       },
-    }).then((response) => (userResponse = response.json()))
-      if (userResponse.status == 'OK') {
-        alert('✅ Your username has beem changed to ' + user);
-        username.update((n) => user);
-        newUserName = 'false';
-        user = '';
-      } else if (userResponse.status == 'KO') {
-        alert('⚠️ user name has already been  chosen ! Pick another one');
-        user = '';
-      }
-    };
+    }).then((response) => (userResponse = response.json()));
+    if (userResponse.status == 'OK') {
+      alert('✅ Your username has beem changed to ' + user);
+      username.update((n) => user);
+      newUserName = 'false';
+      user = '';
+    } else if (userResponse.status == 'KO') {
+      alert('⚠️ user name has already been  chosen ! Pick another one');
+      user = '';
+    }
+  }
 
   async function TWOFAon() {
     if ($TWOFA == 'false') {
@@ -162,13 +159,13 @@
         Authorization: 'Bearer ' + $cookie,
       },
     }).then((response) => (newImage = response.json()));
-    if (newImage.url){
+    if (newImage.url) {
       image_url.update((n) => newImage.url);
     }
   }
 
   onMount(async () => {
-      socket = io(`http://localhost:3000/profile`, {
+    socket = io(`http://localhost:3000/profile`, {
       auth: { token: $cookie },
     });
     currentPage.update((n) => 'profile');
@@ -210,12 +207,12 @@
       },
     }).then((response) => (myMatches = response.json()));
     matches = myMatches;
-    refresh.update(n => 'true')
+    refresh.update((n) => 'true');
   });
 
   onDestroy(async () => {
-    refresh.update( n => 'false')
-  })
+    refresh.update((n) => 'false');
+  });
 
   function redirect(arg0: string) {
     throw new Error('Function not implemented.');
@@ -325,14 +322,7 @@
             newMail = 'false';
           }}>Change user name</button
         >
-        {#if $TWOFA == 'false' && $ownmail == 'true'}
-          <button
-            on:click|preventDefault={TWOFAon}
-            class="TWOFA"
-            style="cursor: pointer; margin: 0 auto;padding: 10px;width: 200px;color: white; background-color:lightslategrey;border-radius: 5px"
-            >Enable 2FA</button
-          >
-        {:else if $TWOFA == 'false'}
+        {#if $TWOFA == 'false'}
           <button
             class="TWOFA"
             on:click|preventDefault={() => (newMail = 'true')}
@@ -479,7 +469,7 @@
                 }}
               >
                 <img
-                  class="otherProfile"
+                  id="otherProfile"
                   src={friend.imageURL}
                   alt="profile"
                 />{friend.userName}</a
@@ -534,7 +524,7 @@
     text-align: center;
   }
 
-  .otherProfile {
+  #otherProfile {
     width: 100px;
     border: solid 1px black;
     height: 100px;

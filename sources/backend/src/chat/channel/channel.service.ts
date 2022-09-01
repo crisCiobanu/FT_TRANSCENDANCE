@@ -22,20 +22,13 @@ export class ChannelService {
         private readonly punishedUserService: PunisheduserService
     ){}
 
-
-
     async createChannel(channel : any, owner: User): Promise<Channel>{
-        console.log(channel);
-        
-
         const findChannel = await this.getChannelByName(channel.name);
         if (findChannel)
-            return null;
-            
+            return null;          
         const tempChannel = await this.addOwnerToChannel(channel, owner);
         if (tempChannel.isPublic == false)
-            tempChannel.password = await bcrypt.hash(channel.password, 5); 
-              
+            tempChannel.password = await bcrypt.hash(channel.password, 5);             
         return this.channelRepository.save(tempChannel);
     }
 
@@ -49,16 +42,11 @@ export class ChannelService {
         
         const channel: IChannel = {name: channelName, isDirectMessage: true}
             
-        const tempChannel = await this.addOwnerToChannel(channel, owner);
+        let tempChannel = await this.addOwnerToChannel(channel, owner);
         tempChannel.users.push(otherUser);
 
-        // console.log("LOG FROM CREATE PRIVATE MESSAGE FUNCTION");
-        // console.log(tempChannel.users[0].userName42 + " " + tempChannel.users[1].userName42);
-                 
         return this.channelRepository.save(tempChannel);
     }
-
-
 
     async joinChannel(channel : IChannel, newUser: User): Promise<Channel>{
         const tempChannel = await this.getChannelByName(channel.name);
@@ -90,12 +78,8 @@ export class ChannelService {
 
     async checkIfMuted(channel : IChannel, usr: User) : Promise<boolean>{
         const mute = await this.punishedUserService.getMuteByUserId(usr.id, channel.name);
-        console.log("LOG OF MUTe OBJECT");
-        console.log(mute);
         if (mute && mute.muted == true){
             if (mute.expires.getTime() > new Date().getTime()){
-                console.log("TIME DIFFERENCE")
-                console.log(mute.expires.getTime() - new Date().getTime())
                 return true;
             }
             else {
@@ -106,11 +90,12 @@ export class ChannelService {
     }
 
     async leaveChannel(channel : IChannel, userToLeave: User): Promise<Channel>{
-        const tempChannel = await this.getChannelByName(channel.name);
+        let tempChannel = await this.getChannelByName(channel.name);
         if (!tempChannel)
             return null;
         tempChannel.users = tempChannel.users.filter((u) => u.userName42 != userToLeave.userName42);
-        return this.channelRepository.save(tempChannel); 
+        tempChannel = await this.channelRepository.save(tempChannel); 
+        return tempChannel;
     }
 
     async deleteChannel(channel : IChannel, user: User){
@@ -128,8 +113,8 @@ export class ChannelService {
             return null;
         tempChannel.isPublic = true;
         tempChannel.password = null;
-
-        return this.channelRepository.save(tempChannel);
+        tempChannel = await this.channelRepository.save(tempChannel);
+        return tempChannel;
     }
 
     async changePassword(channelName: string, password: string){
@@ -140,7 +125,6 @@ export class ChannelService {
 
         return this.channelRepository.save(tempChannel);
     }
-
 
     async addOwnerToChannel(channel: IChannel, owner: User): Promise<IChannel>{
         console.log(owner);
@@ -191,14 +175,6 @@ export class ChannelService {
         return channels;
     }
 
-    async getDirectMessageChannels(userId: number): Promise<Channel[]>{
-        return this.channelRepository.createQueryBuilder('channel')
-        .leftJoinAndSelect('channel.users', 'users',)
-        .where('users.id = :userId', { userId })
-        .andWhere('channel.isDirectMessage = true')
-        .getMany();
-    }
-
     async getAllDirectMessages(iNuser: User): Promise<Channel[]>{
         let channels = await this.channelRepository.find({
             relations: {
@@ -221,6 +197,7 @@ export class ChannelService {
         const expire_epoch = new Date().getTime() + minutes * 60000;
         const expire_at = new Date(expire_epoch);
         const punish = await this.punishedUserService.getMuteByUserId(user.id, channel.name);
+        console.log(punish);
         if (punish){
             if (punish.expires.getTime() <= expire_epoch){
                 punish.expires = expire_at;
@@ -234,8 +211,8 @@ export class ChannelService {
                                                             userId: user.id,
                                                             channel: channel});
             return newPunish;
-            }
         }
+    }
 
     async banUser(channel: Channel, bannedUser: User, minutes: number){
         const expire_epoch = new Date().getTime() + minutes * 60000;
