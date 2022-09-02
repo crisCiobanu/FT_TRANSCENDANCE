@@ -2,8 +2,7 @@
 
 import { currentPage } from "../stores";
 import { onMount } from 'svelte';
-const FRONTEND_URL = 'http://localhost:8080';
-const BACKEND_URL  = 'http://localhost:3000';
+import { FRONTEND_URL, BACKEND_URL} from '../domain.js'
     onMount(() => {
         currentPage.update(n => '');
     })

@@ -1,7 +1,5 @@
 <script lang='ts'>
 import { onMount } from 'svelte';
-import axios from 'axios';
-// import * as cookie from "cookie";
 import { username42, currentPage, level, logged, losses, username, wins, image_url, firstname, lastname, id, intra, TWOFA, cookie, email, ownmail } from '../stores.js';
 import io, { Manager } from 'socket.io-client';
 
@@ -13,8 +11,7 @@ let code;
 let friends;
 let error = false;
 
-const FRONTEND_URL = 'http://localhost:8080';
-const BACKEND_URL  = 'http://localhost:3000';
+import { FRONTEND_URL, BACKEND_URL} from '../domain.js'
 
 async function sendCode() {
     await fetch(`${BACKEND_URL}/auth/activation/` + code, {

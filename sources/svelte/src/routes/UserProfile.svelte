@@ -32,10 +32,8 @@
   let myMatches;
 
   import io, { Manager } from 'socket.io-client';
-import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
-
-  const FRONTEND_URL = 'http://localhost:8080';
-  const BACKEND_URL  = 'http://localhost:3000';
+  import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
+  import { FRONTEND_URL, BACKEND_URL } from '../domain.js';
 
   export let socket = null;
 
@@ -97,13 +95,13 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
   }
 
   onMount(async () => {
-    currentPage.update(n => '');
+    currentPage.update((n) => '');
     // if ($refresh != 'true') {
-      socket = io(`${BACKEND_URL}/online`, {
+    socket = io(`${BACKEND_URL}/online`, {
       auth: { token: $cookie },
     });
     // }
-    refresh.update(n => 'true');
+    refresh.update((n) => 'true');
     user = await fetch(`${BACKEND_URL}/users/` + $otherUser, {
       method: 'GET',
       credentials: 'include',
@@ -146,8 +144,8 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
   });
 
   onDestroy(async () => {
-    refresh.update(n => 'false');
-  })
+    refresh.update((n) => 'false');
+  });
 </script>
 
 <main>
@@ -159,9 +157,9 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
     {:else}
       <div style="margin: 0 auto; display: block">
         {#if myFriends.indexOf(userId) != -1}
-        <h1 class="name" style="color: rgb(119, 158, 204)">{username}</h1>
+          <h1 class="name" style="color: rgb(119, 158, 204)">{username}</h1>
         {:else}
-        <h1 class="name" style="color:black">{username}</h1>
+          <h1 class="name" style="color:black">{username}</h1>
         {/if}
         <img
           class="profile"
@@ -213,12 +211,19 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
           >
         {/if}
         {#if myBlocked.indexOf(userId) != -1}
-          <button on:click|preventDefault={unBlockUser} class="block2">Unblock user 🔐</button>
+          <button on:click|preventDefault={unBlockUser} class="block2"
+            >Unblock user 🔐</button
+          >
         {:else}
-          <button on:click|preventDefault={blockUser} class="block">Block user ☢</button>
+          <button on:click|preventDefault={blockUser} class="block"
+            >Block user ☢</button
+          >
         {/if}
       </div>
-      <button style='width: 200px; background-color: dodgerblue; padding: 10px; margin:0 auto; display: block; text-align: center; color: white' on:click|preventDefault={sendInvitation}>Invite to play 🏓</button>
+      <button
+        style="width: 200px; background-color: dodgerblue; padding: 10px; margin:0 auto; display: block; text-align: center; color: white"
+        on:click|preventDefault={sendInvitation}>Invite to play 🏓</button
+      >
       <!-- {#if myFriends.indexOf(userId) != -1} -->
       <div class="tb1">
         <h1
@@ -244,17 +249,14 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
           MATCH HISTORY
         </h1>
         {#if matches.length == 0}
-        <h4
-        style="text-align:center; display: block; margin: 0 auto; color:dimgrey; font-style: italic"
-      >
-        No match history to display yet
-      </h4>
-      {/if}
+          <h4
+            style="text-align:center; display: block; margin: 0 auto; color:dimgrey; font-style: italic"
+          >
+            No match history to display yet
+          </h4>
+        {/if}
         <!-- <div style='display:block; margin: 0 auto; text-align: center'> -->
-        <div
-          class="row"
-          id="history"
-        >
+        <div class="row" id="history">
           {#each [...matches].reverse() as match}
             {#if match.winner.userName42 == username42}
               <div
@@ -297,12 +299,10 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
     align-items: center;
     margin: 0 auto;
     color: black;
-
   }
   h1 {
     font-weight: 700;
     font-size: 30px;
-
   }
   .profile {
     width: 200px;
@@ -385,7 +385,7 @@ import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
     font-weight: 600;
     text-transform: uppercase;
     tab-size: 10;
-    max-height: 150px; 
-    overflow-y: scroll; 
+    max-height: 150px;
+    overflow-y: scroll;
   }
 </style>

@@ -20,8 +20,7 @@
     refresh,
   } from '../stores.js';
   import io, { Manager } from 'socket.io-client';
-  const FRONTEND_URL = 'http://localhost:8080';
-  const BACKEND_URL  = 'http://localhost:3000';
+  import { FRONTEND_URL, BACKEND_URL} from '../domain.js'
 
   let socket: any = null;
   let mail: string;

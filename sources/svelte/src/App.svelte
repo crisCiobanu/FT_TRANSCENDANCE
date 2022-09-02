@@ -14,10 +14,9 @@
 
   let socket = null;
 
- export const FRONTEND_URL: string = 'http://localhost:8080';
- export const BACKEND_URL: string  = 'http://localhost:3000';
+  import { FRONTEND_URL, BACKEND_URL} from './domain.js'
 
-  export let name: string;
+  export let name: string = 'transcendance';
 
   let kuki = $cookie;
 
@@ -48,7 +47,7 @@
         var name_cookie = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
         document.cookie = name_cookie + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
       }
-      await fetch('http://localhost:3000/users/logout', {
+      await fetch(`${BACKEND_URL}/users/logout`, {
         method: 'POST',
         headers: {
           Authorization: 'Bearer ' + kuki,

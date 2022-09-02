@@ -19,8 +19,7 @@
   import socketGlobal from '../App.svelte'
 import App from '../App.svelte';
 
-const FRONTEND_URL = 'http://localhost:8080';
-const BACKEND_URL  = 'http://localhost:3000';
+import { FRONTEND_URL, BACKEND_URL} from '../domain.js'
 
 class Puck {
     x:any;
@@ -338,7 +337,7 @@ function countdownTimer() {
       socket = io(`${BACKEND_URL}/pong`, {
         auth: { token: $cookie },
       });
-    }
+
 
     socket.on('invitationRequest', (player) => {
       invitingPlayer = player;
@@ -555,6 +554,7 @@ function countdownTimer() {
       ingame = 'false';
       alert("⚠️ You are already logged on another device. You can't play Pong on two devices at once");
     })
+  }
   });
 
   onDestroy(async () => {

@@ -15,8 +15,7 @@
     logged,
   } from '../stores.js';
 
-  const FRONTEND_URL: string = 'http://localhost:8080';
-  const BACKEND_URL: string  = 'http://localhost:3000';
+  import { FRONTEND_URL, BACKEND_URL} from '../domain.js'
 
   let Oname: string = $username;
   let Otext: string = '';
@@ -264,20 +263,12 @@
   function sendMessage() {
     if (validateInput()) {
       socket.emit('message', { channel: currentRoom, text: Otext });
-      socket.on('messageResponse', (message) => {
-        if (message == 'muted') {
-          Mutes = [...Mutes, currentRoom.name];
-        }
-        if (message == 'unmuted') {
-          Mutes = Mutes.filter((t) => t != currentRoom.name);
-        }
-      });
       Otext = '';
     }
   }
 
   function receivedMessage(message) {
-    if (currentRoom.id == message.channel.id) {
+    if (currentRoom && currentRoom.id == message.channel.id) {
       messages = [...messages, message];
     }
   }
@@ -477,6 +468,15 @@
         }
         banOptions = 'false';
         banTime = 0;
+      });
+
+      socket.on('messageResponse', (message) => {
+        if (message == 'muted') {
+          Mutes = [...Mutes, currentRoom.name];
+        }
+        if (message == 'unmuted') {
+          Mutes = Mutes.filter((t) => t != currentRoom.name);
+        }
       });
 
       socket.on('joinRoomResponse', (response) => {
