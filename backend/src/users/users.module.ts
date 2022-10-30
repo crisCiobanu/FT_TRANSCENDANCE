@@ -13,8 +13,6 @@ import { UsersService } from './users.service';
 
 @Module({
     imports: [DatabaseModule,
-        //AuthModule,
-        //ChatModule,
         TypeOrmModule.forFeature([User]),
         forwardRef(() => AuthModule),   
         forwardRef(() => ChatModule),

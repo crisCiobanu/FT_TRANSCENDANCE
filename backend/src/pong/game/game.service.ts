@@ -46,8 +46,6 @@ export class GameService {
 	
 	async addToQueue(client: Socket): Promise<IGame>{
 		this.queue.push(client);
-		// console.log("LOG FROM ADD TO QUEUE")
-		// console.log(client.data.user.userName42);
 
 		if (this.queue.length < 2)
 			return null;
@@ -77,10 +75,6 @@ export class GameService {
 				this.invites.delete(key);
 		});		
 	}
-
-	// async getMyInvites(socketId: string){
-
-	// }
 
 	async cancelInviteGame(client: Socket){
 		console.log("LOG FROM CANCEL INVITE");
