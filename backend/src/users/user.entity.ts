@@ -119,16 +119,6 @@ export class User {
     })
     public muteExpiration: Date;
 
-    // @Column('simple-array', {
-    //     default: []
-    // })
-    // blocked: string[]
-
-    // @Column('simple-array', {
-    //     default: []
-    // })
-    // friends: string[]
-
     @Column('text', {
         array: true
     })
@@ -145,12 +135,6 @@ export class User {
         default: UserState.OFFLINE,
     })
     state: UserState
-
-    // @Column('simple-array', {
-    //     default: []
-    // })
-    // matches: IMatch[]
-
 
 }
 
