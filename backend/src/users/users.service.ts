@@ -16,8 +16,6 @@ export class UsersService {
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
-        // @Inject(forwardRef(() => ChannelService))
-        // private readonly channelService: ChannelService
     ) {}  
 
     async create(createUserDto : CreateUserDto): Promise<User>{
