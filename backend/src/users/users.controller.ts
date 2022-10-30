@@ -27,15 +27,10 @@ export class UsersController {
     async updateUser(@Res({passthrough: true}) res: Response, 
                     @Req() req: any,
                     @Body() body: UpdateUserNameDto){
-    //console.log("LOG FROM UPDATE USERNAME");
-    //console.log(req.body);
     const user = await this.userService.getByUserName(body.username);
-    //console.log(user);
         if (user){
-            //console.log("LOG FROM UPDATE USERNAME    KO ");
             res.status(HttpStatus.OK).send({status: 'KO'});
         } else {
-            //console.log("LOG FROM UPDATE USERNAME    ok");
             await this.userService.changeUserName(req.user.userName42, body.username);
             res.status(HttpStatus.OK).send({status: 'OK'});
         }
@@ -77,9 +72,6 @@ export class UsersController {
       }
     }))
     uploadFile(@Req() request, @UploadedFile() file: Express.Multer.File, @Res() res ){
-    // console.log(file);
-    // console.log("LOG FROM UPDATE IMAGE")
-    // console.log(request.user);
     this.userService.changeUserImage(request.user.userName42, `${this.configService.get('BACKEND_URL')}/public/${file.filename}`);
     return (res.status(HttpStatus.OK).send(JSON.stringify({url: `${this.configService.get('BACKEND_URL')}/public/${file.filename}`})));
     }
@@ -128,16 +120,12 @@ export class UsersController {
 
     @Get(':id')
     async findById(@Param('id') parameter : number) : Promise<User>{
-        // console.log('HERE');
-        // console.log(parameter);
         const user: User = await this.userService.getById(parameter);
-        //console.log(user.matches);
         return user;
     }
 
     @Delete(':id')
     deleteById(@Param('id') parameter: number) : Promise<void>{
-        // console.log('Trying to delete : ' + parameter);
         return this.userService.delete(parameter);
     }
 
